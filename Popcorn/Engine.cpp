@@ -16,6 +16,7 @@ enum EBrick_Type
 	EBT_Blue
 };
 
+HWND Hwnd;
 HPEN Highlight_Pen, Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
 
@@ -27,8 +28,14 @@ const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
 const int Circle_Size = 7;
+const int Platform_Y_Pos = 185;
+const int Platform_Height = 7;
 
 int Inner_Width = 21;
+int Platform_X_Pos = 0;
+int Platform_X_Step = Global_Scale;
+int Platform_Width = 28;
+
 
 
 char Level_01[14][12] =
@@ -56,8 +63,10 @@ void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &p
 	brush = CreateSolidBrush(RGB(r, g, b));
 }
 //------------------------------------------------------------------------------------------------------------
-void Init()
+void Init_Engine(HWND hwnd)
 {// Initializing pens and brushes
+
+	Hwnd = hwnd;
 
 	Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
 	Letter_Pen = CreatePen(PS_SOLID, Global_Scale, RGB(255, 255, 255));
@@ -256,14 +265,44 @@ void Draw_Frame(HDC hdc)
 
 // 	Draw_Level(hdc);
 // 
-// 	Draw_Platform(hdc, 50, 100);
+	Draw_Platform(hdc, Platform_X_Pos, Platform_Y_Pos);
 
-	int i;
-	for (i = 0; i < 16; i++)
-	{
-		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_O, i);
-		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
+// 	int i;
+// 	for (i = 0; i < 16; i++)
+// 	{
+// 		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_O, i);
+// 		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
+// 
+// 	}
+}
+//------------------------------------------------------------------------------------------------------------
+void Redraw_Platform()
+{
+	RECT platform_rect;
 
-	}
+	platform_rect.left = Platform_X_Pos * Global_Scale;
+	platform_rect.top = Platform_Y_Pos * Global_Scale;
+	platform_rect.right = platform_rect.left + Platform_Width * Global_Scale;
+	platform_rect.bottom = platform_rect.right + Platform_Height * Global_Scale;
+
+	InvalidateRect(Hwnd, &platform_rect, FALSE);
+}
+//------------------------------------------------------------------------------------------------------------
+	int On_Key_Down(EKey_Type key_type)
+{
+		switch (key_type)
+		{
+		case EKT_Left:
+			Platform_X_Pos -= Platform_X_Step;
+			Redraw_Platform();
+			break;
+		case EKT_Right:
+			Platform_X_Pos += Platform_X_Step;
+			Redraw_Platform();
+			break;
+		case EKT_Space:
+			break;
+		}
+	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
