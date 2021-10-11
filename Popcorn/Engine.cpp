@@ -33,6 +33,7 @@ const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
 
+
 int Inner_Width = 21;
 int Platform_X_Pos = 0;
 int Platform_X_Step = Global_Scale * 2;
@@ -102,6 +103,8 @@ void Init_Engine(HWND hwnd)
 	Level_Rect.bottom = Level_Rect.top + Cell_Height * Level_Height * Global_Scale;
 
 	Redraw_Platform();
+
+	SetTimer(Hwnd, Timer_ID, 50, 0);
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
@@ -329,5 +332,10 @@ int On_Key_Down(EKey_Type key_type)
 		break;
 	}
 return 0;
+}
+//------------------------------------------------------------------------------------------------------------
+int On_Timer()
+{
+	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
