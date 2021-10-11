@@ -3,6 +3,12 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+enum ELetter_Type
+{
+	ELT_None,
+	ELT_O,
+};
+
 enum EBrick_Type
 {
 	EBT_None,
@@ -10,7 +16,7 @@ enum EBrick_Type
 	EBT_Blue
 };
 
-HPEN Highlight_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
+HPEN Highlight_Pen, Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
 
 const int Global_Scale = 3;
@@ -54,6 +60,7 @@ void Init()
 {// Initializing pens and brushes
 
 	Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
+	Letter_Pen = CreatePen(PS_SOLID, Global_Scale, RGB(255, 255, 255));
 
 	Create_Pen_Brush(255, 85, 85, Brick_Red_Pen, Brick_Red_Brush);
 	Create_Pen_Brush(85, 255, 255, Brick_Blue_Pen, Brick_Blue_Brush);
@@ -113,7 +120,7 @@ void Set_Brick_Letter_Colors(bool is_switch_color, HPEN &front_pen, HBRUSH &fron
 }
 
 //------------------------------------------------------------------------------------------------------------
-void Draw_Brick_letter(HDC hdc, int x, int y, EBrick_Type brick_Type,	 int rotation_step)
+void Draw_Brick_letter(HDC hdc, int x, int y, EBrick_Type brick_Type, ELetter_Type letter_type, int rotation_step)
 {// Drawing a falling letter
 
 	bool switch_color;
@@ -134,9 +141,9 @@ void Draw_Brick_letter(HDC hdc, int x, int y, EBrick_Type brick_Type,	 int rotat
 	if (rotation_step < 8)
 		rotation_angle = 2.0 * M_PI / 16.0 * (double) rotation_step;
 	else
-		rotation_angle = 2.0 * M_PI / 16.0 * (double) (8 - rotation_step);
+		rotation_angle = 2.0 * M_PI / 16.0 * (double) (8L -(long long) rotation_step);
 
-	if (rotation_step > 4 && rotation_step < 12)
+	if (rotation_step > 4 && rotation_step <= 12)
 	{
 		if (brick_Type == EBT_Blue)
 			switch_color = true;
@@ -198,6 +205,14 @@ void Draw_Brick_letter(HDC hdc, int x, int y, EBrick_Type brick_Type,	 int rotat
 
 		Rectangle(hdc, 0, -brick_half_height, Brick_Width * Global_Scale, brick_half_height);
 
+		if (rotation_step > 4 && rotation_step <= 12)
+		{
+			if (letter_type == ELT_O)
+			{
+				SelectObject(hdc, Letter_Pen);
+				Ellipse(hdc, 0 + 5 * Global_Scale, (-5 * Global_Scale) / 2, 0 + 10 * Global_Scale, 5 * Global_Scale / 2);
+			}
+		}
 		SetWorldTransform(hdc, &old_xform);
 	}
 
@@ -246,8 +261,8 @@ void Draw_Frame(HDC hdc)
 	int i;
 	for (i = 0; i < 16; i++)
 	{
-		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, i);
-		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, i);
+		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_O, i);
+		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
 
 	}
 }
