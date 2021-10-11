@@ -17,8 +17,8 @@ enum EBrick_Type
 };
 
 HWND Hwnd;
-HPEN Highlight_Pen, Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
-HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
+HPEN Highlight_Pen, Letter_Pen, BG_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
+HBRUSH Brick_Red_Brush, Brick_Blue_Brush, BG_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
 
 const int Global_Scale = 3;
 const int Brick_Width = 15;
@@ -71,6 +71,7 @@ void Init_Engine(HWND hwnd)
 	Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
 	Letter_Pen = CreatePen(PS_SOLID, Global_Scale, RGB(255, 255, 255));
 
+	Create_Pen_Brush(15, 63, 31, BG_Pen, BG_Brush);
 	Create_Pen_Brush(255, 85, 85, Brick_Red_Pen, Brick_Red_Brush);
 	Create_Pen_Brush(85, 255, 255, Brick_Blue_Pen, Brick_Blue_Brush);
 	Create_Pen_Brush(151, 0, 0, Platform_Circle_Pen, Platform_Circle_Brush);
@@ -239,6 +240,12 @@ void Draw_Level(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 void Draw_Platform(HDC hdc, int x, int y)
 {// drawing our platform
+
+	//Clearing the old platform
+	SelectObject(hdc, BG_Pen);
+	SelectObject(hdc, BG_Brush);
+
+	Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + Platform_Width) * Global_Scale, (y + Platform_Height) * Global_Scale);
 
 	// 1. Drawing the outer ball of the platform
 	SelectObject(hdc, Platform_Circle_Pen);
