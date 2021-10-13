@@ -363,7 +363,9 @@ void Draw_Frame(HDC hdc, RECT &paint_area)
 
 	for (i = 0; i < 50; i++)
 		Draw_Border(hdc, 2, 1 + i * 4);
-
+	
+	for (i = 0; i < 50; i++)
+		Draw_Border(hdc, 201, 1 + i * 4);
 }
 //------------------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
