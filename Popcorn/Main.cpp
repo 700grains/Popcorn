@@ -109,7 +109,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    if (hWnd == 0)
       return FALSE;
 
-   Init_Engine(hWnd);
+	Init_Engine(hWnd);
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -155,7 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
-				Draw_Frame(hdc, ps.rcPaint );
+				Draw_Frame(hdc, ps.rcPaint);
             EndPaint(hWnd, &ps);
         }
         break;
@@ -166,24 +166,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
 
 
-    case WM_KEYDOWN:
-       switch (wParam)
-       {
+	 case WM_KEYDOWN:
+		 switch (wParam)
+		 {
 		 case VK_LEFT:
-		 return On_Key_Down(EKT_Left);
+			 return On_Key_Down(EKT_Left);
 
-       case VK_RIGHT:
+		 case VK_RIGHT:
 			 return On_Key_Down(EKT_Right);
 
 		 case VK_SPACE:
 			 return On_Key_Down(EKT_Space);
-       }
-       break;
+		 }
+		 break;
 
-    case WM_TIMER:
-       if (wParam == Timer_ID)
-          return On_Timer();
-       break;
+
+	 case WM_TIMER:
+		 if (wParam == Timer_ID)
+			 return On_Timer();
+		 break;
 
 
     default:
