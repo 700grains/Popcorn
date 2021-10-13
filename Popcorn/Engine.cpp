@@ -1,4 +1,4 @@
-#include "Engine.h"
+п»ї#include "Engine.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -28,8 +28,8 @@ const int Cell_Width = 16;
 const int Cell_Height = 8;
 const int Level_X_Offset = 8;
 const int Level_Y_Offset = 6;
-const int Level_Width = 14;  // Ширина уровня в ячейках
-const int Level_Height = 12;  // Высота уровня в ячейках
+const int Level_Width = 14;  // ГГЁГ°ГЁГ­Г  ГіГ°Г®ГўГ­Гї Гў ГїГ·ГҐГ©ГЄГ Гµ
+const int Level_Height = 12;  // Г‚Г»Г±Г®ГІГ  ГіГ°Г®ГўГ­Гї Гў ГїГ·ГҐГ©ГЄГ Гµ
 const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
@@ -88,7 +88,7 @@ void Redraw_Platform()
 }
 //------------------------------------------------------------------------------------------------------------
 void Init_Engine(HWND hwnd)
-{// Настройка игры при старте
+{// ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЁГЈГ°Г» ГЇГ°ГЁ Г±ГІГ Г°ГІГҐ
 
 	Hwnd = hwnd;
 
@@ -116,7 +116,7 @@ void Init_Engine(HWND hwnd)
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
-{// Вывод "кирпича"
+{// Г‚Г»ГўГ®Г¤ "ГЄГЁГ°ГЇГЁГ·Г "
 
 	HPEN pen;
 	HBRUSH brush;
@@ -167,11 +167,11 @@ void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& fron
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step)
-{// Вывод падающей буквы
+{// Г‚Г»ГўГ®Г¤ ГЇГ Г¤Г ГѕГ№ГҐГ© ГЎГіГЄГўГ»
 
 	bool switch_color;
 	double offset;
-	double rotation_angle;  // Преобразование шага в угол поворота
+	double rotation_angle;  // ГЏГ°ГҐГ®ГЎГ°Г Г§Г®ГўГ Г­ГЁГҐ ГёГ ГЈГ  Гў ГіГЈГ®Г« ГЇГ®ГўГ®Г°Г®ГІГ 
 	int brick_half_height = Brick_Height * Global_Scale / 2;
 	int back_part_offset;
 	HPEN front_pen, back_pen;
@@ -179,9 +179,9 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 	XFORM xform, old_xform;
 
 	if (!(brick_type == EBT_Blue || brick_type == EBT_Red))
-		return;  // Падающие буквы могут быть только от кирпичей такого типа
+		return;  // ГЏГ Г¤Г ГѕГ№ГЁГҐ ГЎГіГЄГўГ» Г¬Г®ГЈГіГІ ГЎГ»ГІГј ГІГ®Г«ГјГЄГ® Г®ГІ ГЄГЁГ°ГЇГЁГ·ГҐГ© ГІГ ГЄГ®ГЈГ® ГІГЁГЇГ 
 
-	// Корректируем шаг вращения и угол поворота
+	// ГЉГ®Г°Г°ГҐГЄГІГЁГ°ГіГҐГ¬ ГёГ ГЈ ГўГ°Г Г№ГҐГ­ГЁГї ГЁ ГіГЈГ®Г« ГЇГ®ГўГ®Г°Г®ГІГ 
 	rotation_step = rotation_step % 16;
 
 	if (rotation_step < 8)
@@ -209,13 +209,13 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 
 	if (rotation_step == 4 || rotation_step == 12)
 	{
-		// Выводим фон
+		// Г‚Г»ГўГ®Г¤ГЁГ¬ ГґГ®Г­
 		SelectObject(hdc, back_pen);
 		SelectObject(hdc, back_brush);
 
 		Rectangle(hdc, x, y + brick_half_height - Global_Scale, x + Brick_Width * Global_Scale, y + brick_half_height);
 
-		// Выводим передний план
+		// Г‚Г»ГўГ®Г¤ГЁГ¬ ГЇГҐГ°ГҐГ¤Г­ГЁГ© ГЇГ«Г Г­
 		SelectObject(hdc, front_pen);
 		SelectObject(hdc, front_brush);
 
@@ -225,7 +225,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 	{
 		SetGraphicsMode(hdc, GM_ADVANCED);
 
-		// Настраиваем матрицу "переворота" буквы
+		// ГЌГ Г±ГІГ°Г ГЁГўГ ГҐГ¬ Г¬Г ГІГ°ГЁГ¶Гі "ГЇГҐГ°ГҐГўГ®Г°Г®ГІГ " ГЎГіГЄГўГ»
 		xform.eM11 = 1.0f;
 		xform.eM12 = 0.0f;
 		xform.eM21 = 0.0f;
@@ -235,7 +235,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 		GetWorldTransform(hdc, &old_xform);
 		SetWorldTransform(hdc, &xform);
 	
-		// Выводим фон
+		// Г‚Г»ГўГ®Г¤ГЁГ¬ ГґГ®Г­
 		SelectObject(hdc, back_pen);
 		SelectObject(hdc, back_brush);
 
@@ -243,7 +243,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 		back_part_offset = (int)round(offset);
 		Rectangle(hdc, 0, -brick_half_height - back_part_offset, Brick_Width * Global_Scale, brick_half_height - back_part_offset);
 
-		// Выводим передний план
+		// Г‚Г»ГўГ®Г¤ГЁГ¬ ГЇГҐГ°ГҐГ¤Г­ГЁГ© ГЇГ«Г Г­
 		SelectObject(hdc, front_pen);
 		SelectObject(hdc, front_brush);
 
@@ -263,7 +263,7 @@ void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Ty
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Level(HDC hdc)
-{// Вывод всех кирпичей уровня
+{// Г‚Г»ГўГ®Г¤ ГўГ±ГҐГµ ГЄГЁГ°ГЇГЁГ·ГҐГ© ГіГ°Г®ГўГ­Гї
 
 	int i, j;
 
@@ -273,27 +273,27 @@ void Draw_Level(HDC hdc)
 }
 //------------------------------------------------------------------------------------------------------------
 void Draw_Platform(HDC hdc, int x, int y)
-{// Рисуем платформу
+{// ГђГЁГ±ГіГҐГ¬ ГЇГ«Г ГІГґГ®Г°Г¬Гі
 
 	SelectObject(hdc, BG_Pen);
 	SelectObject(hdc, BG_Brush);
 
 	Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
 
-	// 1. Рисуем боковые шарики
+	// 1. ГђГЁГ±ГіГҐГ¬ ГЎГ®ГЄГ®ГўГ»ГҐ ГёГ Г°ГЁГЄГЁ
 	SelectObject(hdc, Platform_Circle_Pen);
 	SelectObject(hdc, Platform_Circle_Brush);
 
 	Ellipse(hdc, x * Global_Scale, y * Global_Scale, (x + Circle_Size) * Global_Scale, (y + Circle_Size) * Global_Scale);
 	Ellipse(hdc, (x + Inner_Width) * Global_Scale, y * Global_Scale, (x + Circle_Size + Inner_Width) * Global_Scale, (y + Circle_Size) * Global_Scale);
 
-	// 2. Рисуем блик
+	// 2. ГђГЁГ±ГіГҐГ¬ ГЎГ«ГЁГЄ
 	SelectObject(hdc, Highlight_Pen);
 
 	Arc(hdc, (x + 1) * Global_Scale, (y + 1) * Global_Scale, (x + Circle_Size - 1) * Global_Scale, (y + Circle_Size - 1) * Global_Scale,
 		(x + 1 + 1) * Global_Scale, (y + 1) * Global_Scale, (x + 1) * Global_Scale, (y + 1 + 2) * Global_Scale);
 
-	// 3. Рисуем среднюю часть
+	// 3. ГђГЁГ±ГіГҐГ¬ Г±Г°ГҐГ¤Г­ГѕГѕ Г·Г Г±ГІГј
 	SelectObject(hdc, Platform_Inner_Pen);
 	SelectObject(hdc, Platform_Inner_Brush);
 
@@ -302,21 +302,43 @@ void Draw_Platform(HDC hdc, int x, int y)
 //------------------------------------------------------------------------------------------------------------
 void Draw_Ball(HDC hdc, RECT &paint_area)
 {
-	// 1. Очищаем фон
+	// 1. ГЋГ·ГЁГ№Г ГҐГ¬ ГґГ®Г­
 	SelectObject(hdc, BG_Pen);
 	SelectObject(hdc, BG_Brush);
 
 	Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
 
-	// 2. Рисуем шарик
+	// 2. Р РёСЃСѓРµС‚ С€Р°СЂРёРє
 	SelectObject(hdc, Ball_Pen);
 	SelectObject(hdc, Ball_Brush);
 
 	Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
 }
 //------------------------------------------------------------------------------------------------------------
+void Draw_Border(HDC hdc, int x, int y)
+{// Р РёСЃСѓРµС‚ СЂР°РјРєСѓ СѓСЂРѕРІРЅСЏ
+
+	// РћСЃРЅРѕРІРЅР°СЏ Р»РёРЅРёСЏ.
+	SelectObject(hdc, Border_Blue_Pen);
+	SelectObject(hdc, Border_Blue_Brush);
+
+	Rectangle(hdc, (x + 1) * Global_Scale, y * Global_Scale, (x + 4) * Global_Scale, (y + 4) * Global_Scale);
+
+	// Р‘РµР»Р°СЏ РєР°Р№РјР°.
+	SelectObject(hdc, Border_White_Pen);
+	SelectObject(hdc, Border_White_Brush);
+
+	Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + 1) * Global_Scale, (y + 4) * Global_Scale);
+
+	// Black dot
+	SelectObject(hdc, BG_Pen);
+	SelectObject(hdc, BG_Brush);
+
+	Rectangle(hdc, (x + 2) * Global_Scale, (y + 1) * Global_Scale, (x + 3) * Global_Scale, (y + 2) * Global_Scale);
+}
+//------------------------------------------------------------------------------------------------------------
 void Draw_Frame(HDC hdc, RECT &paint_area)
-{// Отрисовка экрана игры
+{// Р РёСЃСѓРµС‚ СЌРєСЂР°РЅ РёРіСЂС‹
 
 	RECT intersection_rect;
 
@@ -337,8 +359,11 @@ void Draw_Frame(HDC hdc, RECT &paint_area)
 	if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect) )
 		Draw_Ball(hdc, paint_area);
 
-	SelectObject(hdc, Border_Blue_Pen);
-	SelectObject(hdc, Border_Blue_Brush);
+	int i;
+
+	for (i = 0; i < 50; i++)
+		Draw_Border(hdc, 2, 1 + i * 4);
+
 }
 //------------------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
@@ -371,7 +396,7 @@ void Move_Ball()
 	next_x_pos = Ball_X_Pos + (int)(Ball_Speed * cos(Ball_Direction) );
 	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction) );
 
-	// Корректируем позицию при отражении
+	// ГЉГ®Г°Г°ГҐГЄГІГЁГ°ГіГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ ГЇГ°ГЁ Г®ГІГ°Г Г¦ГҐГ­ГЁГЁ
 	if (next_x_pos < 0)
 	{
 		next_x_pos = -next_x_pos;
@@ -396,7 +421,7 @@ void Move_Ball()
 		Ball_Direction = M_PI + (M_PI - Ball_Direction);
 	}
 
-	// Смещаем шарик
+	// Г‘Г¬ГҐГ№Г ГҐГ¬ ГёГ Г°ГЁГЄ
 	Ball_X_Pos = next_x_pos;
 	Ball_Y_Pos = next_y_pos;
 
