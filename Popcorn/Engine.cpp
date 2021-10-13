@@ -17,8 +17,8 @@ enum EBrick_Type
 };
 
 HWND Hwnd;
-HPEN Highlight_Pen, Letter_Pen, BG_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
-HBRUSH Brick_Red_Brush, Brick_Blue_Brush, BG_Brush, Platform_Circle_Brush, Platform_Inner_Brush;
+HPEN Highlight_Pen, Letter_Pen, BG_Pen, Brick_Red_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Ball_Pen;
+HBRUSH Brick_Red_Brush, Brick_Blue_Brush, BG_Brush, Platform_Circle_Brush, Platform_Inner_Brush, Ball_Brush;
 
 const int Global_Scale = 3;
 const int Brick_Width = 15;
@@ -32,12 +32,14 @@ const int Level_Height = 12; // level height in cells
 const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
-
+const int Ball_Size = 4;
 
 int Inner_Width = 21;
 int Platform_X_Pos = 0;
 int Platform_X_Step = Global_Scale * 2;
 int Platform_Width = 28;
+
+int Ball_X_Pos = 20, Ball_Y_Pos = 170;
 
 RECT Platform_Rect, Prev_Platform_Rect;
 RECT Level_Rect;
@@ -96,6 +98,7 @@ void Init_Engine(HWND hwnd)
 	Create_Pen_Brush(85, 255, 255, Brick_Blue_Pen, Brick_Blue_Brush);
 	Create_Pen_Brush(151, 0, 0, Platform_Circle_Pen, Platform_Circle_Brush);
 	Create_Pen_Brush(0, 128, 192, Platform_Inner_Pen, Platform_Inner_Brush);
+	Create_Pen_Brush(255, 255, 255, Ball_Pen, Ball_Brush);
 
 	Level_Rect.left = Level_X_Offset * Global_Scale;	
 	Level_Rect.top = Level_Y_Offset * Global_Scale;
@@ -314,6 +317,14 @@ void Draw_Frame(HDC hdc, RECT &paint_area)
 // 		Draw_Brick_letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
 // 
 // 	}
+
+	int x = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
+	int y = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+
+	SelectObject(hdc, Ball_Pen);
+	SelectObject(hdc, Ball_Brush);
+
+	Ellipse(hdc, x, y, x + Ball_Size * Global_Scale-1, y + Ball_Size * Global_Scale-1);
 }
 //------------------------------------------------------------------------------------------------------------
 int On_Key_Down(EKey_Type key_type)
