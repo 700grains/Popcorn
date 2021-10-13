@@ -421,6 +421,29 @@ int On_Key_Down(EKey_Type key_type)
 	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
+void Check_Level_Brick_Hit(int &next_y_pos)
+{//Reflecting from a brick (correcting position)
+	int i, j;
+	int brick_y_pos = Level_Y_Offset + Level_Height * Cell_Height;
+
+	for (i = Level_Height - 1; i >= 0; i--)
+	{
+		for (j = 0; j < Level_Width; j++)
+		{
+			if (Level_01[i][j] == 0)
+				continue;
+
+			if (next_y_pos < brick_y_pos)
+			{
+				next_y_pos = brick_y_pos - (next_y_pos - brick_y_pos);
+				Ball_Direction = -Ball_Direction;
+			}
+		}
+
+		brick_y_pos -= Cell_Height;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
 void Move_Ball()
 {
 	int next_x_pos, next_y_pos;
@@ -467,26 +490,8 @@ void Move_Ball()
 		}
 	}
 
-	//Reflecting from a brick
-	int i, j;
-	int brick_y_pos = Level_Y_Offset + Level_Height * Cell_Height;
-
-	for ( i = Level_Height - 1; i>=0; i--)
-	{
-		for (j = 0; j < Level_Width; j++)
-		{
-			if (Level_01[i][j] == 0)
-				continue;
-
-			if (next_y_pos < brick_y_pos)
-			{
-				next_y_pos = brick_y_pos - (next_y_pos - brick_y_pos);
-				Ball_Direction = -Ball_Direction;
-			}
-		}
-
-		brick_y_pos -= Cell_Height;
-	}
+	//Reflecting from a brick (correcting position)
+	Check_Level_Brick_Hit(next_y_pos);
 
 	// moving the ball 
 	Ball_X_Pos = next_x_pos;
