@@ -34,13 +34,13 @@ const int Circle_Size = 7;
 const int Platform_Y_Pos = 185;
 const int Platform_Height = 7;
 const int Ball_Size = 4;
-const int Max_X_Pos = Level_X_Offset + Cell_Width * Level_Width - Ball_Size;
+const int Max_X_Pos = Level_X_Offset + Cell_Width * Level_Width;
 const int Max_Y_Pos = 199 - Ball_Size;
 const int Border_X_Offset = 6;
 const int Border_Y_Offset = 4;
 
 int Inner_Width = 21;
-int Platform_X_Pos = 0;
+int Platform_X_Pos = Border_X_Offset;
 int Platform_X_Step = Global_Scale * 2;
 int Platform_Width = 28;
 
@@ -408,8 +408,8 @@ int On_Key_Down(EKey_Type key_type)
 	case EKT_Right:
 		Platform_X_Pos += Platform_X_Step;
 
-		if (Platform_X_Pos >= Max_X_Pos - Platform_Width)
-			Platform_X_Pos = Max_X_Pos - Platform_Width;
+		if (Platform_X_Pos >= Max_X_Pos - Platform_Width + 1)
+			Platform_X_Pos = Max_X_Pos - Platform_Width + 1;
 
 		Redraw_Platform();
 		break;
@@ -424,28 +424,30 @@ int On_Key_Down(EKey_Type key_type)
 void Move_Ball()
 {
 	int next_x_pos, next_y_pos;
+	int max_x_pos = Max_X_Pos - Ball_Size;
+	int platform_y_pos = Platform_Y_Pos - Ball_Size;
 
 	Prev_Ball_Rect = Ball_Rect;
 
 	next_x_pos = Ball_X_Pos + (int)(Ball_Speed * cos(Ball_Direction) );
 	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction) );
 
-	// Êîððåêòèðóåì ïîçèöèþ ïðè îòðàæåíèè
-	if (next_x_pos < 0)
+	// Correcting the balls position when reflected from the border
+	if (next_x_pos < Border_X_Offset)
 	{
-		next_x_pos = -next_x_pos;
+		next_x_pos = Level_X_Offset - (next_x_pos - Level_X_Offset);
 		Ball_Direction = M_PI - Ball_Direction;
 	}
 
-	if (next_y_pos < Level_Y_Offset)
+	if (next_y_pos < Border_Y_Offset)
 	{
-		next_y_pos = Level_Y_Offset - (next_y_pos - Level_Y_Offset);
+		next_y_pos = Border_Y_Offset - (next_y_pos - Border_Y_Offset);
 		Ball_Direction = -Ball_Direction;
 	}
 
-	if (next_x_pos > Max_X_Pos)
+	if (next_x_pos > max_x_pos)
 	{
-		next_x_pos = Max_X_Pos - (next_x_pos - Max_X_Pos);
+		next_x_pos = max_x_pos - (next_x_pos - max_x_pos);
 		Ball_Direction = M_PI - Ball_Direction;
 	}
 
@@ -455,12 +457,43 @@ void Move_Ball()
 		Ball_Direction = M_PI + (M_PI - Ball_Direction);
 	}
 
-	// Ñìåùàåì øàðèê
+	//Reflecting from the platform
+	if (next_y_pos > platform_y_pos)
+	{
+		if (next_x_pos >= Platform_X_Pos && next_x_pos <= Platform_X_Pos + Platform_Width)
+		{
+			next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
+			Ball_Direction = M_PI + (M_PI - Ball_Direction);
+		}
+	}
+
+	//Reflecting from a brick
+	int i, j;
+	int brick_y_pos = Level_Y_Offset + Level_Height * Cell_Height;
+
+	for ( i = Level_Height - 1; i>=0; i--)
+	{
+		for (j = 0; j < Level_Width; j++)
+		{
+			if (Level_01[i][j] == 0)
+				continue;
+
+			if (next_y_pos < brick_y_pos)
+			{
+				next_y_pos = brick_y_pos - (next_y_pos - brick_y_pos);
+				Ball_Direction = -Ball_Direction;
+			}
+		}
+
+		brick_y_pos -= Cell_Height;
+	}
+
+	// moving the ball 
 	Ball_X_Pos = next_x_pos;
 	Ball_Y_Pos = next_y_pos;
 
-	Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
-	Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+	Ball_Rect.left = Ball_X_Pos * Global_Scale;
+	Ball_Rect.top = Ball_Y_Pos * Global_Scale;
 	Ball_Rect.right = Ball_Rect.left + Ball_Size * Global_Scale;
 	Ball_Rect.bottom = Ball_Rect.top + Ball_Size * Global_Scale;
 
