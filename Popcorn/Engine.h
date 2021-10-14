@@ -89,24 +89,41 @@ public:
 	AsPlatform();
 
 	void init();
-
 	void Redraw_Platform(AsEngine* engine);
 	void Draw_Platform(HDC hdc, AsEngine* engine, RECT& paint_area);
 
-	int Platform_X_Pos;
-	int Platform_Width;
+	int X_Pos;
+	int Width;
+	int X_Step;
+
+	static const int Y_Pos = 185;
+
+private:
 	int Inner_Width;
-	int Platform_X_Step;
 
 	RECT Platform_Rect, Prev_Platform_Rect; \
 
 	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;
 
-	static const int Platform_Height = 7;
-	static const int Platform_Y_Pos = 185;
+	static const int Height = 7;
 	static const int Circle_Size = 7;
 
+};
+//------------------------------------------------------------------------------------------------------------
+class AsBorder
+{
+public:
+	void init();
+
+	void Draw_Border(HDC hdc, int x, int y, bool top_boder, AsEngine* engine);
+	void Draw_Bounds(HDC hdc, RECT& paint_area, AsEngine* engine);
+
+	HPEN   Border_Blue_Pen, Border_White_Pen;
+	HBRUSH Border_Blue_Brush, Border_White_Brush;
+
+	static const int Border_X_Offset = 6;
+	static const int Border_Y_Offset = 4;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
@@ -128,18 +145,11 @@ public:
 	static const int Global_Scale = 3;
 	static const int Max_X_Pos = ALevel::Level_X_Offset + ALevel::Cell_Width * ALevel::Level_Width;
 	static const int Max_Y_Pos = 199 - ABall::Ball_Size;
-	static const int Border_X_Offset = 6;
-	static const int Border_Y_Offset = 4;
 
 private:
-	void Draw_Border(HDC hdc, int x, int y, bool top_boder);
-	void Draw_Bounds(HDC hdc, RECT &paint_area);
-
-	HPEN   Border_Blue_Pen, Border_White_Pen;
-	HBRUSH Border_Blue_Brush, Border_White_Brush;
-
 	ABall Ball;
 	ALevel Level;
 	AsPlatform Platform;
+	AsBorder Border;
 };
 //------------------------------------------------------------------------------------------------------------

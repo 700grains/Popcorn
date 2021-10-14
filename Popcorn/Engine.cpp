@@ -54,7 +54,7 @@ void ABall::Move(AsEngine *engine, ALevel *level, AsPlatform* platform)
 {
 	int next_x_pos, next_y_pos;
 	int max_x_pos = AsEngine::Max_X_Pos - Ball_Size;
-	int platform_y_pos = AsPlatform::Platform_Y_Pos - Ball_Size;
+	int platform_y_pos = AsPlatform::Y_Pos - Ball_Size;
 
 	Prev_Ball_Rect = Ball_Rect;
 
@@ -62,15 +62,15 @@ void ABall::Move(AsEngine *engine, ALevel *level, AsPlatform* platform)
 	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction) );
 
 	// Корректируем позицию при отражении от рамки
-	if (next_x_pos < AsEngine::Border_X_Offset)
+	if (next_x_pos < AsBorder::Border_X_Offset)
 	{
 		next_x_pos = ALevel::Level_X_Offset - (next_x_pos - ALevel::Level_X_Offset);
 		Ball_Direction = M_PI - Ball_Direction;
 	}
 
-	if (next_y_pos < AsEngine::Border_Y_Offset)
+	if (next_y_pos < AsBorder::Border_Y_Offset)
 	{
-		next_y_pos = AsEngine::Border_Y_Offset - (next_y_pos - AsEngine::Border_Y_Offset);
+		next_y_pos = AsBorder::Border_Y_Offset - (next_y_pos - AsBorder::Border_Y_Offset);
 		Ball_Direction = -Ball_Direction;
 	}
 
@@ -89,7 +89,7 @@ void ABall::Move(AsEngine *engine, ALevel *level, AsPlatform* platform)
 	// Корректируем позицию при отражении от платформы
 	if (next_y_pos > platform_y_pos)
 	{
-		if (next_x_pos >= platform->Platform_X_Pos && next_x_pos <= platform->Platform_X_Pos + platform->Platform_Width)
+		if (next_x_pos >= platform->X_Pos && next_x_pos <= platform->X_Pos + platform->Width)
 		{
 			next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
 			Ball_Direction = M_PI + (M_PI - Ball_Direction);
@@ -324,7 +324,7 @@ void ALevel::Draw_Level(HDC hdc, RECT& paint_area)
 // AsPlatform
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-	: Inner_Width(21), Platform_X_Pos(AsEngine::Border_X_Offset), Platform_X_Step(AsEngine::Global_Scale * 2), Platform_Width(28)
+	: Inner_Width(21), X_Pos(AsBorder::Border_X_Offset), X_Step(AsEngine::Global_Scale * 2), Width(28)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -340,10 +340,10 @@ void AsPlatform::Redraw_Platform(AsEngine* engine)
 {
 	Prev_Platform_Rect = Platform_Rect;
 
-	Platform_Rect.left = Platform_X_Pos * AsEngine::Global_Scale;
-	Platform_Rect.top = Platform_Y_Pos * AsEngine::Global_Scale;
-	Platform_Rect.right = Platform_Rect.left + Platform_Width * AsEngine::Global_Scale;
-	Platform_Rect.bottom = Platform_Rect.top + Platform_Height * AsEngine::Global_Scale;
+	Platform_Rect.left = X_Pos * AsEngine::Global_Scale;
+	Platform_Rect.top = Y_Pos * AsEngine::Global_Scale;
+	Platform_Rect.right = Platform_Rect.left + Width * AsEngine::Global_Scale;
+	Platform_Rect.bottom = Platform_Rect.top + Height * AsEngine::Global_Scale;
 
 	InvalidateRect(engine->Hwnd, &Prev_Platform_Rect, FALSE);
 	InvalidateRect(engine->Hwnd, &Platform_Rect, FALSE);
@@ -352,8 +352,8 @@ void AsPlatform::Redraw_Platform(AsEngine* engine)
 void AsPlatform::Draw_Platform(HDC hdc, AsEngine* engine, RECT& paint_area)
 {// Drawing our platform
 
-	int x = Platform_X_Pos;
-	int y = Platform_Y_Pos;
+	int x = X_Pos;
+	int y = Y_Pos;
 	RECT intersection_rect;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
@@ -388,6 +388,68 @@ void AsPlatform::Draw_Platform(HDC hdc, AsEngine* engine, RECT& paint_area)
 
 
 
+//AsBorder
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::init()
+{
+	AsEngine::Create_Pen_Brush(85, 255, 255, Border_Blue_Pen, Border_Blue_Brush);
+	AsEngine::Create_Pen_Brush(255, 255, 255, Border_White_Pen, Border_White_Brush);
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::Draw_Border(HDC hdc, int x, int y, bool top_boder, AsEngine *engine)
+{// Рисует элемент рамки уровня
+
+ // Основная линия
+	SelectObject(hdc, Border_Blue_Pen);
+	SelectObject(hdc, Border_Blue_Brush);
+
+	if (top_boder)
+		Rectangle(hdc, x * AsEngine::Global_Scale, (y + 1) * AsEngine::Global_Scale, (x + 4) * AsEngine::Global_Scale, (y + 4) * AsEngine::Global_Scale);
+	else
+		Rectangle(hdc, (x + 1) * AsEngine::Global_Scale, y * AsEngine::Global_Scale, (x + 4) * AsEngine::Global_Scale, (y + 4) * AsEngine::Global_Scale);
+
+	// Белая кайма
+	SelectObject(hdc, Border_White_Pen);
+	SelectObject(hdc, Border_White_Brush);
+
+	if (top_boder)
+		Rectangle(hdc, x * AsEngine::Global_Scale, y * AsEngine::Global_Scale, (x + 4) * AsEngine::Global_Scale, (y + 1) * AsEngine::Global_Scale);
+	else
+		Rectangle(hdc, x * AsEngine::Global_Scale, y * AsEngine::Global_Scale, (x + 1) * AsEngine::Global_Scale, (y + 4) * AsEngine::Global_Scale);
+
+	// Перфорация
+	SelectObject(hdc, engine->BG_Pen);
+	SelectObject(hdc, engine->BG_Brush);
+
+	if (top_boder)
+		Rectangle(hdc, (x + 2) * AsEngine::Global_Scale, (y + 2) * AsEngine::Global_Scale, (x + 3) * AsEngine::Global_Scale, (y + 3) * AsEngine::Global_Scale);
+	else
+		Rectangle(hdc, (x + 2) * AsEngine::Global_Scale, (y + 1) * AsEngine::Global_Scale, (x + 3) * AsEngine::Global_Scale, (y + 2) * AsEngine::Global_Scale);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::Draw_Bounds(HDC hdc, RECT& paint_area, AsEngine* engine)
+{// Рисует рамку уровня
+
+	int i;
+
+	// 1. Линия слева
+	for (i = 0; i < 50; i++)
+		Draw_Border(hdc, 2, 1 + i * 4, false, engine);
+
+	// 2. Линия справа
+	for (i = 0; i < 50; i++)
+		Draw_Border(hdc, 201, 1 + i * 4, false, engine);
+
+	// 3. Линия сверху
+	for (i = 0; i < 50; i++)
+		Draw_Border(hdc, 3 + i * 4, 0, true, engine);
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
@@ -400,12 +462,11 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Hwnd = hwnd;
 
 	Create_Pen_Brush(15, 63, 31, BG_Pen, BG_Brush);
-	Create_Pen_Brush(85, 255, 255, Border_Blue_Pen, Border_Blue_Brush);
-	Create_Pen_Brush(255, 255, 255, Border_White_Pen, Border_White_Brush);
 
 	Ball.init();
 	Level.init();
 	Platform.init();
+	Border.init();
 
 	Platform.Redraw_Platform(this);
 
@@ -415,11 +476,8 @@ void AsEngine::Init_Engine(HWND hwnd)
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 {// Отрисовка экрана игры
 
-	RECT intersection_rect;
-
 	Level.Draw_Level(hdc, paint_area);
-
-		Platform.Draw_Platform(hdc, this, paint_area);
+	Platform.Draw_Platform(hdc, this, paint_area);
 
 	//int i;
 
@@ -431,7 +489,7 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 
 	Ball.Draw(hdc, paint_area, this);
 
-	Draw_Bounds(hdc, paint_area);
+	Border.Draw_Bounds(hdc, paint_area, this);
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key_Down(EKey_Type key_type)
@@ -439,19 +497,19 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 	switch (key_type)
 	{
 	case EKT_Left:
-		Platform.Platform_X_Pos -= Platform.Platform_X_Step;
+		Platform.X_Pos -= Platform.X_Step;
 
-		if (Platform.Platform_X_Pos <= Border_X_Offset)
-			Platform.Platform_X_Pos = Border_X_Offset;
+		if (Platform.X_Pos <= AsBorder::Border_X_Offset)
+			Platform.X_Pos = AsBorder::Border_X_Offset;
 
 		Platform.Redraw_Platform(this);
 		break;
 
 	case EKT_Right:
-		Platform.Platform_X_Pos += Platform.Platform_X_Step;
+		Platform.X_Pos += Platform.X_Step;
 
-		if (Platform.Platform_X_Pos >= Max_X_Pos - Platform.Platform_Width + 1)
-			Platform.Platform_X_Pos = Max_X_Pos - Platform.Platform_Width + 1;
+		if (Platform.X_Pos >= Max_X_Pos - Platform.Width + 1)
+			Platform.X_Pos = Max_X_Pos - Platform.Width + 1;
 
 		Platform.Redraw_Platform(this);
 		break;
@@ -474,54 +532,5 @@ void AsEngine::Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char 
 {
 	pen = CreatePen(PS_SOLID, 0, RGB(r, g, b));
 	brush = CreateSolidBrush(RGB(r, g, b));
-}
-//------------------------------------------------------------------------------------------------------------
-void AsEngine::Draw_Border(HDC hdc, int x, int y, bool top_boder)
-{// Рисует элемент рамки уровня
-
- // Основная линия
-	SelectObject(hdc, Border_Blue_Pen);
-	SelectObject(hdc, Border_Blue_Brush);
-
-	if (top_boder)
-		Rectangle(hdc, x * Global_Scale, (y + 1) * Global_Scale, (x + 4) * Global_Scale, (y + 4) * Global_Scale);
-	else
-		Rectangle(hdc, (x + 1) * Global_Scale, y * Global_Scale, (x + 4) * Global_Scale, (y + 4) * Global_Scale);
-
-	// Белая кайма
-	SelectObject(hdc, Border_White_Pen);
-	SelectObject(hdc, Border_White_Brush);
-
-	if (top_boder)
-		Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + 4) * Global_Scale, (y + 1) * Global_Scale);
-	else
-		Rectangle(hdc, x * Global_Scale, y * Global_Scale, (x + 1) * Global_Scale, (y + 4) * Global_Scale);
-
-	// Перфорация
-	SelectObject(hdc, BG_Pen);
-	SelectObject(hdc, BG_Brush);
-
-	if (top_boder)
-		Rectangle(hdc, (x + 2) * Global_Scale, (y + 2) * Global_Scale, (x + 3) * Global_Scale, (y + 3) * Global_Scale);
-	else
-		Rectangle(hdc, (x + 2) * Global_Scale, (y + 1) * Global_Scale, (x + 3) * Global_Scale, (y + 2) * Global_Scale);
-}
-//------------------------------------------------------------------------------------------------------------
-void AsEngine::Draw_Bounds(HDC hdc, RECT &paint_area)
-{// Рисует рамку уровня
-
-	int i;
-
-	// 1. Линия слева
-	for (i = 0; i < 50; i++)
-		Draw_Border(hdc, 2, 1 + i * 4, false);
-
-	// 2. Линия справа
-	for (i = 0; i < 50; i++)
-		Draw_Border(hdc, 201, 1 + i * 4, false);
-
-	// 3. Линия сверху
-	for (i = 0; i < 50; i++)
-		Draw_Border(hdc, 3 + i * 4, 0, true);
 }
 //------------------------------------------------------------------------------------------------------------
