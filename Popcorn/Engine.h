@@ -60,7 +60,7 @@ class ALevel
 public:
 	void init();
 	void Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction);
-	void Draw_Level(HDC hdc, RECT& paint_area);
+	void Draw(HDC hdc, RECT& paint_area);
 
 	static const int Level_Width = 12;  // Ширина уровня в ячейках
 	static const int Level_Height = 14;  // Высота уровня в ячейках
@@ -90,7 +90,7 @@ public:
 
 	void init();
 	void Redraw_Platform(AsEngine* engine);
-	void Draw_Platform(HDC hdc, AsEngine* engine, RECT& paint_area);
+	void Draw(HDC hdc, AsEngine* engine, RECT& paint_area);
 
 	int X_Pos;
 	int Width;
@@ -115,15 +115,17 @@ class AsBorder
 {
 public:
 	void init();
+	void Draw(HDC hdc, RECT& paint_area, AsEngine* engine);
 
-	void Draw_Border(HDC hdc, int x, int y, bool top_boder, AsEngine* engine);
-	void Draw_Bounds(HDC hdc, RECT& paint_area, AsEngine* engine);
+	static const int Border_X_Offset = 6;
+	static const int Border_Y_Offset = 4;
+
+private:
+	void Draw_Element(HDC hdc, int x, int y, bool top_boder, AsEngine* engine);
 
 	HPEN   Border_Blue_Pen, Border_White_Pen;
 	HBRUSH Border_Blue_Brush, Border_White_Brush;
 
-	static const int Border_X_Offset = 6;
-	static const int Border_Y_Offset = 4;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
