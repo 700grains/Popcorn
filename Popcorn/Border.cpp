@@ -13,6 +13,10 @@ void AsConfig::Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char 
 
 
 //AsBorder
+AsBorder::AsBorder()
+	:Border_Blue_Pen(0), Border_White_Pen(0), Border_Blue_Brush(0), Border_White_Brush(0)
+{
+}
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::init()
 {

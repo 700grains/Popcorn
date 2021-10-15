@@ -21,7 +21,7 @@ char Level_01[ALevel::Level_Height][ALevel::Level_Width] =
 // ABall
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
-: Ball_X_Pos(20), Ball_Y_Pos(170), Ball_Speed(3.0), Ball_Direction(M_PI - M_PI_4)
+: Ball_Pen(0), Ball_Brush(0), Ball_X_Pos(20), Ball_Y_Pos(170), Ball_Speed(3.0), Ball_Direction(M_PI - M_PI_4), Ball_Rect{}, Prev_Ball_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -117,6 +117,11 @@ void ABall::Move(AsEngine *engine, ALevel *level, AsPlatform* platform)
 
 
 // ALevel
+//------------------------------------------------------------------------------------------------------------
+ALevel::ALevel()
+	: Brick_Red_Pen(0), Brick_Blue_Pen(0), Letter_Pen(0), Brick_Red_Brush(0), Brick_Blue_Brush(0), Level_Rect{}
+{
+}
 //------------------------------------------------------------------------------------------------------------
 void ALevel::init()
 {
@@ -324,7 +329,8 @@ void ALevel::Draw(HDC hdc, RECT& paint_area)
 // AsPlatform
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-	: Inner_Width(21), X_Pos(AsBorder::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Width(28)
+	: Inner_Width(21), X_Pos(AsBorder::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Width(28), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0),
+	  Platform_Circle_Pen(0), Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -391,6 +397,7 @@ void AsPlatform::Draw(HDC hdc, AsEngine* engine, RECT& paint_area)
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
+	:Hwnd(0), BG_Pen(0), BG_Brush(0), Border{}, Level{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
