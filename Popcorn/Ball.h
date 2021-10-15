@@ -2,22 +2,26 @@
 #include "Config.h"
 
 //------------------------------------------------------------------------------------------------------------
-class AsBorder
+class ABall
 {
 public:
-	AsBorder();
+	ABall();
 
 	void init();
-	void Draw(HDC hdc, RECT& paint_area, HPEN bg_pen, HBRUSH bg_brush);
 
-	static const int Border_X_Offset = 6;
-	static const int Border_Y_Offset = 4;
+	void Draw(HDC hdc, RECT& paint_area, HPEN bg_pen, HBRUSH bg_brush);
+	void Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_width);
+
+	HPEN Ball_Pen;
+	HBRUSH Ball_Brush;
+	double Ball_Direction;
+
+	static const int Ball_Size = 4;
 
 private:
-	void Draw_Element(HDC hdc, int x, int y, bool top_border, HPEN bg_pen, HBRUSH bg_brush);
+	int Ball_X_Pos, Ball_Y_Pos;
+	double Ball_Speed;
 
-	HPEN   Border_Blue_Pen, Border_White_Pen;
-	HBRUSH Border_Blue_Brush, Border_White_Brush;
-
+	RECT Ball_Rect, Prev_Ball_Rect;
 };
 //------------------------------------------------------------------------------------------------------------

@@ -15,32 +15,6 @@ enum EKey_Type
 //------------------------------------------------------------------------------------------------------------
 const int Timer_ID = WM_USER + 1;
 //------------------------------------------------------------------------------------------------------------
-class AsEngine;
-class ALevel;
-class AsPlatform;
-class ABall
-{
-public:
-	ABall();
-
-	void init();
-
-	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
-	void Move(AsEngine *engine, ALevel* level, AsPlatform* platform);
-
-	HPEN Ball_Pen;
-	HBRUSH Ball_Brush;
-	double Ball_Direction;
-
-	static const int Ball_Size = 4;
-
-private:
-	int Ball_X_Pos, Ball_Y_Pos;
-	double Ball_Speed;
-
-	RECT Ball_Rect, Prev_Ball_Rect;
-};
-//------------------------------------------------------------------------------------------------------------
 class AsPlatform
 {
 public:
