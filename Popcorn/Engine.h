@@ -5,6 +5,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "Border.h"
+
 //------------------------------------------------------------------------------------------------------------
 enum ELetter_Type
 {
@@ -108,23 +110,6 @@ private:
 
 	static const int Height = 7;
 	static const int Circle_Size = 7;
-
-};
-//------------------------------------------------------------------------------------------------------------
-class AsBorder
-{
-public:
-	void init();
-	void Draw(HDC hdc, RECT& paint_area, AsEngine* engine);
-
-	static const int Border_X_Offset = 6;
-	static const int Border_Y_Offset = 4;
-
-private:
-	void Draw_Element(HDC hdc, int x, int y, bool top_boder, AsEngine* engine);
-
-	HPEN   Border_Blue_Pen, Border_White_Pen;
-	HBRUSH Border_Blue_Brush, Border_White_Brush;
 
 };
 //------------------------------------------------------------------------------------------------------------
