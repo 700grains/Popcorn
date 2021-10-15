@@ -1,6 +1,6 @@
 ﻿#include "Level.h"
 
-char Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
+char ALevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -142,7 +142,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, EL
 	if (!(brick_type == EBT_Blue || brick_type == EBT_Red))
 		return;  // Падающие буквы могут быть только от кирпичей такого типа
 
-					// Корректируем шаг вращения и угол поворота
+	// Корректируем шаг вращения и угол поворота
 	rotation_step = rotation_step % 16;
 
 	if (rotation_step < 8)

@@ -23,6 +23,6 @@ public:
 	static const int Ball_Size = 4;
 	static const int Max_X_Pos = Level_X_Offset + Cell_Width * Level_Width;
 	static const int Max_Y_Pos = 199 - Ball_Size;
-	static const int Y_Pos = 185;
+	static const int Platform_Y_Pos = 185;
 };
 //------------------------------------------------------------------------------------------------------------
