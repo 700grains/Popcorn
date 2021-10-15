@@ -1,25 +1,23 @@
 ﻿#include "Engine.h"
 
-
-
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-	:Hwnd(0), BG_Pen(0), BG_Brush(0), Border{}, Level{}
+: Hwnd(0), BG_Pen(0), BG_Brush(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd)
-{// Íàñòðîéêà èãðû ïðè ñòàðòå
+{// Настройка игры при старте
 
 	Hwnd = hwnd;
 
 	AsConfig::Create_Pen_Brush(15, 63, 31, BG_Pen, BG_Brush);
 
-	Ball.init();
-	Level.init();
-	Platform.init();
-	Border.init();
+	Ball.Init();
+	Level.Init();
+	Platform.Init();
+	Border.Init();
 
 	Platform.Redraw_Platform(Hwnd);
 
@@ -27,7 +25,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
-{// Îòðèñîâêà ýêðàíà èãðû
+{// Отрисовка экрана игры
 
 	Level.Draw(hdc, paint_area);
 	Platform.Draw(hdc, BG_Pen, BG_Brush, paint_area);

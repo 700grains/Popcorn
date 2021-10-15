@@ -1,9 +1,6 @@
 ﻿#include "Level.h"
 
-
-
-
-char ALevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
+char Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -28,7 +25,7 @@ ALevel::ALevel()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void ALevel::init()
+void ALevel::Init()
 {
 	Letter_Pen = CreatePen(PS_SOLID, AsConfig::Global_Scale, RGB(255, 255, 255));
 
@@ -41,8 +38,8 @@ void ALevel::init()
 	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
-void ALevel::Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction)
-{// Êîððåêòèðóåì ïîçèöèþ ïðè îòðàæåíèè îò êèðïè÷åé
+void ALevel::Check_Level_Brick_Hit(int &next_y_pos, double &ball_direction)
+{// Корректируем позицию при отражении от кирпичей
 
 	int i, j;
 	int brick_y_pos = AsConfig::Level_Y_Offset + AsConfig::Level_Height * AsConfig::Cell_Height;
@@ -65,15 +62,14 @@ void ALevel::Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void ALevel::Draw(HDC hdc, RECT& paint_area)
-{// Âûâîä âñåõ êèðïè÷åé óðîâíÿ
+void ALevel::Draw(HDC hdc, RECT &paint_area)
+{// Вывод всех кирпичей уровня
 
 	int i, j;
 	RECT intersection_rect;
 
-	if (!IntersectRect(&intersection_rect, &paint_area, &Level_Rect))
+	if (! IntersectRect(&intersection_rect, &paint_area, &Level_Rect) )
 		return;
-
 
 	for (i = 0; i < AsConfig::Level_Height; i++)
 		for (j = 0; j < AsConfig::Level_Width; j++)
@@ -81,7 +77,7 @@ void ALevel::Draw(HDC hdc, RECT& paint_area)
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
-{// Âûâîä "êèðïè÷à"
+{// Вывод "кирпича"
 
 	HPEN pen;
 	HBRUSH brush;
@@ -132,11 +128,11 @@ void ALevel::Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRU
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step)
-{// Âûâîä ïàäàþùåé áóêâû
+{// Вывод падающей буквы
 
 	bool switch_color;
 	double offset;
-	double rotation_angle;  // Converting step to turn angle
+	double rotation_angle;  // Преобразование шага в угол поворота
 	int brick_half_height = Brick_Height * AsConfig::Global_Scale / 2;
 	int back_part_offset;
 	HPEN front_pen, back_pen;
@@ -144,9 +140,9 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, EL
 	XFORM xform, old_xform;
 
 	if (!(brick_type == EBT_Blue || brick_type == EBT_Red))
-		return;  // Falling letters can only be from the same brick type
+		return;  // Падающие буквы могут быть только от кирпичей такого типа
 
-	// Correcting rotation step and turn angle
+					// Корректируем шаг вращения и угол поворота
 	rotation_step = rotation_step % 16;
 
 	if (rotation_step < 8)
@@ -174,13 +170,13 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, EL
 
 	if (rotation_step == 4 || rotation_step == 12)
 	{
-		// Âûâîäèì ôîí
+		// Выводим фон
 		SelectObject(hdc, back_pen);
 		SelectObject(hdc, back_brush);
 
 		Rectangle(hdc, x, y + brick_half_height - AsConfig::Global_Scale, x + Brick_Width * AsConfig::Global_Scale, y + brick_half_height);
 
-		// Âûâîäèì ïåðåäíèé ïëàí
+		// Выводим передний план
 		SelectObject(hdc, front_pen);
 		SelectObject(hdc, front_brush);
 
@@ -190,7 +186,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, EL
 	{
 		SetGraphicsMode(hdc, GM_ADVANCED);
 
-		// Íàñòðàèâàåì ìàòðèöó "ïåðåâîðîòà" áóêâû
+		// Настраиваем матрицу "переворота" буквы
 		xform.eM11 = 1.0f;
 		xform.eM12 = 0.0f;
 		xform.eM21 = 0.0f;
@@ -200,7 +196,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, EL
 		GetWorldTransform(hdc, &old_xform);
 		SetWorldTransform(hdc, &xform);
 
-		// Âûâîäèì ôîí
+		// Выводим фон
 		SelectObject(hdc, back_pen);
 		SelectObject(hdc, back_brush);
 
@@ -208,7 +204,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, EL
 		back_part_offset = (int)round(offset);
 		Rectangle(hdc, 0, -brick_half_height - back_part_offset, Brick_Width * AsConfig::Global_Scale, brick_half_height - back_part_offset);
 
-		// Âûâîäèì ïåðåäíèé ïëàí
+		// Выводим передний план
 		SelectObject(hdc, front_pen);
 		SelectObject(hdc, front_brush);
 

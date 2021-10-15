@@ -1,6 +1,5 @@
 ﻿#include "Ball.h"
 
-
 // ABall
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
@@ -8,43 +7,43 @@ ABall::ABall()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::init()
+void ABall::Init()
 {
 	AsConfig::Create_Pen_Brush(255, 255, 255, Ball_Pen, Ball_Brush);
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Draw(HDC hdc, RECT& paint_area, HPEN bg_pen, HBRUSH bg_brush)
+void ABall::Draw(HDC hdc, RECT &paint_area, HPEN bg_pen, HBRUSH bg_brush)
 {
 	RECT intersection_rect;
 
-	if (!IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
+	if (! IntersectRect(&intersection_rect, &paint_area, &Ball_Rect) )
 		return;
 
-	// 1. Î÷èùàåì ôîí
+	// 1. Очищаем фон
 	SelectObject(hdc, bg_pen);
 	SelectObject(hdc, bg_brush);
 
 	Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
 
-	// 2. Ðèñóåì øàðèê
+	// 2. Рисуем шарик
 	SelectObject(hdc, Ball_Pen);
 	SelectObject(hdc, Ball_Brush);
 
 	Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_width)
+void ABall::Move(HWND hwnd, ALevel *level, int platform_x_pos, int platform_width)
 {
 	int next_x_pos, next_y_pos;
 	int max_x_pos = AsConfig::Max_X_Pos - AsConfig::Ball_Size;
-	int platform_y_pos = AsConfig::Platform_Y_Pos - AsConfig::Ball_Size;
+	int platform_y_pos = AsConfig::Y_Pos - AsConfig::Ball_Size;
 
 	Prev_Ball_Rect = Ball_Rect;
 
-	next_x_pos = Ball_X_Pos + (int)(Ball_Speed * cos(Ball_Direction));
-	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction));
+	next_x_pos = Ball_X_Pos + (int)(Ball_Speed * cos(Ball_Direction) );
+	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction) );
 
-	// Êîððåêòèðóåì ïîçèöèþ ïðè îòðàæåíèè îò ðàìêè
+	// Корректируем позицию при отражении от рамки
 	if (next_x_pos < AsConfig::Border_X_Offset)
 	{
 		next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
@@ -63,13 +62,13 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 		Ball_Direction = M_PI - Ball_Direction;
 	}
 
-	if (next_y_pos >AsConfig::Max_Y_Pos)
+	if (next_y_pos > AsConfig::Max_Y_Pos)
 	{
-		next_y_pos =AsConfig::Max_Y_Pos - (next_y_pos -AsConfig::Max_Y_Pos);
+		next_y_pos = AsConfig::Max_Y_Pos - (next_y_pos - AsConfig::Max_Y_Pos);
 		Ball_Direction = M_PI + (M_PI - Ball_Direction);
 	}
 
-	// Êîððåêòèðóåì ïîçèöèþ ïðè îòðàæåíèè îò ïëàòôîðìû
+	// Корректируем позицию при отражении от платформы
 	if (next_y_pos > platform_y_pos)
 	{
 		if (next_x_pos >= platform_x_pos && next_x_pos <= platform_x_pos + platform_width)
@@ -79,10 +78,10 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 		}
 	}
 
-	// Êîððåêòèðóåì ïîçèöèþ ïðè îòðàæåíèè îò êèðïè÷åé
+	// Корректируем позицию при отражении от кирпичей
 	level->Check_Level_Brick_Hit(next_y_pos, Ball_Direction);
 
-	// Ñìåùàåì øàðèê
+	// Смещаем шарик
 	Ball_X_Pos = next_x_pos;
 	Ball_Y_Pos = next_y_pos;
 
