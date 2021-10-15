@@ -2,9 +2,6 @@
 
 #include "Config.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 //------------------------------------------------------------------------------------------------------------
 enum EBrick_Type
 {
@@ -28,13 +25,6 @@ public:
 	void init();
 	void Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction);
 	void Draw(HDC hdc, RECT& paint_area);
-
-	static const int Level_Width = 12;  // Ширина уровня в ячейках
-	static const int Level_Height = 14;  // Высота уровня в ячейках
-	static const int Level_X_Offset = 8;
-	static const int Level_Y_Offset = 6;
-	static const int Cell_Width = 16;
-	static const int Cell_Height = 8;
 
 private:
 	void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type);

@@ -4,7 +4,7 @@
 // AsPlatform
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-	: Inner_Width(21), X_Pos(AsBorder::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Width(28), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0),
+	: Inner_Width(21), X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Width(28), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0),
 	  Platform_Circle_Pen(0), Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0)
 {
 }
@@ -22,7 +22,7 @@ void AsPlatform::Redraw_Platform(AsEngine* engine)
 	Prev_Platform_Rect = Platform_Rect;
 
 	Platform_Rect.left = X_Pos * AsConfig::Global_Scale;
-	Platform_Rect.top = Y_Pos * AsConfig::Global_Scale;
+	Platform_Rect.top = AsConfig::Y_Pos * AsConfig::Global_Scale;
 	Platform_Rect.right = Platform_Rect.left + Width * AsConfig::Global_Scale;
 	Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
 
@@ -34,7 +34,7 @@ void AsPlatform::Draw(HDC hdc, AsEngine* engine, RECT& paint_area)
 {// Drawing our platform
 
 	int x = X_Pos;
-	int y = Y_Pos;
+	int y = AsConfig::Y_Pos;
 	RECT intersection_rect;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
@@ -107,7 +107,7 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 	//	Draw_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
 	//}
 
-	Ball.Draw(hdc, paint_area, this);
+	Ball.Draw(hdc, paint_area, BG_Pen, BG_Brush);
 
 	Border.Draw(hdc, paint_area, BG_Pen, BG_Brush);
 }
@@ -119,8 +119,8 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 	case EKT_Left:
 		Platform.X_Pos -= Platform.X_Step;
 
-		if (Platform.X_Pos <= AsBorder::Border_X_Offset)
-			Platform.X_Pos = AsBorder::Border_X_Offset;
+		if (Platform.X_Pos <= AsConfig::Border_X_Offset)
+			Platform.X_Pos = AsConfig::Border_X_Offset;
 
 		Platform.Redraw_Platform(this);
 		break;
@@ -128,8 +128,8 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 	case EKT_Right:
 		Platform.X_Pos += Platform.X_Step;
 
-		if (Platform.X_Pos >= Max_X_Pos - Platform.Width + 1)
-			Platform.X_Pos = Max_X_Pos - Platform.Width + 1;
+		if (Platform.X_Pos >= AsConfig::Max_X_Pos - Platform.Width + 1)
+			Platform.X_Pos = AsConfig::Max_X_Pos - Platform.Width + 1;
 
 		Platform.Redraw_Platform(this);
 		break;
@@ -143,7 +143,7 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Timer()
 {
-	Ball.Move(this, &Level, &Platform);
+	Ball.Move(Hwnd, &Level, Platform.X_Pos, Platform.Width);
 
 	return 0;
 }

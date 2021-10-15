@@ -1,5 +1,6 @@
 #pragma once
 #include "Config.h"
+#include "Level.h"
 
 //------------------------------------------------------------------------------------------------------------
 class ABall
@@ -15,8 +16,6 @@ public:
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;
 	double Ball_Direction;
-
-	static const int Ball_Size = 4;
 
 private:
 	int Ball_X_Pos, Ball_Y_Pos;

@@ -3,7 +3,7 @@
 
 
 
-char Level_01[ALevel::Level_Height][ALevel::Level_Width] =
+char Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -35,21 +35,21 @@ void ALevel::init()
 	AsConfig::Create_Pen_Brush(255, 85, 85, Brick_Red_Pen, Brick_Red_Brush);
 	AsConfig::Create_Pen_Brush(85, 255, 255, Brick_Blue_Pen, Brick_Blue_Brush);
 
-	Level_Rect.left = ALevel::Level_X_Offset * AsConfig::Global_Scale;
-	Level_Rect.top = ALevel::Level_Y_Offset * AsConfig::Global_Scale;
-	Level_Rect.right = Level_Rect.left + ALevel::Cell_Width * ALevel::Level_Width * AsConfig::Global_Scale;
-	Level_Rect.bottom = Level_Rect.top + ALevel::Cell_Height * ALevel::Level_Height * AsConfig::Global_Scale;
+	Level_Rect.left = AsConfig::Level_X_Offset * AsConfig::Global_Scale;
+	Level_Rect.top = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
+	Level_Rect.right = Level_Rect.left + AsConfig::Cell_Width * AsConfig::Level_Width * AsConfig::Global_Scale;
+	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction)
 {// Корректируем позицию при отражении от кирпичей
 
 	int i, j;
-	int brick_y_pos = Level_Y_Offset + Level_Height * Cell_Height;
+	int brick_y_pos = AsConfig::Level_Y_Offset + AsConfig::Level_Height * AsConfig::Cell_Height;
 
-	for (i = Level_Height - 1; i >= 0; i--)
+	for (i = AsConfig::Level_Height - 1; i >= 0; i--)
 	{
-		for (j = 0; j < Level_Width; j++)
+		for (j = 0; j < AsConfig::Level_Width; j++)
 		{
 			if (Level_01[i][j] == 0)
 				continue;
@@ -61,7 +61,7 @@ void ALevel::Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction)
 			}
 		}
 
-		brick_y_pos -= Cell_Height;
+		brick_y_pos -= AsConfig::Cell_Height;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -222,8 +222,8 @@ void ALevel::Draw(HDC hdc, RECT& paint_area)
 		return;
 
 
-	for (i = 0; i < Level_Height; i++)
-		for (j = 0; j < Level_Width; j++)
-			Draw_Brick(hdc, Level_X_Offset + j * Cell_Width, Level_Y_Offset + i * Cell_Height, (EBrick_Type)Level_01[i][j]);
+	for (i = 0; i < AsConfig::Level_Height; i++)
+		for (j = 0; j < AsConfig::Level_Width; j++)
+			Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (EBrick_Type)Level_01[i][j]);
 }
 //------------------------------------------------------------------------------------------------------------

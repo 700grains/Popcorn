@@ -36,8 +36,8 @@ void ABall::Draw(HDC hdc, RECT& paint_area, HPEN bg_pen, HBRUSH bg_brush)
 void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_width)
 {
 	int next_x_pos, next_y_pos;
-	int max_x_pos = AsEngine::Max_X_Pos - Ball_Size;
-	int platform_y_pos = AsPlatform::Y_Pos - Ball_Size;
+	int max_x_pos = AsConfig::Max_X_Pos - AsConfig::Ball_Size;
+	int platform_y_pos = AsConfig::Y_Pos - AsConfig::Ball_Size;
 
 	Prev_Ball_Rect = Ball_Rect;
 
@@ -45,15 +45,15 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction));
 
 	// Корректируем позицию при отражении от рамки
-	if (next_x_pos < AsBorder::Border_X_Offset)
+	if (next_x_pos < AsConfig::Border_X_Offset)
 	{
-		next_x_pos = ALevel::Level_X_Offset - (next_x_pos - ALevel::Level_X_Offset);
+		next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
 		Ball_Direction = M_PI - Ball_Direction;
 	}
 
-	if (next_y_pos < AsBorder::Border_Y_Offset)
+	if (next_y_pos < AsConfig::Border_Y_Offset)
 	{
-		next_y_pos = AsBorder::Border_Y_Offset - (next_y_pos - AsBorder::Border_Y_Offset);
+		next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
 		Ball_Direction = -Ball_Direction;
 	}
 
@@ -63,9 +63,9 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 		Ball_Direction = M_PI - Ball_Direction;
 	}
 
-	if (next_y_pos > AsEngine::Max_Y_Pos)
+	if (next_y_pos >AsConfig::Max_Y_Pos)
 	{
-		next_y_pos = AsEngine::Max_Y_Pos - (next_y_pos - AsEngine::Max_Y_Pos);
+		next_y_pos =AsConfig::Max_Y_Pos - (next_y_pos -AsConfig::Max_Y_Pos);
 		Ball_Direction = M_PI + (M_PI - Ball_Direction);
 	}
 
@@ -88,8 +88,8 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 
 	Ball_Rect.left = Ball_X_Pos * AsConfig::Global_Scale;
 	Ball_Rect.top = Ball_Y_Pos * AsConfig::Global_Scale;
-	Ball_Rect.right = Ball_Rect.left + Ball_Size * AsConfig::Global_Scale;
-	Ball_Rect.bottom = Ball_Rect.top + Ball_Size * AsConfig::Global_Scale;
+	Ball_Rect.right = Ball_Rect.left + AsConfig::Ball_Size * AsConfig::Global_Scale;
+	Ball_Rect.bottom = Ball_Rect.top + AsConfig::Ball_Size * AsConfig::Global_Scale;
 
 	InvalidateRect(hwnd, &Prev_Ball_Rect, FALSE);
 	InvalidateRect(hwnd, &Ball_Rect, FALSE);
