@@ -123,13 +123,10 @@ public:
 	int On_Key_Down(EKey_Type key_type);
 	int On_Timer();
 
-	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN& pen, HBRUSH& brush);
-
 	HWND Hwnd;
 	HPEN BG_Pen;
 	HBRUSH BG_Brush;
 
-	static const int Global_Scale = 3;
 	static const int Max_X_Pos = ALevel::Level_X_Offset + ALevel::Cell_Width * ALevel::Level_Width;
 	static const int Max_Y_Pos = 199 - ABall::Ball_Size;
 
