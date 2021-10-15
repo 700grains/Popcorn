@@ -1,4 +1,4 @@
-#include "Ball.h"
+п»ї#include "Ball.h"
 
 
 // ABall
@@ -20,13 +20,13 @@ void ABall::Draw(HDC hdc, RECT& paint_area, HPEN bg_pen, HBRUSH bg_brush)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
 		return;
 
-	// 1. Очищаем фон
+	// 1. ГЋГ·ГЁГ№Г ГҐГ¬ ГґГ®Г­
 	SelectObject(hdc, bg_pen);
 	SelectObject(hdc, bg_brush);
 
 	Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
 
-	// 2. Рисуем шарик
+	// 2. ГђГЁГ±ГіГҐГ¬ ГёГ Г°ГЁГЄ
 	SelectObject(hdc, Ball_Pen);
 	SelectObject(hdc, Ball_Brush);
 
@@ -37,14 +37,14 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 {
 	int next_x_pos, next_y_pos;
 	int max_x_pos = AsConfig::Max_X_Pos - AsConfig::Ball_Size;
-	int platform_y_pos = AsConfig::Y_Pos - AsConfig::Ball_Size;
+	int platform_y_pos = AsConfig::Platform_Y_Pos - AsConfig::Ball_Size;
 
 	Prev_Ball_Rect = Ball_Rect;
 
 	next_x_pos = Ball_X_Pos + (int)(Ball_Speed * cos(Ball_Direction));
 	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction));
 
-	// Корректируем позицию при отражении от рамки
+	// ГЉГ®Г°Г°ГҐГЄГІГЁГ°ГіГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ ГЇГ°ГЁ Г®ГІГ°Г Г¦ГҐГ­ГЁГЁ Г®ГІ Г°Г Г¬ГЄГЁ
 	if (next_x_pos < AsConfig::Border_X_Offset)
 	{
 		next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
@@ -69,7 +69,7 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 		Ball_Direction = M_PI + (M_PI - Ball_Direction);
 	}
 
-	// Корректируем позицию при отражении от платформы
+	// ГЉГ®Г°Г°ГҐГЄГІГЁГ°ГіГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ ГЇГ°ГЁ Г®ГІГ°Г Г¦ГҐГ­ГЁГЁ Г®ГІ ГЇГ«Г ГІГґГ®Г°Г¬Г»
 	if (next_y_pos > platform_y_pos)
 	{
 		if (next_x_pos >= platform_x_pos && next_x_pos <= platform_x_pos + platform_width)
@@ -79,10 +79,10 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 		}
 	}
 
-	// Корректируем позицию при отражении от кирпичей
+	// ГЉГ®Г°Г°ГҐГЄГІГЁГ°ГіГҐГ¬ ГЇГ®Г§ГЁГ¶ГЁГѕ ГЇГ°ГЁ Г®ГІГ°Г Г¦ГҐГ­ГЁГЁ Г®ГІ ГЄГЁГ°ГЇГЁГ·ГҐГ©
 	level->Check_Level_Brick_Hit(next_y_pos, Ball_Direction);
 
-	// Смещаем шарик
+	// Г‘Г¬ГҐГ№Г ГҐГ¬ ГёГ Г°ГЁГЄ
 	Ball_X_Pos = next_x_pos;
 	Ball_Y_Pos = next_y_pos;
 

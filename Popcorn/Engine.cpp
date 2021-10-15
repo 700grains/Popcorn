@@ -1,4 +1,4 @@
-#include "Engine.h"
+п»ї#include "Engine.h"
 
 
 
@@ -10,7 +10,7 @@ AsEngine::AsEngine()
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd)
-{// Настройка игры при старте
+{// ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЁГЈГ°Г» ГЇГ°ГЁ Г±ГІГ Г°ГІГҐ
 
 	Hwnd = hwnd;
 
@@ -27,7 +27,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
-{// Отрисовка экрана игры
+{// ГЋГІГ°ГЁГ±Г®ГўГЄГ  ГЅГЄГ°Г Г­Г  ГЁГЈГ°Г»
 
 	Level.Draw(hdc, paint_area);
 	Platform.Draw(hdc, BG_Pen, BG_Brush, paint_area);

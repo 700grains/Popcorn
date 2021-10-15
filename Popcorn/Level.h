@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Config.h"
 
@@ -35,6 +35,7 @@ private:
 	HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
 	RECT Level_Rect;
 
+	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
 
 	static const int Brick_Width = 15;
 	static const int Brick_Height = 7;

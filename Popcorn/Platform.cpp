@@ -1,4 +1,4 @@
-#include "Platform.h"
+п»ї#include "Platform.h"
 
 
 // AsPlatform
@@ -22,7 +22,7 @@ void AsPlatform::Redraw_Platform(HWND hwnd)
 	Prev_Platform_Rect = Platform_Rect;
 
 	Platform_Rect.left = X_Pos * AsConfig::Global_Scale;
-	Platform_Rect.top = AsConfig::Y_Pos * AsConfig::Global_Scale;
+	Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 	Platform_Rect.right = Platform_Rect.left + Width * AsConfig::Global_Scale;
 	Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
 
@@ -34,7 +34,7 @@ void AsPlatform::Draw(HDC hdc, HPEN bg_pen, HBRUSH bg_brush, RECT& paint_area)
 {// Drawing our platform
 
 	int x = X_Pos;
-	int y = AsConfig::Y_Pos;
+	int y = AsConfig::Platform_Y_Pos;
 	RECT intersection_rect;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
@@ -45,20 +45,20 @@ void AsPlatform::Draw(HDC hdc, HPEN bg_pen, HBRUSH bg_brush, RECT& paint_area)
 
 	Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
 
-	// 1. Рисуем боковые шарики
+	// 1. ГђГЁГ±ГіГҐГ¬ ГЎГ®ГЄГ®ГўГ»ГҐ ГёГ Г°ГЁГЄГЁ
 	SelectObject(hdc, Platform_Circle_Pen);
 	SelectObject(hdc, Platform_Circle_Brush);
 
 	Ellipse(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size) * AsConfig::Global_Scale, (y + Circle_Size) * AsConfig::Global_Scale);
 	Ellipse(hdc, (x + Inner_Width) * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size + Inner_Width) * AsConfig::Global_Scale, (y + Circle_Size) * AsConfig::Global_Scale);
 
-	// 2. Рисуем блик
+	// 2. ГђГЁГ±ГіГҐГ¬ ГЎГ«ГЁГЄ
 	SelectObject(hdc, Highlight_Pen);
 
 	Arc(hdc, (x + 1) * AsConfig::Global_Scale, (y + 1) * AsConfig::Global_Scale, (x + Circle_Size - 1) * AsConfig::Global_Scale, (y + Circle_Size - 1) * AsConfig::Global_Scale,
 		(x + 1 + 1) * AsConfig::Global_Scale, (y + 1) * AsConfig::Global_Scale, (x + 1) * AsConfig::Global_Scale, (y + 1 + 2) * AsConfig::Global_Scale);
 
-	// 3. Рисуем среднюю часть
+	// 3. ГђГЁГ±ГіГҐГ¬ Г±Г°ГҐГ¤Г­ГѕГѕ Г·Г Г±ГІГј
 	SelectObject(hdc, Platform_Inner_Pen);
 	SelectObject(hdc, Platform_Inner_Brush);
 
