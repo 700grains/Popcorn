@@ -19,11 +19,19 @@ void AActive_Brick::Act(HWND hwnd)
 
 void AActive_Brick::Draw(HDC hdc, RECT& paint_area)
 {
+	unsigned char r, g, b;
 	RECT brick_rect;
 	HPEN pen;
 	HBRUSH brush;
 
-	AsConfig::Create_Pen_Brush(85 - Fade_Step * (85 / Max_Fade_Step), 255 - Fade_Step * (255 / Max_Fade_Step), 255 - Fade_Step * (255 / Max_Fade_Step), pen, brush);
+// 	r = AsConfig::Blue_Brick_Color.R - Fade_Step * (AsConfig::Blue_Brick_Color.R / Max_Fade_Step);
+// 	g = AsConfig::Blue_Brick_Color.G - Fade_Step * (AsConfig::Blue_Brick_Color.G / Max_Fade_Step);
+// 	b = AsConfig::Blue_Brick_Color.B - Fade_Step * (AsConfig::Blue_Brick_Color.B / Max_Fade_Step);
+// 
+// 	AsConfig::Create_Pen_Brush(r, g, b, pen, brush);
+
+	pen = Blue_Pens[Fade_Step];
+	brush = Blue_Brushes[Fade_Step];
 
 	SelectObject(hdc, pen);
 	SelectObject(hdc, brush);
