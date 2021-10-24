@@ -21,7 +21,7 @@ char ALevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 // ALevel
 //------------------------------------------------------------------------------------------------------------
 ALevel::ALevel()
-	: Brick_Red_Pen(0), Brick_Blue_Pen(0), Letter_Pen(0), Brick_Red_Brush(0), Brick_Blue_Brush(0), Level_Rect{}
+: Active_Brick(EBT_Red), Brick_Red_Pen(0), Brick_Blue_Pen(0), Letter_Pen(0), Brick_Red_Brush(0), Brick_Blue_Brush(0), Level_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -68,7 +68,6 @@ void ALevel::Draw(HWND hwnd, HDC hdc, RECT &paint_area)
 	int i, j;
 	RECT intersection_rect;
 
-
 	if (! IntersectRect(&intersection_rect, &paint_area, &Level_Rect) )
 		return;
 
@@ -76,7 +75,6 @@ void ALevel::Draw(HWND hwnd, HDC hdc, RECT &paint_area)
 		for (j = 0; j < AsConfig::Level_Width; j++)
 			Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (EBrick_Type)Level_01[i][j]);
 
-	
 	Active_Brick.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
