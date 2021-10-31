@@ -3,7 +3,7 @@
 // AsPlatform
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-	: Inner_Width(21), X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Width(28), Platform_Rect{},
+	: Inner_Width(21), X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Normal), Width(28), Platform_Rect{},
 	Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0), Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0)
 {
 }
@@ -14,6 +14,14 @@ void AsPlatform::Init()
 
 	AsConfig::Create_Pen_Brush(151, 0, 0, Platform_Circle_Pen, Platform_Circle_Brush);
 	AsConfig::Create_Pen_Brush(0, 128, 192, Platform_Inner_Pen, Platform_Inner_Brush);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Act(HWND hwnd)
+{
+	Platform_State = EPS_Meltdown;
+
+	if (Platform_State == EPS_Meltdown)
+		Redraw_Platform(hwnd);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Redraw_Platform(HWND hwnd)
