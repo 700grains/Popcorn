@@ -18,14 +18,14 @@ void AsPlatform::Init()
 	AsConfig::Create_Pen_Brush(0, 128, 192, Platform_Inner_Pen, Platform_Inner_Brush);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Act(HWND hwnd)
+void AsPlatform::Act()
 {
 	switch (Platform_State)
 	{
 	case EPS_Meltdown:
 	case EPS_Roll_In:
 	case EPS_Expand_Roll_In:
-		Redraw_Platform(hwnd);
+		Redraw_Platform();
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 }
 
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Redraw_Platform(HWND hwnd)
+void AsPlatform::Redraw_Platform()
 {
 	int platform_width;
 
@@ -78,8 +78,8 @@ void AsPlatform::Redraw_Platform(HWND hwnd)
 	if (Platform_State == EPS_Meltdown)
 		Prev_Platform_Rect.bottom = (AsConfig::Max_Y_Pos + 1) * AsConfig::Global_Scale;
 
-	InvalidateRect(hwnd, &Prev_Platform_Rect, FALSE);
-	InvalidateRect(hwnd, &Platform_Rect, FALSE);
+	InvalidateRect(AsConfig::Hwnd, &Prev_Platform_Rect, FALSE);
+	InvalidateRect(AsConfig::Hwnd, &Platform_Rect, FALSE);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw(HDC hdc, RECT &paint_area)
@@ -240,6 +240,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 
 	if (X_Pos <= Roll_In_Platform_End_X_Pos)
 	{
+		X_Pos += Rolling_Platform_Speed;
 		Platform_State = EPS_Expand_Roll_In;
 		Inner_Width = 1;
 	}
@@ -257,6 +258,7 @@ void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
 	{
 		Inner_Width = Normal_Platform_Inner_Width;
 		Platform_State = EPS_Normal;
+		Redraw_Platform();
 	}
 }
 //------------------------------------------------------------------------------------------------------------

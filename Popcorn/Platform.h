@@ -18,9 +18,9 @@ public:
 	AsPlatform();
 
 	void Init();
-	void Act(HWND hwnd);
+	void Act();
 	void Set_State(EPlatform_State new_state);
-	void Redraw_Platform(HWND hwnd);
+	void Redraw_Platform();
 	void Draw(HDC hdc, RECT &paint_area);
 
 	int X_Pos;

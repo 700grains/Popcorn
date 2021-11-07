@@ -3,14 +3,13 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-: Hwnd(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd)
 {// Настройка игры при старте
 
-	Hwnd = hwnd;
+	AsConfig::Hwnd = hwnd;
 
 	AActive_Brick::Setup_Colors();
 
@@ -21,15 +20,15 @@ void AsEngine::Init_Engine(HWND hwnd)
 	
 	Platform.Set_State(EPS_Roll_In);
 
-	Platform.Redraw_Platform(Hwnd);
+	Platform.Redraw_Platform();
 
-	SetTimer(Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
+	SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 {// Отрисовка экрана игры
 
-	Level.Draw(Hwnd, hdc, paint_area);
+	Level.Draw(hdc, paint_area);
 
 	//int i;
 
@@ -55,7 +54,7 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 		if (Platform.X_Pos <= AsConfig::Border_X_Offset)
 			Platform.X_Pos = AsConfig::Border_X_Offset;
 
-		Platform.Redraw_Platform(Hwnd);
+		Platform.Redraw_Platform();
 		break;
 
 	case EKT_Right:
@@ -64,7 +63,7 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 		if (Platform.X_Pos >= AsConfig::Max_X_Pos - Platform.Width + 1)
 			Platform.X_Pos = AsConfig::Max_X_Pos - Platform.Width + 1;
 
-		Platform.Redraw_Platform(Hwnd);
+		Platform.Redraw_Platform();
 		break;
 
 	case EKT_Space:
@@ -78,12 +77,12 @@ int AsEngine::On_Timer()
 {
 	++AsConfig::Current_Timer_Tick;
 
-	Ball.Move(Hwnd, &Level, Platform.X_Pos, Platform.Width);
+	Ball.Move(&Level, Platform.X_Pos, Platform.Width);
 
-	Level.Active_Brick.Act(Hwnd);
+	Level.Active_Brick.Act();
 
 	//if (AsConfig::Current_Timer_Tick % 3 == 0)
-	Platform.Act(Hwnd);
+	Platform.Act();
 
 	return 0;
 }
