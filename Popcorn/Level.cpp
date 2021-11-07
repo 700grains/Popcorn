@@ -38,11 +38,11 @@ void ALevel::Init()
 	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
-void ALevel::Check_Level_Brick_Hit(int &next_y_pos, double &ball_direction)
+void ALevel::Check_Level_Brick_Hit(double &next_y_pos, double &ball_direction)
 {// Корректируем позицию при отражении от кирпичей
 
 	int i, j;
-	int brick_y_pos = AsConfig::Level_Y_Offset + AsConfig::Level_Height * AsConfig::Cell_Height;
+	double brick_y_pos = AsConfig::Level_Y_Offset + AsConfig::Level_Height * AsConfig::Cell_Height;
 
 	for (i = AsConfig::Level_Height - 1; i >= 0; i--)
 	{

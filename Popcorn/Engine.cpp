@@ -82,14 +82,29 @@ int AsEngine::On_Timer()
 	{
 	case EGS_Play_Level:
 		Ball.Move(&Level, Platform.X_Pos, Platform.Width);
+
+		if (Ball.Ball_State == EBS_Lost)
+		{
+			Game_State = EGS_Lost_Ball;
+			Platform.Set_State(EPS_Meltdown);
+		}
 		break;
 
+
 	case EGS_Lost_Ball:
-		break;
+		if (Platform.Get_State() == EPS_Missing)
+		{
+			Game_State = EGS_Restart_Level;
+			Platform.Set_State(EPS_Roll_In);
+
+		}
+			break;
+		
 
 	case EGS_Restart_Level:
 		break;
 	}
+
 
 	Platform.Act();
 

@@ -29,6 +29,11 @@ void AsPlatform::Act()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+EPlatform_State AsPlatform::Get_State()
+{
+	return Platform_State;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_State new_state)
 {
 	int i, len;
