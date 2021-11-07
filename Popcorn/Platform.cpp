@@ -3,7 +3,7 @@
 // AsPlatform
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Normal), Inner_Width(21),
+: X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Normal), Inner_Width(Normal_Platform_Inner_Width),
 Rolling_Step (0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0),
   Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0)
 {
@@ -20,8 +20,13 @@ void AsPlatform::Init()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act(HWND hwnd)
 {
-	if (Platform_State == EPS_Meltdown || Platform_State == EPS_Roll_In)
+	switch (Platform_State)
+	{
+	case EPS_Meltdown:
+	case EPS_Roll_In:
+	case EPS_Expand_Roll_In:
 		Redraw_Platform(hwnd);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_State new_state)
@@ -31,14 +36,22 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 	if (Platform_State == new_state)
 		return;
 
-	if (new_state == EPS_Meltdown)
+	switch (new_state)
 	{
+		case EPS_Meltdown:
+	
 		Platform_State = EPS_Meltdown;
 
 		len = sizeof(Meltdown_Platform_Y_Pos) / sizeof(Meltdown_Platform_Y_Pos[0]);
 
 		for (i = 0; i < len; i++)
 			Meltdown_Platform_Y_Pos[i] = Platform_Rect.bottom;
+		break;
+
+		case EPS_Roll_In:
+			X_Pos = AsConfig::Max_X_Pos - 1;
+			Rolling_Step = Max_Rolling_Step - 1;
+			break;
 	}
 		Platform_State = new_state;
 }
@@ -46,13 +59,22 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Redraw_Platform(HWND hwnd)
 {
+	int platform_width;
+
 	Prev_Platform_Rect = Platform_Rect;
+
+	if (Platform_State == EPS_Roll_In)
+		platform_width = Circle_Size;
+	else
+		platform_width = Width;
+
+
 
 	Platform_Rect.left = X_Pos * AsConfig::Global_Scale;
 	Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
-	Platform_Rect.right = Platform_Rect.left + Width * AsConfig::Global_Scale;
+	Platform_Rect.right = Platform_Rect.left + platform_width * AsConfig::Global_Scale;
 	Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
-
+	
 	if (Platform_State == EPS_Meltdown)
 		Prev_Platform_Rect.bottom = (AsConfig::Max_Y_Pos + 1) * AsConfig::Global_Scale;
 
@@ -62,6 +84,11 @@ void AsPlatform::Redraw_Platform(HWND hwnd)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw(HDC hdc, RECT &paint_area)
 {// Рисуем платформу
+
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
+		return;
 
 	switch (Platform_State)
 	{
@@ -76,7 +103,20 @@ void AsPlatform::Draw(HDC hdc, RECT &paint_area)
 	case EPS_Roll_In:
 		Draw_Roll_In_State(hdc, paint_area);
 		break;
+
+	case EPS_Expand_Roll_In:
+		Draw_Expanding_Roll_In_State(hdc, paint_area);
+		break;
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Clear_BG(HDC hdc)
+{// Очищаем прежнее место фоновым цветом
+	SelectObject(hdc, AsConfig::BG_Pen);
+	SelectObject(hdc, AsConfig::BG_Brush);
+
+	Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
@@ -93,15 +133,9 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 
 	int x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
-	RECT intersection_rect;
 
-	if (! IntersectRect(&intersection_rect, &paint_area, &Platform_Rect) )
-		return;
-
-	SelectObject(hdc, AsConfig::BG_Pen);
-	SelectObject(hdc, AsConfig::BG_Brush);
-
-	Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
+	// Очищаем прежнее место фоновым цветом
+	Clear_BG(hdc);
 
 	// 1. Рисуем боковые шарики
 	SelectObject(hdc, Platform_Circle_Pen);
@@ -129,10 +163,6 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 	int area_width, area_height;
 	COLORREF pixel;
 	COLORREF bg_pixel = RGB(AsConfig::BG_Color.R, AsConfig::BG_Color.G, AsConfig::BG_Color.B);
-	RECT intersection_rect;
-
-	if (! IntersectRect(&intersection_rect, &paint_area, &Platform_Rect) )
-		return;
 
 	area_width = Width * AsConfig::Global_Scale;
 	area_height = Height * AsConfig::Global_Scale + 1;
@@ -169,6 +199,8 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 	double alpha;
 	XFORM xform, old_xform;
 
+	Clear_BG(hdc);
+
 	// 1. The ball
 	SelectObject(hdc, Platform_Circle_Pen);
 	SelectObject(hdc, Platform_Circle_Brush);
@@ -178,7 +210,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 	// 2. Разделительная линия
 	SetGraphicsMode(hdc, GM_ADVANCED);
 
-	alpha = -2 * M_PI / 32.0 * Rolling_Step;
+	alpha = -2 * M_PI / (double)Max_Rolling_Step * (double)Rolling_Step;
 
 	xform.eM11 = (float)cos(alpha);
 	xform.eM12 = (float)sin(alpha);
@@ -200,5 +232,31 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 	Draw_Circle_Highlight(hdc, x, y);
 
 	++Rolling_Step;
+
+	if (Rolling_Step >= Max_Rolling_Step)
+		Rolling_Step -= Max_Rolling_Step;
+
+	X_Pos -= Rolling_Platform_Speed;
+
+	if (X_Pos <= Roll_In_Platform_End_X_Pos)
+	{
+		Platform_State = EPS_Expand_Roll_In;
+		Inner_Width = 1;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
+{// Рисуем расширяющуюся платформу
+
+	Draw_Normal_State(hdc, paint_area);
+
+	--X_Pos;
+	Inner_Width+=2;
+
+	if (Inner_Width >= Normal_Platform_Inner_Width)
+	{
+		Inner_Width = Normal_Platform_Inner_Width;
+		Platform_State = EPS_Normal;
+	}
 }
 //------------------------------------------------------------------------------------------------------------

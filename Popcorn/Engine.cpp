@@ -30,7 +30,6 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 {// Отрисовка экрана игры
 
 	Level.Draw(Hwnd, hdc, paint_area);
-	Platform.Draw(hdc, paint_area);
 
 	//int i;
 
@@ -42,6 +41,8 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 
 	Ball.Draw(hdc, paint_area);
 	Border.Draw(hdc, paint_area);
+	Platform.Draw(hdc, paint_area);
+
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key_Down(EKey_Type key_type)
@@ -81,6 +82,7 @@ int AsEngine::On_Timer()
 
 	Level.Active_Brick.Act(Hwnd);
 
+	//if (AsConfig::Current_Timer_Tick % 3 == 0)
 	Platform.Act(Hwnd);
 
 	return 0;
