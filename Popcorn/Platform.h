@@ -33,9 +33,9 @@ private:
 	void Draw_Meltdown_State(HDC hdc, RECT &paint_area);
 	void Draw_Roll_In_State(HDC hdc, RECT& paint_area);
 
-
 	EPlatform_State Platform_State;
 	int Inner_Width;
+	int Rolling_Step;
 
 	static const int Normal_Width = 28;
 

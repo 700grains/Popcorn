@@ -4,7 +4,7 @@
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Normal), Inner_Width(21),
-  Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0),
+Rolling_Step (0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0),
   Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
@@ -166,6 +166,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 	int x = X_Pos * AsConfig::Global_Scale;
 	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 	int roller_size = Circle_Size * AsConfig::Global_Scale;
+	double alpha;
 	XFORM xform, old_xform;
 
 	// 1. The ball
@@ -177,24 +178,27 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 	// 2. Разделительная линия
 	SetGraphicsMode(hdc, GM_ADVANCED);
 
-	xform.eM11 = (float)0.8660;
-	xform.eM12 = (float)0.5000;
-	xform.eM21 = (float)-0.5000;
-	xform.eM22 = (float)0.8660;
-	xform.eDx =  (float)0.0;
-	xform.eDy =  (float)0.0;
+	alpha = -2 * M_PI / 32.0 * Rolling_Step;
+
+	xform.eM11 = (float)cos(alpha);
+	xform.eM12 = (float)sin(alpha);
+	xform.eM21 = (float)-sin(alpha);
+	xform.eM22 = (float)cos(alpha);;
+	xform.eDx =  (float)(x + roller_size /2);
+	xform.eDy =  (float)(y + roller_size / 2);
 	GetWorldTransform(hdc, &old_xform);
 	SetWorldTransform(hdc, &xform);
 
 	SelectObject(hdc, AsConfig::BG_Pen);
 	SelectObject(hdc, AsConfig::BG_Brush);
 
-	Rectangle(hdc, x + roller_size / 2 - AsConfig::Global_Scale / 2, y, x + roller_size / 2 + AsConfig::Global_Scale / 2 +1, y + roller_size);
+	Rectangle(hdc, - AsConfig::Global_Scale / 2, -roller_size / 2, AsConfig::Global_Scale / 2, roller_size / 2);
 
 	SetWorldTransform(hdc, &old_xform);
 
 	// 3. Блик
 	Draw_Circle_Highlight(hdc, x, y);
 
+	++Rolling_Step;
 }
 //------------------------------------------------------------------------------------------------------------
