@@ -20,6 +20,7 @@ public:
 	void Check_Level_Brick_Hit(int &next_y_pos, double &ball_direction);
 	void Draw(HDC hdc, RECT &paint_area);
 
+	bool Has_Floor;
 	AActive_Brick Active_Brick;
 
 private:
