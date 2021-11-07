@@ -79,6 +79,15 @@ void AsPlatform::Draw(HDC hdc, RECT &paint_area)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
+{// Рисуем hightlight on the ball
+	SelectObject(hdc, Highlight_Pen);
+
+	Arc(hdc, x + AsConfig::Global_Scale, y + AsConfig::Global_Scale, x + (Circle_Size - 1) * AsConfig::Global_Scale, y + (Circle_Size - 1) * AsConfig::Global_Scale,
+		x + 2 * AsConfig::Global_Scale, y + AsConfig::Global_Scale, x + AsConfig::Global_Scale, y + 3 * AsConfig::Global_Scale);
+
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 {// Рисуем платформу в нормальном состоянии
 
@@ -102,11 +111,8 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 	Ellipse(hdc, (x + Inner_Width) * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size + Inner_Width) * AsConfig::Global_Scale, (y + Circle_Size) * AsConfig::Global_Scale);
 
 	// 2. Рисуем блик
-	SelectObject(hdc, Highlight_Pen);
-
-	Arc(hdc, (x + 1) * AsConfig::Global_Scale, (y + 1) * AsConfig::Global_Scale, (x + Circle_Size - 1) * AsConfig::Global_Scale, (y + Circle_Size - 1) * AsConfig::Global_Scale,
-		(x + 1 + 1) * AsConfig::Global_Scale, (y + 1) * AsConfig::Global_Scale, (x + 1) * AsConfig::Global_Scale, (y + 1 + 2) * AsConfig::Global_Scale);
-
+	Draw_Circle_Highlight(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale);
+	
 	// 3. Рисуем среднюю часть
 	SelectObject(hdc, Platform_Inner_Pen);
 	SelectObject(hdc, Platform_Inner_Brush);
@@ -157,16 +163,24 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 {// Рисуем выкатывающуюся платформу
 
-	int x = X_Pos;
-	int y = AsConfig::Platform_Y_Pos;
+	int x = X_Pos * AsConfig::Global_Scale;
+	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
+	int roller_size = Circle_Size * AsConfig::Global_Scale;
+
 	// 1. The ball
 	SelectObject(hdc, Platform_Circle_Pen);
 	SelectObject(hdc, Platform_Circle_Brush);
 
-	Ellipse(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size) * AsConfig::Global_Scale, (y + Circle_Size) * AsConfig::Global_Scale);
+	Ellipse(hdc, x, y , x + Circle_Size * AsConfig::Global_Scale, y + Circle_Size * AsConfig::Global_Scale);
 
 	// 2. Разделительная линия
+	SelectObject(hdc, AsConfig::BG_Pen);
+	SelectObject(hdc, AsConfig::BG_Brush);
+
+	Rectangle(hdc, x + roller_size / 2 - AsConfig::Global_Scale / 2, y, x + roller_size / 2 + AsConfig::Global_Scale / 2 +1, y + roller_size);
 
 	// 3. Блик
+	Draw_Circle_Highlight(hdc, x, y);
+
 }
 //------------------------------------------------------------------------------------------------------------
