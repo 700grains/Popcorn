@@ -20,9 +20,18 @@ void AsPlatform::Init()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act(HWND hwnd)
 {
+	if (Platform_State == EPS_Meltdown || Platform_State == EPS_Roll_In)
+		Redraw_Platform(hwnd);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Set_State(EPlatform_State new_state)
+{
 	int i, len;
 
-	if (Platform_State != EPS_Meltdown)
+	if (Platform_State == new_state)
+		return;
+
+	if (new_state == EPS_Meltdown)
 	{
 		Platform_State = EPS_Meltdown;
 
@@ -31,10 +40,9 @@ void AsPlatform::Act(HWND hwnd)
 		for (i = 0; i < len; i++)
 			Meltdown_Platform_Y_Pos[i] = Platform_Rect.bottom;
 	}
-
-	if (Platform_State == EPS_Meltdown)
-		Redraw_Platform(hwnd);
+		Platform_State = new_state;
 }
+
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Redraw_Platform(HWND hwnd)
 {
@@ -63,6 +71,10 @@ void AsPlatform::Draw(HDC hdc, RECT &paint_area)
 
 	case EPS_Meltdown:
 		Draw_Meltdown_State(hdc, paint_area);
+		break;
+
+	case EPS_Roll_In:
+		Draw_Roll_In_State(hdc, paint_area);
 		break;
 	}
 }
@@ -140,5 +152,21 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 
 		Meltdown_Platform_Y_Pos[i] += y_offset;
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
+{// Рисуем выкатывающуюся платформу
+
+	int x = X_Pos;
+	int y = AsConfig::Platform_Y_Pos;
+	// 1. The ball
+	SelectObject(hdc, Platform_Circle_Pen);
+	SelectObject(hdc, Platform_Circle_Brush);
+
+	Ellipse(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size) * AsConfig::Global_Scale, (y + Circle_Size) * AsConfig::Global_Scale);
+
+	// 2. Разделительная линия
+
+	// 3. Блик
 }
 //------------------------------------------------------------------------------------------------------------
