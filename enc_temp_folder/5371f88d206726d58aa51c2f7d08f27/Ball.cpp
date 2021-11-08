@@ -111,8 +111,8 @@ void ABall::Set_State(EBall_State new_state, int x_pos)
 	switch (new_state)
 	{
 	case	EBS_Normal:
-		Center_X_Pos = (double)x_pos;
-		Center_Y_Pos = Start_Ball_Y_Pos;
+		Ball_X_Pos = (double)x_pos - (double)AsConfig::Ball_Size / 2.0;
+		Ball_Y_Pos = Start_Ball_Y_Pos;
 		Ball_Speed = 3.0;
 		Ball_Direction = M_PI - M_PI_4;
 		Redraw_Ball();
@@ -125,8 +125,8 @@ void ABall::Set_State(EBall_State new_state, int x_pos)
 
 
 	case	EBS_On_Platform:
-		Center_X_Pos = (double)x_pos;
-		Center_Y_Pos = Start_Ball_Y_Pos;
+		Ball_X_Pos = (double)x_pos - (double)AsConfig::Ball_Size / 2.0;
+		Ball_Y_Pos = Start_Ball_Y_Pos;
 		Ball_State = EBS_Normal;
 		Ball_Speed = 0.0;
 		Ball_Direction = M_PI - M_PI_4;

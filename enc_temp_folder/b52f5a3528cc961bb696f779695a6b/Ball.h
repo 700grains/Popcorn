@@ -31,7 +31,7 @@ private:
 	double Ball_Direction;
 	double Ball_Speed;
 
-	double Center_X_Pos, Center_Y_Pos;
+	double Ball_X_Pos, Ball_Y_Pos;
 
 	RECT Ball_Rect, Prev_Ball_Rect;
 
