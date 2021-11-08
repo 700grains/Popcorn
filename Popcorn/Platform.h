@@ -7,6 +7,7 @@ enum EPlatform_State
 {
 	EPS_Missing,
 	EPS_Normal,
+	EPS_Ready,
 	EPS_Meltdown,
 	EPS_Roll_In,
 	EPS_Expand_Roll_In
