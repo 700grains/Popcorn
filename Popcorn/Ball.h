@@ -36,5 +36,6 @@ private:
 	RECT Ball_Rect, Prev_Ball_Rect;
 
 	static const double Start_Ball_Y_Pos;
+	static const double Radius;
 };
 //------------------------------------------------------------------------------------------------------------

@@ -2,9 +2,10 @@
 
 // ABall
 const double ABall::Start_Ball_Y_Pos = 181.0;
+const double ABall::Radius = 2.0;
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
-	: Ball_State (EBS_Normal), Ball_Pen(0), Ball_Brush(0), Ball_X_Pos(0), Ball_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0), Ball_Direction(0), Ball_Rect{}, Prev_Ball_Rect{}
+	: Ball_State (EBS_Normal), Ball_Pen(0), Ball_Brush(0), Center_X_Pos(0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0), Ball_Direction(0), Ball_Rect{}, Prev_Ball_Rect{}
 {
 	Set_State(EBS_Normal, 0);
 }
@@ -41,67 +42,74 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 {
 	double next_x_pos, next_y_pos;
-	int max_x_pos = AsConfig::Max_X_Pos - AsConfig::Ball_Size;
-	int max_y_pos = AsConfig::Max_Y_Pos - AsConfig::Ball_Size;
 	int platform_y_pos = AsConfig::Platform_Y_Pos - AsConfig::Ball_Size;
+	double rest_distance = Ball_Speed;
+	double step_size = 1.0 / AsConfig::Global_Scale; 
 
 	if (Ball_State != EBS_Normal)
 		return;
 
 	Prev_Ball_Rect = Ball_Rect;
 
-	next_x_pos = Ball_X_Pos + (int)(Ball_Speed * cos(Ball_Direction) );
-	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction) );
-
-	// Корректируем позицию при отражении от рамки
-	if (next_x_pos < AsConfig::Border_X_Offset)
+	while (rest_distance >= step_size)
 	{
-		next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
-		Ball_Direction = M_PI - Ball_Direction;
-	}
 
-	if (next_y_pos < AsConfig::Border_Y_Offset)
-	{
-		next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
-		Ball_Direction = -Ball_Direction;
-	}
+		next_x_pos = Center_X_Pos + step_size * cos(Ball_Direction);
+		next_y_pos = Center_Y_Pos - step_size * sin(Ball_Direction);
 
-	if (next_x_pos > max_x_pos)
-	{
-		next_x_pos = max_x_pos - (next_x_pos - max_x_pos);
-		Ball_Direction = M_PI - Ball_Direction;
-	}
-
-	if (next_y_pos > max_y_pos)
-	{
-		if (level->Has_Floor)
+		// Корректируем позицию при отражении от рамки
+		if (next_x_pos - Radius < AsConfig::Border_X_Offset)
 		{
-		next_y_pos = max_y_pos - (next_y_pos - max_y_pos);
-		Ball_Direction = -Ball_Direction;
+			next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
+			Ball_Direction = M_PI - Ball_Direction;
 		}
-		else
+
+		if (next_y_pos - Radius < AsConfig::Border_Y_Offset)
 		{
-			if (next_y_pos > (double)max_y_pos + (double)AsConfig::Ball_Size * 2.0) // Проверим позицию ниже видимой границы.
-				Ball_State = EBS_Lost;
+			next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
+			Ball_Direction = -Ball_Direction;
 		}
-	}
 
-	// Корректируем позицию при отражении от платформы
-	if (next_y_pos > platform_y_pos)
-	{
-		if (next_x_pos >= platform_x_pos && next_x_pos <= platform_x_pos + platform_width)
+		if (next_x_pos + Radius > AsConfig::Max_X_Pos)
 		{
-			next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
-			Ball_Direction = - Ball_Direction;
+			next_x_pos = AsConfig::Max_X_Pos - (next_x_pos - AsConfig::Max_X_Pos);
+			Ball_Direction = M_PI - Ball_Direction;
 		}
+
+		if (next_y_pos + Radius > AsConfig::Max_Y_Pos)
+		{
+			if (level->Has_Floor)
+			{
+				next_y_pos = AsConfig::Max_Y_Pos - (next_y_pos - AsConfig::Max_Y_Pos);
+				Ball_Direction = -Ball_Direction;
+			}
+			else
+			{
+				if (next_y_pos + Radius> (double)AsConfig::Max_Y_Pos + (double)AsConfig::Ball_Size * 2.0) // Проверим позицию ниже видимой границы.
+					Ball_State = EBS_Lost;
+			}
+		}
+
+		// Корректируем позицию при отражении от платформы
+		if (next_y_pos > platform_y_pos)
+		{
+			if (next_x_pos >= platform_x_pos && next_x_pos <= (double)(platform_x_pos + platform_width))
+			{
+				next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
+				Ball_Direction = -Ball_Direction;
+			}
+		}
+
+		// Корректируем позицию при отражении от кирпичей
+		level->Check_Level_Brick_Hit(next_y_pos, Ball_Direction);
+
+		rest_distance -= step_size;
+
+		// Смещаем шарик
+		Center_X_Pos = next_x_pos;
+		Center_Y_Pos = next_y_pos;
+
 	}
-
-	// Корректируем позицию при отражении от кирпичей
-	level->Check_Level_Brick_Hit(next_y_pos, Ball_Direction);
-
-	// Смещаем шарик
-	Ball_X_Pos = next_x_pos;
-	Ball_Y_Pos = next_y_pos;
 
 	Redraw_Ball();
 }
@@ -140,10 +148,10 @@ void ABall::Set_State(EBall_State new_state, int x_pos)
 //------------------------------------------------------------------------------------------------------------
 void ABall::Redraw_Ball()
 {
-	Ball_Rect.left = (int)(Ball_X_Pos * AsConfig::Global_Scale);
-	Ball_Rect.top = (int)(Ball_Y_Pos * AsConfig::Global_Scale);
-	Ball_Rect.right = Ball_Rect.left + AsConfig::Ball_Size * AsConfig::Global_Scale;
-	Ball_Rect.bottom = Ball_Rect.top + AsConfig::Ball_Size * AsConfig::Global_Scale;
+	Ball_Rect.left = (int)((Center_X_Pos - Radius) * AsConfig::Global_Scale);
+	Ball_Rect.top = (int)((Center_Y_Pos - Radius)* AsConfig::Global_Scale);
+	Ball_Rect.right = (int)((Center_X_Pos + Radius) * AsConfig::Global_Scale);
+	Ball_Rect.bottom = (int)((Center_Y_Pos + Radius) * AsConfig::Global_Scale);
 
 	InvalidateRect(AsConfig::Hwnd, &Prev_Ball_Rect, FALSE);
 	InvalidateRect(AsConfig::Hwnd, &Ball_Rect, FALSE);
