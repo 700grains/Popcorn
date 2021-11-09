@@ -25,6 +25,8 @@ public:
 
 private:
 	void Redraw_Ball();
+	bool Check_Border_Hit(double next_x_pos, double next_y_pos);
+
 	EBall_State Ball_State;
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;

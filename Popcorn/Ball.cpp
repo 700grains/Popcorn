@@ -58,45 +58,11 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 		next_x_pos = Center_X_Pos + step_size * cos(Ball_Direction);
 		next_y_pos = Center_Y_Pos - step_size * sin(Ball_Direction);
 
-		// Корректируем позицию при отражении от рамки
-		if (next_x_pos - Radius < AsConfig::Border_X_Offset)
-		{
-		//	next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
-			got_hit = true;
-			Ball_Direction = M_PI - Ball_Direction;
-		}
+		got_hit = Check_Border_Hit(next_x_pos, next_y_pos);
 
-		if (next_y_pos - Radius < AsConfig::Border_Y_Offset)
-		{
-			//next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
-			got_hit = true;
-			Ball_Direction = -Ball_Direction;
-		}
-
-		if (next_x_pos + Radius > AsConfig::Max_X_Pos)
-		{
-			//next_x_pos = AsConfig::Max_X_Pos - (next_x_pos - AsConfig::Max_X_Pos);
-			got_hit = true;
-			Ball_Direction = M_PI - Ball_Direction;
-		}
-
-		if (next_y_pos + Radius > AsConfig::Max_Y_Pos)
-		{
-			if (level->Has_Floor)
-			{
-				//next_y_pos = AsConfig::Max_Y_Pos - (next_y_pos - AsConfig::Max_Y_Pos);
-				got_hit = true;
-				Ball_Direction = -Ball_Direction;
-			}
-			else
-			{
-				if (next_y_pos + Radius> (double)AsConfig::Max_Y_Pos + (double)AsConfig::Ball_Size * 2.0) // Проверим позицию ниже видимой границы.
-					Ball_State = EBS_Lost;
-			}
-		}
 
 		//// Корректируем позицию при отражении от платформы
-		//if (next_y_pos > platform_y_pos)
+		//if (next_y_pos > platform_y_pos)B
 		//{
 		//	if (next_x_pos >= platform_x_pos && next_x_pos <= (double)(platform_x_pos + platform_width))
 		//	{
@@ -171,3 +137,48 @@ EBall_State ABall::Get_State()
 	return Ball_State;
 }
 //------------------------------------------------------------------------------------------------------------
+bool ABall::Check_Border_Hit(double next_x_pos, double next_y_pos)
+{
+	bool got_hit = false;
+
+	// Корректируем позицию при отражении от рамки
+	if (next_x_pos - Radius < AsConfig::Border_X_Offset)
+	{
+		//	next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
+		got_hit = true;
+		Ball_Direction = M_PI - Ball_Direction;
+	}
+
+	if (next_y_pos - Radius < AsConfig::Border_Y_Offset)
+	{
+		//next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
+		got_hit = true;
+		Ball_Direction = -Ball_Direction;
+	}
+
+	if (next_x_pos + Radius > AsConfig::Max_X_Pos)
+	{
+		//next_x_pos = AsConfig::Max_X_Pos - (next_x_pos - AsConfig::Max_X_Pos);
+		got_hit = true;
+		Ball_Direction = M_PI - Ball_Direction;
+	}
+
+	if (next_y_pos + Radius > AsConfig::Max_Y_Pos)
+	{
+		if (AsConfig::Level_Has_Floor)
+		{
+			//next_y_pos = AsConfig::Max_Y_Pos - (next_y_pos - AsConfig::Max_Y_Pos);
+			got_hit = true;
+			Ball_Direction = -Ball_Direction;
+		}
+		else
+		{
+			if (next_y_pos + Radius > (double)AsConfig::Max_Y_Pos + (double)AsConfig::Ball_Size * 2.0) // Проверим позицию ниже видимой границы.
+				Ball_State = EBS_Lost;
+		}
+	}
+
+	return got_hit;
+}
+//------------------------------------------------------------------------------------------------------------
+
