@@ -41,6 +41,7 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 //------------------------------------------------------------------------------------------------------------
 void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 {
+	bool got_hit;
 	double next_x_pos, next_y_pos;
 	int platform_y_pos = AsConfig::Platform_Y_Pos - AsConfig::Ball_Size;
 	double rest_distance = Ball_Speed;
@@ -53,26 +54,29 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 
 	while (rest_distance >= step_size)
 	{
-
+		got_hit = false;
 		next_x_pos = Center_X_Pos + step_size * cos(Ball_Direction);
 		next_y_pos = Center_Y_Pos - step_size * sin(Ball_Direction);
 
 		// Корректируем позицию при отражении от рамки
 		if (next_x_pos - Radius < AsConfig::Border_X_Offset)
 		{
-			next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
+		//	next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
+			got_hit = true;
 			Ball_Direction = M_PI - Ball_Direction;
 		}
 
 		if (next_y_pos - Radius < AsConfig::Border_Y_Offset)
 		{
-			next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
+			//next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
+			got_hit = true;
 			Ball_Direction = -Ball_Direction;
 		}
 
 		if (next_x_pos + Radius > AsConfig::Max_X_Pos)
 		{
-			next_x_pos = AsConfig::Max_X_Pos - (next_x_pos - AsConfig::Max_X_Pos);
+			//next_x_pos = AsConfig::Max_X_Pos - (next_x_pos - AsConfig::Max_X_Pos);
+			got_hit = true;
 			Ball_Direction = M_PI - Ball_Direction;
 		}
 
@@ -80,7 +84,8 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 		{
 			if (level->Has_Floor)
 			{
-				next_y_pos = AsConfig::Max_Y_Pos - (next_y_pos - AsConfig::Max_Y_Pos);
+				//next_y_pos = AsConfig::Max_Y_Pos - (next_y_pos - AsConfig::Max_Y_Pos);
+				got_hit = true;
 				Ball_Direction = -Ball_Direction;
 			}
 			else
@@ -90,25 +95,28 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 			}
 		}
 
-		// Корректируем позицию при отражении от платформы
-		if (next_y_pos > platform_y_pos)
+		//// Корректируем позицию при отражении от платформы
+		//if (next_y_pos > platform_y_pos)
+		//{
+		//	if (next_x_pos >= platform_x_pos && next_x_pos <= (double)(platform_x_pos + platform_width))
+		//	{
+		//		next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
+		//		Ball_Direction = -Ball_Direction;
+		//	}
+		//}
+
+		//// Корректируем позицию при отражении от кирпичей
+		//level->Check_Level_Brick_Hit(next_y_pos, Ball_Direction);
+
+
+		if (!got_hit)
 		{
-			if (next_x_pos >= platform_x_pos && next_x_pos <= (double)(platform_x_pos + platform_width))
-			{
-				next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
-				Ball_Direction = -Ball_Direction;
-			}
+			rest_distance -= step_size;
+
+			// шар продолжит движение, если не столкнулся с другими объектами
+			Center_X_Pos = next_x_pos;
+			Center_Y_Pos = next_y_pos;
 		}
-
-		// Корректируем позицию при отражении от кирпичей
-		level->Check_Level_Brick_Hit(next_y_pos, Ball_Direction);
-
-		rest_distance -= step_size;
-
-		// Смещаем шарик
-		Center_X_Pos = next_x_pos;
-		Center_Y_Pos = next_y_pos;
-
 	}
 
 	Redraw_Ball();
