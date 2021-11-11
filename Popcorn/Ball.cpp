@@ -5,7 +5,8 @@ const double ABall::Start_Ball_Y_Pos = 181.0;
 const double ABall::Radius = 2.0;
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
-	: Ball_State (EBS_Normal), Ball_Pen(0), Ball_Brush(0), Center_X_Pos(0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0), Ball_Direction(0), Ball_Rect{}, Prev_Ball_Rect{}
+	: Ball_State (EBS_Normal), Ball_Pen(0), Ball_Brush(0), Center_X_Pos(0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0),
+	Rest_Distance(0.0), Ball_Direction(0), Ball_Rect{}, Prev_Ball_Rect{}
 {
 	Set_State(EBS_Normal, 0);
 }
@@ -39,20 +40,20 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Move(ALevel *level, int platform_x_pos, int platform_width, AHit_checker * hit_checker)
+void ABall::Move(int platform_x_pos, int platform_width, ALevel* level, AHit_checker * hit_checker)
 {
 	bool got_hit;
 	double next_x_pos, next_y_pos;
 	int platform_y_pos = AsConfig::Platform_Y_Pos - AsConfig::Ball_Size;
-	double rest_distance = Ball_Speed;
 	double step_size = 1.0 / AsConfig::Global_Scale; 
 
 	if (Ball_State != EBS_Normal)
 		return;
 
 	Prev_Ball_Rect = Ball_Rect;
+	Rest_Distance += Ball_Speed;
 
-	while (rest_distance >= step_size)
+	while (Rest_Distance >= step_size)
 	{
 		got_hit = false;
 		next_x_pos = Center_X_Pos + step_size * cos(Ball_Direction);
@@ -77,7 +78,7 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width, AHit_che
 
 		if (!got_hit)
 		{
-			rest_distance -= step_size;
+			Rest_Distance -= step_size;
 
 			// шар продолжит движение, если не столкнулся с другими объектами
 			Center_X_Pos = next_x_pos;
@@ -96,6 +97,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos)
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = Start_Ball_Y_Pos;
 		Ball_Speed = 3.0;
+		Rest_Distance = 0.0;
 		Ball_Direction = M_PI - M_PI_4;
 		Redraw_Ball();
 		break;
@@ -111,6 +113,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos)
 		Center_Y_Pos = Start_Ball_Y_Pos;
 		Ball_State = EBS_Normal;
 		Ball_Speed = 0.0;
+		Rest_Distance = 0.0;
 		Ball_Direction = M_PI - M_PI_4;
 		Redraw_Ball();
 		break;

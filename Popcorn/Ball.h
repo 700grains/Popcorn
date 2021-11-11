@@ -26,7 +26,7 @@ public:
 	void Init();
 
 	void Draw(HDC hdc, RECT &paint_area);
-	void Move(ALevel *level, int platform_x_pos, int platform_width, AHit_checker* hit_checker);
+	void Move(int platform_x_pos, int platform_width, ALevel* level, AHit_checker* hit_checker);
 	EBall_State Get_State();
 	void Set_State(EBall_State new_state, double x_pos);
 
@@ -41,6 +41,7 @@ private:
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;
 	double Ball_Speed;
+	double Rest_Distance;
 
 	double Center_X_Pos, Center_Y_Pos;
 
