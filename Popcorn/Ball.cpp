@@ -39,7 +39,7 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
+void ABall::Move(ALevel *level, int platform_x_pos, int platform_width, AHit_checker * hit_checker)
 {
 	bool got_hit;
 	double next_x_pos, next_y_pos;
@@ -58,7 +58,7 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 		next_x_pos = Center_X_Pos + step_size * cos(Ball_Direction);
 		next_y_pos = Center_Y_Pos - step_size * sin(Ball_Direction);
 
-		got_hit = Check_Border_Hit(next_x_pos, next_y_pos);
+		got_hit = hit_checker->Check_Hit(next_x_pos, next_y_pos, this );
 
 
 		//// Корректируем позицию при отражении от платформы
@@ -88,12 +88,12 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 	Redraw_Ball();
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Set_State(EBall_State new_state, int x_pos)
+void ABall::Set_State(EBall_State new_state, double x_pos)
 {
 	switch (new_state)
 	{
 	case	EBS_Normal:
-		Center_X_Pos = (double)x_pos;
+		Center_X_Pos = x_pos;
 		Center_Y_Pos = Start_Ball_Y_Pos;
 		Ball_Speed = 3.0;
 		Ball_Direction = M_PI - M_PI_4;
@@ -107,7 +107,7 @@ void ABall::Set_State(EBall_State new_state, int x_pos)
 
 
 	case	EBS_On_Platform:
-		Center_X_Pos = (double)x_pos;
+		Center_X_Pos = x_pos;
 		Center_Y_Pos = Start_Ball_Y_Pos;
 		Ball_State = EBS_Normal;
 		Ball_Speed = 0.0;
@@ -135,50 +135,6 @@ void ABall::Redraw_Ball()
 EBall_State ABall::Get_State()
 {
 	return Ball_State;
-}
-//------------------------------------------------------------------------------------------------------------
-bool ABall::Check_Border_Hit(double next_x_pos, double next_y_pos)
-{
-	bool got_hit = false;
-
-	// Корректируем позицию при отражении от рамки
-	if (next_x_pos - Radius < AsConfig::Border_X_Offset)
-	{
-		//	next_x_pos = AsConfig::Level_X_Offset - (next_x_pos - AsConfig::Level_X_Offset);
-		got_hit = true;
-		Ball_Direction = M_PI - Ball_Direction;
-	}
-
-	if (next_y_pos - Radius < AsConfig::Border_Y_Offset)
-	{
-		//next_y_pos = AsConfig::Border_Y_Offset - (next_y_pos - AsConfig::Border_Y_Offset);
-		got_hit = true;
-		Ball_Direction = -Ball_Direction;
-	}
-
-	if (next_x_pos + Radius > AsConfig::Max_X_Pos)
-	{
-		//next_x_pos = AsConfig::Max_X_Pos - (next_x_pos - AsConfig::Max_X_Pos);
-		got_hit = true;
-		Ball_Direction = M_PI - Ball_Direction;
-	}
-
-	if (next_y_pos + Radius > AsConfig::Max_Y_Pos)
-	{
-		if (AsConfig::Level_Has_Floor)
-		{
-			//next_y_pos = AsConfig::Max_Y_Pos - (next_y_pos - AsConfig::Max_Y_Pos);
-			got_hit = true;
-			Ball_Direction = -Ball_Direction;
-		}
-		else
-		{
-			if (next_y_pos + Radius > (double)AsConfig::Max_Y_Pos + (double)AsConfig::Ball_Size * 2.0) // Проверим позицию ниже видимой границы.
-				Ball_State = EBS_Lost;
-		}
-	}
-
-	return got_hit;
 }
 //------------------------------------------------------------------------------------------------------------
 
