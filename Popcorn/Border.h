@@ -4,7 +4,7 @@
 
 
 //------------------------------------------------------------------------------------------------------------
-class AsBorder : public AHit_checker
+class AsBorder : public AHit_Checker
 {
 public:
 	AsBorder();

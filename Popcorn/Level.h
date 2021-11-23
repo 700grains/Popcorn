@@ -11,7 +11,7 @@ enum ELetter_Type
 	ELT_O
 };
 //------------------------------------------------------------------------------------------------------------
-class ALevel : public AHit_checker
+class ALevel : public AHit_Checker
 {
 public:
 	ALevel();

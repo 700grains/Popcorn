@@ -11,7 +11,7 @@ enum EBall_State
 };
 //------------------------------------------------------------------------------------------------------------
 class ABall;
-class AHit_checker
+class AHit_Checker
 {
 public:
 	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall* ball) = 0;
@@ -25,11 +25,13 @@ public:
 	void Init();
 
 	void Draw(HDC hdc, RECT &paint_area);
-	void Move(int platform_x_pos, int platform_width, AHit_checker* level_hit_checker, AHit_checker* border_hit_checker);
+	void Move(AHit_Checker* level_hit_checker, AHit_Checker* border_hit_checker, AHit_Checker* platform_hit_checker);
 	EBall_State Get_State();
 	void Set_State(EBall_State new_state, double x_pos);
 
 	double Ball_Direction;
+
+	static void Add_Hit_Checker(AHit_Checker *hit_checker);
 
 	static const double Radius;
 
@@ -47,6 +49,7 @@ private:
 	RECT Ball_Rect, Prev_Ball_Rect;
 
 	static const double Start_Ball_Y_Pos;
-
+	static int Hit_Checkers_Count;
+	static AHit_Checker* Hit_Checkers[3];
 };
 //------------------------------------------------------------------------------------------------------------

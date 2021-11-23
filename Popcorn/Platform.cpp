@@ -10,7 +10,20 @@ Rolling_Step (0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Hi
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Init()
+bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
+{
+	if (next_y_pos + ball->Radius > AsConfig::Platform_Y_Pos)
+	{
+		if (next_x_pos + ball->Radius >= X_Pos && next_x_pos - ball->Radius <= (double)(X_Pos + Width))
+		{
+			ball->Ball_Direction = M_PI + (M_PI - ball->Ball_Direction);
+			return true;
+		}
+	}
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+	void AsPlatform::Init()
 {
 	Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
 
