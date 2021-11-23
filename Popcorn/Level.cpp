@@ -29,23 +29,39 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 {// Корректируем позицию при отражении от кирпичей
 
 	int i, j;
-	double brick_y_pos = AsConfig::Level_Y_Offset + AsConfig::Level_Height * AsConfig::Cell_Height;
+	double direction = ball->Get_Direction();
+	double brick_left_x, brick_right_x;
+	double brick_top_y, brick_low_y;
 
 	for (i = AsConfig::Level_Height - 1; i >= 0; i--)
 	{
+		brick_top_y = AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height;
+		brick_low_y = brick_top_y + AsConfig::Brick_Height;
+
 		for (j = 0; j < AsConfig::Level_Width; j++)
 		{
 			if (Level_01[i][j] == 0)
 				continue;
 
-			if (next_y_pos < brick_y_pos)
-			{
-				ball->Ball_Direction = -ball->Ball_Direction;
-				return true;
-			}
-		}
+			brick_left_x = AsConfig::Level_X_Offset + j * AsConfig::Cell_Width;
+			brick_right_x = brick_left_x + AsConfig::Brick_Width;
 
-		brick_y_pos -= AsConfig::Cell_Height;
+			//Проверяем попадание в нижнюю грань
+			if (direction >= 0 && direction < M_PI)
+				if (Hit_Circle_On_Line(next_y_pos - brick_low_y, next_x_pos, brick_left_x, brick_right_x, ball->Radius))
+				{
+					ball->Set_Direction (-direction);
+					return true;
+				}
+
+			//Проверяем попадание в верхнюю грань
+			if (direction >= M_PI && direction <= 2.0 * M_PI)
+				if (Hit_Circle_On_Line(next_y_pos - brick_top_y, next_x_pos, brick_left_x, brick_right_x, ball->Radius))
+				{
+					ball->Set_Direction (-direction);
+					return true;
+				}
+		}
 	}
 	return false;
 }
@@ -77,6 +93,29 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 			Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (EBrick_Type)Level_01[i][j]);
 
 	Active_Brick.Draw(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
+bool ALevel::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius)
+{// Функция проверяет пересечение горазонтального отрезка (проходящего от left_x до right_x через y) с окружностью радиусом radius
+
+	double x;
+	double min_x, max_x;
+// x*x + y*y = R*R
+
+// x*x = R*R - y*y
+
+	if (y > radius)
+		return false;
+
+	x = sqrt(radius * radius - y * y);
+
+	max_x = next_x_pos + x;
+	min_x = next_x_pos - x;
+
+	if (max_x >= left_x && max_x <= right_x || min_x >= left_x && min_x <= right_x)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)

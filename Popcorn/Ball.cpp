@@ -48,7 +48,6 @@ void ABall::Move(AHit_Checker* level_hit_checker, AHit_Checker * border_hit_chec
 	int i;
 	bool got_hit;
 	double next_x_pos, next_y_pos;
-	int platform_y_pos = AsConfig::Platform_Y_Pos - AsConfig::Ball_Size;
 	double step_size = 1.0 / AsConfig::Global_Scale; 
 
 	if (Ball_State != EBS_Normal)
@@ -98,7 +97,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos)
 		Center_Y_Pos = Start_Ball_Y_Pos;
 		Ball_Speed = 3.0;
 		Rest_Distance = 0.0;
-		Ball_Direction = M_PI - M_PI_4;
+		Ball_Direction = M_PI_4;
 		Redraw_Ball();
 		break;
 
@@ -114,7 +113,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos)
 		Ball_State = EBS_Normal;
 		Ball_Speed = 0.0;
 		Rest_Distance = 0.0;
-		Ball_Direction = M_PI - M_PI_4;
+		Ball_Direction = M_PI_4;
 		Redraw_Ball();
 		break;
 	}
@@ -123,6 +122,25 @@ void ABall::Set_State(EBall_State new_state, double x_pos)
 
 }
 //------------------------------------------------------------------------------------------------------------
+double ABall::Get_Direction()
+{
+	return Ball_Direction;
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Set_Direction(double new_direction)
+{
+	const double pi_2 = 2.0 * M_PI;
+
+	while (new_direction > pi_2)
+		new_direction -= pi_2;
+
+	while (new_direction < 0.0)
+		new_direction += pi_2;
+
+	Ball_Direction = new_direction;
+}
+//------------------------------------------------------------------------------------------------------------
+
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)
 {
 	if (Hit_Checkers_Count >= sizeof(Hit_Checkers)/sizeof(Hit_Checkers[0]))

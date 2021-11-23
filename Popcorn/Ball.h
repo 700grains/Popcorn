@@ -28,8 +28,8 @@ public:
 	void Move(AHit_Checker* level_hit_checker, AHit_Checker* border_hit_checker, AHit_Checker* platform_hit_checker);
 	EBall_State Get_State();
 	void Set_State(EBall_State new_state, double x_pos);
-
-	double Ball_Direction;
+	double Get_Direction();
+	void Set_Direction(double new_direction);
 
 	static void Add_Hit_Checker(AHit_Checker *hit_checker);
 
@@ -43,6 +43,7 @@ private:
 	HBRUSH Ball_Brush;
 	double Ball_Speed;
 	double Rest_Distance;
+	double Ball_Direction;
 
 	double Center_X_Pos, Center_Y_Pos;
 
