@@ -140,6 +140,15 @@ void ABall::Set_Direction(double new_direction)
 	Ball_Direction = new_direction;
 }
 //------------------------------------------------------------------------------------------------------------
+void ABall::Reflect(bool from_horizontal)
+{
+	if (from_horizontal)
+		Set_Direction(-Ball_Direction);
+	else
+		Set_Direction(M_PI - Ball_Direction);
+
+}
+//------------------------------------------------------------------------------------------------------------
 
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)
 {

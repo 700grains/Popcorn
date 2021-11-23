@@ -50,7 +50,7 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 			if (direction >= 0 && direction < M_PI)
 				if (Hit_Circle_On_Line(next_y_pos - brick_low_y, next_x_pos, brick_left_x, brick_right_x, ball->Radius))
 				{
-					ball->Set_Direction (-direction);
+					ball->Reflect (true);
 					return true;
 				}
 
@@ -58,7 +58,7 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 			if (direction >= M_PI && direction <= 2.0 * M_PI)
 				if (Hit_Circle_On_Line(next_y_pos - brick_top_y, next_x_pos, brick_left_x, brick_right_x, ball->Radius))
 				{
-					ball->Set_Direction (-direction);
+					ball->Reflect (true);
 					return true;
 				}
 		}
