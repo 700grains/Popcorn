@@ -40,7 +40,7 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Move(int platform_x_pos, int platform_width, ALevel* level, AHit_checker * hit_checker)
+void ABall::Move(int platform_x_pos, int platform_width, AHit_checker* level_hit_checker, AHit_checker * border_hit_checker)
 {
 	bool got_hit;
 	double next_x_pos, next_y_pos;
@@ -59,7 +59,9 @@ void ABall::Move(int platform_x_pos, int platform_width, ALevel* level, AHit_che
 		next_x_pos = Center_X_Pos + step_size * cos(Ball_Direction);
 		next_y_pos = Center_Y_Pos - step_size * sin(Ball_Direction);
 
-		got_hit = hit_checker->Check_Hit(next_x_pos, next_y_pos, this );
+		//// Корректируем позицию при отражении:
+		got_hit |= border_hit_checker->Check_Hit(next_x_pos, next_y_pos, this ); // от рамки
+		got_hit |= level_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от кирпичей
 
 
 		//// Корректируем позицию при отражении от платформы
@@ -70,11 +72,7 @@ void ABall::Move(int platform_x_pos, int platform_width, ALevel* level, AHit_che
 		//		next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
 		//		Ball_Direction = -Ball_Direction;
 		//	}
-		//}
-
-		//// Корректируем позицию при отражении от кирпичей
-		//level->Check_Level_Brick_Hit(next_y_pos, Ball_Direction);
-
+		//
 
 		if (!got_hit)
 		{
