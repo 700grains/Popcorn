@@ -3,7 +3,7 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-:Game_State (EGS_Play_Level)
+:Game_State (EGS_Test_Ball)
 {
 
 }
@@ -98,14 +98,23 @@ int AsEngine::On_Timer()
 
 	switch (Game_State)
 	{
+	case EGS_Test_Ball:
+		Ball.Set_For_Test();
+		Game_State = EGS_Play_Level;
+		break;
+
+
 	case EGS_Play_Level:
-		Ball.Move(&Level, &Border, &Platform);
+		Ball.Move();
 
 		if (Ball.Get_State() == EBS_Lost)
 		{
 			Game_State = EGS_Lost_Ball;
 			Platform.Set_State(EPS_Meltdown);
 		}
+
+		if(Ball.Is_Test_Finished())
+			Game_State = EGS_Test_Ball;
 		break;
 
 

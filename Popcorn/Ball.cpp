@@ -9,7 +9,7 @@ AHit_Checker* ABall::Hit_Checkers[] = {};
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
 	: Ball_State (EBS_Normal), Ball_Pen(0), Ball_Brush(0), Center_X_Pos(0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0),
-	Rest_Distance(0.0), Ball_Direction(0), Ball_Rect{}, Prev_Ball_Rect{}
+	Rest_Distance(0.0), Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}
 {
 	Set_State(EBS_Normal, 0);
 }
@@ -43,7 +43,7 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Move(AHit_Checker* level_hit_checker, AHit_Checker * border_hit_checker, AHit_Checker* platform_hit_checker)
+void ABall::Move()
 {
 	int i;
 	bool got_hit;
@@ -82,10 +82,33 @@ void ABall::Move(AHit_Checker* level_hit_checker, AHit_Checker * border_hit_chec
 			// шар продолжит движение, если не столкнулся с другими объектами
 			Center_X_Pos = next_x_pos;
 			Center_Y_Pos = next_y_pos;
+
+			if (Testing_Is_Active)
+				Rest_Test_Distance -= step_size;
 		}
 	}
 
 	Redraw_Ball();
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Set_For_Test()
+{
+	Testing_Is_Active = true;
+	Rest_Test_Distance = 50.0;
+
+	Set_State(EBS_Normal, 100.0 + Test_Iteration);
+
+	++Test_Iteration;
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Test_Finished()
+{
+	if (Testing_Is_Active)
+	{
+		if (Rest_Test_Distance <= 0.0)
+			return true;
+	}
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Set_State(EBall_State new_state, double x_pos)
