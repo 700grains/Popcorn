@@ -32,6 +32,9 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 		Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
 	}
 
+	if (Ball_State == EBS_Lost)
+		return;
+
 			// 2. Рисуем шарик
 
 	if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
@@ -94,9 +97,10 @@ void ABall::Move()
 void ABall::Set_For_Test()
 {
 	Testing_Is_Active = true;
-	Rest_Test_Distance = 50.0;
+	Rest_Test_Distance = 40.0;
 
-	Set_State(EBS_Normal, 100.0 + Test_Iteration);
+	Set_State(EBS_Normal, 103 + Test_Iteration, 70);
+	Ball_Direction = M_PI + M_PI_4;
 
 	++Test_Iteration;
 }
@@ -106,18 +110,22 @@ bool ABall::Is_Test_Finished()
 	if (Testing_Is_Active)
 	{
 		if (Rest_Test_Distance <= 0.0)
+		{
+			Testing_Is_Active = false;
+			Set_State(EBS_Lost, 0);
 			return true;
+		}
 	}
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Set_State(EBall_State new_state, double x_pos)
+void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 {
 	switch (new_state)
 	{
 	case	EBS_Normal:
 		Center_X_Pos = x_pos;
-		Center_Y_Pos = Start_Ball_Y_Pos;
+		Center_Y_Pos = y_pos;
 		Ball_Speed = 3.0;
 		Rest_Distance = 0.0;
 		Ball_Direction = M_PI_4;
@@ -132,7 +140,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos)
 
 	case	EBS_On_Platform:
 		Center_X_Pos = x_pos;
-		Center_Y_Pos = Start_Ball_Y_Pos;
+		Center_Y_Pos = y_pos;
 		Ball_State = EBS_Normal;
 		Ball_Speed = 0.0;
 		Rest_Distance = 0.0;

@@ -52,6 +52,8 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	double min_ball_y, max_ball_y;
 	int min_level_x, max_level_x;
 	int min_level_y, max_level_y;
+	bool got_horizontal_hit, got_vertical_hit;
+	double horizontal_reflection_pos, vertical_reflection_pos;
 
 	if (next_y_pos > AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
 		return false;
@@ -81,22 +83,31 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 			Current_Brick_Left_X = AsConfig::Level_X_Offset + j * AsConfig::Cell_Width;
 			Current_Brick_Right_X = Current_Brick_Left_X + AsConfig::Brick_Width;
 
-			if (Is_Check_Horizontal_First(next_x_pos, next_y_pos) )
-			{
-				if (Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball))
-					return true; 
+			got_horizontal_hit = (Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball, horizontal_reflection_pos));
 
-				if (Check_Vertical_Hit(next_x_pos, next_y_pos, j, i, ball))
-					return true;
+			got_vertical_hit = (Check_Vertical_Hit(next_x_pos, next_y_pos, j, i, ball, vertical_reflection_pos));
+
+			if (got_horizontal_hit && got_vertical_hit)
+			{
+				if(vertical_reflection_pos < horizontal_reflection_pos)
+					ball->Reflect(true);
+				else
+					ball->Reflect(false);
+
+				return true;
 			}
 			else
-			{
-				if (Check_Vertical_Hit(next_x_pos, next_y_pos, j, i, ball))
+				if (got_horizontal_hit)
+				{
+					ball->Reflect(false);
 					return true;
-
-				if (Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball))
-					return true;
-			}
+				}
+				else
+					if (got_vertical_hit)
+					{
+						ball->Reflect(true);
+						return true;
+					}
 		}
 	}
 	return false;
@@ -138,57 +149,27 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 	//Active_Brick.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
-bool ALevel::Is_Check_Horizontal_First(double next_x_pos, double next_y_pos)
-{
-	double min_distance_to_horizontal, min_distance_to_vertical, another_min_distance;
-
-	min_distance_to_horizontal = fabs(next_x_pos - Current_Brick_Left_X);
-	another_min_distance = fabs(next_x_pos - Current_Brick_Right_X);
-
-	if (another_min_distance < min_distance_to_horizontal)
-		min_distance_to_horizontal = another_min_distance;
-
-
-
-	min_distance_to_vertical = fabs(next_y_pos - Current_Brick_Top_Y);
-	another_min_distance = fabs(next_y_pos - Current_Brick_Low_Y);
-
-	if (another_min_distance < min_distance_to_vertical)
-		min_distance_to_vertical = another_min_distance;
-
-	if (min_distance_to_horizontal <= min_distance_to_vertical)
-		return true;
-	else
-		return false;
-}
-//------------------------------------------------------------------------------------------------------------
-bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball)
+bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
 {
 	double direction = ball->Get_Direction();
 	//Проверяем попадание в нижнюю грань
 	if (direction >= 0.0 && direction < M_PI)
-		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius))
+		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
 		{
 			// проверка возможности отражения вниз
 			if (level_y < AsConfig::Level_Height -1 && Current_Level[level_y + 1][level_x] == 0)
-			{
-				ball->Reflect(true);
 				return true;
-			}
 			else
 				return false;
 		}
 
 	//Проверяем попадание в верхнюю грань
 	if (direction >= M_PI && direction <= 2.0 * M_PI)
-		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius))
+		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
 		{
 			// проверка возможности отражения UP
 			if (level_y > 0 && Current_Level[level_y - 1][level_x] == 0)
-			{
-				ball->Reflect(true);
 				return true;
-			}
 			else
 				return false;
 		}
@@ -196,34 +177,29 @@ bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball)
+bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
 {
 	double direction = ball->Get_Direction();
 
 	//Проверяем попадание в left грань
 	if (direction >= 0.0 && direction < M_PI_2 || direction >= M_PI + M_PI_2 && direction <= 2.0 * M_PI)
-		if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius))
+		if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
 		{
 			// проверка возможности отражения left
 			if (level_x > 0 && Current_Level[level_y][level_x-1] == 0)
-			{
-				ball->Reflect(false);
 				return true;
-			}
 			else
 				return false;
 		}
 
 	//Проверяем попадание в right грань
 	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
-		if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius))
+		if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
 		{
 			// проверка возможности отражения right
 			if (level_x < AsConfig::Level_Width -1 && Current_Level[level_y][level_x + 1] == 0)
-			{
-				ball->Reflect(false);
 				return true;
-			}
+
 			else
 				return false;
 		}
@@ -231,10 +207,9 @@ bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int leve
 
 }
 //------------------------------------------------------------------------------------------------------------
-bool ALevel::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius)
+bool ALevel::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double &x)
 {// Функция проверяет пересечение горазонтального отрезка (проходящего от left_x до right_x через y) с окружностью радиусом radius
 
-	double x;
 	double min_x, max_x;
 // x*x + y*y = R*R
 

@@ -26,7 +26,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	Level.Set_Current_Level(ALevel::Test_Level);
 
-	Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
+	//Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
 
 	
 	Platform.Set_State(EPS_Normal);
