@@ -12,26 +12,36 @@ Rolling_Step (0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Hi
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 {
+	double iiner_left_x, inner_right_x;
+	double inner_top_y, inner_low_y;
+	double reflection_pos;
+
 	if (next_y_pos + ball->Radius < AsConfig::Platform_Y_Pos)
 		return false;
 
+	inner_top_y = (double)(AsConfig::Platform_Y_Pos - 1);
+	inner_low_y = (double)(AsConfig::Platform_Y_Pos + Height - 1);
+	iiner_left_x = (double) (X_Pos + Circle_Size - 1);
+	inner_right_x = (double)(X_Pos + Width - (Circle_Size - 1));
 
-	//Проверяем отражение от центральной части платформы
-	if (ball->Is_Moving_Up)
-	{// Проверяем отражение от нижней грани
 
-	}
-	else
-	{// Проверяем отражение от верхней грани
-		if (next_x_pos + ball->Radius >= X_Pos && next_x_pos - ball->Radius <= (double)(X_Pos + Width))
+	// Проверяем отражение от центральной части платформы
+	if (ball->Is_Moving_Up())
+	{// От нижней грани
+		if (Hit_Circle_On_Line(next_y_pos - inner_low_y, next_x_pos, iiner_left_x, inner_right_x, ball->Radius, reflection_pos))
 		{
 			ball->Reflect(true);
 			return true;
 		}
 	}
-	
-
-	
+	else
+	{// От верхней грани
+		if (Hit_Circle_On_Line(next_y_pos - inner_top_y, next_x_pos, iiner_left_x, inner_right_x, ball->Radius, reflection_pos))
+		{
+			ball->Reflect(true);
+			return true;
+		}
+	}
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------

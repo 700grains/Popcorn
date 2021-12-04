@@ -152,81 +152,64 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
 {
 	double direction = ball->Get_Direction();
-	//Проверяем попадание в нижнюю грань
-	if (direction >= 0.0 && direction < M_PI)
+	if (ball->Is_Moving_Up())
+	{//Проверяем попадание в нижнюю грань
+
 		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
-		{
-			// проверка возможности отражения вниз
-			if (level_y < AsConfig::Level_Height -1 && Current_Level[level_y + 1][level_x] == 0)
+		{// проверка возможности отражения вниз
+
+			if (level_y < AsConfig::Level_Height - 1 && Current_Level[level_y + 1][level_x] == 0)
 				return true;
 			else
 				return false;
 		}
+	}
+	else
+	{//Проверяем попадание в верхнюю грань
+			if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
+			{// проверка возможности отражения UP
 
-	//Проверяем попадание в верхнюю грань
-	if (direction >= M_PI && direction <= 2.0 * M_PI)
-		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
-		{
-			// проверка возможности отражения UP
-			if (level_y > 0 && Current_Level[level_y - 1][level_x] == 0)
-				return true;
-			else
-				return false;
-		}
-
+				if (level_y > 0 && Current_Level[level_y - 1][level_x] == 0)
+					return true;
+				else
+					return false;
+			}
+	}
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
+bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double& reflection_pos)
 {
 	double direction = ball->Get_Direction();
 
-	//Проверяем попадание в left грань
-	if (direction >= 0.0 && direction < M_PI_2 || direction >= M_PI + M_PI_2 && direction <= 2.0 * M_PI)
+
+	if (!ball->Is_Moving_Left())
+	{//Проверяем попадание в left грань
+
 		if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
-		{
-			// проверка возможности отражения left
-			if (level_x > 0 && Current_Level[level_y][level_x-1] == 0)
+		{// проверка возможности отражения left
+
+			if (level_x > 0 && Current_Level[level_y][level_x - 1] == 0)
 				return true;
 			else
 				return false;
 		}
+	}
+	else
+	{//Проверяем попадание в right грань
 
-	//Проверяем попадание в right грань
-	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
-		if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
-		{
-			// проверка возможности отражения right
-			if (level_x < AsConfig::Level_Width -1 && Current_Level[level_y][level_x + 1] == 0)
-				return true;
+			if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
+			{
+				// проверка возможности отражения right
+				if (level_x < AsConfig::Level_Width - 1 && Current_Level[level_y][level_x + 1] == 0)
+					return true;
 
-			else
-				return false;
-		}
+				else
+					return false;
+			}
+	}
 	return false;
 
-}
-//------------------------------------------------------------------------------------------------------------
-bool ALevel::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double &x)
-{// Функция проверяет пересечение горазонтального отрезка (проходящего от left_x до right_x через y) с окружностью радиусом radius
-
-	double min_x, max_x;
-// x*x + y*y = R*R
-
-// x*x = R*R - y*y
-
-	if (y > radius)
-		return false;
-
-	x = sqrt(radius * radius - y * y);
-
-	max_x = next_x_pos + x;
-	min_x = next_x_pos - x;
-
-	if (max_x >= left_x && max_x <= right_x || min_x >= left_x && min_x <= right_x)
-		return true;
-	else
-		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
