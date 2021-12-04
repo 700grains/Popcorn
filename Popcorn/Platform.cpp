@@ -12,14 +12,26 @@ Rolling_Step (0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Hi
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 {
-	if (next_y_pos + ball->Radius > AsConfig::Platform_Y_Pos)
-	{
+	if (next_y_pos + ball->Radius < AsConfig::Platform_Y_Pos)
+		return false;
+
+
+	//Проверяем отражение от центральной части платформы
+	if (ball->Is_Moving_Up)
+	{// Проверяем отражение от нижней грани
+
+	}
+	else
+	{// Проверяем отражение от верхней грани
 		if (next_x_pos + ball->Radius >= X_Pos && next_x_pos - ball->Radius <= (double)(X_Pos + Width))
 		{
 			ball->Reflect(true);
 			return true;
 		}
 	}
+	
+
+	
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
