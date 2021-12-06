@@ -130,6 +130,7 @@ void ALevel::Init()
 	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 
 	memset(Current_Level, 0, sizeof(Current_Level));
+	memset(Active_Bricks, 0, sizeof(Active_Bricks));
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Level_Width])
@@ -141,7 +142,17 @@ void ALevel::Act()
 {
 	int i;
 	for (i = 0; i < Active_Bricks_Count; i++)
-		Active_Bricks[i]->Act();
+	{
+		if (Active_Bricks[i] != 0)
+		{
+			Active_Bricks[i]->Act();
+			if (Active_Bricks[i]->Is_Finished())
+			{
+				delete Active_Bricks[i];
+				Active_Bricks[i] = 0;
+			}
+		}
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Draw(HDC hdc, RECT &paint_area)
@@ -158,15 +169,19 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 			Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (EBrick_Type)Current_Level[i][j]);
 	
 	for (i = 0; i < Active_Bricks_Count; ++i)
-		Active_Bricks[i]->Draw(hdc, paint_area);
+	{
+		if (Active_Bricks[i] != 0)
+			Active_Bricks[i]->Draw(hdc, paint_area);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Add_Active_Brick(int brick_x, int brick_y)
 {
+	int i;
 	EBrick_Type brick_type;
 	AActive_Brick* active_brick;
 
-	if (Active_Bricks_Count >= sizeof(Active_Bricks) / sizeof(Active_Bricks[0]))
+	if (Active_Bricks_Count >= AsConfig::Max_Active_Bricks_Count)
 		return; // Активных кирпичей слишком много!
 
 	brick_type = (EBrick_Type)Current_Level[brick_y][brick_x];
@@ -186,10 +201,15 @@ void ALevel::Add_Active_Brick(int brick_x, int brick_y)
 	}
 
 
-
-	Active_Bricks[Active_Bricks_Count++] = active_brick;
-	
-
+	for (i = 0; i < AsConfig::Max_Active_Bricks_Count; ++i)
+	{
+		if (Active_Bricks[i] == 0)
+		{
+			Active_Bricks[i] = active_brick;
+			++Active_Bricks_Count;
+			break;
+		}
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)

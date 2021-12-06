@@ -48,6 +48,14 @@ void AActive_Brick::Draw(HDC hdc, RECT &paint_area)
 	RoundRect(hdc, Brick_Rect.left, Brick_Rect.top, Brick_Rect.right, Brick_Rect.bottom, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
+bool AActive_Brick::Is_Finished()
+{
+	if (Fade_Step >= Max_Fade_Step - 1)
+		return true;
+	else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
 void AActive_Brick::Setup_Colors()
 {
 	int i;
