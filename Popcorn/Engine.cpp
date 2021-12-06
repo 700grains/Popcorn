@@ -140,7 +140,7 @@ int AsEngine::On_Timer()
 
 	Platform.Act();
 
-	//Level.Active_Brick.Act();
+	Level.Act();
 
 	//if (AsConfig::Current_Timer_Tick % 3 == 0)
 
