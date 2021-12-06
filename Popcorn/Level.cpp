@@ -156,8 +156,9 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 	for (i = 0; i < AsConfig::Level_Height; i++)
 		for (j = 0; j < AsConfig::Level_Width; j++)
 			Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (EBrick_Type)Current_Level[i][j]);
-
-
+	
+	for (i = 0; i < Active_Bricks_Count; ++i)
+		Active_Bricks[i]->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Add_Active_Brick(int brick_x, int brick_y)
