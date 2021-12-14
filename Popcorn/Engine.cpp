@@ -32,7 +32,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	ABall::Add_Hit_Checker(&Level);
 	ABall::Add_Hit_Checker(&Platform);
 
-	Level.Set_Current_Level(ALevel::Level_01);
+	Level.Set_Current_Level(AsLevel::Level_01);
 
 	Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
 
@@ -126,14 +126,31 @@ int AsEngine::On_Timer()
 		}
 		break;
 	}
-
-
-	Platform.Act();
-
-	Level.Act();
-
-	//if (AsConfig::Current_Timer_Tick % 3 == 0)
+	
+	Act();
 
 	return 0;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Act()
+{
+	int index = 0;
+	AFalling_Letter* falling_letter;
+
+	Platform.Act();
+	Level.Act();
+
+	while (Level.Get_Next_Falling_Letter(index, &falling_letter) )
+	{
+		if (Platform.Hit_By(falling_letter) )
+		{
+			On_Falling_Letter(falling_letter);
+		}
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
+{
+	falling_letter->Finalize();
 }
 //------------------------------------------------------------------------------------------------------------
