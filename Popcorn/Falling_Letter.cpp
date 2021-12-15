@@ -47,10 +47,9 @@ void AFalling_Letter::Draw(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 	// Очищаем фон
-	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Letter_Cell))
+	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Letter_Cell) )
 	{
-		SelectObject(hdc, AsConfig::BG_Pen);
-		SelectObject(hdc, AsConfig::BG_Brush);
+		AsConfig::BG_Color.Select(hdc);
 
 		Rectangle(hdc, Prev_Letter_Cell.left, Prev_Letter_Cell.top, Prev_Letter_Cell.right, Prev_Letter_Cell.bottom);
 	}
@@ -61,7 +60,7 @@ void AFalling_Letter::Draw(HDC hdc, RECT& paint_area)
 		return;
 	}
 
-	if (IntersectRect(&intersection_rect, &paint_area, &Letter_Cell))
+	if (IntersectRect(&intersection_rect, &paint_area, &Letter_Cell) )
 		Draw_Brick_Letter(hdc);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -130,23 +129,17 @@ ELetter_Type AFalling_Letter::Get_Random_Letter_Type()
 	return ELT_O; 
 }
 //------------------------------------------------------------------------------------------------------------
-void AFalling_Letter::Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush)
+void AFalling_Letter::Set_Brick_Letter_Colors(bool is_switch_color, const AColor** front_color, const AColor** back_color)
 {
 	if (is_switch_color)
 	{
-		front_pen = AsConfig::Brick_Red_Pen;
-		front_brush = AsConfig::Brick_Red_Brush;
-
-		back_pen = AsConfig::Brick_Blue_Pen;
-		back_brush = AsConfig::Brick_Blue_Brush;
+		*front_color = &AsConfig::Red_Color;
+		*back_color = &AsConfig::Blue_Color;
 	}
 	else
 	{
-		front_pen = AsConfig::Brick_Blue_Pen;
-		front_brush = AsConfig::Brick_Blue_Brush;
-
-		back_pen = AsConfig::Brick_Red_Pen;
-		back_brush = AsConfig::Brick_Red_Brush;
+		*front_color = &AsConfig::Blue_Color;
+		*back_color = &AsConfig::Red_Color;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -158,11 +151,10 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 	double rotation_angle;  // Преобразование шага в угол поворота
 	double y_ratio;
 	int back_part_offset;
-	HPEN front_pen, back_pen;
-	HBRUSH front_brush, back_brush;
+	const AColor* front_color, * back_color;
 	XFORM xform, old_xform;
 
-	if (!(Brick_Type == EBT_Blue || Brick_Type == EBT_Red))
+	if (!(Brick_Type == EBT_Blue || Brick_Type == EBT_Red) )
 		return;  // Падающие буквы могут быть только от кирпичей такого типа
 
 	// Корректируем шаг вращения и угол поворота
@@ -188,20 +180,18 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 			switch_color = false;
 	}
 
-	Set_Brick_Letter_Colors(switch_color, front_pen, front_brush, back_pen, back_brush);
+	Set_Brick_Letter_Colors(switch_color, &front_color, &back_color);
 
 
 	if (Rotation_Step == 4 || Rotation_Step == 12)
 	{
 		// Выводим фон
-		SelectObject(hdc, back_pen);
-		SelectObject(hdc, back_brush);
+		back_color->Select(hdc); 
 
 		Rectangle(hdc, X, Y + Brick_Half_Height - AsConfig::Global_Scale, X + AsConfig::Brick_Width * AsConfig::Global_Scale, Y + Brick_Half_Height);
 
 		// Выводим передний план
-		SelectObject(hdc, front_pen);
-		SelectObject(hdc, front_brush);
+		front_color->Select(hdc);
 
 		Rectangle(hdc, X, Y + Brick_Half_Height, X + AsConfig::Brick_Width * AsConfig::Global_Scale, Y + Brick_Half_Height + AsConfig::Global_Scale - 1);
 	}
@@ -220,10 +210,9 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 		SetWorldTransform(hdc, &xform);
 
 		// Выводим фон
-		SelectObject(hdc, back_pen);
-		SelectObject(hdc, back_brush);
+		back_color->Select(hdc);
 
-		offset = 3.0 * (1.0 - fabs(xform.eM22)) * (double)AsConfig::Global_Scale;
+		offset = 3.0 * (1.0 - fabs(xform.eM22) ) * (double)AsConfig::Global_Scale;
 		back_part_offset = (int)round(offset);
 
 		if (y_ratio < 0.0)
@@ -232,14 +221,13 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 		Rectangle(hdc, 0, -Brick_Half_Height - back_part_offset, AsConfig::Brick_Width * AsConfig::Global_Scale - 1, Brick_Half_Height - back_part_offset);
 
 		// Выводим передний план
-		SelectObject(hdc, front_pen);
-		SelectObject(hdc, front_brush);
+		front_color->Select(hdc);
 
 		Rectangle(hdc, 0, -Brick_Half_Height, AsConfig::Brick_Width * AsConfig::Global_Scale - 1, Brick_Half_Height);
 
 		if (Rotation_Step > 4 && Rotation_Step <= 12)
 		{
-			SelectObject(hdc, AsConfig::Letter_Pen);
+			SelectObject(hdc, AsConfig::White_Color.Pen);
 
 			switch (Letter_Type)
 			{

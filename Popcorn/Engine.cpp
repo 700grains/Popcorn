@@ -24,9 +24,6 @@ void AsEngine::Init_Engine(HWND hwnd)
 	AActive_Brick_Red_Blue::Setup_Colors();
 
 	Level.Init();
-	Platform.Init();
-	Ball.Init();
-	Border.Init();
 
 	AFalling_Letter::init();
 
@@ -104,7 +101,7 @@ int AsEngine::On_Timer()
 			Platform.Set_State(EPS_Meltdown);
 		}
 
-		if(Ball.Is_Test_Finished())
+		if(Ball.Is_Test_Finished() )
 			Game_State = EGS_Test_Ball;
 		break;
 

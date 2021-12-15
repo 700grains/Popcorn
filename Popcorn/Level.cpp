@@ -84,9 +84,9 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 			Current_Brick_Left_X = AsConfig::Level_X_Offset + j * AsConfig::Cell_Width;
 			Current_Brick_Right_X = Current_Brick_Left_X + AsConfig::Brick_Width;
 
-			got_horizontal_hit = (Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball, horizontal_reflection_pos));
+			got_horizontal_hit = (Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball, horizontal_reflection_pos) );
 
-			got_vertical_hit = (Check_Vertical_Hit(next_x_pos, next_y_pos, j, i, ball, vertical_reflection_pos));
+			got_vertical_hit = (Check_Vertical_Hit(next_x_pos, next_y_pos, j, i, ball, vertical_reflection_pos) );
 
 			if (got_horizontal_hit && got_vertical_hit)
 			{
@@ -124,14 +124,14 @@ void AsLevel::Init()
 	Level_Rect.right = Level_Rect.left + AsConfig::Cell_Width * AsConfig::Level_Width * AsConfig::Global_Scale;
 	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 
-	memset(Current_Level, 0, sizeof(Current_Level));
-	memset(Active_Bricks, 0, sizeof(Active_Bricks));
-	memset(Falling_Letters, 0, sizeof(Falling_Letters));
+	memset(Current_Level, 0, sizeof(Current_Level) );
+	memset(Active_Bricks, 0, sizeof(Active_Bricks) );
+	memset(Falling_Letters, 0, sizeof(Falling_Letters) );
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Level_Width])
 {
-	memcpy(Current_Level, level, sizeof(Current_Level));
+	memcpy(Current_Level, level, sizeof(Current_Level) );
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Act()
@@ -150,7 +150,7 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
 	//AFalling_Letter falling_letter(EBT_Blue, ELT_P, 8 * AsConfig::Global_Scale, 150 * AsConfig::Global_Scale);
 	//falling_letter.Test_Draw_All_Steps(hdc);
 
-	if (IntersectRect(&intersection_rect, &paint_area, &Level_Rect))
+	if (IntersectRect(&intersection_rect, &paint_area, &Level_Rect) )
 	{
 		for (i = 0; i < AsConfig::Level_Height; i++)
 			for (j = 0; j < AsConfig::Level_Width; j++)
@@ -160,7 +160,7 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
 				brick_rect.right = brick_rect.left + AsConfig::Brick_Width * AsConfig::Global_Scale;
 				brick_rect.bottom = brick_rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 
-				if (IntersectRect(&intersection_rect, &paint_area, &brick_rect));
+				if (IntersectRect(&intersection_rect, &paint_area, &brick_rect) );
 					Draw_Brick(hdc, brick_rect, (EBrick_Type)Current_Level[i][j]);
 			}
 
@@ -200,7 +200,7 @@ void AsLevel::On_Hit(int brick_x, int brick_y)
 	EBrick_Type brick_type;
 	brick_type = (EBrick_Type)Current_Level[brick_y][brick_x];
 
-	if (Add_Falling_Letter(brick_x, brick_y, brick_type))
+	if (Add_Falling_Letter(brick_x, brick_y, brick_type) )
 		Current_Level[brick_y][brick_x] = EBT_None;
 	else
 	{
@@ -216,7 +216,7 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 	ELetter_Type letter_type;
 	AFalling_Letter* falling_letter;
 
-	if (!(brick_type == EBT_Red || brick_type == EBT_Blue))
+	if (!(brick_type == EBT_Red || brick_type == EBT_Blue) )
 		return false;
 
 	if (AsConfig::Rand(AsConfig::Hits_Per_Letter) != 0)
@@ -287,10 +287,10 @@ void AsLevel::Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type)
 bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
 {
 	double direction = ball->Get_Direction();
-	if (ball->Is_Moving_Up())
+	if (ball->Is_Moving_Up() )
 	{//Проверяем попадание в нижнюю грань
 
-		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
+		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos) )
 		{// проверка возможности отражения вниз
 
 			if (level_y < AsConfig::Level_Height - 1 && Current_Level[level_y + 1][level_x] == 0)
@@ -301,7 +301,7 @@ bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level
 	}
 	else
 	{//Проверяем попадание в верхнюю грань
-			if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
+			if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos) )
 			{// проверка возможности отражения UP
 
 				if (level_y > 0 && Current_Level[level_y - 1][level_x] == 0)
@@ -318,10 +318,10 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 	double direction = ball->Get_Direction();
 
 
-	if (!ball->Is_Moving_Left())
+	if (!ball->Is_Moving_Left() )
 	{//Проверяем попадание в left грань
 
-		if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
+		if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos) )
 		{// проверка возможности отражения left
 
 			if (level_x > 0 && Current_Level[level_y][level_x - 1] == 0)
@@ -333,7 +333,7 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 	else
 	{//Проверяем попадание в right грань
 
-			if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
+			if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos) )
 			{
 				// проверка возможности отражения right
 				if (level_x < AsConfig::Level_Width - 1 && Current_Level[level_y][level_x + 1] == 0)
@@ -350,37 +350,33 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 void AsLevel::Draw_Brick(HDC hdc, RECT& brick_rect, EBrick_Type brick_type)
 {// Вывод "кирпича"
 
-	HPEN pen;
-	HBRUSH brush;
+
+	const AColor* color = 0;
 
 	switch (brick_type)
 	{
 	case EBT_None:
-		pen = AsConfig::BG_Pen;
-		brush = AsConfig::BG_Brush;
-		return;
+		color = &AsConfig::BG_Color;
+		break;
 
 	case EBT_Red:
-		pen = AsConfig::Brick_Red_Pen;
-		brush = AsConfig::Brick_Red_Brush;
+		color = &AsConfig::Red_Color;
 		break;
 
 	case EBT_Blue:
-		pen = AsConfig::Brick_Blue_Pen;
-		brush = AsConfig::Brick_Blue_Brush;
+		color = &AsConfig::Blue_Color;
 		break;
 
 	case EBT_Unbreakable:
-		pen = AsConfig::Brick_White_Pen;
-		brush = AsConfig::Brick_White_Brush;
+		color = &AsConfig::White_Color;
 		break;
 
 	default:
 		throw 13;
 	}
 
-	SelectObject(hdc, pen);
-	SelectObject(hdc, brush);
+	if (color != 0)
+		color->Select(hdc);
 
 	RoundRect(hdc, brick_rect.left, brick_rect.top, brick_rect.right - 1, brick_rect.bottom - 1, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
 }
@@ -404,7 +400,7 @@ void AsLevel::Act_Objects(AGraphics_Object** objects_array, int object_max_count
 		if (objects_array[i] != 0)
 		{
 			objects_array[i]->Act();
-			if (objects_array[i]->Is_Finished())
+			if (objects_array[i]->Is_Finished() )
 			{
 				delete objects_array[i];
 				objects_array[i] = 0;
