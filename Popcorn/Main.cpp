@@ -69,7 +69,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hInstance = hInstance;
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_POPCORN) );
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground = AsConfig::BG_Color.Brush;
+	wcex.hbrBackground = AsConfig::BG_Color.Get_Brush();
 	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_POPCORN);
 	wcex.lpszClassName = szWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL) );
@@ -222,8 +222,8 @@ V 1.2. При попадании в кирпич он исчезает из ур
 V 1.2.1. Без буквы - создаётся активный кирпич
 V 1.2.2. С буквой - создаётся падающая буква
 
-2. Неразрушаемый кирпич
-2.1. Анимация при попадании
+V 2. Неразрушаемый кирпич
+V 2.1. Анимация при попадании
 
 3. Многоразовый кирпич
 3.1. 4 состояния кирпича (1-4 удара до разрушения)
