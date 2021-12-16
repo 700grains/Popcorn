@@ -20,8 +20,8 @@ public:
 	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
 	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
 
-private:
-	void On_Hit(int brick_x, int brick_y);
+private: 
+	void On_Hit(int brick_x, int brick_y, ABall* ball);
 	void Redraw_Brick(int brick_x, int brick_y);
 	bool Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type);
 	void Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type);

@@ -96,21 +96,21 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 				else
 					ball->Reflect(false);
 
-				On_Hit(j, i);
+				On_Hit(j, i, ball);
 				return true;
 			}
 			else
 				if (got_horizontal_hit)
 				{
 					ball->Reflect(false);
-					On_Hit(j, i);
+					On_Hit(j, i, ball);
 					return true;
 				}
 				else
 					if (got_vertical_hit)
 					{
 						ball->Reflect(true);
-						On_Hit(j, i);
+						On_Hit(j, i, ball);
 						return true;
 					}
 		}
@@ -196,12 +196,18 @@ bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_lett
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsLevel::On_Hit(int brick_x, int brick_y)
+void AsLevel::On_Hit(int brick_x, int brick_y, ABall* ball)
 {
 	EBrick_Type brick_type;
 	brick_type = (EBrick_Type)Current_Level[brick_y][brick_x];
 
-	if (Add_Falling_Letter(brick_x, brick_y, brick_type) )
+	if (brick_type == EBT_Parachute)
+	{
+		ball->Set_On_Parachute(brick_x, brick_y);
+		Current_Level[brick_y][brick_x] = EBT_None;
+	}
+	else
+		if (Add_Falling_Letter(brick_x, brick_y, brick_type) )
 		Current_Level[brick_y][brick_x] = EBT_None;
 	else
 	{
@@ -291,9 +297,6 @@ void AsLevel::Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type)
 	case EBT_Multihit_3:
 	case EBT_Multihit_4:
 		Current_Level[brick_y][brick_x] = brick_type - 1;
-		break;
-
-	case EBT_Parachute:
 		break;
 
 	default:
