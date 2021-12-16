@@ -114,9 +114,9 @@ void ABall::Move()
 void ABall::Set_For_Test()
 {
 	Testing_Is_Active = true;
-	Rest_Test_Distance = 30.0;
+	Rest_Test_Distance = 150.0;
 
-	Set_State(EBS_Normal, 100 + Test_Iteration, 195);
+	Set_State(EBS_Normal, 100 + Test_Iteration, 100);
 	Ball_Direction = M_PI_4;
 
 	++Test_Iteration;
