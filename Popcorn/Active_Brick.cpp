@@ -146,8 +146,6 @@ void AActive_Brick_Red_Blue::Get_Fading_Color(const AColor& origin_color, int st
 
 
 // AActive_Brick_Unbreakable
-AColor AActive_Brick_Unbreakable::Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
-AColor AActive_Brick_Unbreakable::Red_Highlight(AsConfig::Red_Color, 3 * AsConfig::Global_Scale);
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Unbreakable::~AActive_Brick_Unbreakable()
 {
@@ -181,11 +179,11 @@ void AActive_Brick_Unbreakable::Draw(HDC hdc, RECT& paint_area)
 
 	offset = 2 * Animation_Step * scale - AsConfig::Brick_Width * scale;
 
-	Blue_Highlight.Select_Pen(hdc);
+	AsConfig::Unbreakable_Blue_Highlight.Select_Pen(hdc);
 	MoveToEx(hdc, Brick_Rect.left + 4 * scale + offset, Brick_Rect.bottom + scale, 0);
 	LineTo(hdc, Brick_Rect.left + 13 * scale + offset - 1, Brick_Rect.top - 1 * scale);
 
-	Red_Highlight.Select_Pen(hdc);
+	AsConfig::Unbreakable_Red_Highlight.Select_Pen(hdc);
 	MoveToEx(hdc, Brick_Rect.left + 6 * scale + offset, Brick_Rect.bottom + scale, 0);
 	LineTo(hdc, Brick_Rect.left + 15 * scale + offset - 1, Brick_Rect.top - 1 * scale);
 
@@ -266,8 +264,8 @@ void AActive_Brick_Multihit::Draw(HDC hdc, RECT& paint_area)
 	zero_rect.top = 0 + 1 * scale;
 	zero_rect.right = zero_rect.left + 3 * scale + 1;
 	zero_rect.bottom = zero_rect.top + 5 * scale;
-	AsConfig::Round_Rect(hdc, zero_rect); 
-	
+	AsConfig::Round_Rect(hdc, zero_rect);
+
 	zero_rect.left += 5 * scale;
 	zero_rect.right += 5 * scale;
 	AsConfig::Round_Rect(hdc, zero_rect);
@@ -280,7 +278,7 @@ bool AActive_Brick_Multihit::Is_Finished()
 	if (Rotation_Step >= Max_Rotation_Step)
 		return true;
 	else
-	return false;
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Multihit::Draw_In_Level(HDC hdc, RECT& brick_rect, EBrick_Type brick_type)
@@ -340,5 +338,55 @@ void AActive_Brick_Multihit::Draw_Stage(HDC hdc, RECT& brick_rect, int x, int wi
 	AsConfig::Blue_Color.Select(hdc);
 	Rectangle(hdc, stage_rect.left, stage_rect.top, stage_rect.right - 1, stage_rect.bottom - 1);
 
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
+// AActive_Brick_Teleport
+//------------------------------------------------------------------------------------------------------------
+AActive_Brick_Teleport::~AActive_Brick_Teleport()
+{
+}
+//------------------------------------------------------------------------------------------------------------
+AActive_Brick_Teleport::AActive_Brick_Teleport(int level_x, int level_y)
+	: AActive_Brick(EBT_Teleport, level_x, level_y)//, Rotation_Step(0)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+void AActive_Brick_Teleport::Act()
+{
+	//if (Rotation_Step <= Max_Rotation_Step)
+	//{
+	//	++Rotation_Step;
+		InvalidateRect(AsConfig::Hwnd, &Brick_Rect, FALSE);
+	//}
+}
+//------------------------------------------------------------------------------------------------------------
+void AActive_Brick_Teleport::Draw(HDC hdc, RECT& paint_area)
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
+bool AActive_Brick_Teleport::Is_Finished()
+{
+	//if (Rotation_Step >= Max_Rotation_Step)
+	//	return true;
+	//else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void AActive_Brick_Teleport::Draw_In_Level(HDC hdc, RECT& brick_rect)
+{// Вывод мультихитового кирпича на уровне
+	const int scale = AsConfig::Global_Scale;
+
+	// Background
+	AsConfig::Red_Color.Select(hdc);
+	AsConfig::Round_Rect(hdc, brick_rect);
+
+	//Portal
+	AsConfig::Teleport_Portal_Color.Select(hdc);
+	Ellipse(hdc, brick_rect.left + 3 * scale + 1, brick_rect.top + 1, brick_rect.left + 11 * scale + 1, brick_rect.top + 6 * scale + 1);
 }
 //------------------------------------------------------------------------------------------------------------
