@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Falling_Letter.h"
-#include "Ball.h"
 
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker

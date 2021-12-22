@@ -350,36 +350,42 @@ AActive_Brick_Teleport::~AActive_Brick_Teleport()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-AActive_Brick_Teleport::AActive_Brick_Teleport(int level_x, int level_y)
-	: AActive_Brick(EBT_Teleport, level_x, level_y)//, Rotation_Step(0)
+AActive_Brick_Teleport::AActive_Brick_Teleport(int level_x, int level_y, ABall* ball)
+	: AActive_Brick(EBT_Teleport, level_x, level_y), Animation_Step(0), Ball(ball)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Teleport::Act()
 {
-	//if (Rotation_Step <= Max_Rotation_Step)
-	//{
-	//	++Rotation_Step;
+	//if (AsConfig::Current_Timer_Tick % 10 != 0)
+	//	return;
+
+	if (Animation_Step <= Max_Animation_Step)
+	{
+		++Animation_Step;
 		InvalidateRect(AsConfig::Hwnd, &Brick_Rect, FALSE);
-	//}
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Teleport::Draw(HDC hdc, RECT& paint_area)
 {
-
+	Draw_In_Level(hdc, Brick_Rect, Animation_Step);
+	Ball->Draw_Teleporting(hdc, Animation_Step);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AActive_Brick_Teleport::Is_Finished()
 {
-	//if (Rotation_Step >= Max_Rotation_Step)
-	//	return true;
-	//else
+	if (Animation_Step >= Max_Animation_Step)
+		return true;
+	else
 		return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AActive_Brick_Teleport::Draw_In_Level(HDC hdc, RECT& brick_rect)
+void AActive_Brick_Teleport::Draw_In_Level(HDC hdc, RECT& brick_rect, int step)
 {// Вывод мультихитового кирпича на уровне
 	const int scale = AsConfig::Global_Scale;
+	int top_y = brick_rect.top + step / 2 + 1;
+	int low_y = brick_rect.top + 6 * scale - step / 2 + 1;
 
 	// Background
 	AsConfig::Red_Color.Select(hdc);
@@ -387,6 +393,6 @@ void AActive_Brick_Teleport::Draw_In_Level(HDC hdc, RECT& brick_rect)
 
 	//Portal
 	AsConfig::Teleport_Portal_Color.Select(hdc);
-	Ellipse(hdc, brick_rect.left + 3 * scale + 1, brick_rect.top + 1, brick_rect.left + 11 * scale + 1, brick_rect.top + 6 * scale + 1);
+	Ellipse(hdc, brick_rect.left + 3 * scale + 1, top_y, brick_rect.left + 11 * scale + 1, low_y);
 }
 //------------------------------------------------------------------------------------------------------------

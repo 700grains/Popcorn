@@ -302,13 +302,13 @@ void AsLevel::Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type,
 		break;
 
 	case EBT_Teleport:
-		active_brick = new AActive_Brick_Teleport(brick_x, brick_y);
-
 		// Ставим мячик в центр кирпича
 		ball_x = (double)(AsConfig::Level_X_Offset + brick_x * AsConfig::Cell_Width) + (double)AsConfig::Brick_Width / 2.0;
 		ball_y = (double)(AsConfig::Level_Y_Offset + brick_y * AsConfig::Cell_Height) + (double)AsConfig::Brick_Height / 2.0;
 
 		ball->Set_State(EBS_Teleporting, ball_x, ball_y);
+
+		active_brick = new AActive_Brick_Teleport(brick_x, brick_y, ball);
 		break;
 
 	default:
