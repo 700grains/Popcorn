@@ -208,7 +208,7 @@ void AsLevel::On_Hit(int brick_x, int brick_y, ABall* ball)
 		Current_Level[brick_y][brick_x] = EBT_None;
 	else
 	{
-			Add_Active_Brick(brick_x, brick_y, brick_type);
+			Add_Active_Brick(brick_x, brick_y, brick_type, ball);
 	}
 	Redraw_Brick(brick_x, brick_y);
 }
@@ -262,9 +262,10 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsLevel::Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type)
+void AsLevel::Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type, ABall* ball)
 {// Создаем активный кирпич, если это возможно
 	int i;
+	double ball_x, ball_y;
 	AActive_Brick* active_brick = 0;
 
 	if (Active_Bricks_Count >= AsConfig::Max_Active_Bricks_Count)
@@ -294,6 +295,20 @@ void AsLevel::Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type)
 	case EBT_Multihit_3:
 	case EBT_Multihit_4:
 		Current_Level[brick_y][brick_x] = brick_type - 1;
+		break;
+
+	case EBT_Parachute:
+		AsConfig::Throw(); // Для парашюта активный кирпич не создается
+		break;
+
+	case EBT_Teleport:
+		active_brick = new AActive_Brick_Teleport(brick_x, brick_y);
+
+		// Ставим мячик в центр кирпича
+		ball_x = (double)(AsConfig::Level_X_Offset + brick_x * AsConfig::Cell_Width) + (double)AsConfig::Brick_Width / 2.0;
+		ball_y = (double)(AsConfig::Level_Y_Offset + brick_y * AsConfig::Cell_Height) + (double)AsConfig::Brick_Height / 2.0;
+
+		ball->Set_State(EBS_Teleporting, ball_x, ball_y);
 		break;
 
 	default:

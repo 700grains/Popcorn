@@ -211,6 +211,24 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Redraw_Ball();
 		Redraw_Parachute();
 		break;
+
+	case EBS_Teleporting:
+		if (!(Ball_State == EBS_Normal || Ball_State == EBS_On_Parachute))
+			AsConfig::Throw(); // Только из этих состояний можно войти в телепорт!
+
+		Center_X_Pos = x_pos;
+		Center_Y_Pos = y_pos;
+		Ball_Speed = 0.0;
+		Rest_Distance = 0.0;
+		Redraw_Ball();
+
+		if (Ball_State == EBS_On_Parachute)
+			Redraw_Parachute();
+
+		break;
+
+	default:
+		AsConfig::Throw();
 	}
 
 	Previous_Ball_State = Ball_State;
