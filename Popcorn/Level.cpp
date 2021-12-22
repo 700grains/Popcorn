@@ -314,7 +314,6 @@ void AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 {// Создаем активный кирпич, если это возможно
 
 	AActive_Brick* active_brick = 0;
-	AActive_Brick_Teleport* destination_teleport = 0;
 
 	if (Active_Bricks_Count >= AsConfig::Max_Active_Bricks_Count)
 		return; // Активных кирпичей слишком много!
@@ -350,21 +349,91 @@ void AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 		break;
 
 	case EBT_Teleport:
-
-		destination_teleport = Select_Destination_Teleport();
-
-		active_brick = new AActive_Brick_Teleport(brick_x, brick_y, ball, destination_teleport);
-		break;
+		return Add_Active_Brick_Teleport(brick_x, brick_y, ball);
 
 	default:
 		AsConfig::Throw();
 	}
 
-	if(destination_teleport != 0)
-		Add_New_Active_Brick(destination_teleport);
-
 	Add_New_Active_Brick(active_brick);
 
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, bool vertical_hit)
+{
+	int i;
+	bool got_direction;
+
+	EDirection_Type direction;
+	double pre_teleport_x_pos, pre_teleport_y_pos;
+	double curr_ball_x_pos, curr_ball_y_pos;
+	AActive_Brick_Teleport* source_teleport, *destination_teleport;
+
+	ball->Get_Center(pre_teleport_x_pos, pre_teleport_y_pos); // Позиция меячика перед столкновением с телепортом
+
+	destination_teleport = Select_Destination_Teleport(brick_x, brick_y);
+	source_teleport = new AActive_Brick_Teleport(brick_x, brick_y, ball, destination_teleport);
+
+	// После создания телепорта, мячик помещен в его центр
+	ball->Get_Center(curr_ball_x_pos, curr_ball_y_pos);
+
+	// Определяем направление, откуда прилетел мячик
+	if (vertical_hit)
+	{
+		if (pre_teleport_y_pos < curr_ball_y_pos)
+			direction = EDT_Down;
+		else
+			direction = EDT_Up;
+	}
+	else
+	{
+		if (pre_teleport_x_pos < curr_ball_x_pos)
+			direction = EDT_Right;
+		else
+			direction = EDT_Left;
+	}
+
+	// Выбор выхода направления из телепорта назначения
+	got_direction = false;
+
+	for (i = 0; i < 4; i++)
+	{
+		switch (direction)
+		{
+		case EDT_Left:
+			if (brick_x > 0 && Current_Level[brick_y][brick_x - 1] == EBT_None)
+				got_direction = true;
+			break;
+
+		case EDT_Up:
+			if (brick_y > 0 && Current_Level[brick_y -1][brick_x] == EBT_None)
+				got_direction = true;
+			break;
+
+		case EDT_Right:
+			if (brick_x < AsConfig::Level_Width - 1 && Current_Level[brick_y][brick_x + 1] == EBT_None)
+				got_direction = true;
+			break;
+
+		case EDT_Down:
+			if (brick_y < AsConfig::Level_Height - 1 && Current_Level[brick_y + 1][brick_x] == EBT_None)
+				got_direction = true;
+			break;
+
+		default:
+			AsConfig::Throw();
+		}
+		if (!got_direction)
+			break;
+
+		direction = (EDirection_Type)(direction - 1);
+
+		if (direction < 0)
+			direction = EDT_Down;
+	}
+
+	Add_New_Active_Brick(source_teleport);
+	Add_New_Active_Brick(destination_teleport);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Add_New_Active_Brick(AActive_Brick* active_brick)
@@ -382,11 +451,30 @@ void AsLevel::Add_New_Active_Brick(AActive_Brick* active_brick)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport()
+AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int source_y)
 {
+	int dest_index;
+
 	AActive_Brick_Teleport* destination_teleport;
 
-	destination_teleport = new AActive_Brick_Teleport(Teleport_Bricks_Pos[0].X, Teleport_Bricks_Pos[0].Y, 0, 0);
+
+	if (Teleport_Bricks_Count < 2)
+	{
+		AsConfig::Throw();
+		return 0;
+	}
+
+	dest_index = AsConfig::Rand(Teleport_Bricks_Count);
+
+	if (Teleport_Bricks_Pos[dest_index].X == source_x && Teleport_Bricks_Pos[dest_index].Y == source_y)
+	{// Если случайно выбран исходный телепорт, то переходим к следующему в списке
+		++dest_index;
+
+		if (dest_index >= Teleport_Bricks_Count)
+			dest_index = 0; // Переходим на начало массива, если вышли за его пределы
+	}
+
+	destination_teleport = new AActive_Brick_Teleport(Teleport_Bricks_Pos[dest_index].X, Teleport_Bricks_Pos[dest_index].Y, 0, 0);
 
 	return destination_teleport;
 }
