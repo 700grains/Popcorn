@@ -521,6 +521,67 @@ void AActive_Brick_Teleport::Set_Ball(ABall* ball)
 
 
 
+// AAdvertisement
+//------------------------------------------------------------------------------------------------------------
+AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
+: Level_X(level_x), Level_Y(level_y), Width(width), Height(height)
+{
+	const int scale = AsConfig::Global_Scale;
+
+	Ad_Rect.left = (AsConfig::Level_X_Offset + Level_X * AsConfig::Cell_Width) * scale;
+	Ad_Rect.top = (AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height) * scale;
+	Ad_Rect.right = Ad_Rect.left + Width * AsConfig::Cell_Width * scale;
+	Ad_Rect.bottom = Ad_Rect.top + Height * AsConfig::Cell_Height * scale;
+}
+//------------------------------------------------------------------------------------------------------------
+void AAdvertisement::Act() 
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AAdvertisement::Clear(HDC hdc, RECT& paint_area)
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
+{
+	const int scale = AsConfig::Global_Scale;
+
+	// 1. Шарик
+	// 1.1 Красный эллипс 12х12
+	AsConfig::Red_Color.Select(hdc);
+
+	Ellipse(hdc, Ad_Rect.left + 10 * scale, Ad_Rect.top + 2 * scale, Ad_Rect.left + 22 * scale - 1, Ad_Rect.top + 14 * scale - 1);
+	// 1.2 Блик сверху
+	// 1.3 Летает вверх-вниз (по затухающей траектории)
+	// 1.4 При ударе об пол сплющивается до размера 16х9
+
+
+	// 2. Тень под шариком
+	// 2.1 Синий эллипс 8х6 прока шарик полностью над столом
+	// 2.2 Уезжает вниз, когда шарик движется вверх
+	// 2.3 Увеличивается, когда шарик плющится
+
+	// 3. Стол
+	// 3.1 Белая поверхность
+	// 3.2 Синяя кайма толщиной  в 1 игровой пиксель
+	// 3.3 Красный борт толщиной в 2 игровых пикселя.
+
+	// 4. Рамка вокруг стола
+	// 4.1 Тонкая синяя рамка со скругленными краями
+
+}
+//------------------------------------------------------------------------------------------------------------
+bool AAdvertisement::Is_Finished()
+{
+	return false; // Реклама не заканчивается :S
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AActive_Brick_Ad
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Ad::~AActive_Brick_Ad()
@@ -545,7 +606,6 @@ void AActive_Brick_Ad::Act()
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Ad::Draw(HDC hdc, RECT& paint_area)
 {
-
 }
 //------------------------------------------------------------------------------------------------------------
 bool AActive_Brick_Ad::Is_Finished()

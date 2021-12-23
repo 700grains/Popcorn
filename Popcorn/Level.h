@@ -57,5 +57,6 @@ private:
 	AFalling_Letter* Falling_Letters[AsConfig::Max_Falling_Letters_Count];
 	int Teleport_Bricks_Count;
 	SPoint* Teleport_Bricks_Pos;
+	AAdvertisement* Advertisement;
 };
 //------------------------------------------------------------------------------------------------------------
