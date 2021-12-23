@@ -16,7 +16,8 @@ enum EBrick_Type
 	EBT_Multihit_4,
 	EBT_Parachute,
 	EBT_Teleport,
-	EBT_Ad
+	EBT_Ad,
+	EBT_Invisible
 };
 //------------------------------------------------------------------------------------------------------------
 enum EDirection_Type
@@ -164,17 +165,22 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	void Show_Under_Brick(int level_x, int level_y);
+	bool Has_Brick_At(int level_x, int level_y);
+
 private:
 	int Level_X, Level_Y;
 	int Width, Height;
 	RECT Ad_Rect;
+
+	char* Brick_Mask;
 };
 //------------------------------------------------------------------------------------------------------------
 class AActive_Brick_Ad : public AActive_Brick
 {
 public:
 	~AActive_Brick_Ad();
-	AActive_Brick_Ad(int level_x, int level_y);
+	AActive_Brick_Ad(int level_x, int level_y, AAdvertisement* advertisement);
 
 	virtual void Act();
 	virtual void Draw(HDC hdc, RECT& paint_area);
@@ -183,8 +189,7 @@ public:
 	static void Draw_In_Level(HDC hdc, RECT& brick_rect);
 
 private:
-	//int Animation_Step;
-	//HRGN Region;
+	AAdvertisement* Advertisement;
 
 	static const int Circle_Size = 7;
 };
