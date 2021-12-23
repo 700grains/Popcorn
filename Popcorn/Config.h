@@ -12,6 +12,7 @@ public:
 	AColor();
 	AColor(unsigned char r, unsigned char g, unsigned char b);
 	AColor(const AColor& color, int pen_size);
+	AColor(unsigned char r, unsigned char g, unsigned char b, int pen_size);
 	AColor(const AColor& pen_color, const AColor& brush_color, int pen_size);
 
 	int Get_RGB() const;
@@ -38,6 +39,7 @@ public:
 	static int Current_Timer_Tick;
 	static const AColor BG_Color, Red_Color, Blue_Color, White_Color, Letter_Color;
 	static const AColor Unbreakable_Blue_Highlight, Unbreakable_Red_Highlight, Teleport_Portal_Color;
+	static const AColor Advertisement_Blue_Table, Advertisement_Red_Table;
 	static HWND Hwnd;
 
 	static const double Moving_step_size;
