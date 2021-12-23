@@ -31,6 +31,10 @@ AActive_Brick::AActive_Brick(EBrick_Type brick_type, int level_x, int level_y)
 	Brick_Rect.bottom = Brick_Rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
+void AActive_Brick::Clear(HDC hdc, RECT& paint_area)
+{
+}
+//------------------------------------------------------------------------------------------------------------
 double AActive_Brick::Get_Brick_X_Pos(bool of_center)
 {
 	double pos = (double)(AsConfig::Level_X_Offset + Level_X * AsConfig::Cell_Width);

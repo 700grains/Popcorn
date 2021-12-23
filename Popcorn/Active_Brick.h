@@ -33,6 +33,7 @@ public:
 	virtual ~AGraphics_Object();
 
 	virtual void Act() = 0;
+	virtual void Clear(HDC hdc, RECT& paint_area) = 0;
 	virtual void Draw(HDC hdc, RECT& paint_area) = 0;
 	virtual bool Is_Finished() = 0;
 };
@@ -45,6 +46,8 @@ public:
 protected:
 	virtual ~AActive_Brick();
 	AActive_Brick(EBrick_Type brick_type, int level_x, int level_y);
+
+	virtual void Clear(HDC hdc, RECT& paint_area);
 
 	double Get_Brick_X_Pos(bool of_center);
 	double Get_Brick_Y_Pos(bool of_center);

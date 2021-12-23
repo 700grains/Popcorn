@@ -199,6 +199,10 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
 	int i, j;
 	RECT intersection_rect, brick_rect;
 
+	// 1. Стираем все движущиеся объекты
+	Clear_Objects(hdc, paint_area, (AGraphics_Object**)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
+
+	// 2. Рисуем все объекты
 	if (IntersectRect(&intersection_rect, &paint_area, &Level_Rect) )
 	{
 		for (i = 0; i < AsConfig::Level_Height; i++)
@@ -620,6 +624,16 @@ void AsLevel::Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int wid
 	rect.bottom += 3 * scale;
 
 	AsConfig::Round_Rect(hdc, rect);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Clear_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count)
+{
+	int i;
+	for (i = 0; i < object_max_count; ++i)
+	{
+		if (objects_array[i] != 0)
+			objects_array[i]->Clear(hdc, paint_area);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count)
