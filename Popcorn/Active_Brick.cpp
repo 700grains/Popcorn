@@ -588,9 +588,9 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	// 3.2 Красный борт толщиной в 2 игровых пикселя.
 	AsConfig::Advertisement_Red_Table.Select(hdc);
 
-	MoveToEx(hdc, Ad_Rect.left + 1, Ad_Rect.top + 16 * scale + 1, 0);
+	MoveToEx(hdc, Ad_Rect.left + scale - 1, Ad_Rect.top + 16 * scale + 1, 0);
 	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 21 * scale + 1);
-	LineTo(hdc, Ad_Rect.left + 30 * scale + 1, Ad_Rect.top + 16 * scale);
+	LineTo(hdc, Ad_Rect.left + 30 * scale, Ad_Rect.top + 16 * scale);
 
 
 	// 4. Шарик
