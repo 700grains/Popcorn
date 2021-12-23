@@ -4,14 +4,14 @@
 char AsLevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	1, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9,
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	1, 1, 1, 1, 1, 1, 1, 1, 0, 10,10,0,
+	2, 2, 2, 2, 2, 2, 2, 2, 0, 10,10,0,
+	2, 2, 2, 2, 2, 2, 2, 2, 0, 10,10,0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -73,9 +73,20 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	max_ball_y = next_y_pos + ball->Radius;
 
 	min_level_x = (int)(min_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width;
+	if (min_level_x < 0)
+		min_level_x = 0;
+
 	max_level_x = (int)(max_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width;
+	if (max_level_x >= AsConfig::Level_Width - 1)
+		max_level_x = AsConfig::Level_Width - 1;
+
 	min_level_y = (int)(min_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height;
+	if (min_level_y < 0)
+		min_level_y = 0;
+
 	max_level_y = (int)(max_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height;
+	if (max_level_y >= AsConfig::Level_Height - 1)
+		max_level_y = AsConfig::Level_Height - 1;
 
 	for (i = max_level_y; i >= min_level_y; i--)
 	{
@@ -362,6 +373,10 @@ bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 		Add_Active_Brick_Teleport(brick_x, brick_y, ball, vertical_hit);
 		return false;
 
+	case EBT_Ad:
+		active_brick = new AActive_Brick_Ad(brick_x, brick_y);
+		break;
+
 	default:
 		AsConfig::Throw();
 	}
@@ -591,6 +606,10 @@ void AsLevel::Draw_Brick(HDC hdc, RECT& brick_rect, EBrick_Type brick_type)
 
 	case EBT_Teleport:
 		AActive_Brick_Teleport::Draw_In_Level(hdc, brick_rect);
+		break;
+
+	case EBT_Ad:
+		AActive_Brick_Ad::Draw_In_Level(hdc, brick_rect);
 		break;
 
 	default:
