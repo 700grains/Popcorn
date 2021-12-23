@@ -158,6 +158,7 @@ private:
 class AAdvertisement : public AGraphics_Object
 {
 public:
+	~AAdvertisement();
 	AAdvertisement(int level_x, int level_y, int width, int height);
 
 	virtual void Act();

@@ -544,7 +544,22 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Act() 
 {
-	InvalidateRect(AsConfig::Hwnd, &Ad_Rect, FALSE);
+	int cell_width = AsConfig::Cell_Width * AsConfig::Global_Scale;
+	int cell_height = AsConfig::Cell_Height * AsConfig::Global_Scale;
+	int i, j;
+	RECT rect;
+
+	for (i = 0; i < Height; i++)
+		for (j = 0; j < Width; j++)
+			if (Brick_Mask[i * Width + j] == 1)
+			{
+				rect.left = Ad_Rect.left + j * cell_width;
+				rect.top = Ad_Rect.top + i * cell_height;
+				rect.right = Ad_Rect.left + cell_width;
+				rect.bottom = Ad_Rect.top + cell_height;
+
+				InvalidateRect(AsConfig::Hwnd, &rect, FALSE);
+			}
 }
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Clear(HDC hdc, RECT& paint_area)
@@ -665,6 +680,8 @@ AActive_Brick_Ad::~AActive_Brick_Ad()
 AActive_Brick_Ad::AActive_Brick_Ad(int level_x, int level_y, AAdvertisement* advertisement)
 	: AActive_Brick(EBT_Unbreakable, level_x, level_y), Advertisement(advertisement)
 {
+	if (Advertisement != 0)
+		Advertisement->Show_Under_Brick(Level_X, Level_Y);
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Ad::Act()
@@ -678,12 +695,6 @@ void AActive_Brick_Ad::Act()
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Ad::Draw(HDC hdc, RECT& paint_area)
 {
-	RECT intersection_rect;
-
-	if (!IntersectRect(&intersection_rect, &paint_area, &Brick_Rect))
-		return;
-
-	Advertisement->Show_Under_Brick(Level_X, Level_Y);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AActive_Brick_Ad::Is_Finished()
