@@ -31,19 +31,19 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	iiner_left_x = (double)(X_Pos + Circle_Size - 1);
 	inner_right_x = (double)(X_Pos + Width - (Circle_Size - 1) );
 
-	// 1. Проверяем отражение от боковых шариков
+	// 1. Checking the reflection from the side balls
 	if (Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball) )
-		goto _on_hit; //От левого шарика
+		goto _on_hit; // From the left ball
 
 	if (Reflect_On_Circle(next_x_pos, next_y_pos, Width - Circle_Size, ball) )
-		goto _on_hit; //От правого шарика
+		goto _on_hit; // From  the right ball
 
 
-	// Проверяем отражение от центральной части платформы
+	// Checking the reflection from the central part of the platform
 	if (ball->Is_Moving_Up() )
-		inner_y = inner_low_y; // От нижней грани
+		inner_y = inner_low_y; // From the bottom edge
 	else
-		inner_y = inner_top_y; // От верхней грани
+		inner_y = inner_top_y; // From the top edge
 
 	if (Hit_Circle_On_Line(next_y_pos - inner_y, next_x_pos, iiner_left_x, inner_right_x, ball->Radius, reflection_pos) )
 	{
@@ -130,7 +130,7 @@ void AsPlatform::Redraw_Platform()
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw(HDC hdc, RECT &paint_area)
-{// Рисуем платформу
+{// Drawing the platform
 
 	RECT intersection_rect;
 
@@ -197,7 +197,7 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Clear_BG(HDC hdc)
-{// Очищаем прежнее место фоновым цветом
+{// Clearing the old place with the background color
 	AsConfig::BG_Color.Select(hdc);
 
 	Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
@@ -205,7 +205,7 @@ void AsPlatform::Clear_BG(HDC hdc)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
-{// Рисуем hightlight on the ball
+{// Drawing hightlight on the ball
 	Highlight_Color.Select_Pen(hdc);
 
 	Arc(hdc, x + AsConfig::Global_Scale, y + AsConfig::Global_Scale, x + (Circle_Size - 1) * AsConfig::Global_Scale - 1, y + (Circle_Size - 1) * AsConfig::Global_Scale - 1,
@@ -214,26 +214,26 @@ void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
-{// Рисуем платформу в нормальном состоянии
+{// Draw the platform in the normal state
 	int i, j;
 	int offset = 0;
 	int x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
 	RECT inner_rect;
 
-	// Очищаем прежнее место фоновым цветом
+	// Clearing the old place with the background color
 	Clear_BG(hdc);
 
-	// 1. Рисуем боковые шарики
+	// 1. Draw side balls
 	Platform_Circle_Color.Select(hdc);
 
 	Ellipse(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size) * AsConfig::Global_Scale - 1, (y + Circle_Size) * AsConfig::Global_Scale - 1);
 	Ellipse(hdc, (x + Inner_Width) * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size + Inner_Width) * AsConfig::Global_Scale - 1, (y + Circle_Size) * AsConfig::Global_Scale - 1);
 
-	// 2. Рисуем блик
+	// 2. Draw the highlight
 	Draw_Circle_Highlight(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale);
 	
-	// 3. Рисуем среднюю часть
+	// 3. Draw the middle part
 	Platform_Inner_Color.Select(hdc);
 	
 	inner_rect.left = (x + 4) * AsConfig::Global_Scale;
@@ -260,7 +260,7 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
-{// Рисуем платформу в расплавленном состоянии
+{// Drawing a platform in a molten state
 
 	int i, j;
 	int x, y;
@@ -287,7 +287,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 
 		MoveToEx(hdc, x, y, 0);
 
-		//Рисуем последовательность вертикальных штрихов разного цвета (согласно прообразу, сохраненному в Normal_Platform_Image)
+		// Draw a sequence of vertical strokes of different colors (according to the prototype saved in Normal_Platform_Image)
 		while (Get_Platform_Image_Stroke_Color(i, j, &color, stroke_len) )
 		{
 			color->Select_Pen(hdc);
@@ -297,7 +297,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 			j += stroke_len;
 		}
 		
-		// Стриаем фон пикселей над штрихом
+		// Erase the background pixels above the stroke
 		y = Meltdown_Platform_Y_Pos[i];
 		MoveToEx(hdc, x, y, 0);
 		AsConfig::BG_Color.Select_Pen(hdc);
@@ -307,11 +307,11 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 		Meltdown_Platform_Y_Pos[i] += y_offset;
 	}
 	if (moved_columns_count == 0)
-		Platform_State = EPS_Missing; // вся платформа сдвинута за пределы окна
+		Platform_State = EPS_Missing; // the whole platform is moved outside the window
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
-{// Рисуем выкатывающуюся платформу
+{// Draw a rolling out platform
 
 	int x = X_Pos * AsConfig::Global_Scale;
 	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
@@ -326,7 +326,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 
 	Ellipse(hdc, x, y , x + roller_size - 1, y + roller_size - 1);
 
-	// 2. Разделительная линия
+	// 2. The dividing line
 	alpha = -2 * M_PI / (double)Max_Rolling_Step * (double)Rolling_Step;
 
 	xform.eM11 = (float)cos(alpha);
@@ -344,7 +344,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 
 	SetWorldTransform(hdc, &old_xform);
 
-	// 3. Блик
+	// 3. Highlight
 	Draw_Circle_Highlight(hdc, x, y);
 
 	++Rolling_Step;
@@ -363,7 +363,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
-{// Рисуем расширяющуюся платформу
+{// Drawing an expanding platform
 
 	Draw_Normal_State(hdc, paint_area);
 
@@ -399,7 +399,7 @@ bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double 
 	two_radiuses = platform_ball_radius + ball->Radius;
 
 	if (fabs(distance - two_radiuses) < AsConfig::Moving_step_size)
-	{// Мячик коснулся бокового шарика
+	{// The ball touched the side ball
 
 		beta = atan2(-dy, dx);
 
@@ -425,9 +425,9 @@ bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double 
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len)
-{// Вычисляем длину очередного вертикального штриха
+{// Calculate the length of the next vertical stroke
 	int i;
-	int offset = y * Normal_Platform_Image_Width + x; // Позиция в массиве Normal_Platform_Image, соответствующая смещению (х, у)
+	int offset = y * Normal_Platform_Image_Width + x; // Position in the Normal_Platform_Image array corresponding to the offset (x, y)
 	int color_value;
 
 	stroke_len = 0;
@@ -449,7 +449,7 @@ bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, const AColor** co
 			else
 				break;
 		}
-		offset += Normal_Platform_Image_Width; // Переходим на строку ниже
+		offset += Normal_Platform_Image_Width; // Go to line below
 	}
 
 

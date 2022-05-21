@@ -3,7 +3,7 @@
 
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double& x)
-{// Функция проверяет пересечение горазонтального отрезка (проходящего от left_x до right_x через y) с окружностью радиусом radius
+{//This function checks the intersection of the horizontal segment (passing from left_x to right_x through y) with a circle of radius "radius"
 
 	double min_x, max_x;
 	// x*x + y*y = R*R
@@ -47,7 +47,7 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 	if ( (Ball_State == EBS_Teleporting || Ball_State == EBS_Lost) && Ball_State == Previous_Ball_State)
 		return;
 
-	// 1. Очищаем фон
+	// 1. clearing the background
 	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect) )
 	{
 		AsConfig::BG_Color.Select(hdc);
@@ -77,7 +77,7 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 	if (Ball_State == EBS_Lost)
 		return;
 
-	// 2. Рисуем шарик
+	// 2. Drawing the ball
 	if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect) )
 	{
 		AsConfig::White_Color.Select(hdc);
@@ -116,7 +116,7 @@ void ABall::Move()
 		next_x_pos = Center_X_Pos + AsConfig::Moving_step_size * cos(Ball_Direction);
 		next_y_pos = Center_Y_Pos - AsConfig::Moving_step_size * sin(Ball_Direction);
 
-		//// Корректируем позицию при отражении:
+		//// Correcting the position when reflecting:
 		for (i = 0; i < Hit_Checkers_Count; i++)
 		{
 			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
@@ -127,13 +127,13 @@ void ABall::Move()
 		//got_hit |= platform_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от платформы
 
 
-		//// Корректируем позицию при отражении от платформы
+		//// Correcting the position when reflected from the platform
 
 		if (!got_hit)
 		{
 			Rest_Distance -= AsConfig::Moving_step_size;
 
-			// шар продолжит движение, если не столкнулся с другими объектами
+			// the ball will continue to move if it does not collide with other objects
 			Center_X_Pos = next_x_pos;
 			Center_Y_Pos = next_y_pos;
 
@@ -198,7 +198,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 
 	case	EBS_Lost:
 		if (!(Ball_State == EBS_Normal || Ball_State == EBS_On_Parachute) )
-			AsConfig::Throw(); // Только эти состояния могут привести к потере мячика!
+			AsConfig::Throw(); // Only these conditions can lead to the loss of the ball!
 
 		Redraw_Ball();
 		Redraw_Parachute();
@@ -217,12 +217,12 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		break;
 
 	case	EBS_On_Parachute:
-		AsConfig::Throw(); // Для постановки на парашют нужно вызывать специальный метод Set_On_Parachute()
+		AsConfig::Throw(); // To put on a parachute, you need to call the special method Set_On_Parachute ()
 		break;
 
 	case	EBS_Off_Parachute:
 		if (Ball_State != EBS_On_Parachute)
-			AsConfig::Throw(); // В это состояние можно перейти только из EBS_On_Parachute
+			AsConfig::Throw(); // This state can only be entered from EBS_On_Parachute
 
 		Ball_Speed = 0.0;
 		Rest_Distance = 0.0;
@@ -232,7 +232,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 
 	case EBS_Teleporting:
 		if (!(Ball_State == EBS_Normal || Ball_State == EBS_On_Parachute || Ball_State == EBS_Teleporting))
-			AsConfig::Throw(); // Только из этих состояний можно войти в телепорт!
+			AsConfig::Throw(); // Only from these states you can enter the teleport!
 
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = y_pos;
@@ -367,12 +367,12 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 	// 0. Clearing background
 	Clear_Parachute(hdc);
 
-	// 1. Купол
+	// 1. The dome
 	AsConfig::Blue_Color.Select(hdc);
 	Chord(hdc, Parachute_Rect.left, Parachute_Rect.top, Parachute_Rect.right - 1, Parachute_Rect.bottom - 1,
 		Parachute_Rect.right, Parachute_Rect.top + dome_height - 1, Parachute_Rect.left, Parachute_Rect.top + dome_height - 1);
 	
-	// 2. Арки купола
+	// 2. Dome arches
 	AsConfig::BG_Color.Select(hdc);
 
 	arc_x = Parachute_Rect.left + 1;
@@ -399,7 +399,7 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 
 	Ellipse(hdc, sub_arc.left, sub_arc.top, sub_arc.right - 1, sub_arc.bottom - 1);
 
-	// 3. Стропы
+	// 3. Slings
 	ball_center_x = (Parachute_Rect.left + Parachute_Rect.right) / 2;
 	ball_center_y = Parachute_Rect.bottom - 2 * scale;
 	line_y = Parachute_Rect.top + dome_height;

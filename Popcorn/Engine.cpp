@@ -9,7 +9,7 @@ AsEngine::AsEngine()
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd)
-{// Настройка игры при старте
+{// Game setup at startup
 
 	SYSTEMTIME sys_time;
 	FILETIME file_time;
@@ -43,7 +43,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
-{// Отрисовка экрана игры
+{// Drawing the game screen
 
 	SetGraphicsMode(hdc, GM_ADVANCED);
 

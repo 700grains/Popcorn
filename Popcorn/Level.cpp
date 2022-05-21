@@ -51,7 +51,7 @@ AsLevel::AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
-{// Корректируем позицию при отражении от кирпичей
+{// Correcting the position when reflected from bricks
 
 	int i, j;
 	double direction;
@@ -157,7 +157,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 
 	memcpy(Current_Level, level, sizeof(Current_Level) );
 
-	// 1. Считаем количество телепортов
+	// 1. Count the number of teleports
 	Teleport_Bricks_Count = 0;
 
 	for ( i = 0; i < AsConfig::Level_Height; i++)
@@ -172,11 +172,11 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 	delete[] Teleport_Bricks_Pos;
 	Teleport_Bricks_Pos = 0;
 
-	// 2. Сохраняем координаты телепортов, если таковые найдены
+	// 2. Save the coordinates of the teleporters, if any are found
 	if (Teleport_Bricks_Count > 0)
 	{
 		if (Teleport_Bricks_Count == 1)
-			AsConfig::Throw(); // Телепортов должно быть больше 1!
+			AsConfig::Throw(); // Teleports must be more than 1!
 
 		Teleport_Bricks_Pos = new SPoint[Teleport_Bricks_Count];
 		index = 0;
@@ -209,17 +209,17 @@ void AsLevel::Act()
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw(HDC hdc, RECT &paint_area)
-{// Вывод всех кирпичей уровня
+{// Output all bricks of the level
 
 	int i, j;
 	RECT intersection_rect, brick_rect;
 
-	// 1. Стираем все движущиеся объекты
+	// 1. Erase all moving objects
 	Clear_Objects(hdc, paint_area, (AGraphics_Object**)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
 	if (Advertisement != 0)
 		Advertisement->Clear(hdc, paint_area);
 
-	// 2. Рисуем все объекты
+	// 2. Draw all objects
 	if (Advertisement != 0)
 		Advertisement->Draw(hdc, paint_area);
 
@@ -303,7 +303,7 @@ void AsLevel::Redraw_Brick(int brick_x, int brick_y)
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type)
-{ // Создаем подающую букву, если это возможно
+{ // Create a falling letter if possible
 
 	int i;
 	int letter_x, letter_y;
@@ -340,12 +340,12 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type, ABall* ball, bool vertical_hit)
-{// Создаем активный кирпич, если это возможно
+{// Create an active brick if possible
 
 	AActive_Brick* active_brick = 0;
 
 	if (Active_Bricks_Count >= AsConfig::Max_Active_Bricks_Count)
-		return true; // Активных кирпичей слишком много!
+		return true; // There are too many active bricks!
 
 	switch (brick_type)
 	{
@@ -374,7 +374,7 @@ bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 		break;
 
 	case EBT_Parachute:
-		AsConfig::Throw(); // Для парашюта активный кирпич не создается
+		AsConfig::Throw(); // An active brick is not created for the parachute
 		break;
 
 	case EBT_Teleport:
@@ -410,17 +410,17 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, b
 	double curr_ball_x_pos, curr_ball_y_pos;
 	AActive_Brick_Teleport* source_teleport, *destination_teleport;
 
-	ball->Get_Center(pre_teleport_x_pos, pre_teleport_y_pos); // Позиция меячика перед столкновением с телепортом
+	ball->Get_Center(pre_teleport_x_pos, pre_teleport_y_pos); // The position of the ball before it hits the teleporter
 
 	destination_teleport = Select_Destination_Teleport(brick_x, brick_y);
 	source_teleport = new AActive_Brick_Teleport(brick_x, brick_y, ball, destination_teleport);
 
 	destination_teleport->Get_Level_Pos(dest_brick_x, dest_brick_y);
 
-	// После создания телепорта, мячик помещен в его центр
+	// After creating a teleport, the ball is placed in its center
 	ball->Get_Center(curr_ball_x_pos, curr_ball_y_pos);
 
-	// Определяем направление, откуда прилетел мячик
+	// Finding the direction the ball came from
 	if (vertical_hit)
 	{
 		if (pre_teleport_y_pos < curr_ball_y_pos)
@@ -436,7 +436,7 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, b
 			direction = EDT_Left;
 	}
 
-	// Выбор выхода направления из телепорта назначения - ищем свободное
+	// Selecting the direction exit from the destination teleport - looking for a free one
 	got_direction = false;
 
 	for (i = 0; i < 4; i++)
@@ -513,11 +513,11 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 	dest_index = AsConfig::Rand(Teleport_Bricks_Count);
 
 	if (Teleport_Bricks_Pos[dest_index].X == source_x && Teleport_Bricks_Pos[dest_index].Y == source_y)
-	{// Если случайно выбран исходный телепорт, то переходим к следующему в списке
+	{// If the source teleport is randomly selected, then go to the next one in the list
 		++dest_index;
 
 		if (dest_index >= Teleport_Bricks_Count)
-			dest_index = 0; // Переходим на начало массива, если вышли за его пределы
+			dest_index = 0; // Go to the beginning of the array, if you have gone beyond it
 	}
 
 	destination_teleport = new AActive_Brick_Teleport(Teleport_Bricks_Pos[dest_index].X, Teleport_Bricks_Pos[dest_index].Y, 0, 0);
@@ -529,10 +529,10 @@ bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level
 {
 	double direction = ball->Get_Direction();
 	if (ball->Is_Moving_Up() )
-	{//Проверяем попадание в нижнюю грань
+	{// Checking if it hits the bottom
 
 		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos) )
-		{// проверка возможности отражения вниз
+		{// Checking the possibility of reflection down
 
 			if (level_y < AsConfig::Level_Height - 1 && Current_Level[level_y + 1][level_x] == 0)
 				return true;
@@ -541,9 +541,9 @@ bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level
 		}
 	}
 	else
-	{//Проверяем попадание в верхнюю грань
+	{// Checking if it hits the top
 			if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos) )
-			{// проверка возможности отражения UP
+			{// Checking the possibility of reflecting UP
 
 				if (level_y > 0 && Current_Level[level_y - 1][level_x] == 0)
 					return true;
@@ -560,10 +560,10 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 
 
 	if (!ball->Is_Moving_Left() )
-	{//Проверяем попадание в left грань
+	{// Checking for a hit on the "left" edge
 
 		if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos) )
-		{// проверка возможности отражения left
+		{// Checking the possibility of reflecting "left"
 
 			if (level_x > 0 && Current_Level[level_y][level_x - 1] == 0)
 				return true;
@@ -572,11 +572,11 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 		}
 	}
 	else
-	{//Проверяем попадание в right грань
+	{// Checking if the "right" edge hits
 
 			if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos) )
 			{
-				// проверка возможности отражения right
+				// Checking the possibility of reflecting "right"
 				if (level_x < AsConfig::Level_Width - 1 && Current_Level[level_y][level_x + 1] == 0)
 					return true;
 
@@ -589,7 +589,7 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Brick(HDC hdc, RECT& brick_rect, int level_x, int level_y)
-{// Вывод "кирпича"
+{// Drawing a "brick"
 
 
 	const AColor* color = 0;
@@ -650,7 +650,7 @@ void AsLevel::Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int wid
 	const int scale = AsConfig::Global_Scale;
 	RECT rect;
 
-	// 1. Верхний сегмент
+	// 1. Upper segment
 	rect.left = brick_rect.left + offset * scale + 1;
 	rect.top = brick_rect.top + 1;
 	rect.right = rect.left + width * scale + 1;
@@ -659,7 +659,7 @@ void AsLevel::Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int wid
 	Parachute_Color.Select(hdc);
 	AsConfig::Round_Rect(hdc, rect);
 
-	// 1. Нижний сегмент
+	// 1. Lower segment
 	rect.top += 3 * scale;
 	rect.bottom += 3 * scale;
 

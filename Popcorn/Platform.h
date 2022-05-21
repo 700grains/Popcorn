@@ -49,7 +49,7 @@ private:
 	int Rolling_Step;
 
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
-	int* Normal_Platform_Image; // Пиксели изображения платформы на фоне окна
+	int* Normal_Platform_Image; // Platform image pixels on window background
 
 	static const int Normal_Width = 28;
 

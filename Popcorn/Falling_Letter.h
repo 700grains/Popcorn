@@ -4,28 +4,28 @@
 //------------------------------------------------------------------------------------------------------------
 enum ELetter_Type
 {
-	ELT_O, // "Отмена"
-	ELT_I, // "Инверсия"
-	ELT_C, // "Скорость"
-	ELT_M, // "Монстры"
-	ELT_G, // "Жизнь"
-	ELT_K, // "Клей"
-	ELT_W, // "Шире"
+	ELT_O, // "Cancel"
+	ELT_I, // "Inversion"
+	ELT_C, // "Speed"
+	ELT_M, // "Monsters"
+	ELT_G, // "Life"
+	ELT_K, // "Glue"
+	ELT_W, // "Wider"
 
-	ELT_T, // "Три"
-	ELT_L, // "Лазер"
-	ELT_P, // "Пол"
+	ELT_T, // "Three"
+	ELT_L, // "Laser"
+	ELT_P, // "Floor"
 
-	ELT_Plus, // Переход на следующий уровень
+	ELT_Plus, // Moving to the next level
 
-	ELT_Max // Максимальное значение
+	ELT_Max // Max value
 };
 //------------------------------------------------------------------------------------------------------------
 enum EFalling_Letter_State
 {
 	EFLS_Normal,
-	EFLS_Finalizing, // Начинаем удалять объект
-	EFLS_Finished // Объект можно удалять
+	EFLS_Finalizing, // Let's start deleting the object
+	EFLS_Finished // Object can be deleted
 };
 //------------------------------------------------------------------------------------------------------------
 class AFalling_Letter : public AGraphics_Object
@@ -66,6 +66,6 @@ private:
 	static const int Brick_Half_Height = AsConfig::Brick_Height * AsConfig::Global_Scale / 2;
 
 	static int All_Letters_Popularity;
-	static int Letters_Popularity[ELT_Max]; // "Вес" каждой буквы
+	static int Letters_Popularity[ELT_Max]; // "Weight" of each letter
 };
 //------------------------------------------------------------------------------------------------------------

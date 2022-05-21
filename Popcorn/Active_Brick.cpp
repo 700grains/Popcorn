@@ -127,7 +127,7 @@ void AActive_Brick_Red_Blue::Setup_Colors()
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Red_Blue::Draw_In_Level(HDC hdc, RECT brick_rect, EBrick_Type brick_type)
-{// Вывод неактивного кирпича на уровне
+{// Drawing inactive brick on the level
 
 	const AColor* color = 0;
 
@@ -229,7 +229,7 @@ bool AActive_Brick_Unbreakable::Is_Finished()
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Unbreakable::Draw_In_Level(HDC hdc, RECT& brick_rect)
-{// Вывод неактивного кирпича на уровне
+{// Drawing inactive brick on the level
 
 	AsConfig::White_Color.Select(hdc);
 	AsConfig::Round_Rect(hdc, brick_rect);
@@ -266,11 +266,11 @@ void AActive_Brick_Multihit::Draw(HDC hdc, RECT& paint_area)
 	double rotation_angle, x_ratio;
 	RECT zero_rect;
 	XFORM xform, old_xform;
-	// 1. Очищаем фон
+	// 1. Clearing the background
 	AsConfig::BG_Color.Select(hdc);
 	AsConfig::Round_Rect(hdc, Brick_Rect);
 
-	// 2. Настраиваем матрицу поворота
+	// 2. Drawing matrix of the turn
 	step = Rotation_Step % Steps_Per_Turn;
 	rotation_angle = M_PI_4 / 2 * (double)step;
 	x_ratio = cos(rotation_angle);
@@ -284,7 +284,7 @@ void AActive_Brick_Multihit::Draw(HDC hdc, RECT& paint_area)
 	GetWorldTransform(hdc, &old_xform);
 	SetWorldTransform(hdc, &xform);
 
-	// 3. Рисуем "100"
+	// 3. Drawing "100"
 	AsConfig::Letter_Color.Select_Pen(hdc);
 	MoveToEx(hdc, 0 + 1 * scale + 1, 0 + 3 * scale, 0);
 	LineTo(hdc, 0 + 3 * scale + 1, 0 + 1 * scale);
@@ -312,17 +312,17 @@ bool AActive_Brick_Multihit::Is_Finished()
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Multihit::Draw_In_Level(HDC hdc, RECT& brick_rect, EBrick_Type brick_type)
-{// Вывод мультихитового кирпича на уровне
+{// Drawing multi-hit brick on level
 	const int scale = AsConfig::Global_Scale;
 
-	// 1. Рисуем фон
+	// 1. Drawing background
 	AsConfig::White_Color.Select(hdc);
 	AsConfig::Round_Rect(hdc, brick_rect);
 
 	AsConfig::Red_Color.Select(hdc);
 	Rectangle(hdc, brick_rect.left + scale, brick_rect.top + scale, brick_rect.right - scale - 1, brick_rect.bottom - scale - 1);
 
-	// 2. Рисуем внутренние прямоугольники
+	// 2. Drawing inner rectangles
 	switch (brick_type)
 	{
 	case EBT_Multihit_1:
@@ -353,7 +353,7 @@ void AActive_Brick_Multihit::Draw_In_Level(HDC hdc, RECT& brick_rect, EBrick_Typ
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Multihit::Draw_Stage(HDC hdc, RECT& brick_rect, int x, int width)
-{// Рисуем внутренние прямоугольники кирпича
+{// Drawing inner rectangles of a brick
 	const int scale = AsConfig::Global_Scale;
 	RECT stage_rect;
 
@@ -448,7 +448,7 @@ void AActive_Brick_Teleport::Act()
 				Ball->Set_State(EBS_Normal, ball_x, ball_y);
 				Ball->Set_Direction(direction);
 
-				Ball = 0; // Отмечаем мячик как отсутствующий в телепорте
+				Ball = 0; // Marking the ball as missing from the teleport
 				InvalidateRect(AsConfig::Hwnd, &Brick_Rect, FALSE);
 			}
 			break;
@@ -488,7 +488,7 @@ bool AActive_Brick_Teleport::Is_Finished()
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Teleport::Draw_In_Level(HDC hdc, RECT& brick_rect, int step)
-{// Вывод мультихитового кирпича на уровне
+{// Drawing multi-hit brick on the level
 	const int scale = AsConfig::Global_Scale;
 	int top_y = brick_rect.top + step / 2 + 1;
 	int low_y = brick_rect.top + 6 * scale - step / 2 + 1;
@@ -506,7 +506,7 @@ void AActive_Brick_Teleport::Set_Ball(ABall* ball)
 {
 	double ball_x, ball_y;
 
-	// Ставим мячик в центр кирпича
+	// Placing the ball in the center of the brick
 	ball_x = Get_Brick_X_Pos(true);
 	ball_y = Get_Brick_Y_Pos(true);;
 
@@ -581,8 +581,8 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Ad_Rect))
 		return;
 
-	// 1. Стол
-	// 1.1 Белая поверхность
+	// 1. The table
+	// 1.1 White surface
 	AsConfig::White_Color.Select(hdc);
 
 	MoveToEx(hdc, Ad_Rect.left + 1, Ad_Rect.top + 15 * scale, 0);
@@ -594,17 +594,17 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	FloodFill(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 15 * scale, AsConfig::White_Color.Get_RGB());
 
 
-	// 2. Тень под шариком
-	// 2.1 Синий эллипс 8х6 прока шарик полностью над столом
+	// 2. Shadow under the ball
+	// 2.1 Blue ellipse 8х6 As long as the ball is above the table
 	AsConfig::Blue_Color.Select(hdc);
 
 	Ellipse(hdc, Ad_Rect.left + 11 * scale, Ad_Rect.top + 14 * scale, Ad_Rect.left + 20 * scale - 1, Ad_Rect.top + 18 * scale - 1);
 
-	// 2.2 Уезжает вниз, когда шарик движется вверх
-	// 2.3 Увеличивается, когда шарик плющится
+	// 2.2 Going down when the ball going up
+	// 2.3 Enlarging when the ball flattened
 
-	// 3. Борта стола
-	// 3.1 Синяя кайма толщиной  в 1 игровой пиксель
+	// 3. Sides of the table
+	// 3.1 Blue border 1 pixel thickness
 	AsConfig::Advertisement_Blue_Table.Select(hdc);
 
 	MoveToEx(hdc, Ad_Rect.left + 1, Ad_Rect.top + 15 * scale, 0);
@@ -614,7 +614,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, Ad_Rect.left + 1, Ad_Rect.top + 15 * scale);
 
 
-	// 3.2 Красный борт толщиной в 2 игровых пикселя.
+	// 3.2 Red side 2 pixels thickness.
 	AsConfig::Advertisement_Red_Table.Select(hdc);
 
 	MoveToEx(hdc, Ad_Rect.left + scale - 1, Ad_Rect.top + 16 * scale + 1, 0);
@@ -622,24 +622,24 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, Ad_Rect.left + 30 * scale, Ad_Rect.top + 16 * scale);
 
 
-	// 4. Шарик
-	// 4.1 Красный эллипс 12х12
+	// 4. Ball
+	// 4.1 Red ellipse 12х12
 	AsConfig::Red_Color.Select(hdc);
 	
 	Ellipse(hdc, Ad_Rect.left + 9 * scale + 1, Ad_Rect.top + 2 * scale, Ad_Rect.left + 21 * scale + 1, Ad_Rect.top + 14 * scale);
-	// 5.2 Блик сверху
-	// 5.3 Летает вверх-вниз (по затухающей траектории)
-	// 5.4 При ударе об пол сплющивается до размера 16х9
+	// 5.2 Highlight at the top
+	// 5.3 Flying up and down (Trajectory is fading)
+	// 5.4 Flattened to 16х9 when hitting the floor
 
 
-	// 6. Рамка вокруг стола
-	// 6.1 Тонкая синяя рамка со скругленными краями
+	// 6. Border around the table
+	// 6.1 Think blue border with rounded corners
 
 }
 //------------------------------------------------------------------------------------------------------------
 bool AAdvertisement::Is_Finished()
 {
-	return false; // Реклама не заканчивается :S
+	return false; // Ads will never ends :S
 }
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
@@ -706,7 +706,7 @@ bool AActive_Brick_Ad::Is_Finished()
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Ad::Draw_In_Level(HDC hdc, RECT& brick_rect)
-{// Вывод неактивного кирпича на уровне
+{// Drawing inactive bricks on the level
 	const int scale = AsConfig::Global_Scale;
 
 	int x = brick_rect.left;
@@ -719,13 +719,13 @@ void AActive_Brick_Ad::Draw_In_Level(HDC hdc, RECT& brick_rect)
 
 	Rectangle(hdc, brick_rect.left, brick_rect.top, brick_rect.right + scale, brick_rect.bottom + scale);
 
-	// 2. Рисуем шарики
+	// 2. Drawing balls
 	for (i = 0; i < 2; i++)
 	{
 		AsConfig::Red_Color.Select(hdc);
 		Ellipse(hdc, x, y, x + 7 * scale, brick_rect.bottom);
 
-		// Рисуем блик на шарике
+		// Drawing highlight on the ball
 		AsConfig::White_Color.Select(hdc);
 
 		Arc(hdc, x + scale, y + scale, x + size, y + size, x + 2 * scale, y + scale, x + scale, y + 3 * scale);

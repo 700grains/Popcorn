@@ -78,7 +78,7 @@ HWND AsConfig::Hwnd;
 const double AsConfig::Moving_step_size = 1.0 / AsConfig::Global_Scale;
 //------------------------------------------------------------------------------------------------------------
 int AsConfig::Rand(int range)
-{// Вычисляет псевдослучайное число в диапазоне [0, .. range - 1]
+{// Calculates a pseudo-random number in the range [0, .. range - 1]
 
 	return rand() * range / RAND_MAX;
 }
