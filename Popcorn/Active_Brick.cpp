@@ -522,7 +522,7 @@ void AActive_Brick_Teleport::Set_Ball(ABall* ball)
 
 
 // AAdvertisement
-
+//------------------------------------------------------------------------------------------------------------
 AAdvertisement::~AAdvertisement()
 {
 	int i, j;
@@ -586,6 +586,13 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	const int scale = AsConfig::Global_Scale;
 	HRGN region;
 	RECT intersection_rect;
+	POINT table_points[4] =
+	{
+		{Ad_Rect.left + 1, Ad_Rect.top + 15 * scale},
+		{Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 10 * scale},
+		{Ad_Rect.left + 30 * scale + 1, Ad_Rect.top + 15 * scale},
+		{LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 20 * scale)}
+	};
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Ad_Rect))
 		return;
@@ -608,14 +615,8 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	// 1.1 White surface
 	AsConfig::White_Color.Select(hdc);
 
-	MoveToEx(hdc, Ad_Rect.left + 1, Ad_Rect.top + 15 * scale, 0);
-	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 10 * scale);
-	LineTo(hdc, Ad_Rect.left + 30 * scale + 1, Ad_Rect.top + 15 * scale);
-	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 20 * scale);
-	LineTo(hdc, Ad_Rect.left + 1, Ad_Rect.top + 15 * scale);
 
-	FloodFill(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 15 * scale, AsConfig::White_Color.Get_RGB());
-
+	Polygon(hdc, table_points, 4);
 
 	// 2. Shadow under the ball
 	// 2.1 Blue ellipse 8õ6 As long as the ball is above the table
