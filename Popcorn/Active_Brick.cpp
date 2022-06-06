@@ -578,13 +578,6 @@ void AAdvertisement::Act()
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Clear(HDC hdc, RECT& paint_area)
 {
-	RECT intersection_rect;
-
-	if (!IntersectRect(&intersection_rect, &paint_area, &Ad_Rect))
-		return;
-
-	AsConfig::BG_Color.Select(hdc);
-	Rectangle(hdc, Ad_Rect.left, Ad_Rect.top, Ad_Rect.right - 1, Ad_Rect.bottom - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
@@ -607,6 +600,10 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 			if (region != 0)
 				ExtSelectClipRgn(hdc, region, RGN_OR); // Chosing Region
 		}
+	// 0. Clearing previous image
+	AsConfig::BG_Color.Select(hdc);
+	Rectangle(hdc, Ad_Rect.left, Ad_Rect.top, Ad_Rect.right - 1, Ad_Rect.bottom - 1);
+
 	// 1. The table
 	// 1.1 White surface
 	AsConfig::White_Color.Select(hdc);
