@@ -553,8 +553,8 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 
 	Ad_Rect.left = (AsConfig::Level_X_Offset + Level_X * AsConfig::Cell_Width) * scale;
 	Ad_Rect.top = (AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height) * scale;
-	Ad_Rect.right = Ad_Rect.left + Width * AsConfig::Cell_Width * scale;
-	Ad_Rect.bottom = Ad_Rect.top + Height * AsConfig::Cell_Height * scale;
+	Ad_Rect.right = Ad_Rect.left + ((Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width) * scale;
+	Ad_Rect.bottom = Ad_Rect.top + ((Height - 1)* AsConfig::Cell_Height + AsConfig::Brick_Height) * scale;
 
 	for (i = 0; i < Height; i++) // enabling Ads. Remove the code later
 		for (j = 0; j < Width; j++)
@@ -598,10 +598,10 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 		{Ad_Rect.left + 1, Ad_Rect.top + 15 * scale},
 		{Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 10 * scale},
 		{Ad_Rect.left + 30 * scale + 1, Ad_Rect.top + 15 * scale},
-		{LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 20 * scale)}
+		{Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 20 * scale}
 	};
 
-	if (!IntersectRect(&intersection_rect, &paint_area, &Ad_Rect))
+	if (! IntersectRect(&intersection_rect, &paint_area, &Ad_Rect))
 		return;
 
 	SelectClipRgn(hdc, Empty_Region);
@@ -614,47 +614,48 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 			if (region != 0)
 				ExtSelectClipRgn(hdc, region, RGN_OR); // Chosing Region
 		}
-	// 0. Clearing previous image
+
+	// 1. Clearing previous image using Border
+	// 1.1 Think blue border with rounded corners
 	AsConfig::BG_Color.Select(hdc);
-	Rectangle(hdc, Ad_Rect.left, Ad_Rect.top, Ad_Rect.right - 1, Ad_Rect.bottom - 1);
+	AsConfig::Blue_Color.Select_Pen(hdc);
+	AsConfig::Round_Rect(hdc, Ad_Rect);
 
-	// 1. The table
-	// 1.1 White surface
+	// 2. The table
+	// 2.1 White surface
 	AsConfig::White_Color.Select(hdc);
-
-
 	Polygon(hdc, table_points, 4);
 
-	// 2. Shadow under the ball
-	// 2.1 Blue ellipse 8õ6 As long as the ball is above the table
+	// 3. Shadow under the ball
+	// 3.1 Blue ellipse 8õ6 As long as the ball is above the table
 	AsConfig::Blue_Color.Select(hdc);
 
 	Ellipse(hdc, Ad_Rect.left + 11 * scale, Ad_Rect.top + 14 * scale, Ad_Rect.left + 20 * scale - 1, Ad_Rect.top + 18 * scale - 1);
 
-	// 2.2 Going down when the ball going up
-	// 2.3 Enlarging when the ball flattened
+	// 3.2 Going down when the ball going up
+	// 3.3 Enlarging when the ball flattened
 
-	// 3. Sides of the table
-	// 3.1 Blue border 1 pixel thickness
+	// 4. Sides of the table
+	// 4.1 Blue border 1 pixel thickness
 	AsConfig::Advertisement_Blue_Table.Select(hdc);
 
-	MoveToEx(hdc, Ad_Rect.left + 1, Ad_Rect.top + 15 * scale, 0);
+	MoveToEx(hdc, Ad_Rect.left + scale - 1, Ad_Rect.top + 15 * scale, 0);
 	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 10 * scale);
-	LineTo(hdc, Ad_Rect.left + 30 * scale + 1, Ad_Rect.top + 15 * scale);
+	LineTo(hdc, Ad_Rect.left + 30 * scale, Ad_Rect.top + 15 * scale);
 	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 20 * scale);
-	LineTo(hdc, Ad_Rect.left + 1, Ad_Rect.top + 15 * scale);
+	LineTo(hdc, Ad_Rect.left + scale - 1, Ad_Rect.top + 15 * scale);
 
 
-	// 3.2 Red side 2 pixels thickness.
+	// 4.2 Red side 2 pixels thickness.
 	AsConfig::Advertisement_Red_Table.Select(hdc);
 
-	MoveToEx(hdc, Ad_Rect.left + scale - 1, Ad_Rect.top + 16 * scale + 1, 0);
+	MoveToEx(hdc, Ad_Rect.left + scale, Ad_Rect.top + 16 * scale + 1, 0);
 	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 21 * scale + 1);
-	LineTo(hdc, Ad_Rect.left + 30 * scale, Ad_Rect.top + 16 * scale);
+	LineTo(hdc, Ad_Rect.left + 30 * scale - 1, Ad_Rect.top + 16 * scale);
 
 
-	// 4. Ball
-	// 4.1 Red ellipse 12õ12
+	// 5. Ball
+	// 5.1 Red ellipse 12õ12
 	x = Ad_Rect.left + 9 * scale + 1;
 	y = Ad_Rect.top + 2 * scale;
 
@@ -662,15 +663,11 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	
 	Ellipse(hdc, x, y, x + circle_size, y + circle_size);
 
+	// 6.2 Highlight at the top
 	AsConfig::Letter_Color.Select(hdc);
 	Arc(hdc, x + scale + 1, y + scale + 1, x + circle_size - scale, y + circle_size - scale, x + 4 * scale, y + scale, x + scale, x + 3 * scale);
-	// 5.2 Highlight at the top
-	// 5.3 Flying up and down (Trajectory is fading)
-	// 5.4 Flattened to 16õ9 when hitting the floor
-
-
-	// 6. Border around the table
-	// 6.1 Think blue border with rounded corners
+	// 6.3 Flying up and down (Trajectory is fading)
+	// 6.4 Flattened to 16õ9 when hitting the floor
 
 	SelectClipRgn(hdc, 0);
 }
