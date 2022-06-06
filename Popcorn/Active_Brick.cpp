@@ -543,6 +543,7 @@ AAdvertisement::~AAdvertisement()
 AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 : Level_X(level_x), Level_Y(level_y), Width(width), Height(height), Empty_Region(0), Brick_Regions(0)
 {
+	int i, j;
 	const int scale = AsConfig::Global_Scale;
 	
 	Empty_Region = CreateRectRgn(0, 0, 0, 0);
@@ -554,6 +555,10 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 	Ad_Rect.top = (AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height) * scale;
 	Ad_Rect.right = Ad_Rect.left + Width * AsConfig::Cell_Width * scale;
 	Ad_Rect.bottom = Ad_Rect.top + Height * AsConfig::Cell_Height * scale;
+
+	for (i = 0; i < Height; i++) // enabling Ads. Remove the code later
+		for (j = 0; j < Width; j++)
+			Show_Under_Brick(Level_X + j, Level_Y + i);
 }
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Act() 
@@ -569,8 +574,8 @@ void AAdvertisement::Act()
 			{
 				rect.left = Ad_Rect.left + j * cell_width;
 				rect.top = Ad_Rect.top + i * cell_height;
-				rect.right = Ad_Rect.left + cell_width;
-				rect.bottom = Ad_Rect.top + cell_height;
+				rect.right = rect.left + cell_width;
+				rect.bottom = rect.top + cell_height;
 
 				InvalidateRect(AsConfig::Hwnd, &rect, FALSE);
 			}
@@ -583,7 +588,9 @@ void AAdvertisement::Clear(HDC hdc, RECT& paint_area)
 void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 {
 	int i, j;
+	int x, y;
 	const int scale = AsConfig::Global_Scale;
+	int circle_size = 12 * scale;
 	HRGN region;
 	RECT intersection_rect;
 	POINT table_points[4] =
@@ -648,9 +655,15 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	// 4. Ball
 	// 4.1 Red ellipse 12õ12
+	x = Ad_Rect.left + 9 * scale + 1;
+	y = Ad_Rect.top + 2 * scale;
+
 	AsConfig::Red_Color.Select(hdc);
 	
-	Ellipse(hdc, Ad_Rect.left + 9 * scale + 1, Ad_Rect.top + 2 * scale, Ad_Rect.left + 21 * scale + 1, Ad_Rect.top + 14 * scale);
+	Ellipse(hdc, x, y, x + circle_size, y + circle_size);
+
+	AsConfig::Letter_Color.Select(hdc);
+	Arc(hdc, x + scale + 1, y + scale + 1, x + circle_size - scale, y + circle_size - scale, x + 4 * scale, y + scale, x + scale, x + 3 * scale);
 	// 5.2 Highlight at the top
 	// 5.3 Flying up and down (Trajectory is fading)
 	// 5.4 Flattened to 16õ9 when hitting the floor
