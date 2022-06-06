@@ -627,7 +627,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	Polygon(hdc, table_points, 4);
 
 	// 3. Shadow under the ball
-	// 3.1 Blue ellipse 8х6 As long as the ball is above the table
+	// 3.1 Blue ellipse 8x6 As long as the ball is above the table
 	AsConfig::Blue_Color.Select(hdc);
 
 	Ellipse(hdc, Ad_Rect.left + 11 * scale, Ad_Rect.top + 14 * scale, Ad_Rect.left + 20 * scale - 1, Ad_Rect.top + 18 * scale - 1);
@@ -655,7 +655,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 
 	// 5. Ball
-	// 5.1 Red ellipse 12х12
+	// 5.1 Red ellipse 12x12
 	x = Ad_Rect.left + 9 * scale + 1;
 	y = Ad_Rect.top + 2 * scale;
 
@@ -665,9 +665,9 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	// 6.2 Highlight at the top
 	AsConfig::Letter_Color.Select(hdc);
-	Arc(hdc, x + scale + 1, y + scale + 1, x + circle_size - scale, y + circle_size - scale, x + 4 * scale, y + scale, x + scale, x + 3 * scale);
+	Arc(hdc, x + scale + 1, y + scale + 1, x + circle_size - scale, y + circle_size - scale, x + 4 * scale, y + scale, x + scale, y + 3 * scale);
 	// 6.3 Flying up and down (Trajectory is fading)
-	// 6.4 Flattened to 16х9 when hitting the floor
+	// 6.4 Flattened to 16x9 when hitting the floor
 
 	SelectClipRgn(hdc, 0);
 }
@@ -687,16 +687,16 @@ void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
 	x = level_x - Level_X;
 	y = level_y - Level_Y;
 
-	if (x < 0 || x > Width)
+	if (x < 0 || x >= Width)
 		AsConfig::Throw();
 
-	if (y < 0 || y > Height)
+	if (y < 0 || y >= Height)
 		AsConfig::Throw();
 
 	rect.left = Ad_Rect.left + x * cell_width;
 	rect.top = Ad_Rect.top + y * cell_height;
-	rect.right = Ad_Rect.left + cell_width;
-	rect.bottom = Ad_Rect.top + cell_height;
+	rect.right = rect.left + cell_width;
+	rect.bottom = rect.top + cell_height;
 
 	Brick_Regions[y * Width + x] = CreateRectRgnIndirect(&rect);
 }
@@ -757,7 +757,7 @@ void AActive_Brick_Ad::Draw_In_Level(HDC hdc, RECT& brick_rect)
 	int i;
 	int size = (Circle_Size - 1) * scale - 1;
 
-	// 1. Стираем предыдущее изображение
+	// 1. Clearing previous image
 	AsConfig::BG_Color.Select(hdc);
 
 	Rectangle(hdc, brick_rect.left, brick_rect.top, brick_rect.right + scale, brick_rect.bottom + scale);
