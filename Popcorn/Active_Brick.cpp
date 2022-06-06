@@ -525,16 +525,30 @@ void AActive_Brick_Teleport::Set_Ball(ABall* ball)
 
 AAdvertisement::~AAdvertisement()
 {
-	delete[] Brick_Mask;
+	int i, j;
+	HRGN region;
+
+	for (i = 0; i < Height; i++)
+		for (j = 0; j < Width; j++)
+		{
+			region = Brick_Regions[i * Width + j];
+
+			if (region != 0)
+				DeleteObject(region);
+		}
+
+	delete[] Brick_Regions;
 }
 //------------------------------------------------------------------------------------------------------------
 AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
-: Level_X(level_x), Level_Y(level_y), Width(width), Height(height), Brick_Mask(0)
+: Level_X(level_x), Level_Y(level_y), Width(width), Height(height), Empty_Region(0), Brick_Regions(0)
 {
 	const int scale = AsConfig::Global_Scale;
+	
+	Empty_Region = CreateRectRgn(0, 0, 0, 0);
 
-	Brick_Mask = new char[Width * Height];
-	memset(Brick_Mask, 0, Width * Height);
+	Brick_Regions = new HRGN [Width * Height];
+	memset(Brick_Regions, 0, sizeof(HRGN) * Width * Height);
 
 	Ad_Rect.left = (AsConfig::Level_X_Offset + Level_X * AsConfig::Cell_Width) * scale;
 	Ad_Rect.top = (AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height) * scale;
@@ -551,7 +565,7 @@ void AAdvertisement::Act()
 
 	for (i = 0; i < Height; i++)
 		for (j = 0; j < Width; j++)
-			if (Brick_Mask[i * Width + j] == 1)
+			if (Brick_Regions[i * Width + j] != 0)
 			{
 				rect.left = Ad_Rect.left + j * cell_width;
 				rect.top = Ad_Rect.top + i * cell_height;
@@ -575,12 +589,24 @@ void AAdvertisement::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 {
+	int i, j;
 	const int scale = AsConfig::Global_Scale;
+	HRGN region;
 	RECT intersection_rect;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Ad_Rect))
 		return;
 
+	SelectClipRgn(hdc, Empty_Region);
+
+	for (i = 0; i < Height; i++)
+		for (j = 0; j < Width; j++)
+		{
+			region = Brick_Regions[i * Width + j];
+
+			if (region != 0)
+				ExtSelectClipRgn(hdc, region, RGN_OR); // Chosing Region
+		}
 	// 1. The table
 	// 1.1 White surface
 	AsConfig::White_Color.Select(hdc);
@@ -635,6 +661,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	// 6. Border around the table
 	// 6.1 Think blue border with rounded corners
 
+	SelectClipRgn(hdc, 0);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AAdvertisement::Is_Finished()
@@ -645,6 +672,9 @@ bool AAdvertisement::Is_Finished()
 void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
 {
 	int x, y;
+	int cell_width = AsConfig::Cell_Width * AsConfig::Global_Scale;
+	int cell_height = AsConfig::Cell_Height * AsConfig::Global_Scale;
+	RECT rect;
 
 	x = level_x - Level_X;
 	y = level_y - Level_Y;
@@ -655,7 +685,12 @@ void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
 	if (y < 0 || y > Height)
 		AsConfig::Throw();
 
-	Brick_Mask[y * Width + x] = 1;
+	rect.left = Ad_Rect.left + x * cell_width;
+	rect.top = Ad_Rect.top + y * cell_height;
+	rect.right = Ad_Rect.left + cell_width;
+	rect.bottom = Ad_Rect.top + cell_height;
+
+	Brick_Regions[y * Width + x] = CreateRectRgnIndirect(&rect);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AAdvertisement::Has_Brick_At(int level_x, int level_y)
