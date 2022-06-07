@@ -178,12 +178,14 @@ private:
 	int Ball_Width, Ball_Height;
 	int Ball_Y_Offset;
 	double Falling_Speed, Acceleration_Step;
+	double Deformation_Ratio;
 
 	HRGN* Brick_Regions;
 
 	static const int Ball_Size = 12;
 	static const int High_Ball_Treshold = 12 * AsConfig::Global_Scale;
 	static const int Low_Ball_Treshold  = -3 * AsConfig::Global_Scale;
+	static const int Deformation_Height = 2 * AsConfig::Global_Scale;
 };
 //------------------------------------------------------------------------------------------------------------
 class AActive_Brick_Ad : public AActive_Brick

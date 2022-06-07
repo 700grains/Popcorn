@@ -592,6 +592,11 @@ void AAdvertisement::Act()
 	Falling_Speed += Acceleration_Step;
 	Ball_Y_Offset = High_Ball_Treshold - (int)(Falling_Speed * Falling_Speed);
 
+	if (Ball_Y_Offset <= Low_Ball_Treshold + Deformation_Height)
+		Deformation_Ratio = (double) (Ball_Y_Offset - Low_Ball_Treshold) / (double) Deformation_Height;
+	else
+		Deformation_Ratio = 1.0;
+
 	if (Ball_Y_Offset > High_Ball_Treshold || Ball_Y_Offset < Low_Ball_Treshold)
 		Acceleration_Step = -Acceleration_Step;
 }
@@ -604,6 +609,8 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 {
 	int i, j;
 	int x, y;
+	int ball_width, ball_height;
+	int deformation;
 	const int scale = AsConfig::Global_Scale;
 	HRGN region;
 	RECT intersection_rect;
@@ -670,16 +677,22 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	// 5. Ball
 	// 5.1 Red ellipse 12x12
-	x = Ball_X - Ball_Width / 2;	
-	y = Ball_Y - Ball_Height / 2 - Ball_Y_Offset;
+	deformation = (1.0 - Deformation_Ratio) * scale * 2.0;
+
+	ball_width = Ball_Width + deformation;
+	ball_height = Ball_Height - deformation;
+
+	x = Ball_X - ball_width / 2;
+	y = Ball_Y - ball_height / 2 - Ball_Y_Offset;
+
 
 	AsConfig::Red_Color.Select(hdc);
 	
-	Ellipse(hdc, x, y, x + Ball_Width, y + Ball_Height);
+	Ellipse(hdc, x, y, x + ball_width, y + ball_height);
 
 	// 6.2 Highlight at the top
 	AsConfig::Letter_Color.Select(hdc);
-	Arc(hdc, x + scale + 1, y + scale + 1, x + Ball_Width - scale, y + Ball_Height - scale, x + 4 * scale, y + scale, x + scale, y + 3 * scale);
+	Arc(hdc, x + scale + 1, y + scale + 1, x + ball_width - scale, y + ball_height - scale, x + 4 * scale, y + scale, x + scale, y + 3 * scale);
 	// 6.3 Flying up and down (Trajectory is fading)
 	// 6.4 Flattened to 16x9 when hitting the floor
 
