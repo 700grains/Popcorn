@@ -610,6 +610,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	int i, j;
 	int x, y;
 	int ball_width, ball_height;
+	int shadow_width, shadow_height;
 	int deformation;
 	const int scale = AsConfig::Global_Scale;
 	HRGN region;
@@ -651,7 +652,19 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	// 3.1 Blue ellipse 8x6 As long as the ball is above the table
 	AsConfig::Blue_Color.Select(hdc);
 
-	Ellipse(hdc, Ad_Rect.left + 11 * scale, Ad_Rect.top + 14 * scale, Ad_Rect.left + 20 * scale - 1, Ad_Rect.top + 18 * scale - 1);
+	shadow_width = Ball_Width - 4 * scale;
+	shadow_height = 4 * scale;
+
+	deformation = (int)((1.0 - Deformation_Ratio) * (double)scale * 2.0);
+
+	ball_width = shadow_width + deformation;
+	ball_height = shadow_height - deformation;
+
+	x = Ball_X - ball_width / 2;
+	y = Ball_Y - ball_height / 2 + Ball_Y_Offset / 6 + 9 * scale;
+
+	Ellipse(hdc, x, y, x + ball_width, y + ball_height);
+
 
 	// 3.2 Going down when the ball going up
 	// 3.3 Enlarging when the ball flattened
@@ -677,8 +690,6 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	// 5. Ball
 	// 5.1 Red ellipse 12x12
-	deformation = (1.0 - Deformation_Ratio) * scale * 2.0;
-
 	ball_width = Ball_Width + deformation;
 	ball_height = Ball_Height - deformation;
 
