@@ -174,8 +174,12 @@ private:
 	int Width, Height;
 	RECT Ad_Rect;
 	HRGN Empty_Region;
+	int Ball_X, Ball_Y;
+	int Ball_Width, Ball_Height;
 
 	HRGN* Brick_Regions;
+
+	static const int Ball_Size = 12;
 };
 //------------------------------------------------------------------------------------------------------------
 class AActive_Brick_Ad : public AActive_Brick

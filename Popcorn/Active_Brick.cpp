@@ -541,11 +541,12 @@ AAdvertisement::~AAdvertisement()
 }
 //------------------------------------------------------------------------------------------------------------
 AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
-: Level_X(level_x), Level_Y(level_y), Width(width), Height(height), Empty_Region(0), Brick_Regions(0)
+: Level_X(level_x), Level_Y(level_y), Width(width), Height(height), Empty_Region(0), Ball_X(0), Ball_Y(0),
+	Ball_Width(Ball_Size * AsConfig::Global_Scale), Ball_Height(Ball_Size* AsConfig::Global_Scale),Brick_Regions(0)
 {
 	int i, j;
 	const int scale = AsConfig::Global_Scale;
-	
+
 	Empty_Region = CreateRectRgn(0, 0, 0, 0);
 
 	Brick_Regions = new HRGN [Width * Height];
@@ -555,6 +556,9 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 	Ad_Rect.top = (AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height) * scale;
 	Ad_Rect.right = Ad_Rect.left + ((Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width) * scale;
 	Ad_Rect.bottom = Ad_Rect.top + ((Height - 1)* AsConfig::Cell_Height + AsConfig::Brick_Height) * scale;
+
+	Ball_X = Ad_Rect.left + 9 * scale + Ball_Width / 2 + 1;
+	Ball_Y = Ad_Rect.top + 2 * scale + Ball_Height / 2;
 
 	for (i = 0; i < Height; i++) // enabling Ads. Remove the code later
 		for (j = 0; j < Width; j++)
@@ -590,7 +594,6 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	int i, j;
 	int x, y;
 	const int scale = AsConfig::Global_Scale;
-	int circle_size = 12 * scale;
 	HRGN region;
 	RECT intersection_rect;
 	POINT table_points[4] =
@@ -656,16 +659,16 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	// 5. Ball
 	// 5.1 Red ellipse 12x12
-	x = Ad_Rect.left + 9 * scale + 1;
-	y = Ad_Rect.top + 2 * scale;
+	x = Ball_X - Ball_Width / 2;	
+	y = Ball_Y - Ball_Height / 2;
 
 	AsConfig::Red_Color.Select(hdc);
 	
-	Ellipse(hdc, x, y, x + circle_size, y + circle_size);
+	Ellipse(hdc, x, y, x + Ball_Width, y + Ball_Height);
 
 	// 6.2 Highlight at the top
 	AsConfig::Letter_Color.Select(hdc);
-	Arc(hdc, x + scale + 1, y + scale + 1, x + circle_size - scale, y + circle_size - scale, x + 4 * scale, y + scale, x + scale, y + 3 * scale);
+	Arc(hdc, x + scale + 1, y + scale + 1, x + Ball_Width - scale, y + Ball_Height - scale, x + 4 * scale, y + scale, x + scale, y + 3 * scale);
 	// 6.3 Flying up and down (Trajectory is fading)
 	// 6.4 Flattened to 16x9 when hitting the floor
 
