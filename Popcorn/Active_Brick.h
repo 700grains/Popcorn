@@ -176,7 +176,8 @@ private:
 	HRGN Empty_Region;
 	int Ball_X, Ball_Y;
 	int Ball_Width, Ball_Height;
-	int Ball_Y_Offset, Ball_Y_Shift;
+	int Ball_Y_Offset;
+	double Falling_Speed, Acceleration_Step;
 
 	HRGN* Brick_Regions;
 
