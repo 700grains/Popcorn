@@ -573,8 +573,8 @@ void AAdvertisement::Act()
 	int i, j;
 	RECT rect;
 
-	//if (AsConfig::Current_Timer_Tick % 3 != 0)
-	//	return;
+	if (AsConfig::Current_Timer_Tick % 3 != 0)
+		return;
 
 	// 1. We order a redrawing of the fragments over which the bricks disappeared.
 	for (i = 0; i < Height; i++)
