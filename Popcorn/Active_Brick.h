@@ -176,10 +176,13 @@ private:
 	HRGN Empty_Region;
 	int Ball_X, Ball_Y;
 	int Ball_Width, Ball_Height;
+	int Ball_Y_Offset, Ball_Y_Shift;
 
 	HRGN* Brick_Regions;
 
 	static const int Ball_Size = 12;
+	static const int High_Ball_Treshold = 5;
+	static const int Low_Ball_Treshold = -5;
 };
 //------------------------------------------------------------------------------------------------------------
 class AActive_Brick_Ad : public AActive_Brick

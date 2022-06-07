@@ -542,7 +542,8 @@ AAdvertisement::~AAdvertisement()
 //------------------------------------------------------------------------------------------------------------
 AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 : Level_X(level_x), Level_Y(level_y), Width(width), Height(height), Empty_Region(0), Ball_X(0), Ball_Y(0),
-	Ball_Width(Ball_Size * AsConfig::Global_Scale), Ball_Height(Ball_Size* AsConfig::Global_Scale),Brick_Regions(0)
+	Ball_Width(Ball_Size * AsConfig::Global_Scale), Ball_Height(Ball_Size* AsConfig::Global_Scale), Ball_Y_Offset(0),
+	Ball_Y_Shift(1), Brick_Regions(0)
 {
 	int i, j;
 	const int scale = AsConfig::Global_Scale;
@@ -572,6 +573,7 @@ void AAdvertisement::Act()
 	int i, j;
 	RECT rect;
 
+	// 1. We order a redrawing of the fragments over which the bricks disappeared.
 	for (i = 0; i < Height; i++)
 		for (j = 0; j < Width; j++)
 			if (Brick_Regions[i * Width + j] != 0)
@@ -583,6 +585,11 @@ void AAdvertisement::Act()
 
 				InvalidateRect(AsConfig::Hwnd, &rect, FALSE);
 			}
+	// 2. Move the ball.
+	Ball_Y_Offset += Ball_Y_Shift;
+
+	if (Ball_Y_Offset >= High_Ball_Treshold || Ball_Y_Offset <= Low_Ball_Treshold)
+		Ball_Y_Shift = -Ball_Y_Shift;
 }
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Clear(HDC hdc, RECT& paint_area)
@@ -660,7 +667,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	// 5. Ball
 	// 5.1 Red ellipse 12x12
 	x = Ball_X - Ball_Width / 2;	
-	y = Ball_Y - Ball_Height / 2;
+	y = Ball_Y - Ball_Height / 2 - Ball_Y_Offset;
 
 	AsConfig::Red_Color.Select(hdc);
 	
