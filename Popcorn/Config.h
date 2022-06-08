@@ -43,6 +43,7 @@ public:
 	static HWND Hwnd;
 
 	static const double Moving_step_size;
+	static const double Start_Ball_Y_Pos;
 
 	static const int Global_Scale = 3;
 	static const int Border_X_Offset = 6;

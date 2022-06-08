@@ -77,7 +77,7 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 		{
 			for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 				if (Balls[i].Get_State() == EBS_On_Platform)
-					Balls[i].Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
+					Balls[i].Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
 
 			Platform.Set_State(EPS_Normal);
 
@@ -136,8 +136,10 @@ int AsEngine::On_Timer()
 		{
 			Game_State = EGS_Play_Level;
 
-			for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-				Balls[i].Set_State (EBS_On_Platform, Platform.X_Pos + Platform.Width / 2);
+			Balls[0].	Set_State(EBS_On_Platform, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
+
+			for (i = 1; i < AsConfig::Max_Balls_Count; i++)
+				Balls[i].Set_State (EBS_Disabled);
 		}
 		break;
 	}
