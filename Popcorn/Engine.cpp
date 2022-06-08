@@ -136,9 +136,10 @@ int AsEngine::On_Timer()
 		{
 			Game_State = EGS_Play_Level;
 
-			Balls[0].	Set_State(EBS_On_Platform, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
+			for (i = 0; i < 3; i++)
+				Balls[i].Set_State(EBS_On_Platform, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
 
-			for (i = 1; i < AsConfig::Max_Balls_Count; i++)
+			for (; i < AsConfig::Max_Balls_Count; i++)
 				Balls[i].Set_State (EBS_Disabled);
 		}
 		break;
@@ -168,6 +169,23 @@ void AsEngine::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 {
+	switch (falling_letter->Letter_Type)
+	{
+	//case ELT_O: // "Cancel"
+	//case ELT_I: // "Inversion"
+	//case ELT_C: // "Speed"
+	//case ELT_M: // "Monsters"
+	//case ELT_G: // "Life"
+	//case ELT_K: // "Glue"
+	//case ELT_W: // "Wider"
+	case ELT_T: // "Three"
+		break;
+	//case ELT_L: // "Laser"
+	//case ELT_P: // "Floor"
+	//case ELT_Plus: // Moving to the next level
+	default:
+		AsConfig::Throw();
+	}
 	falling_letter->Finalize();
 }
 //------------------------------------------------------------------------------------------------------------

@@ -4,21 +4,21 @@
 //------------------------------------------------------------------------------------------------------------
 enum ELetter_Type
 {
-	ELT_O, // "Cancel"
-	ELT_I, // "Inversion"
-	ELT_C, // "Speed"
-	ELT_M, // "Monsters"
-	ELT_G, // "Life"
-	ELT_K, // "Glue"
-	ELT_W, // "Wider"
+ELT_O, // "Cancel"
+ELT_I, // "Inversion"
+ELT_C, // "Speed"
+ELT_M, // "Monsters"
+ELT_G, // "Life"
+ELT_K, // "Glue"
+ELT_W, // "Wider"
 
-	ELT_T, // "Three"
-	ELT_L, // "Laser"
-	ELT_P, // "Floor"
+ELT_T, // "Three"
+ELT_L, // "Laser"
+ELT_P, // "Floor"
 
-	ELT_Plus, // Moving to the next level
+ELT_Plus, // Moving to the next level
 
-	ELT_Max // Max value
+ELT_Max // Max value
 };
 //------------------------------------------------------------------------------------------------------------
 enum EFalling_Letter_State

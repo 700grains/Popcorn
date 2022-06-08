@@ -36,7 +36,7 @@ ABall::ABall()
 	: Ball_State (EBS_Disabled), Previous_Ball_State(EBS_Disabled), Center_X_Pos(0), Center_Y_Pos(0.0), Ball_Speed(0.0),
 	Rest_Distance(0.0), Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}
 {
-	Set_State(EBS_Normal, 0);
+	//Set_State(EBS_Normal, 0);
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Draw(HDC hdc, RECT &paint_area)
