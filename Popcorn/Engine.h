@@ -41,9 +41,11 @@ private:
 
 	EGame_State Game_State;
 
-	ABall Ball;
+	//ABall Ball;
 	AsLevel Level;
 	AsPlatform Platform;
 	AsBorder Border;
+
+	ABall Balls[AsConfig::Max_Balls_Count];
 };
 //------------------------------------------------------------------------------------------------------------

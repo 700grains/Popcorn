@@ -209,13 +209,13 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 //------------------------------------------------------------------------------------------------------------
 /*
 
-Level end on ball loss
+V Level end on ball loss
 V 1. Platform melt animation
 V 2. Animation of rolling out a new
 V 3. Animation of the expanding platform
 V 4. Launching the ball with a space and the state of the ball
 
-bricks
+V Bricks
 V 1. Ordinary bricks (blue or red)
 V 1.1. Can be with or without letter
 V 1.2. When hitting a brick, it disappears from the level immediately, and if the brick was:
@@ -236,13 +236,13 @@ V 4.1. Parachute animation - as a variant of the falling letter
 V 5. Brick of teleportation
 V 5.1. Animation when capturing and releasing the ball
 
-6. Advertising brick
-6.1. Animation of a fragment of "advertising" hidden behind a brick
+V 6. Advertising brick
+V 6.1. Animation of a fragment of "advertising" hidden behind a brick
 
 
-Interaction of special bricks
+V Interaction of special bricks
 V 1. Falling letter - only interacts with the platform
-2. Active brick - interacts only with the ball
+V 2. Active brick - interacts only with the ball
 
 
 Actions of letters

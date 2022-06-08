@@ -62,5 +62,6 @@ public:
 	static const int Max_Active_Bricks_Count = 10;
 	static const int Hits_Per_Letter = 1; // Probability of hitting a letter - 1 / Hits_Per_Letter
 	static const int Max_Falling_Letters_Count = 10;
+	static const int Max_Balls_Count = 10;
 };
 //------------------------------------------------------------------------------------------------------------

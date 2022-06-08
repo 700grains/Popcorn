@@ -5,6 +5,8 @@
 //------------------------------------------------------------------------------------------------------------
 enum EBall_State
 {
+	EBS_Disabled, // not drawn, not moved, doesn't interact
+
 	EBS_Normal,
 	EBS_Lost,
 	EBS_On_Platform,
