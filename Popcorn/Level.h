@@ -21,6 +21,8 @@ public:
 	void Act();
 	void Draw(HDC hdc, RECT &paint_area);
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
+	void Stop();
+
 
 	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
 	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
@@ -43,6 +45,7 @@ private:
 	void Act_Objects(AGraphics_Object** objects_array, int& objects_count, const int objects_max_count);
 
 	RECT Level_Rect;
+	bool Need_To_Cancel_All;
 
 	double Current_Brick_Left_X, Current_Brick_Right_X;
 	double Current_Brick_Top_Y, Current_Brick_Low_Y;

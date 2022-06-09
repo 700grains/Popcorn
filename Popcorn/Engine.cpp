@@ -165,11 +165,15 @@ void AsEngine::Play_Level()
 	if (active_balls_count == lost_balls_count)
 	{ // All balls are lost!
 		Game_State = EGS_Lost_Ball;
+		Level.Stop();
+
 		Platform.Set_State(EPS_Meltdown);
 	}
-
-	if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
-		Game_State = EGS_Test_Ball;
+	if (active_balls_count == 1)
+	{
+		if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
+			Game_State = EGS_Test_Ball;
+	}
 
 }
 //------------------------------------------------------------------------------------------------------------

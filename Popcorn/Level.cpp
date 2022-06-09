@@ -45,7 +45,7 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Active_Bricks_Count (0), Falling_Letters_Count(0), Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0),
+: Level_Rect{}, Need_To_Cancel_All (false),  Active_Bricks_Count (0), Falling_Letters_Count(0), Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0),
   Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
 {
 }
@@ -265,6 +265,11 @@ bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_lett
 	}
 
 	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Stop()
+{
+	Need_To_Cancel_All = true;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::On_Hit(int brick_x, int brick_y, ABall* ball, bool vertical_hit)
