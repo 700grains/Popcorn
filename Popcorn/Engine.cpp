@@ -143,17 +143,29 @@ void AsEngine::Restart_Level()
 void AsEngine::Play_Level()
 {
 	int  i;
+	int  active_balls_count = 0;
+	int  lost_balls_count = 0;
 
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
-		Balls[i].Move();
+		if (Balls[i].Get_State() == EBS_Disabled)
+			continue;
+
+		++active_balls_count;
 
 		if (Balls[i].Get_State() == EBS_Lost)
 		{
-			Game_State = EGS_Lost_Ball;
-			Platform.Set_State(EPS_Meltdown);
+			++lost_balls_count;
+			continue;
 		}
 
+		Balls[i].Move();
+	}
+
+	if (active_balls_count == lost_balls_count)
+	{ // All balls are lost!
+		Game_State = EGS_Lost_Ball;
+		Platform.Set_State(EPS_Meltdown);
 	}
 
 	if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
