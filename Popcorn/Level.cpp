@@ -41,6 +41,8 @@ char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 //------------------------------------------------------------------------------------------------------------
 AsLevel::~AsLevel()
 {
+	Cancel_All_Activity();
+
 	delete[] Teleport_Bricks_Pos;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -218,6 +220,12 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
 	Clear_Objects(hdc, paint_area, (AGraphics_Object**)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
 	if (Advertisement != 0)
 		Advertisement->Clear(hdc, paint_area);
+
+	if (Need_To_Cancel_All)
+	{
+		Cancel_All_Activity();
+		Need_To_Cancel_All = false;
+	}
 
 	// 2. Draw all objects
 	if (Advertisement != 0)
@@ -681,6 +689,20 @@ void AsLevel::Clear_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** object
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+void AsLevel::Delete_Objects(AGraphics_Object** objects_array, int& objects_count, int object_max_count)
+{
+	int i;
+	for (i = 0; i < object_max_count; ++i)
+	{
+		if (objects_array[i] != 0)
+		{
+			delete objects_array[i];
+			objects_array[i] = 0;
+		}
+	}
+	objects_count = 0;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count)
 {
 	int i;
@@ -708,5 +730,12 @@ void AsLevel::Act_Objects(AGraphics_Object** objects_array, int& objects_count, 
 			}
 		}
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Cancel_All_Activity()
+{
+	Delete_Objects((AGraphics_Object**)&Active_Bricks, Active_Bricks_Count, AsConfig::Max_Active_Bricks_Count);
+	Delete_Objects((AGraphics_Object**)&Falling_Letters, Falling_Letters_Count, AsConfig::Max_Falling_Letters_Count);
+
 }
 //------------------------------------------------------------------------------------------------------------

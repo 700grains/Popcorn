@@ -41,8 +41,11 @@ private:
 	void Draw_Parachute_In_Level(HDC hdc, RECT& brick_rect);
 	void Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int width);
 	void Clear_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count);
+	void Delete_Objects(AGraphics_Object** objects_array, int& objects_count, int object_max_count);
 	void Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count);
 	void Act_Objects(AGraphics_Object** objects_array, int& objects_count, const int objects_max_count);
+	void Cancel_All_Activity();
+
 
 	RECT Level_Rect;
 	bool Need_To_Cancel_All;
