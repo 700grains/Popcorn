@@ -90,8 +90,6 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Timer()
 {
-	int i;
-
 	++AsConfig::Current_Timer_Tick;
 
 	switch (Game_State)
@@ -103,21 +101,7 @@ int AsEngine::On_Timer()
 
 
 	case EGS_Play_Level:
-		for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-		{
-			Balls[i].Move();
-
-			if (Balls[i].Get_State() == EBS_Lost)
-			{
-				Game_State = EGS_Lost_Ball;
-				Platform.Set_State(EPS_Meltdown);
-			}
-
-		}
-
-		if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
-			Game_State = EGS_Test_Ball;
-
+		Play_Level();
 		break;
 
 
@@ -133,21 +117,48 @@ int AsEngine::On_Timer()
 
 	case EGS_Restart_Level:
 		if (Platform.Get_State() == EPS_Ready)
-		{
-			Game_State = EGS_Play_Level;
-
-			for (i = 0; i < 3; i++)
-				Balls[i].Set_State(EBS_On_Platform, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
-
-			for (; i < AsConfig::Max_Balls_Count; i++)
-				Balls[i].Set_State (EBS_Disabled);
-		}
+			Restart_Level();
 		break;
 	}
 	
 	Act();
 
 	return 0;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Restart_Level()
+{
+	int i;
+
+	Game_State = EGS_Play_Level;
+
+	for (i = 0; i < 3; i++)
+		Balls[i].Set_State(EBS_On_Platform, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
+
+	for (; i < AsConfig::Max_Balls_Count; i++)
+		Balls[i].Set_State(EBS_Disabled);
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Play_Level()
+{
+	int  i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		Balls[i].Move();
+
+		if (Balls[i].Get_State() == EBS_Lost)
+		{
+			Game_State = EGS_Lost_Ball;
+			Platform.Set_State(EPS_Meltdown);
+		}
+
+	}
+
+	if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
+		Game_State = EGS_Test_Ball;
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Act()
