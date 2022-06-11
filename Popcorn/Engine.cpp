@@ -56,32 +56,32 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 		Balls[i].Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
-int AsEngine::On_Key_Down(EKey_Type key_type)
+int AsEngine::On_Key(EKey_Type key_type, bool key_down)
 {
 	int i;
 
 	switch (key_type)
 	{
 	case EKT_Left:
-		Platform.Move(true);
+		Platform.Move(true, key_down);
 		break;
 
 
 	case EKT_Right:
-		Platform.Move(false);
+		Platform.Move(false, key_down);
 		break;
 
 
 	case EKT_Space:
-		if (Platform.Get_State() == EPS_Ready)
-		{
-			for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-				if (Balls[i].Get_State() == EBS_On_Platform)
-					Balls[i].Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
+		if (key_down)
+			if (Platform.Get_State() == EPS_Ready)
+			{
+				for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+					if (Balls[i].Get_State() == EBS_On_Platform)
+						Balls[i].Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2, AsConfig::Start_Ball_Y_Pos);
 
-			Platform.Set_State(EPS_Normal);
-
-		}
+				Platform.Set_State(EPS_Normal);
+			}
 		break;
 	}
 
