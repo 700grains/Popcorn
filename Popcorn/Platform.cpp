@@ -165,6 +165,17 @@ void AsPlatform::Move(bool to_left, bool key_down)
 
 	if (to_left)
 	{
+		if (Platform_Moving_State == EPMS_Moving_Left)
+		{
+			if (!key_down)
+			{
+				Platform_Moving_State = EPMS_Stop;
+				return;
+			}
+		}
+		else
+			Platform_Moving_State = EPMS_Moving_Left;
+
 		X_Pos -= X_Step;
 
 		if (X_Pos <= AsConfig::Border_X_Offset)
@@ -174,6 +185,18 @@ void AsPlatform::Move(bool to_left, bool key_down)
 	}
 	else
 	{
+		if (Platform_Moving_State == EPMS_Moving_Right)
+		{
+			if (!key_down)
+			{
+				Platform_Moving_State = EPMS_Stop;
+				return;
+			}
+		}
+		else
+			Platform_Moving_State = EPMS_Moving_Right;
+
+
 		X_Pos += X_Step;
 
 		if (X_Pos >= AsConfig::Max_X_Pos - Width + 1)
