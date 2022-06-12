@@ -8,9 +8,9 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Missing), Platform_Moving_State(EPMS_Stop),
-  Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0), 
-  Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
+: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Missing), Platform_Moving_State(EPMS_Stop),
+  Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed(0.0), Normal_Platform_Image_Width(0),
+  Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
@@ -169,6 +169,7 @@ void AsPlatform::Move(bool to_left, bool key_down)
 		{
 			if (!key_down)
 			{
+				Speed = 0.0;
 				Platform_Moving_State = EPMS_Stop;
 				return;
 			}
@@ -176,12 +177,7 @@ void AsPlatform::Move(bool to_left, bool key_down)
 		else
 			Platform_Moving_State = EPMS_Moving_Left;
 
-		X_Pos -= X_Step;
-
-		if (X_Pos <= AsConfig::Border_X_Offset)
-			X_Pos = AsConfig::Border_X_Offset;
-
-		Redraw_Platform();
+		Speed = -X_Step;
 	}
 	else
 	{
@@ -189,6 +185,7 @@ void AsPlatform::Move(bool to_left, bool key_down)
 		{
 			if (!key_down)
 			{
+				Speed = 0.0;
 				Platform_Moving_State = EPMS_Stop;
 				return;
 			}
@@ -196,13 +193,7 @@ void AsPlatform::Move(bool to_left, bool key_down)
 		else
 			Platform_Moving_State = EPMS_Moving_Right;
 
-
-		X_Pos += X_Step;
-
-		if (X_Pos >= AsConfig::Max_X_Pos - Width + 1)
-			X_Pos = AsConfig::Max_X_Pos - Width + 1;
-
-		Redraw_Platform();
+		Speed = X_Step;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -217,6 +208,17 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 	else
 		return false;
 
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Advance(double max_speed)
+{
+	X_Pos += Speed / max_speed * AsConfig::Moving_step_size;
+
+	if (X_Pos <= AsConfig::Border_X_Offset)
+		X_Pos = AsConfig::Border_X_Offset;
+
+	if (X_Pos >= AsConfig::Max_X_Pos - Width + 1)
+		X_Pos = AsConfig::Max_X_Pos - Width + 1;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Clear_BG(HDC hdc)

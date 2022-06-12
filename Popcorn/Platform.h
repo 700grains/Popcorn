@@ -36,10 +36,10 @@ public:
 	void Draw(HDC hdc, RECT &paint_area);
 	void Move(bool to_left, bool key_down);
 	bool Hit_By(AFalling_Letter* falling_letter);
+	void Advance(double max_speed);
 
-	int X_Pos;
 	int Width;
-	int X_Step;
+	double Speed;
 
 private:
 	void Clear_BG(HDC hdc);
@@ -55,6 +55,7 @@ private:
 	EPlatform_Moving_State Platform_Moving_State;
 	int Inner_Width;
 	int Rolling_Step;
+	double X_Pos;
 
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
 	int* Normal_Platform_Image; // Platform image pixels on window background
@@ -74,5 +75,7 @@ private:
 	static const int Max_Rolling_Step = 16;
 	static const int Roll_In_Platform_End_X_Pos = 99;
 	static const int Rolling_Platform_Speed = 3;
+	static const int X_Step = AsConfig::Global_Scale * 2;
+
 };
 //------------------------------------------------------------------------------------------------------------
