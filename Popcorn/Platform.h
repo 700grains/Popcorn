@@ -37,6 +37,7 @@ public:
 	void Move(bool to_left, bool key_down);
 	bool Hit_By(AFalling_Letter* falling_letter);
 	void Advance(double max_speed);
+	double Get_Middle_Pos();
 
 	int Width;
 	double Speed;

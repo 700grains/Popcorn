@@ -117,7 +117,7 @@ void AsPlatform::Redraw_Platform()
 
 
 
-	Platform_Rect.left = X_Pos * AsConfig::Global_Scale;
+	Platform_Rect.left = (int)(X_Pos * (double)AsConfig::Global_Scale);
 	Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 	Platform_Rect.right = Platform_Rect.left + platform_width * AsConfig::Global_Scale;
 	Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
@@ -212,13 +212,20 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Advance(double max_speed)
 {
+	double max_platform_x = AsConfig::Max_X_Pos - Width + 1;
+
 	X_Pos += Speed / max_speed * AsConfig::Moving_step_size;
 
 	if (X_Pos <= AsConfig::Border_X_Offset)
 		X_Pos = AsConfig::Border_X_Offset;
 
-	if (X_Pos >= AsConfig::Max_X_Pos - Width + 1)
-		X_Pos = AsConfig::Max_X_Pos - Width + 1;
+	if (X_Pos >= max_platform_x)
+		X_Pos = max_platform_x;
+}
+//------------------------------------------------------------------------------------------------------------
+double AsPlatform::Get_Middle_Pos()
+{
+	return X_Pos + (double)Width / 2.0;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Clear_BG(HDC hdc)
@@ -242,7 +249,7 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 {// Draw the platform in the normal state
 	int i, j;
 	int offset = 0;
-	int x = X_Pos;
+	int x = (int)X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
 	RECT inner_rect;
 
@@ -307,7 +314,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 		y_offset = AsConfig::Rand(Meltdown_Speed) + 1;
 		x = Platform_Rect.left + i;
 
-		int j = 0;
+		j = 0;
 		y = Meltdown_Platform_Y_Pos[i];
 
 		MoveToEx(hdc, x, y, 0);
@@ -338,7 +345,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 {// Draw a rolling out platform
 
-	int x = X_Pos * AsConfig::Global_Scale;
+	int x = (int)(X_Pos * (double)AsConfig::Global_Scale);
 	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 	int roller_size = Circle_Size * AsConfig::Global_Scale;
 	double alpha;
