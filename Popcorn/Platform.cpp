@@ -117,7 +117,7 @@ void AsPlatform::Redraw_Platform()
 
 
 
-	Platform_Rect.left = (int)(X_Pos * (double)AsConfig::Global_Scale);
+	Platform_Rect.left = (int)(X_Pos * AsConfig::D_Global_Scale);
 	Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 	Platform_Rect.right = Platform_Rect.left + platform_width * AsConfig::Global_Scale;
 	Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
@@ -247,11 +247,12 @@ void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 {// Draw the platform in the normal state
-	int i, j;
-	int offset = 0;
-	int x = (int)X_Pos;
+
+	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
-	RECT inner_rect;
+	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
+	RECT inner_rect, rect;
 
 	// Clearing the old place with the background color
 	Clear_BG(hdc);
@@ -259,36 +260,53 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 	// 1. Draw side balls
 	Platform_Circle_Color.Select(hdc);
 
-	Ellipse(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size) * AsConfig::Global_Scale - 1, (y + Circle_Size) * AsConfig::Global_Scale - 1);
-	Ellipse(hdc, (x + Inner_Width) * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Circle_Size + Inner_Width) * AsConfig::Global_Scale - 1, (y + Circle_Size) * AsConfig::Global_Scale - 1);
+	rect.left = (int)(x * d_scale);
+	rect.top = y * scale;
+	rect.right = (int)((x + (double)Circle_Size) * d_scale);
+	rect.bottom = (y + Circle_Size) * scale;
+
+	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
+
+	rect.left = (int)((x + Inner_Width) * d_scale);
+	rect.top = y * scale;
+	rect.right = (int)((x + (double)Circle_Size + Inner_Width) * d_scale);
+	rect.bottom = (y + Circle_Size) * scale;
+	
+	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
 	// 2. Draw the highlight
-	Draw_Circle_Highlight(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale);
+	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
 	
 	// 3. Draw the middle part
 	Platform_Inner_Color.Select(hdc);
 	
-	inner_rect.left = (x + 4) * AsConfig::Global_Scale;
-	inner_rect.top = (y + 1) * AsConfig::Global_Scale;
-	inner_rect.right = (x + 4 + Inner_Width - 1) * AsConfig::Global_Scale;
-	inner_rect.bottom = (y + 1 + 5) * AsConfig::Global_Scale;
+	inner_rect.left = (int)((x + 4) * d_scale);
+	inner_rect.top = (y + 1) * scale;
+	inner_rect.right = (int)((x + 4 + Inner_Width - 1) * d_scale);
+	inner_rect.bottom = (y + 1 + 5) * scale;
 
 	AsConfig::Round_Rect(hdc, inner_rect, 3);
 
-	x *= AsConfig::Global_Scale;
-	y *= AsConfig::Global_Scale;
-
 	if (Normal_Platform_Image == 0 && Platform_State == EPS_Ready)
-	{
-		Normal_Platform_Image_Width = Width * AsConfig::Global_Scale;
-		Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
+		Get_Normal_Platform_Image(hdc);
 
-		Normal_Platform_Image = new int[Normal_Platform_Image_Width * Normal_Platform_Image_Height];
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Get_Normal_Platform_Image(HDC hdc)
+{
+	int i, j;
+	int offset = 0;
+	int x = (int)(X_Pos * AsConfig::D_Global_Scale);
+	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 
-		for (i = 0; i < Normal_Platform_Image_Height; i++)
-			for (j = 0; j < Normal_Platform_Image_Width; j++)
-				Normal_Platform_Image[offset++] = GetPixel(hdc, x + j, y + i);
-	}
+	Normal_Platform_Image_Width = Width * AsConfig::Global_Scale;
+	Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
+
+	Normal_Platform_Image = new int[Normal_Platform_Image_Width * Normal_Platform_Image_Height];
+
+	for (i = 0; i < Normal_Platform_Image_Height; i++)
+		for (j = 0; j < Normal_Platform_Image_Width; j++)
+			Normal_Platform_Image[offset++] = GetPixel(hdc, x + j, y + i);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
@@ -345,7 +363,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 {// Draw a rolling out platform
 
-	int x = (int)(X_Pos * (double)AsConfig::Global_Scale);
+	int x = (int)(X_Pos * AsConfig::D_Global_Scale);
 	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 	int roller_size = Circle_Size * AsConfig::Global_Scale;
 	double alpha;
@@ -359,12 +377,12 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 	Ellipse(hdc, x, y , x + roller_size - 1, y + roller_size - 1);
 
 	// 2. The dividing line
-	alpha = -2 * M_PI / (double)Max_Rolling_Step * (double)Rolling_Step;
+	alpha = -2.0 * M_PI / (double)Max_Rolling_Step * (double)Rolling_Step;
 
 	xform.eM11 = (float)cos(alpha);
 	xform.eM12 = (float)sin(alpha);
 	xform.eM21 = (float)-sin(alpha);
-	xform.eM22 = (float)cos(alpha);;
+	xform.eM22 = (float)cos(alpha);
 	xform.eDx =  (float)(x + roller_size /2);
 	xform.eDy =  (float)(y + roller_size / 2);
 	GetWorldTransform(hdc, &old_xform);
@@ -400,7 +418,7 @@ void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
 	Draw_Normal_State(hdc, paint_area);
 
 	--X_Pos;
-	Inner_Width+=2;
+	Inner_Width += 2;
 
 	if (Inner_Width >= Normal_Platform_Inner_Width)
 	{
@@ -418,7 +436,7 @@ bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double 
 	double alpha, beta, gamma;
 	double related_ball_direction;
 
-	const double pi_2 = 2 * M_PI;
+	const double pi_2 = 2.0 * M_PI;
 
 	platform_ball_radius = (double)Circle_Size / 2.0;
 	platform_ball_x = (double)X_Pos + platform_ball_radius + platform_ball_x_offset;

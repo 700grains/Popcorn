@@ -42,6 +42,7 @@ public:
 	static const AColor Advertisement_Blue_Table, Advertisement_Red_Table;
 	static HWND Hwnd;
 
+	static const double D_Global_Scale;
 	static const double Moving_step_size;
 	static const double Start_Ball_Y_Pos;
 

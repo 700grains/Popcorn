@@ -241,7 +241,7 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
 				brick_rect.right = brick_rect.left + AsConfig::Brick_Width * AsConfig::Global_Scale;
 				brick_rect.bottom = brick_rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 
-				if (IntersectRect(&intersection_rect, &paint_area, &brick_rect) );
+				if (IntersectRect(&intersection_rect, &paint_area, &brick_rect) )
 					Draw_Brick(hdc, brick_rect, j, i);
 			}
 
