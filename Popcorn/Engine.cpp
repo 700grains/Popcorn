@@ -201,10 +201,12 @@ void AsEngine::Play_Level()
 		Level.Stop();
 		Platform.Set_State(EPS_Meltdown);
 	}
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Ball_Set.Balls[i].Move();
 
 	if (active_balls_count == 1)
 	{
-		if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
+		if (Ball_Set.Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
 			Game_State = EGS_Test_Ball;
 	}
 
