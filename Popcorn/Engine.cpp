@@ -30,6 +30,35 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 	//	Balls[i].Set_State(EBS_Disabled);
 }
 //------------------------------------------------------------------------------------------------------------
+bool AsBall_Set::All_Balls_Are_Lost()
+{
+	int  i;
+	int  active_balls_count = 0;
+	int  lost_balls_count = 0;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		if (Balls[i].Get_State() == EBS_Disabled)
+			continue;
+
+		++active_balls_count;
+
+		if (Balls[i].Get_State() == EBS_Lost)
+		{
+			++lost_balls_count;
+			continue;
+		}
+	}
+
+	if (active_balls_count == lost_balls_count)
+		return  true;
+	else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
 
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
@@ -162,33 +191,17 @@ void AsEngine::Play_Level()
 	int  i;
 	int  active_balls_count = 0;
 	int  lost_balls_count = 0;
+	double ball_x, ball_y;
 
 	Advance_Mover();
-
-	// 3. Moving the ball.
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-	{
-		if (Balls[i].Get_State() == EBS_Disabled)
-			continue;
-
-		++active_balls_count;
-
-		if (Balls[i].Get_State() == EBS_Lost)
-		{
-			++lost_balls_count;
-			continue;
-		}
-
-		Balls[i].Move();
-	}
-
-	if (active_balls_count == lost_balls_count)
+	
+	if (Ball_Set.All_Balls_Are_Lost())
 	{ // All balls are lost!
 		Game_State = EGS_Lost_Ball;
 		Level.Stop();
-
 		Platform.Set_State(EPS_Meltdown);
 	}
+
 	if (active_balls_count == 1)
 	{
 		if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
