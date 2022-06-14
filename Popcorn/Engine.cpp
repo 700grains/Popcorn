@@ -10,6 +10,16 @@ void AsBall_Set::Draw(HDC hdc, RECT& paint_area)
 		Balls[i].Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Release_From_The_Platform(double platform_x_pos)
+{
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		if (Balls[i].Get_State() == EBS_On_Platform)
+			Balls[i].Set_State(EBS_Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+}
+//------------------------------------------------------------------------------------------------------------
+
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
@@ -58,8 +68,6 @@ void AsEngine::Init_Engine(HWND hwnd)
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 {// Drawing the game screen
 
-	int i;
-
 	SetGraphicsMode(hdc, GM_ADVANCED);
 
 	Level.Draw(hdc, paint_area);
@@ -88,10 +96,7 @@ int AsEngine::On_Key(EKey_Type key_type, bool key_down)
 		if (key_down)
 			if (Platform.Get_State() == EPS_Ready)
 			{
-				for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-					if (Balls[i].Get_State() == EBS_On_Platform)
-						Balls[i].Set_State(EBS_Normal, Platform.Get_Middle_Pos(), AsConfig::Start_Ball_Y_Pos);
-
+				Ball_Set.Release_From_The_Platform(Platform.Get_Middle_Pos());
 				Platform.Set_State(EPS_Normal);
 			}
 		break;
@@ -107,7 +112,7 @@ int AsEngine::On_Timer()
 	switch (Game_State)
 	{
 	case EGS_Test_Ball:
-		Balls[0].Set_For_Test(); // only ball number 0 used for tests
+		Ball_Set.Balls[0].Set_For_Test(); // only ball number 0 used for tests
 		Game_State = EGS_Play_Level;
 		break;
 
