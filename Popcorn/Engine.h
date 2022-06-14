@@ -49,5 +49,6 @@ private:
 	AsBorder Border;
 
 	ABall Balls[AsConfig::Max_Balls_Count];
+	AMover* Movers[AsConfig::Max_Movers_Count];
 };
 //------------------------------------------------------------------------------------------------------------

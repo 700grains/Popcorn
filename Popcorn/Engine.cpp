@@ -40,6 +40,9 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Platform.Redraw_Platform();
 
 	SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
+
+	memset(Movers, 0, sizeof(Movers));
+	Movers[0] = &Platform;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
