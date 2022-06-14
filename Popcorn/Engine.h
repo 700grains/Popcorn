@@ -30,6 +30,8 @@ class AsBall_Set
 public:
 	void Draw(HDC hdc, RECT& paint_area);
 	void Release_From_The_Platform(double platform_x_pos);
+	void Set_On_The_Platform(double platform_x_pos);
+
 
 	ABall Balls[AsConfig::Max_Balls_Count];
 };

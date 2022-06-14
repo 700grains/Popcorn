@@ -19,6 +19,17 @@ void AsBall_Set::Release_From_The_Platform(double platform_x_pos)
 			Balls[i].Set_State(EBS_Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
+{
+	int i;
+
+	for (i = 0; i < 3; i++)
+		Balls[i].Set_State(EBS_On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+
+	//for (; i < AsConfig::Max_Balls_Count; i++)
+	//	Balls[i].Set_State(EBS_Disabled);
+}
+//------------------------------------------------------------------------------------------------------------
 
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
@@ -145,16 +156,9 @@ int AsEngine::On_Timer()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Restart_Level()
 {
-	int i;
-
 	Game_State = EGS_Play_Level;
 
-	for (i = 0; i < 3; i++)
-		Balls[i].Set_State(EBS_On_Platform, Platform.Get_Middle_Pos(), AsConfig::Start_Ball_Y_Pos);
-
-	for (; i < AsConfig::Max_Balls_Count; i++)
-		Balls[i].Set_State(EBS_Disabled);
-
+	Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos());
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
