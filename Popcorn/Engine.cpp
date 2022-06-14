@@ -2,9 +2,14 @@
 
 // AsBall_Set
 //------------------------------------------------------------------------------------------------------------
-	void AsBall_Set.Draw(HDC hdc, RECT& paint_area);
+void AsBall_Set::Draw(HDC hdc, RECT& paint_area)
+{
+	int i;
+	
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Balls[i].Draw(hdc, paint_area);
+}
 //------------------------------------------------------------------------------------------------------------
-
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
@@ -60,9 +65,7 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 	Level.Draw(hdc, paint_area);
 	Border.Draw(hdc, paint_area);
 	Platform.Draw(hdc, paint_area);
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-		Ball_Set.Balls[i].Draw(hdc, paint_area);
+	Ball_Set.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key(EKey_Type key_type, bool key_down)
