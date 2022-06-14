@@ -70,6 +70,19 @@ _on_hit:
 	return true;
 }
  //------------------------------------------------------------------------------------------------------------
+void AsPlatform::Advance(double max_speed)
+{
+	double max_platform_x = AsConfig::Max_X_Pos - Width + 1;
+
+	X_Pos += Speed / max_speed * AsConfig::Moving_step_size;
+
+	if (X_Pos <= AsConfig::Border_X_Offset)
+		X_Pos = AsConfig::Border_X_Offset;
+
+	if (X_Pos >= max_platform_x)
+		X_Pos = max_platform_x;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act()
 {
 	switch (Platform_State)
@@ -218,19 +231,6 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 	else
 		return false;
 
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Advance(double max_speed)
-{
-	double max_platform_x = AsConfig::Max_X_Pos - Width + 1;
-
-	X_Pos += Speed / max_speed * AsConfig::Moving_step_size;
-
-	if (X_Pos <= AsConfig::Border_X_Offset)
-		X_Pos = AsConfig::Border_X_Offset;
-
-	if (X_Pos >= max_platform_x)
-		X_Pos = max_platform_x;
 }
 //------------------------------------------------------------------------------------------------------------
 double AsPlatform::Get_Middle_Pos()

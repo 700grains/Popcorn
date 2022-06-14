@@ -31,13 +31,14 @@ public:
 	double Speed;
 };
 //------------------------------------------------------------------------------------------------------------
-class AsPlatform: public AHit_Checker
+class AsPlatform: public AHit_Checker, public AMover
 {
 public:
 	~AsPlatform();
 	AsPlatform();
 
 	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall* ball);
+	virtual void Advance(double max_speed);
 
 
 	void Act();
