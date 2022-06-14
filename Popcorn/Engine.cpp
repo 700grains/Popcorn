@@ -145,20 +145,16 @@ int AsEngine::On_Timer()
 
 	case EGS_Restart_Level:
 		if (Platform.Get_State() == EPS_Ready)
-			Restart_Level();
+		{
+			Game_State = EGS_Play_Level;
+			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos());
+		}
 		break;
 	}
 	
 	Act();
 
 	return 0;
-}
-//------------------------------------------------------------------------------------------------------------
-void AsEngine::Restart_Level()
-{
-	Game_State = EGS_Play_Level;
-
-	Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos());
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
