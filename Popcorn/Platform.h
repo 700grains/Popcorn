@@ -20,6 +20,17 @@ enum EPlatform_Moving_State
 	EPMS_Moving_Right
 };
 //------------------------------------------------------------------------------------------------------------
+class AMover
+{
+public:
+	virtual ~AMover();
+	AMover();
+
+	virtual void Advance(double max_speed) = 0;
+
+	double Speed;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsPlatform: public AHit_Checker
 {
 public:
@@ -36,11 +47,10 @@ public:
 	void Draw(HDC hdc, RECT &paint_area);
 	void Move(bool to_left, bool key_down);
 	bool Hit_By(AFalling_Letter* falling_letter);
-	void Advance(double max_speed);
 	double Get_Middle_Pos();
 
 	int Width;
-	double Speed;
+	double X_Pos;
 
 private:
 	void Clear_BG(HDC hdc);
@@ -57,7 +67,6 @@ private:
 	EPlatform_Moving_State Platform_Moving_State;
 	int Inner_Width;
 	int Rolling_Step;
-	double X_Pos;
 
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
 	int* Normal_Platform_Image; // Platform image pixels on window background
