@@ -148,23 +148,30 @@ void AsEngine::Play_Level()
 	int  i;
 	int  active_balls_count = 0;
 	int  lost_balls_count = 0;
-	double max_speed;
+	double max_speed = 0;
 	double rest_distance;
 
-	// 1. Mving the platform.
-	max_speed = fabs(Platform.Speed);
+	// Getting maximum speed of moving objects
+	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
+		if (Movers[i] != 0 && fabs(Movers[i]->Speed) > max_speed)
+			max_speed = fabs(Movers[i]->Speed);
 
+	// 2. Mving all the moving objects.
 	rest_distance = max_speed;
 
 	while (rest_distance > 0.0)
 	{
-		Platform.Advance(max_speed);
+		for (i = 0; i < AsConfig::Max_Movers_Count; i++)
+			if (Movers[i] != 0)
+				Movers[i]->Advance(max_speed);
+
+		//Platform.Advance(max_speed);
 		rest_distance -= AsConfig::Moving_step_size;
 	}
 
 	Platform.Redraw_Platform();
 
-	// 2. Moving the ball.
+	// 3. Moving the ball.
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
 		if (Balls[i].Get_State() == EBS_Disabled)

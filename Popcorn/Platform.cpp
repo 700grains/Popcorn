@@ -19,7 +19,7 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Missing), Platform_Moving_State(EPMS_Stop),
-  Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed(0.0), Normal_Platform_Image_Width(0),
+  Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Normal_Platform_Image_Width(0),
   Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
