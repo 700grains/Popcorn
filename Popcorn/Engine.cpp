@@ -162,28 +162,8 @@ void AsEngine::Play_Level()
 	int  i;
 	int  active_balls_count = 0;
 	int  lost_balls_count = 0;
-	double max_speed = 0;
-	double rest_distance;
 
-	// Getting maximum speed of moving objects
-	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-		if (Movers[i] != 0 && fabs(Movers[i]->Speed) > max_speed)
-			max_speed = fabs(Movers[i]->Speed);
-
-	// 2. Mving all the moving objects.
-	rest_distance = max_speed;
-
-	while (rest_distance > 0.0)
-	{
-		for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-			if (Movers[i] != 0)
-				Movers[i]->Advance(max_speed);
-
-		//Platform.Advance(max_speed);
-		rest_distance -= AsConfig::Moving_step_size;
-	}
-
-	Platform.Redraw_Platform();
+	Advance_Mover();
 
 	// 3. Moving the ball.
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
@@ -214,6 +194,34 @@ void AsEngine::Play_Level()
 		if (Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
 			Game_State = EGS_Test_Ball;
 	}
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Advance_Mover()
+{
+	int  i;
+	double max_speed = 0;
+	double rest_distance;
+
+	// 1. Getting maximum speed of moving objects
+	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
+		if (Movers[i] != 0 && fabs(Movers[i]->Speed) > max_speed)
+			max_speed = fabs(Movers[i]->Speed);
+
+	// 2. Mving all the moving objects.
+	rest_distance = max_speed;
+
+	while (rest_distance > 0.0)
+	{
+		for (i = 0; i < AsConfig::Max_Movers_Count; i++)
+			if (Movers[i] != 0)
+				Movers[i]->Advance(max_speed);
+
+		//Platform.Advance(max_speed);
+		rest_distance -= AsConfig::Moving_step_size;
+	}
+
+	Platform.Redraw_Platform();
 
 }
 //------------------------------------------------------------------------------------------------------------
