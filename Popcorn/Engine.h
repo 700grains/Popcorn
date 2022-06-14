@@ -25,6 +25,14 @@ enum EGame_State
 //------------------------------------------------------------------------------------------------------------
 const int Timer_ID = WM_USER + 1;
 //------------------------------------------------------------------------------------------------------------
+class AsBall_Set
+{
+public:
+	void Draw(HDC hdc, RECT& paint_area);
+
+	ABall Balls[AsConfig::Max_Balls_Count];
+};
+//------------------------------------------------------------------------------------------------------------
 class AsEngine
 {
 public:
@@ -47,8 +55,8 @@ private:
 	AsLevel Level;
 	AsPlatform Platform;
 	AsBorder Border;
+	AsBall_Set Ball_Set;
 
-	ABall Balls[AsConfig::Max_Balls_Count];
 	AMover* Movers[AsConfig::Max_Movers_Count];
 };
 //------------------------------------------------------------------------------------------------------------
