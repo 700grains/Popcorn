@@ -73,8 +73,9 @@ _on_hit:
 void AsPlatform::Advance(double max_speed)
 {
 	double max_platform_x = AsConfig::Max_X_Pos - Width + 1;
+	double next_step = Speed / max_speed * AsConfig::Moving_step_size;
 
-	X_Pos += Speed / max_speed * AsConfig::Moving_step_size;
+		X_Pos += next_step;
 
 	if (X_Pos <= AsConfig::Border_X_Offset)
 		X_Pos = AsConfig::Border_X_Offset;

@@ -126,8 +126,6 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key(EKey_Type key_type, bool key_down)
 {
-	int i;
-
 	switch (key_type)
 	{
 	case EKT_Left:
@@ -196,10 +194,9 @@ int AsEngine::On_Timer()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
 {
-	int  i;
 	int  active_balls_count = 0;
 	int  lost_balls_count = 0;
-	double ball_x, ball_y;
+	//double ball_x, ball_y;
 
 	Advance_Mover();
 	
@@ -209,8 +206,6 @@ void AsEngine::Play_Level()
 		Level.Stop();
 		Platform.Set_State(EPS_Meltdown);
 	}
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-		Ball_Set.Balls[i].Move();
 
 	if (active_balls_count == 1)
 	{

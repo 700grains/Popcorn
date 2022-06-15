@@ -58,7 +58,7 @@ private:
 
 	EBall_State Ball_State, Previous_Ball_State;
 	double Ball_Speed;
-	double Rest_Distance;
+	//double Rest_Distance;
 	double Ball_Direction;
 
 	bool Testing_Is_Active;

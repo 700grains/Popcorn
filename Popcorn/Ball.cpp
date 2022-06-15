@@ -34,7 +34,7 @@ AHit_Checker* ABall::Hit_Checkers[] = {};
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
 	: Ball_State (EBS_Disabled), Previous_Ball_State(EBS_Disabled), Center_X_Pos(0), Center_Y_Pos(0.0), Ball_Speed(0.0),
-	Rest_Distance(0.0), Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}
+	Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}
 {
 	//Set_State(EBS_Normal, 0);
 }
@@ -103,60 +103,62 @@ void ABall::Draw_Teleporting(HDC hdc, int step)
 void ABall::Advance(double max_speed)
 {
 	int i;
-	bool got_hit;
+	bool got_hit = true;
 	double next_x_pos, next_y_pos;
+	double next_step;
 
 	if (Ball_State == EBS_On_Platform ||Ball_State == EBS_Disabled || Ball_State == EBS_Lost || Ball_State == EBS_Teleporting)
 		return;
 
+	next_step = Ball_Speed / max_speed * AsConfig::Moving_step_size;
+
 	Prev_Ball_Rect = Ball_Rect;
-	Rest_Distance += Ball_Speed;
+	//Rest_Distance += Ball_Speed;
 
-	while (Rest_Distance >= AsConfig::Moving_step_size)
-	{
-		got_hit = false;
-		next_x_pos = Center_X_Pos + AsConfig::Moving_step_size * cos(Ball_Direction);
-		next_y_pos = Center_Y_Pos - AsConfig::Moving_step_size * sin(Ball_Direction);
-
-		//// Correcting the position when reflecting:
-		for (i = 0; i < Hit_Checkers_Count; i++)
+	//while (Rest_Distance >= AsConfig::Moving_step_size)
+	while (got_hit)
 		{
-			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
+			got_hit = false;
+			next_x_pos = Center_X_Pos + next_step * cos(Ball_Direction);
+			next_y_pos = Center_Y_Pos - next_step * sin(Ball_Direction);
 
+			//// Correcting the position when reflecting:
+			for (i = 0; i < Hit_Checkers_Count; i++)
+				got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
+
+			//got_hit |= border_hit_checker->Check_Hit(next_x_pos, next_y_pos, this ); // от рамки
+			//got_hit |= level_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от кирпичей
+			//got_hit |= platform_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от платформы
+
+
+			//// Correcting the position when reflected from the platform
+
+			if (!got_hit)
+			{
+				//Rest_Distance -= AsConfig::Moving_step_size;
+
+				// the ball will continue to move if it does not collide with other objects
+				Center_X_Pos = next_x_pos;
+				Center_Y_Pos = next_y_pos;
+
+				if (Testing_Is_Active)
+					Rest_Test_Distance -= next_step;
+			}
+			//if (Ball_State == EBS_Lost)
+			//	break;
 		}
-		//got_hit |= border_hit_checker->Check_Hit(next_x_pos, next_y_pos, this ); // от рамки
-		//got_hit |= level_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от кирпичей
-		//got_hit |= platform_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от платформы
 
+	//Redraw_Ball();
 
-		//// Correcting the position when reflected from the platform
+	//if (Ball_State == EBS_On_Parachute)
+	//{
+	//	Previous_Parachute_Rect = Parachute_Rect;
 
-		if (!got_hit)
-		{
-			Rest_Distance -= AsConfig::Moving_step_size;
+	//	Parachute_Rect.bottom = Ball_Rect.bottom;
+	//	Parachute_Rect.top = Ball_Rect.bottom - Parachute_Size * AsConfig::Global_Scale;
 
-			// the ball will continue to move if it does not collide with other objects
-			Center_X_Pos = next_x_pos;
-			Center_Y_Pos = next_y_pos;
-
-			if (Testing_Is_Active)
-				Rest_Test_Distance -= AsConfig::Moving_step_size;
-		}
-		if (Ball_State == EBS_Lost)
-			break;
-	}
-
-	Redraw_Ball();
-
-	if (Ball_State == EBS_On_Parachute)
-	{
-		Previous_Parachute_Rect = Parachute_Rect;
-
-		Parachute_Rect.bottom = Ball_Rect.bottom;
-		Parachute_Rect.top = Ball_Rect.bottom - Parachute_Size * AsConfig::Global_Scale;
-
-		Redraw_Parachute();
-	}
+	//	Redraw_Parachute();
+	//}
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Set_For_Test()
@@ -190,14 +192,14 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 	{
 	case EBS_Disabled:
 		Ball_Speed = 0.0;
-		Rest_Distance = 0.0;
+		//Rest_Distance = 0.0;
 		break;
 
 	case	EBS_Normal:
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = y_pos;
 		Ball_Speed = 3.0;
-		Rest_Distance = 0.0;
+		//Rest_Distance = 0.0;
 		Ball_Direction = M_PI_4;
 		Redraw_Ball();
 		break;
@@ -218,7 +220,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Center_Y_Pos = y_pos;
 		Ball_State = EBS_Normal;
 		Ball_Speed = 0.0;
-		Rest_Distance = 0.0;
+		//Rest_Distance = 0.0;
 		Ball_Direction = M_PI_4;
 		Redraw_Ball();
 		break;
@@ -232,7 +234,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 			AsConfig::Throw(); // This state can only be entered from EBS_On_Parachute
 
 		Ball_Speed = 0.0;
-		Rest_Distance = 0.0;
+		//Rest_Distance = 0.0;
 		Redraw_Ball();
 		Redraw_Parachute();
 		break;
@@ -244,7 +246,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = y_pos;
 		Ball_Speed = 0.0;
-		Rest_Distance = 0.0;
+		//Rest_Distance = 0.0;
 		Redraw_Ball();
 
 		if (Ball_State == EBS_On_Parachute)
