@@ -10,6 +10,20 @@ void AsBall_Set::Advance(double max_speed)
 		Balls[i].Advance(max_speed);
 }
 //------------------------------------------------------------------------------------------------------------
+double AsBall_Set::Get_Speed()
+{
+	int i;
+	double max_speed = 0.0;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		if (Balls[i].Ball_Speed > max_speed)
+			max_speed = Balls[i].Ball_Speed;
+	}
+
+	return max_speed;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Draw(HDC hdc, RECT& paint_area)
 {
 	int i;

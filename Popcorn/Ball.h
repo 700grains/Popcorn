@@ -44,7 +44,7 @@ public:
 	bool Is_Moving_Left();
 	void Set_On_Parachute(int brick_x, int brick_y);
 
-
+	double Ball_Speed;
 
 	static void Add_Hit_Checker(AHit_Checker *hit_checker);
 
@@ -57,7 +57,6 @@ private:
 	void Clear_Parachute(HDC hdc);
 
 	EBall_State Ball_State, Previous_Ball_State;
-	double Ball_Speed;
 	//double Rest_Distance;
 	double Ball_Direction;
 

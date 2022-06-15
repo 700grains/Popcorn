@@ -84,6 +84,11 @@ void AsPlatform::Advance(double max_speed)
 		X_Pos = max_platform_x;
 }
 //------------------------------------------------------------------------------------------------------------
+double AsPlatform::Get_Speed()
+{
+	return Speed;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act()
 {
 	switch (Platform_State)
