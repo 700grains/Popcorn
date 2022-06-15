@@ -24,7 +24,6 @@ class AMover
 {
 public:
 	virtual ~AMover();
-	AMover();
 
 	virtual void Advance(double max_speed) = 0;
 	virtual double Get_Speed() = 0;

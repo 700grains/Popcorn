@@ -230,14 +230,16 @@ void AsEngine::Play_Level()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Mover()
 {
-	int  i;
-	double max_speed = 0;
+	int  i = 0;
+	double current_speed, max_speed = 0.0;
 	double rest_distance;
 
 	// 1. Getting maximum speed of moving objects
+	current_speed = fabs(Movers[i]->Get_Speed());
+
 	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-		if (Movers[i] != 0 && fabs(Movers[i]->Speed) > max_speed)
-			max_speed = fabs(Movers[i]->Speed);
+		if (Movers[i] != 0 && current_speed > max_speed)
+			max_speed = current_speed;
 
 	// 2. Mving all the moving objects.
 	rest_distance = max_speed;
