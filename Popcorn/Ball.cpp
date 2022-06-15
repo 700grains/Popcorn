@@ -100,7 +100,7 @@ void ABall::Draw_Teleporting(HDC hdc, int step)
 
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Move()
+void ABall::Advance(double max_speed)
 {
 	int i;
 	bool got_hit;

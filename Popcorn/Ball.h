@@ -31,7 +31,7 @@ public:
 
 	void Draw(HDC hdc, RECT &paint_area);
 	void Draw_Teleporting(HDC hdc, int step);
-	void Move();
+	void Advance(double max_speed);
 	void Set_For_Test();
 	bool Is_Test_Finished();
 	EBall_State Get_State();

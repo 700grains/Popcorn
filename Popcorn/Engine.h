@@ -25,9 +25,11 @@ enum EGame_State
 //------------------------------------------------------------------------------------------------------------
 const int Timer_ID = WM_USER + 1;
 //------------------------------------------------------------------------------------------------------------
-class AsBall_Set
+class AsBall_Set: public AMover
 {
 public:
+	virtual void Advance(double max_speed);
+
 	void Draw(HDC hdc, RECT& paint_area);
 	void Release_From_The_Platform(double platform_x_pos);
 	void Set_On_The_Platform(double platform_x_pos);

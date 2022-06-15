@@ -2,6 +2,14 @@
 
 // AsBall_Set
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Advance(double max_speed)
+{
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Balls[i].Advance(max_speed);
+}
+//------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Draw(HDC hdc, RECT& paint_area)
 {
 	int i;
@@ -209,7 +217,6 @@ void AsEngine::Play_Level()
 		if (Ball_Set.Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
 			Game_State = EGS_Test_Ball;
 	}
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Mover()
