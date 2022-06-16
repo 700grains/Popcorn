@@ -25,6 +25,8 @@ class AMover
 public:
 	virtual ~AMover();
 
+	virtual void Begin_Movement() = 0;
+	virtual void Finish_Movement() = 0;
 	virtual void Advance(double max_speed) = 0;
 	virtual double Get_Speed() = 0;
 };
@@ -36,6 +38,8 @@ public:
 	AsPlatform();
 
 	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall* ball);
+	virtual void Begin_Movement();
+	virtual void Finish_Movement();
 	virtual void Advance(double max_speed);
 	virtual double Get_Speed();
 

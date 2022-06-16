@@ -148,7 +148,7 @@ void ABall::Advance(double max_speed)
 			//	break;
 		}
 
-	//Redraw_Ball();
+	Redraw_Ball();
 
 	//if (Ball_State == EBS_On_Parachute)
 	//{

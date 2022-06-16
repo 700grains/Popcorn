@@ -2,6 +2,22 @@
 
 // AsBall_Set
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Begin_Movement()
+{
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Balls[i].Begin_Movement();
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Finish_Movement()
+{
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Balls[i].Finish_Movement();
+}
+//------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Advance(double max_speed)
 {
 	int i;
@@ -125,6 +141,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	memset(Movers, 0, sizeof(Movers));
 	Movers[0] = &Platform;
+	Movers[1] = &Ball_Set;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
@@ -253,9 +270,6 @@ void AsEngine::Advance_Mover()
 		//Platform.Advance(max_speed);
 		rest_distance -= AsConfig::Moving_step_size;
 	}
-
-	Platform.Redraw_Platform();
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Act()
