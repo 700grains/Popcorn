@@ -39,6 +39,66 @@ ABall::ABall()
 	//Set_State(EBS_Normal, 0);
 }
 //------------------------------------------------------------------------------------------------------------
+void ABall::Begin_Movement();
+{
+	Prev_Ball_Rect = Ball_Rect;
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Finish_Movement()
+{
+	Redraw_Ball();
+
+	if (Ball_State == EBS_On_Parachute)
+	{
+		Previous_Parachute_Rect = Parachute_Rect;
+
+		Parachute_Rect.bottom = Ball_Rect.bottom;
+		Parachute_Rect.top = Ball_Rect.bottom - Parachute_Size * AsConfig::Global_Scale;
+
+		Redraw_Parachute();
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Advance(double max_speed)
+{
+	int i;
+	bool got_hit = true;
+	double next_x_pos, next_y_pos;
+	double next_step;
+
+	if (Ball_State == EBS_On_Platform || Ball_State == EBS_Disabled || Ball_State == EBS_Lost || Ball_State == EBS_Teleporting)
+		return;
+
+	next_step = Ball_Speed / max_speed * AsConfig::Moving_step_size;
+
+	while (got_hit)
+	{
+		got_hit = false;
+		next_x_pos = Center_X_Pos + next_step * cos(Ball_Direction);
+		next_y_pos = Center_Y_Pos - next_step * sin(Ball_Direction);
+
+		//// Correcting the position when reflecting:
+		for (i = 0; i < Hit_Checkers_Count; i++)
+			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
+
+		//// Correcting the position when reflected from the platform
+		if (!got_hit)
+		{
+			// the ball will continue to move if it does not collide with other objects
+			Center_X_Pos = next_x_pos;
+			Center_Y_Pos = next_y_pos;
+
+			if (Testing_Is_Active)
+				Rest_Test_Distance -= next_step;
+		}
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+double ABall::Get_Speed()
+{
+	return Ball_Speed;
+}
+//------------------------------------------------------------------------------------------------------------
 void ABall::Draw(HDC hdc, RECT &paint_area)
 {
 	RECT intersection_rect;
@@ -98,67 +158,6 @@ void ABall::Draw_Teleporting(HDC hdc, int step)
 	AsConfig::White_Color.Select(hdc);
 	Ellipse(hdc, Ball_Rect.left, top_y, Ball_Rect.right - 1, low_y);
 
-}
-//------------------------------------------------------------------------------------------------------------
-void ABall::Advance(double max_speed)
-{
-	int i;
-	bool got_hit = true;
-	double next_x_pos, next_y_pos;
-	double next_step;
-
-	if (Ball_State == EBS_On_Platform ||Ball_State == EBS_Disabled || Ball_State == EBS_Lost || Ball_State == EBS_Teleporting)
-		return;
-
-	next_step = Ball_Speed / max_speed * AsConfig::Moving_step_size;
-
-	Prev_Ball_Rect = Ball_Rect;
-	//Rest_Distance += Ball_Speed;
-
-	//while (Rest_Distance >= AsConfig::Moving_step_size)
-	while (got_hit)
-		{
-			got_hit = false;
-			next_x_pos = Center_X_Pos + next_step * cos(Ball_Direction);
-			next_y_pos = Center_Y_Pos - next_step * sin(Ball_Direction);
-
-			//// Correcting the position when reflecting:
-			for (i = 0; i < Hit_Checkers_Count; i++)
-				got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
-
-			//got_hit |= border_hit_checker->Check_Hit(next_x_pos, next_y_pos, this ); // от рамки
-			//got_hit |= level_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от кирпичей
-			//got_hit |= platform_hit_checker->Check_Hit(next_x_pos, next_y_pos, this); // от платформы
-
-
-			//// Correcting the position when reflected from the platform
-
-			if (!got_hit)
-			{
-				//Rest_Distance -= AsConfig::Moving_step_size;
-
-				// the ball will continue to move if it does not collide with other objects
-				Center_X_Pos = next_x_pos;
-				Center_Y_Pos = next_y_pos;
-
-				if (Testing_Is_Active)
-					Rest_Test_Distance -= next_step;
-			}
-			//if (Ball_State == EBS_Lost)
-			//	break;
-		}
-
-	Redraw_Ball();
-
-	//if (Ball_State == EBS_On_Parachute)
-	//{
-	//	Previous_Parachute_Rect = Parachute_Rect;
-
-	//	Parachute_Rect.bottom = Ball_Rect.bottom;
-	//	Parachute_Rect.top = Ball_Rect.bottom - Parachute_Size * AsConfig::Global_Scale;
-
-	//	Redraw_Parachute();
-	//}
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Set_For_Test()

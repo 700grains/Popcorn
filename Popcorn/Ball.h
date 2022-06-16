@@ -24,14 +24,18 @@ public:
 	bool Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double& x);
 };
 //------------------------------------------------------------------------------------------------------------
-class ABall
+class ABall: public AMover
 {
 public:
 	ABall();
 
+	virtual void Begin_Movement();
+	virtual void Finish_Movement();
+	virtual void Advance(double max_speed);
+	virtual double Get_Speed();
+
 	void Draw(HDC hdc, RECT &paint_area);
 	void Draw_Teleporting(HDC hdc, int step);
-	void Advance(double max_speed);
 	void Set_For_Test();
 	bool Is_Test_Finished();
 	EBall_State Get_State();
@@ -43,8 +47,6 @@ public:
 	bool Is_Moving_Up();
 	bool Is_Moving_Left();
 	void Set_On_Parachute(int brick_x, int brick_y);
-
-	double Ball_Speed;
 
 	static void Add_Hit_Checker(AHit_Checker *hit_checker);
 
@@ -59,6 +61,7 @@ private:
 	EBall_State Ball_State, Previous_Ball_State;
 	//double Rest_Distance;
 	double Ball_Direction;
+	double Ball_Speed;
 
 	bool Testing_Is_Active;
 	int Test_Iteration;
