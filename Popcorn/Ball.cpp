@@ -26,6 +26,18 @@ bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x
 //------------------------------------------------------------------------------------------------------------
 
 
+
+
+// AMover
+//------------------------------------------------------------------------------------------------------------
+AMover::~AMover()
+{
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // ABall
 const double ABall::Radius = 2.0 - 0.5 / AsConfig::Global_Scale;
 int ABall::Hit_Checkers_Count = 0;
@@ -39,7 +51,7 @@ ABall::ABall()
 	//Set_State(EBS_Normal, 0);
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Begin_Movement();
+void ABall::Begin_Movement()
 {
 	Prev_Ball_Rect = Ball_Rect;
 }

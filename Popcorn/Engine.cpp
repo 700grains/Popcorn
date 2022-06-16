@@ -29,12 +29,14 @@ void AsBall_Set::Advance(double max_speed)
 double AsBall_Set::Get_Speed()
 {
 	int i;
-	double max_speed = 0.0;
+	double max_speed = 0.0, current_speed;
 
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
-		if (Balls[i].Ball_Speed > max_speed)
-			max_speed = Balls[i].Ball_Speed;
+		current_speed = Balls[i].Get_Speed();
+
+		if (current_speed > max_speed)
+			max_speed = current_speed;
 	}
 
 	return max_speed;
@@ -252,11 +254,16 @@ void AsEngine::Advance_Mover()
 	double rest_distance;
 
 	// 1. Getting maximum speed of moving objects
-	current_speed = fabs(Movers[i]->Get_Speed());
-
 	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-		if (Movers[i] != 0 && current_speed > max_speed)
-			max_speed = current_speed;
+		if (Movers[i] != 0)
+		{
+			Movers[i]->Begin_Movement();
+
+			current_speed = fabs(Movers[i]->Get_Speed());
+
+			if (current_speed > max_speed)
+				max_speed = current_speed;
+		}
 
 	// 2. Mving all the moving objects.
 	rest_distance = max_speed;
@@ -270,6 +277,10 @@ void AsEngine::Advance_Mover()
 		//Platform.Advance(max_speed);
 		rest_distance -= AsConfig::Moving_step_size;
 	}
+	// 3. Finishiing all moves on the frame
+	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
+		if (Movers[i] != 0)
+			Movers[i]->Finish_Movement();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Act()

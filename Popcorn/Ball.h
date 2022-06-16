@@ -24,6 +24,17 @@ public:
 	bool Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double& x);
 };
 //------------------------------------------------------------------------------------------------------------
+class AMover
+{
+public:
+	virtual ~AMover();
+
+	virtual void Begin_Movement() = 0;
+	virtual void Finish_Movement() = 0;
+	virtual void Advance(double max_speed) = 0;
+	virtual double Get_Speed() = 0;
+};
+//------------------------------------------------------------------------------------------------------------
 class ABall: public AMover
 {
 public:

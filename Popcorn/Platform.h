@@ -20,17 +20,6 @@ enum EPlatform_Moving_State
 	EPMS_Moving_Right
 };
 //------------------------------------------------------------------------------------------------------------
-class AMover
-{
-public:
-	virtual ~AMover();
-
-	virtual void Begin_Movement() = 0;
-	virtual void Finish_Movement() = 0;
-	virtual void Advance(double max_speed) = 0;
-	virtual double Get_Speed() = 0;
-};
-//------------------------------------------------------------------------------------------------------------
 class AsPlatform: public AHit_Checker, public AMover
 {
 public:
