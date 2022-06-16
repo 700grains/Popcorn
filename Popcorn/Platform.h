@@ -79,7 +79,7 @@ private:
 	static const int Max_Rolling_Step = 16;
 	static const int Roll_In_Platform_End_X_Pos = 99;
 	static const int Rolling_Platform_Speed = 3;
-	static const int X_Step = AsConfig::Global_Scale * 2;
+	static const int X_Step = 6;
 
 };
 //------------------------------------------------------------------------------------------------------------

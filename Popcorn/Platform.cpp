@@ -464,7 +464,7 @@ bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double 
 	distance = sqrt(dx * dx + dy * dy);
 	two_radiuses = platform_ball_radius + ball->Radius;
 
-	if (fabs(distance - two_radiuses) < AsConfig::Moving_step_size)
+	if (distance + AsConfig::Moving_step_size < two_radiuses)
 	{// The ball touched the side ball
 
 		beta = atan2(-dy, dx);

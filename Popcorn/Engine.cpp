@@ -96,6 +96,16 @@ bool AsBall_Set::All_Balls_Are_Lost()
 		return false;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Set_For_Test()
+{
+	Balls[0].Set_For_Test(); // only ball number 0 used for tests
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsBall_Set::Is_Test_Finished()
+{
+	return (Balls[0].Is_Test_Finished()); // only ball number 0 used for tests
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -191,7 +201,7 @@ int AsEngine::On_Timer()
 	switch (Game_State)
 	{
 	case EGS_Test_Ball:
-		Ball_Set.Balls[0].Set_For_Test(); // only ball number 0 used for tests
+		Ball_Set.Set_For_Test();
 		Game_State = EGS_Play_Level;
 		break;
 
@@ -240,11 +250,8 @@ void AsEngine::Play_Level()
 		Platform.Set_State(EPS_Meltdown);
 	}
 
-	if (active_balls_count == 1)
-	{
-		if (Ball_Set.Balls[0].Is_Test_Finished()) // only ball number 0 used for tests
-			Game_State = EGS_Test_Ball;
-	}
+	if (Ball_Set.Is_Test_Finished())
+		Game_State = EGS_Test_Ball;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Mover()
