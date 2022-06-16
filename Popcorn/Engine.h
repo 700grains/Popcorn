@@ -61,6 +61,7 @@ private:
 	void On_Falling_Letter(AFalling_Letter* falling_letter);
 
 	EGame_State Game_State;
+	double Rest_Distance;
 
 	//ABall Ball;
 	AsLevel Level;

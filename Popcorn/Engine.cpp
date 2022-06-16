@@ -113,9 +113,8 @@ bool AsBall_Set::Is_Test_Finished()
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-:Game_State (EGS_Lost_Ball)
+:Game_State (EGS_Lost_Ball), Rest_Distance(0)
 {
-	
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd)
@@ -258,7 +257,6 @@ void AsEngine::Advance_Mover()
 {
 	int  i = 0;
 	double current_speed, max_speed = 0.0;
-	double rest_distance;
 
 	// 1. Getting maximum speed of moving objects
 	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
@@ -273,16 +271,16 @@ void AsEngine::Advance_Mover()
 		}
 
 	// 2. Mving all the moving objects.
-	rest_distance = max_speed;
+	Rest_Distance += max_speed;
 
-	while (rest_distance > 0.0)
+	while (Rest_Distance > 0.0)
 	{
 		for (i = 0; i < AsConfig::Max_Movers_Count; i++)
 			if (Movers[i] != 0)
 				Movers[i]->Advance(max_speed);
 
 		//Platform.Advance(max_speed);
-		rest_distance -= AsConfig::Moving_step_size;
+		Rest_Distance -= AsConfig::Moving_step_size;
 	}
 	// 3. Finishiing all moves on the frame
 	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
