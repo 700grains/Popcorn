@@ -157,7 +157,16 @@ void AsBall_Set::Triple_Balls()
 		}
 	}
 	// 3. Spread the side balls to the sides
-
+	if (left_candidate != 0)
+	{
+		*left_candidate = *further_ball;
+		left_candidate->Set_Direction(left_candidate->Get_Direction() + M_PI / 8.0);
+	}	
+	if (right_candidate != 0)
+	{
+		*right_candidate = *further_ball;
+		right_candidate->Set_Direction(right_candidate->Get_Direction() - M_PI / 8.0);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 
