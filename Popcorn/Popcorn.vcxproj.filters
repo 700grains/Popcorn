@@ -57,9 +57,6 @@
     <ClInclude Include="Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Border.h">
-      <Filter>Border</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -77,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="Falling_Letter.h">
       <Filter>Falling_Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="Border.h">
+      <Filter>Border</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

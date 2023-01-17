@@ -56,7 +56,7 @@ public:
 
 private:
 	void Play_Level();
-	void Advance_Mover();
+	void Advance_Movers();
 	void Act();
 	void On_Falling_Letter(AFalling_Letter* falling_letter);
 

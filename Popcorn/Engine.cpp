@@ -240,7 +240,7 @@ void AsEngine::Play_Level()
 	int  lost_balls_count = 0;
 	//double ball_x, ball_y;
 
-	Advance_Mover();
+	Advance_Movers();
 	
 	if (Ball_Set.All_Balls_Are_Lost())
 	{ // All balls are lost!
@@ -253,7 +253,7 @@ void AsEngine::Play_Level()
 		Game_State = EGS_Test_Ball;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsEngine::Advance_Mover()
+void AsEngine::Advance_Movers()
 {
 	int  i = 0;
 	double current_speed, max_speed = 0.0;
