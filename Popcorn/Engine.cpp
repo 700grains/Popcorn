@@ -63,11 +63,10 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 {
 	int i;
 
-	for (i = 0; i < 3; i++)
-		Balls[i].Set_State(EBS_On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+	Balls[0].Set_State(EBS_On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 
-	//for (; i < AsConfig::Max_Balls_Count; i++)
-	//	Balls[i].Set_State(EBS_Disabled);
+	for (i = 1; i < AsConfig::Max_Balls_Count; i++)
+		Balls[i].Set_State(EBS_Disabled);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::All_Balls_Are_Lost()
@@ -104,6 +103,43 @@ void AsBall_Set::Set_For_Test()
 bool AsBall_Set::Is_Test_Finished()
 {
 	return (Balls[0].Is_Test_Finished()); // only ball number 0 used for tests
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Triple_Balls()
+{ // Triplying the ball farthest from the platform
+
+	int i;
+	ABall* current_ball;
+	ABall* further_ball = nullptr;
+	double current_ball_x, current_ball_y;
+	double further_ball_x, further_ball_y;
+	// 1. Chosinbg the farthest ball accroding to Y coord
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
+
+		if (current_ball->Get_State() != EBS_Normal)
+			continue;
+
+		if (further_ball == nullptr)
+			further_ball = current_ball;
+		else
+		{
+			current_ball->Get_Center(current_ball_x, current_ball_y);
+			further_ball->Get_Center(further_ball_x, further_ball_y);
+
+			if (current_ball_y < further_ball_y)
+				further_ball = current_ball;
+		}
+	}
+
+
+	// 2. if (EBS_Normal) 
+	//    {making it into three}
+
+
+	// 3. Spread the side balls to the sides
+
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -316,8 +352,11 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	//case ELT_G: // "Life"
 	//case ELT_K: // "Glue"
 	//case ELT_W: // "Wider"
+
 	case ELT_T: // "Three"
+		Ball_Set.Triple_Balls();
 		break;
+
 	//case ELT_L: // "Laser"
 	//case ELT_P: // "Floor"
 	//case ELT_Plus: // Moving to the next level
