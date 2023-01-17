@@ -144,8 +144,10 @@ void AsBall_Set::Triple_Balls()
 	{
 		current_ball = &Balls[i];
 
-		if (current_ball->Get_State() == EBS_Disabled)
+		switch (current_ball->Get_State() )
 		{
+		case EBS_Disabled:
+		case EBS_Lost:
 			if (left_candidate == 0)
 				left_candidate = current_ball;
 			else
