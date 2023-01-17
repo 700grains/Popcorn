@@ -111,6 +111,7 @@ void AsBall_Set::Triple_Balls()
 	int i;
 	ABall* current_ball;
 	ABall* further_ball = nullptr;
+	ABall* left_candidate = 0, *right_candidate = 0;
 	double current_ball_x, current_ball_y;
 	double further_ball_x, further_ball_y;
 	// 1. Chosinbg the farthest ball accroding to Y coord
@@ -136,8 +137,25 @@ void AsBall_Set::Triple_Balls()
 
 	// 2. if (EBS_Normal) 
 	//    {making it into three}
+	if (further_ball == nullptr)
+		return;
 
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
 
+		if (current_ball->Get_State() == EBS_Disabled)
+		{
+			if (left_candidate == 0)
+				left_candidate = current_ball;
+			else
+				if (right_candidate == 0)
+				{
+					right_candidate = current_ball;
+					break; // Both candidates found
+				}
+		}
+	}
 	// 3. Spread the side balls to the sides
 
 }
