@@ -5,7 +5,8 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-:Game_State (EGS_Lost_Ball), Rest_Distance(0)
+:Game_State (EGS_Lost_Ball), Rest_Distance(0), Life_Count(AsConfig::Initial_Life_Count)
+
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -211,7 +212,10 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		Ball_Set.Reset_Speed();
 		break;
 	//case ELT_M: // "Monsters"
-	//case ELT_G: // "Life"
+	case ELT_G: // "Life"
+		if (Life_Count < AsConfig::Max_Life_Count)
+			++Life_Count; /// !!! should be displayed on the indicator
+		break;
 	//case ELT_K: // "Glue"
 	//case ELT_W: // "Wider"
 

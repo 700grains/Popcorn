@@ -44,6 +44,7 @@ private:
 
 	EGame_State Game_State;
 	double Rest_Distance;
+	int Life_Count;
 
 	//ABall Ball;
 	AsLevel Level;

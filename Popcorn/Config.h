@@ -68,5 +68,7 @@ public:
 	static const int Max_Falling_Letters_Count = 10;
 	static const int Max_Balls_Count = 10;
 	static const int Max_Movers_Count = 10;
+	static const int Initial_Life_Count = 5;
+	static const int Max_Life_Count = 12;
 };
 //------------------------------------------------------------------------------------------------------------
