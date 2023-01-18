@@ -193,7 +193,7 @@ void AsBall_Set::Accelerate()
 	{
 		current_ball = &Balls[i];
 
-		if (current_ball->Get_State() == EBS_Normal)
+ 		if (current_ball->Get_State() == EBS_Normal)
 			current_ball->Set_Speed(current_ball->Get_Speed() * AsConfig::Ball_Acceleration);
 	}
 }

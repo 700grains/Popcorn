@@ -78,7 +78,7 @@ HWND AsConfig::Hwnd;
 const double AsConfig::D_Global_Scale = (double)Global_Scale;
 const double AsConfig::Moving_step_size = 1.0 / AsConfig::Global_Scale;
 const double AsConfig::Start_Ball_Y_Pos = 184.3;
-const double AsConfig::Ball_Acceleration = 1.0001;
+const double AsConfig::Ball_Acceleration = 1.001;
 //------------------------------------------------------------------------------------------------------------
 int AsConfig::Rand(int range)
 {// Calculates a pseudo-random number in the range [0, .. range - 1]
