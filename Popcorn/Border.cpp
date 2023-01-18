@@ -14,6 +14,7 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area)
 {// Draws a level border.
 
 	int i;
+	RECT intersection_rect;
 
 	// 1. Left line
 	for (i = 0; i < 50; i++)
@@ -21,16 +22,19 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area)
 
 	// 2. Right line
 	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, 201, 1 + i * 4, false);
+		Draw_Element(hdc, AsConfig::Max_X_Pos + 1 , 1 + i * 4, false);
 
 	// 3. Top line
 	for (i = 0; i < 50; i++)
 		Draw_Element(hdc, 3 + i * 4, 0, true);
 	// 4. if(Floor)
 	if (AsConfig::Level_Has_Floor)
-		if (IntersectRect)
+		if (IntersectRect(&intersection_rect, &paint_area, &Floor_Rect) )
 		{
+			AsConfig::Letter_Color.Select(hdc);
 
+			MoveToEx(hdc, Floor_Rect.left, Floor_Rect.top, 0);
+			LineTo(hdc, Floor_Rect.right, Floor_Rect.top);
 		}
 }
 //------------------------------------------------------------------------------------------------------------
