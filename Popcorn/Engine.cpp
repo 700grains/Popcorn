@@ -207,7 +207,9 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	case ELT_I: // "Inversion"
 		Ball_Set.Inverse_Balls();
 		break;
-	//case ELT_C: // "Speed"
+	case ELT_C: // "Speed"
+		Ball_Set.Reset_Speed();
+		break;
 	//case ELT_M: // "Monsters"
 	//case ELT_G: // "Life"
 	//case ELT_K: // "Glue"

@@ -184,6 +184,7 @@ void ABall::Set_For_Test()
 
 	Set_State(EBS_Normal, 100 + Test_Iteration, 100);
 	Ball_Direction = M_PI_4;
+	Ball_Speed = AsConfig::Normal_Ball_Speed;
 
 	++Test_Iteration;
 }
@@ -214,7 +215,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 	case	EBS_Normal:
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = y_pos;
-		Ball_Speed = 3.0;
+		Ball_Speed = AsConfig::Normal_Ball_Speed;
 		//Rest_Distance = 0.0;
 		Ball_Direction = M_PI_4;
 		Redraw_Ball();

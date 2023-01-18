@@ -184,6 +184,7 @@ void AsBall_Set::Inverse_Balls()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+
 void AsBall_Set::Accelerate()
 {
 	int i;
@@ -195,6 +196,19 @@ void AsBall_Set::Accelerate()
 
  		if (current_ball->Get_State() == EBS_Normal)
 			current_ball->Set_Speed(current_ball->Get_Speed() * AsConfig::Ball_Acceleration);
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Reset_Speed()
+{
+	int i;
+	ABall* current_ball;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
+		if (current_ball->Get_State() == EBS_Normal)
+			current_ball->Set_Speed(AsConfig::Normal_Ball_Speed);
 	}
 }
 //------------------------------------------------------------------------------------------------------------

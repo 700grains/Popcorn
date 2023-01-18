@@ -264,7 +264,7 @@ Actions of letters
 1. Simple:
 1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
 V 1.2. I ("Invert")
-1.3. S ("Speed")
+V 1.3. S ("Speed")
 1.4. M ("Monsters")
 1.5. F ("Life")
 

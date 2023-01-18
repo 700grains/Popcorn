@@ -20,6 +20,8 @@ public:
 	void Triple_Balls();
 	void Inverse_Balls();
 	void Accelerate();
+	void Reset_Speed();
+
 
 private:
 	ABall Balls[AsConfig::Max_Balls_Count];
