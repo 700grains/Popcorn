@@ -111,6 +111,11 @@ double ABall::Get_Speed()
 	return Ball_Speed;
 }
 //------------------------------------------------------------------------------------------------------------
+void ABall::Set_Speed(double new_speed)
+{
+	Ball_Speed = new_speed;
+}
+//------------------------------------------------------------------------------------------------------------
 void ABall::Draw(HDC hdc, RECT &paint_area)
 {
 	RECT intersection_rect;

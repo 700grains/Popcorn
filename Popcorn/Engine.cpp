@@ -140,6 +140,8 @@ void AsEngine::Play_Level()
 		Level.Stop();
 		Platform.Set_State(EPS_Pre_Meltdown);
 	}
+	else
+		Ball_Set.Accelerate();
 
 	if (Ball_Set.Is_Test_Finished())
 		Game_State = EGS_Test_Ball;

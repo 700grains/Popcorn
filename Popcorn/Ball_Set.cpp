@@ -175,11 +175,26 @@ void AsBall_Set::Inverse_Balls()
 {//reverse direction for all balls
 	int i;
 	ABall* current_ball;
+
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
 		current_ball = &Balls[i];
 		if (current_ball->Get_State() == EBS_Normal)
 			current_ball->Set_Direction(current_ball->Get_Direction() + M_PI);
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Accelerate()
+{
+	int i;
+	ABall* current_ball;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
+
+		if (current_ball->Get_State() == EBS_Normal)
+			current_ball->Set_Speed(current_ball->Get_Speed() * AsConfig::Ball_Acceleration);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
