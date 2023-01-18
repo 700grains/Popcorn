@@ -5,6 +5,7 @@
 #include "Border.h"
 #include "Level.h"
 #include "Platform.h"
+#include "Ball_Set.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum EKey_Type
@@ -24,27 +25,6 @@ enum EGame_State
 };
 //------------------------------------------------------------------------------------------------------------
 const int Timer_ID = WM_USER + 1;
-//------------------------------------------------------------------------------------------------------------
-class AsBall_Set: public AMover
-{
-public:
-	virtual void Begin_Movement();
-	virtual void Finish_Movement();
-	virtual void Advance(double max_speed);
-	virtual double Get_Speed();
-
-	void Draw(HDC hdc, RECT& paint_area);
-	void Release_From_The_Platform(double platform_x_pos);
-	void Set_On_The_Platform(double platform_x_pos);
-	bool All_Balls_Are_Lost();
-	void Set_For_Test();
-	bool Is_Test_Finished();
-	void Triple_Balls();
-	void Inverse_Balls();
-
-private:
-	ABall Balls[AsConfig::Max_Balls_Count];
-};
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
 {
