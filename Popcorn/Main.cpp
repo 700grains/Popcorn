@@ -270,7 +270,7 @@ V 1.3. S ("Speed")
 
 
 2. Complex:
-2.1. K ("Glue")
+2.1. G ("Glue")
 2.1.1. New state of the platform
 2.1.2. Spreading glue animation (forward and reverse)
 2.1.3. Fixing the ball (+ new state of the ball)
@@ -280,7 +280,7 @@ V 1.3. S ("Speed")
 2.2.1. New platform state (+ resizing)
 2.2.2. Expanding platform animation (forward and reverse)
 
-2.3. P ("Gender")
+2.3. P ("Floor")
 2.3.1. Floor rendering
 2.3.2. floor scale
 2.3.3. The interaction of the floor with the ball

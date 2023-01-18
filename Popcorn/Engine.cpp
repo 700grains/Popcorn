@@ -224,7 +224,9 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		break;
 
 	//case ELT_L: // "Laser"
-	//case ELT_P: // "Floor"
+	case ELT_P: // "Floor"
+		AsConfig::Level_Has_Floor = true;
+		break;
 	//case ELT_Plus: // Moving to the next level
 	default:
 		AsConfig::Throw();
