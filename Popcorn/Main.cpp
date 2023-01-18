@@ -263,7 +263,7 @@ V 2. Active brick - interacts only with the ball
 Actions of letters
 1. Simple:
 1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
-1.2. I ("Invert")
+V 1.2. I ("Invert")
 1.3. S ("Speed")
 1.4. M ("Monsters")
 1.5. F ("Life")

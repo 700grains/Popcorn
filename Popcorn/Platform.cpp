@@ -114,6 +114,10 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 
 	switch (new_state)
 	{
+		case EPS_Pre_Meltdown:
+			Speed = 0.0;
+		break;
+
 		case EPS_Meltdown:
 	
 		Platform_State = EPS_Meltdown;
@@ -171,6 +175,11 @@ void AsPlatform::Draw(HDC hdc, RECT &paint_area)
 	case EPS_Ready:
 	case EPS_Normal:
 		Draw_Normal_State(hdc, paint_area);
+		break;
+
+	case EPS_Pre_Meltdown:
+		Draw_Normal_State(hdc, paint_area);
+		Set_State(EPS_Meltdown);
 		break;
 
 	case EPS_Meltdown:
