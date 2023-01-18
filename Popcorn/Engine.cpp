@@ -226,6 +226,8 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	//case ELT_L: // "Laser"
 	case ELT_P: // "Floor"
 		AsConfig::Level_Has_Floor = true;
+		Border.Redraw_Floor();
+		// !!! display on the indicator!
 		break;
 	//case ELT_Plus: // Moving to the next level
 	default:

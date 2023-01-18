@@ -4,6 +4,10 @@
 //------------------------------------------------------------------------------------------------------------
 AsBorder::AsBorder()
 {
+	Floor_Rect.left = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
+	Floor_Rect.right = AsConfig::Max_X_Pos * AsConfig::Global_Scale;
+	Floor_Rect.top = (AsConfig::Max_Y_Pos - 1) * AsConfig::Global_Scale;
+	Floor_Rect.bottom = AsConfig::Max_Y_Pos * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw(HDC hdc, RECT &paint_area)
@@ -22,6 +26,17 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area)
 	// 3. Top line
 	for (i = 0; i < 50; i++)
 		Draw_Element(hdc, 3 + i * 4, 0, true);
+	// 4. if(Floor)
+	if (AsConfig::Level_Has_Floor)
+		if (IntersectRect)
+		{
+
+		}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::Redraw_Floor()
+{
+	InvalidateRect(AsConfig::Hwnd, &Floor_Rect, FALSE);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
