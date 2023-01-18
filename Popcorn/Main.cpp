@@ -293,10 +293,10 @@ Actions of letters
 2.4.3.1. Gap handling in a special way when the platform is in laser mode
 2.4.3.2. Laser beam objects - animation, movement and interaction with other objects
 
-2.5. T ("Three")
-2.5.1. Add support for multiple balls
-2.5.2. Output of many balls
-2.5.3. Interaction of many balls with game elements
+V 2.5. T ("Three")
+V 2.5.1. Add support for multiple balls
+V 2.5.2. Output of many balls
+V 2.5.3. Interaction of many balls with game elements
 
 2.6. + (Go to the next level)
 2.6.1. Animation of early transition to the next level

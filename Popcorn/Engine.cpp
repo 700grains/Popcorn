@@ -171,6 +171,18 @@ void AsBall_Set::Triple_Balls()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Inverse_Balls()
+{//reverse direction for all balls
+	int i;
+	ABall* current_ball;
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
+		if (current_ball->Get_State() == EBS_Normal)
+			current_ball->Set_Direction(current_ball->Get_Direction() + M_PI );
+	}
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -375,7 +387,9 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	switch (falling_letter->Letter_Type)
 	{
 	//case ELT_O: // "Cancel"
-	//case ELT_I: // "Inversion"
+	case ELT_I: // "Inversion"
+		Ball_Set.Inverse_Balls();
+		break;
 	//case ELT_C: // "Speed"
 	//case ELT_M: // "Monsters"
 	//case ELT_G: // "Life"
