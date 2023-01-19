@@ -14,7 +14,6 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area)
 {// Draws a level border.
 
 	int i;
-	RECT intersection_rect;
 
 	// 1. Left line
 	for (i = 0; i < 50; i++)
@@ -30,13 +29,7 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area)
 
 	// 4. if(Floor)
 	if (AsConfig::Level_Has_Floor)
-		if (IntersectRect(&intersection_rect, &paint_area, &Floor_Rect) )
-		{
-			AsConfig::Letter_Color.Select(hdc);
-
-			MoveToEx(hdc, Floor_Rect.left, Floor_Rect.top, 0);
-			LineTo(hdc, Floor_Rect.right, Floor_Rect.top);
-		}
+		Draw_Floor(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Redraw_Floor()
@@ -120,5 +113,20 @@ void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_bo
 		Rectangle(hdc, (x + 2) * AsConfig::Global_Scale, (y + 2) * AsConfig::Global_Scale, (x + 3) * AsConfig::Global_Scale - 1, (y + 3) * AsConfig::Global_Scale - 1);
 	else
 		Rectangle(hdc, (x + 2) * AsConfig::Global_Scale, (y + 1) * AsConfig::Global_Scale, (x + 3) * AsConfig::Global_Scale - 1, (y + 2) * AsConfig::Global_Scale - 1);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::Draw_Floor(HDC hdc, RECT& paint_area)
+{
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Floor_Rect) )
+		return;
+	
+	AsConfig::Letter_Color.Select(hdc);
+
+
+	MoveToEx(hdc, Floor_Rect.left, Floor_Rect.top, 0);
+	LineTo(hdc, Floor_Rect.right, Floor_Rect.top);
+	
 }
 //------------------------------------------------------------------------------------------------------------
