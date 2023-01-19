@@ -38,6 +38,16 @@ AMover::~AMover()
 
 
 
+// AGraphics_Object
+//------------------------------------------------------------------------------------------------------------
+AGraphics_Object::~AGraphics_Object()
+{
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // ABall
 const double ABall::Radius = 2.0 - 0.5 / AsConfig::Global_Scale;
 int ABall::Hit_Checkers_Count = 0;
@@ -111,23 +121,28 @@ double ABall::Get_Speed()
 	return Ball_Speed;
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Set_Speed(double new_speed)
+void ABall::Act()
 {
-	Ball_Speed = new_speed;
+	// Not used, because the ball itself does nothing (no animation)
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Draw(HDC hdc, RECT &paint_area)
+void ABall::Clear(HDC hdc, RECT& paint_area)
+{
+	AsConfig::Throw(); ///!!! move code from Draw()
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Draw(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 
 	if (Ball_State == EBS_Disabled)
 		return;
 
-	if ( (Ball_State == EBS_Teleporting || Ball_State == EBS_Lost) && Ball_State == Previous_Ball_State)
+	if ((Ball_State == EBS_Teleporting || Ball_State == EBS_Lost) && Ball_State == Previous_Ball_State)
 		return;
 
 	// 1. clearing the background
-	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect) )
+	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect))
 	{
 		AsConfig::BG_Color.Select(hdc);
 
@@ -157,11 +172,22 @@ void ABall::Draw(HDC hdc, RECT &paint_area)
 		return;
 
 	// 2. Drawing the ball
-	if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect) )
+	if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
 	{
 		AsConfig::White_Color.Select(hdc);
 		Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Finished()
+{	// Not used, because the ball itself does nothing (no animation)
+
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Set_Speed(double new_speed)
+{
+	Ball_Speed = new_speed;
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Draw_Teleporting(HDC hdc, int step)
