@@ -118,15 +118,25 @@ void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_bo
 void AsBorder::Draw_Floor(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
+	int i, strokes_count;
+	int x_pos;
+	int line_len = 6 * AsConfig::Global_Scale;
+	int gap_len = 2 * AsConfig::Global_Scale;
+	int stroke_len = line_len + gap_len;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Floor_Rect) )
 		return;
 	
+	strokes_count = (Floor_Rect.right - Floor_Rect.left) / stroke_len;
+	x_pos = Floor_Rect.left;
 	AsConfig::Letter_Color.Select(hdc);
 
+	for (i = 0; i < strokes_count; i++)
+	{
+		MoveToEx(hdc, x_pos, Floor_Rect.top, 0);
+		LineTo(hdc, x_pos + line_len, Floor_Rect.top);
 
-	MoveToEx(hdc, Floor_Rect.left, Floor_Rect.top, 0);
-	LineTo(hdc, Floor_Rect.right, Floor_Rect.top);
-	
+		x_pos += stroke_len;
+	}	
 }
 //------------------------------------------------------------------------------------------------------------
