@@ -10,28 +10,6 @@ AsBorder::AsBorder()
 	Floor_Rect.bottom = AsConfig::Max_Y_Pos * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsBorder::Draw(HDC hdc, RECT &paint_area)
-{// Draws a level border.
-
-	int i;
-
-	// 1. Left line
-	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, paint_area, 2, 1 + i * 4, false);
-
-	// 2. Right line
-	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, paint_area, AsConfig::Max_X_Pos + 1 , 1 + i * 4, false);
-
-	// 3. Top line
-	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, paint_area, 3 + i * 4, 0, true);
-
-	// 4. if(Floor)
-	if (AsConfig::Level_Has_Floor)
-		Draw_Floor(hdc, paint_area);
-}
-//------------------------------------------------------------------------------------------------------------
 void AsBorder::Redraw_Floor()
 {
 	InvalidateRect(AsConfig::Hwnd, &Floor_Rect, FALSE);
@@ -75,6 +53,43 @@ bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 			ball->Set_State (EBS_Lost);
 
 	return got_hit;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::Act()
+{
+	// Not used
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::Clear(HDC hdc, RECT& paint_area)
+{
+	AsConfig::Throw(); ///!!! Need to do
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBorder::Draw(HDC hdc, RECT& paint_area)
+{// Draws a level border.
+
+	int i;
+
+	// 1. Left line
+	for (i = 0; i < 50; i++)
+		Draw_Element(hdc, paint_area, 2, 1 + i * 4, false);
+
+	// 2. Right line
+	for (i = 0; i < 50; i++)
+		Draw_Element(hdc, paint_area, AsConfig::Max_X_Pos + 1, 1 + i * 4, false);
+
+	// 3. Top line
+	for (i = 0; i < 50; i++)
+		Draw_Element(hdc, paint_area, 3 + i * 4, 0, true);
+
+	// 4. if(Floor)
+	if (AsConfig::Level_Has_Floor)
+		Draw_Floor(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsBorder::Is_Finished()
+{
+	return false; // Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border)

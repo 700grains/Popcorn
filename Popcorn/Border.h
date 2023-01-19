@@ -16,8 +16,6 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Draw(HDC hdc, RECT &paint_area);
-
 	void Redraw_Floor();
 
 private:

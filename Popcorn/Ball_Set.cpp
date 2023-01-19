@@ -49,7 +49,7 @@ void AsBall_Set::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Clear(HDC hdc, RECT& paint_area)
 {
-	AsConfig::Throw(); ///!!! move code from Draw()
+	AsConfig::Throw(); ///!!! Need to do
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Draw(HDC hdc, RECT& paint_area)
