@@ -5,7 +5,7 @@
 AsBorder::AsBorder()
 {
 	Floor_Rect.left = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
-	Floor_Rect.right = AsConfig::Max_X_Pos * AsConfig::Global_Scale;
+	Floor_Rect.right = (AsConfig::Max_X_Pos - 1) * AsConfig::Global_Scale;
 	Floor_Rect.top = (AsConfig::Max_Y_Pos - 1) * AsConfig::Global_Scale;
 	Floor_Rect.bottom = AsConfig::Max_Y_Pos * AsConfig::Global_Scale;
 }
@@ -18,15 +18,16 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area)
 
 	// 1. Left line
 	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, 2, 1 + i * 4, false);
+		Draw_Element(hdc, paint_area, 2, 1 + i * 4, false);
 
 	// 2. Right line
 	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, AsConfig::Max_X_Pos + 1 , 1 + i * 4, false);
+		Draw_Element(hdc, paint_area, AsConfig::Max_X_Pos + 1 , 1 + i * 4, false);
 
 	// 3. Top line
 	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, 3 + i * 4, 0, true);
+		Draw_Element(hdc, paint_area, 3 + i * 4, 0, true);
+
 	// 4. if(Floor)
 	if (AsConfig::Level_Has_Floor)
 		if (IntersectRect(&intersection_rect, &paint_area, &Floor_Rect) )
@@ -83,8 +84,17 @@ bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 	return got_hit;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsBorder::Draw_Element(HDC hdc, int x, int y, bool top_border)
+void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border)
 {// Draws a level border element
+	RECT intersection_rect, rect;
+
+	rect.left = x * AsConfig::Global_Scale;
+	rect.top = y * AsConfig::Global_Scale;
+	rect.right = (x + 4) * AsConfig::Global_Scale;
+	rect.bottom = (y + 4) * AsConfig::Global_Scale;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &rect))
+		return;
 
  // The main line
 	AsConfig::Blue_Color.Select(hdc);

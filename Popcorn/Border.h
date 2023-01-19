@@ -15,7 +15,7 @@ public:
 	void Redraw_Floor();
 
 private:
-	void Draw_Element(HDC hdc, int x, int y, bool top_border);
+	void Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border);
 
 	RECT Floor_Rect;
 };
