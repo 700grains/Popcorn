@@ -6,7 +6,7 @@ AsBorder::AsBorder()
 {
 	Floor_Rect.left = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
 	Floor_Rect.right = (AsConfig::Max_X_Pos - 1) * AsConfig::Global_Scale;
-	Floor_Rect.top = (AsConfig::Max_Y_Pos - 1) * AsConfig::Global_Scale;
+	Floor_Rect.top = AsConfig::Floor_Y_Pos * AsConfig::Global_Scale;
 	Floor_Rect.bottom = AsConfig::Max_Y_Pos * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -38,41 +38,41 @@ void AsBorder::Redraw_Floor()
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
-{
+{// Correcting the position when reflected from the frame
+
 	bool got_hit = false;
 
-	// Correcting the position when reflected from the frame
+	//1. Left corner
 	if (next_x_pos - ball->Radius < AsConfig::Border_X_Offset)
 	{
 		got_hit = true;
 		ball->Reflect(false);
 	}
 
+	//2. Top corner
 	if (next_y_pos - ball->Radius < AsConfig::Border_Y_Offset)
 	{
 		got_hit = true;
 		ball->Reflect (true);
 	}
 
+	//3. Right corner
 	if (next_x_pos + ball->Radius > AsConfig::Max_X_Pos)
 	{
 		got_hit = true;
 		ball->Reflect(false);
 	}
 
-	if (next_y_pos + ball->Radius > AsConfig::Max_Y_Pos)
+	//4. Bottom corner
+	if (AsConfig::Level_Has_Floor && next_y_pos + ball->Radius > AsConfig::Floor_Y_Pos)
 	{
-		if (AsConfig::Level_Has_Floor)
-		{
-			got_hit = true;
-			ball->Reflect(true);
-		}
-		else
-		{
-			if (next_y_pos + ball->Radius > (double)AsConfig::Max_Y_Pos + ball->Radius * 4.0) // We check the position below the visible border.
-				ball->Set_State (EBS_Lost);
-		}
+		got_hit = true;
+		ball->Reflect(true);
 	}
+	// We check the position below the visible border.
+
+	if (next_y_pos + ball->Radius > (double)AsConfig::Max_Y_Pos + ball->Radius * 4.0) 
+			ball->Set_State (EBS_Lost);
 
 	return got_hit;
 }
