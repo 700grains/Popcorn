@@ -42,12 +42,27 @@ double AsBall_Set::Get_Speed()
 	return max_speed;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Act()
+{
+	// Not used
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Clear(HDC hdc, RECT& paint_area)
+{
+	AsConfig::Throw(); ///!!! move code from Draw()
+}
+//------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Draw(HDC hdc, RECT& paint_area)
 {
 	int i;
 
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 		Balls[i].Draw(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsBall_Set::Is_Finished()
+{
+	return false; 	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Release_From_The_Platform(double platform_x_pos)
