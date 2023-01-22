@@ -225,8 +225,11 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			break;
 
 		case EPS_Glue_Init:
-			Glue_Spot_Height_Ratio = 0.2;
+			Glue_Spot_Height_Ratio = 0.4;
 			break;
+
+		//case EPS_Glue: //!!!
+		//case EPS_Glue_Finalize: //!!!
 	}
 		Platform_State = new_state;
 }
