@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Falling_Letter.h"
+#include "Ball_Set.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_State
