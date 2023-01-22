@@ -483,23 +483,29 @@ void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
 {// draw a platform with spreading glue
+	Draw_Normal_State(hdc, paint_area);
+
+	Draw_Glue_Spot(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Glue_Spot(HDC hdc, RECT& paint_area)
+{// draw a spot of glue on the platform
 
 	RECT spot_rect;
 	int platform_top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
 	int spot_height = 5 * AsConfig::Global_Scale;
 
-	Draw_Normal_State(hdc, paint_area);
-
 	// draw a spot of glue
 	AsConfig::White_Color.Select(hdc);
 	AsConfig::BG_Color.Select_Pen(hdc);
 
-	spot_rect.left = (int) ((X_Pos + 6.0) * AsConfig::D_Global_Scale);
+	spot_rect.left = (int)((X_Pos + 6.0) * AsConfig::D_Global_Scale);
 	spot_rect.top = platform_top - spot_height;
 	spot_rect.right = spot_rect.left + 9 * AsConfig::Global_Scale;
 	spot_rect.bottom = platform_top + spot_height - AsConfig::Global_Scale;
 
 	Chord(hdc, spot_rect.left, spot_rect.top, spot_rect.right - 1, spot_rect.bottom - 1, spot_rect.left, platform_top - 1, spot_rect.right - 1, platform_top - 1);
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall* ball)

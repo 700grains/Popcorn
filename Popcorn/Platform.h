@@ -60,6 +60,7 @@ private:
 	void Draw_Roll_In_State(HDC hdc, RECT& paint_area);
 	void Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area);
 	void Draw_Glue_State(HDC hdc, RECT& paint_area);
+	void Draw_Glue_Spot(HDC hdc, RECT& paint_area);
 	bool Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall* ball);
 	bool Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len);
 	void Get_Normal_Platform_Image(HDC hdc);
