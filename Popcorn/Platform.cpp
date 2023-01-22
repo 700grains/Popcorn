@@ -67,7 +67,13 @@ void AsPlatform::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Finish_Movement()
 {
+	if (Platform_Moving_State == EPMS_Stop)
+		return;
+
 	Redraw_Platform();
+
+	if (Platform_Moving_State == EPMS_Stopping)
+		Platform_Moving_State = EPMS_Stop;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Advance(double max_speed)
@@ -78,10 +84,18 @@ void AsPlatform::Advance(double max_speed)
 		X_Pos += next_step;
 
 	if (X_Pos <= AsConfig::Border_X_Offset)
-		X_Pos = AsConfig::Border_X_Offset;
+		{
+			X_Pos = AsConfig::Border_X_Offset;
+			Speed = 0.0;
+			Platform_Moving_State = EPMS_Stopping;
+		}
 
 	if (X_Pos >= max_platform_x)
-		X_Pos = max_platform_x;
+		{
+			X_Pos = max_platform_x;
+			Speed = 0.0;
+			Platform_Moving_State = EPMS_Stopping;
+		}
 }
 //------------------------------------------------------------------------------------------------------------
 double AsPlatform::Get_Speed()
@@ -232,7 +246,7 @@ void AsPlatform::Move(bool to_left, bool key_down)
 			if (!key_down)
 			{
 				Speed = 0.0;
-				Platform_Moving_State = EPMS_Stop;
+				Platform_Moving_State = EPMS_Stopping;
 				return;
 			}
 		}
@@ -248,7 +262,7 @@ void AsPlatform::Move(bool to_left, bool key_down)
 			if (!key_down)
 			{
 				Speed = 0.0;
-				Platform_Moving_State = EPMS_Stop;
+				Platform_Moving_State = EPMS_Stopping;
 				return;
 			}
 		}

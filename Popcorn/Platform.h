@@ -16,6 +16,7 @@ enum EPlatform_State
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_Moving_State
 {
+	EPMS_Stopping, 
 	EPMS_Stop,
 	EPMS_Moving_Left,
 	EPMS_Moving_Right

@@ -68,6 +68,9 @@ void ABall::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void ABall::Finish_Movement()
 {
+	if (Ball_State == EBS_Disabled || Ball_State == EBS_Lost)
+		return;
+
 	Redraw_Ball();
 
 	if (Ball_State == EBS_On_Parachute)
