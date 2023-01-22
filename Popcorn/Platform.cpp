@@ -319,10 +319,16 @@ void AsPlatform::On_Space_Key(bool key_down)
 {
 	if (!key_down)
 		return;
-	if (Get_State() == EPS_Ready)
+	switch (Get_State())
 	{
-		Ball_Set.Release_From_The_Platform(Get_Middle_Pos());
+	case EPS_Ready:
+		Ball_Set->Release_From_The_Platform(Get_Middle_Pos() );
 		Set_State(EPS_Normal);
+		break;
+
+	case EPS_Glue:
+		Ball_Set->Release_Next_Ball();
+		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------

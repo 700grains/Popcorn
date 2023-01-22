@@ -77,6 +77,25 @@ void AsBall_Set::Release_From_The_Platform(double platform_x_pos)
 			Balls[i].Set_State(EBS_Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Release_Next_Ball()
+{
+	int i;
+	double ball_x, ball_y;
+	ABall* current_ball;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
+		if (current_ball->Get_State() == EBS_On_Platform)
+		{
+			current_ball->Get_Center(ball_x, ball_y);
+			current_ball->Set_State(EBS_Normal, ball_x, ball_y);
+			break;
+		}
+	}
+
+}
+//------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 {
 	int i;
