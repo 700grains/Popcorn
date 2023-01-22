@@ -92,12 +92,7 @@ int AsEngine::On_Key(EKey_Type key_type, bool key_down)
 
 
 	case EKT_Space:
-		if (key_down)
-			if (Platform.Get_State() == EPS_Ready)
-			{
-				Ball_Set.Release_From_The_Platform(Platform.Get_Middle_Pos());
-				Platform.Set_State(EPS_Normal);
-			}
+		Platform.On_Space_Key(key_down);
 		break;
 	}
 
@@ -135,8 +130,8 @@ int AsEngine::On_Timer()
 		if (Platform.Get_State() == EPS_Ready)
 		{
 			Game_State = EGS_Play_Level;
-			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos());
-			Platform.Set_State(EPS_Glue_Init);
+			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos() );
+			//Platform.Set_State(EPS_Glue_Init);
 		}
 		break;
 	}
@@ -235,7 +230,9 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		if (Life_Count < AsConfig::Max_Life_Count)
 			++Life_Count; /// !!! should be displayed on the indicator
 		break;
-	//case ELT_K: // "Glue"
+	case ELT_K: // "Glue"
+		Platform.Set_State(EPS_Glue_Init);
+		break;
 	//case ELT_W: // "Wider"
 
 	case ELT_T: // "Three"
