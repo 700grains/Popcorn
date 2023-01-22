@@ -262,7 +262,7 @@ void AsPlatform::Redraw_Platform()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)
 {
-	if (Platform_State != EPS_Normal)
+	if (! (Platform_State == EPS_Normal || Platform_State == EPS_Glue || Platform_State == EPS_Glue_Init || Platform_State == EPS_Glue_Finalize) )
 		return;
 
 	if (to_left)
