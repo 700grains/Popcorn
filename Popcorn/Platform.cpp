@@ -485,7 +485,8 @@ void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
 {// draw a platform with spreading glue
 	Draw_Normal_State(hdc, paint_area);
 
-	Draw_Glue_Spot(hdc, 0, 9, 5);
+	Draw_Glue_Spot(hdc, 0, 13, 5);
+	Draw_Glue_Spot(hdc, 8, 9, 6);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
@@ -499,7 +500,7 @@ void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
 	AsConfig::White_Color.Select(hdc);
 	AsConfig::BG_Color.Select_Pen(hdc);
 
-	spot_rect.left = (int)((X_Pos + 6.0 + (double) x_offset) * AsConfig::D_Global_Scale);
+	spot_rect.left = (int)((X_Pos + 5.0 + (double) x_offset) * AsConfig::D_Global_Scale);
 	spot_rect.top = platform_top - spot_height;
 	spot_rect.right = spot_rect.left + width * AsConfig::Global_Scale;
 	spot_rect.bottom = platform_top + spot_height - AsConfig::Global_Scale;
