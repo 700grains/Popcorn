@@ -124,6 +124,9 @@ void AsPlatform::Act()
 	case EPS_Glue_Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ration)
 			Glue_Spot_Height_Ratio += 0.02;
+		else
+			Platform_State = EPS_Glue;
+
 		Redraw_Platform();
 		break;
 	}
@@ -133,7 +136,7 @@ void AsPlatform::Clear(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 
-	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
+	if (! IntersectRect(&intersection_rect, &paint_area, &Prev_Platform_Rect))
 		return;
 	switch (Platform_State)
 	{
@@ -142,6 +145,10 @@ void AsPlatform::Clear(HDC hdc, RECT& paint_area)
 	case EPS_Pre_Meltdown:
 	case EPS_Roll_In:
 	case EPS_Expand_Roll_In:
+	case EPS_Glue_Init:
+	case EPS_Glue:
+	case EPS_Glue_Finalize:
+
 		// Clearing the old place with the background color
 		AsConfig::BG_Color.Select(hdc);
 		Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
@@ -181,6 +188,8 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPS_Glue_Init:
+	case EPS_Glue:
+	case EPS_Glue_Finalize:
 		Draw_Glue_State(hdc, paint_area);
 		break;
 	}
