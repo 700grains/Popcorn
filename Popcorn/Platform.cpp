@@ -102,7 +102,22 @@ void AsPlatform::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Clear(HDC hdc, RECT& paint_area)
 {
-	AsConfig::Throw(); ///!!! Need to do
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
+		return;
+
+	switch (Platform_State)
+	{
+	case EPS_Ready:
+	case EPS_Normal:
+	case EPS_Pre_Meltdown:
+	case EPS_Roll_In:
+	case EPS_Expand_Roll_In:
+		// Clearing the old place with the background color
+		AsConfig::BG_Color.Select(hdc);
+		Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw(HDC hdc, RECT& paint_area)
@@ -263,14 +278,6 @@ double AsPlatform::Get_Middle_Pos()
 	return X_Pos + (double)Width / 2.0;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Clear_BG(HDC hdc)
-{// Clearing the old place with the background color
-	AsConfig::BG_Color.Select(hdc);
-
-	Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
-
-}
-//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
 {// Drawing hightlight on the ball
 	Highlight_Color.Select_Pen(hdc);
@@ -288,9 +295,6 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect, rect;
-
-	// Clearing the old place with the background color
-	Clear_BG(hdc);
 
 	// 1. Draw side balls
 	Platform_Circle_Color.Select(hdc);
@@ -403,8 +407,6 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
 	int roller_size = Circle_Size * AsConfig::Global_Scale;
 	double alpha;
 	XFORM xform, old_xform;
-
-	Clear_BG(hdc);
 
 	// 1. The ball
 	Platform_Circle_Color.Select(hdc);
