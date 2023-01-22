@@ -8,8 +8,8 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Missing), Platform_Moving_State(EPMS_Stop),
-  Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Normal_Platform_Image_Width(0),
+: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Missing), Platform_Moving_State(EPMS_Stop), Right_Key_Down (false), 
+  Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Normal_Platform_Image_Width(0),
   Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
@@ -78,10 +78,15 @@ void AsPlatform::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Advance(double max_speed)
 {
-	double max_platform_x = AsConfig::Max_X_Pos - Width + 1;
-	double next_step = Speed / max_speed * AsConfig::Moving_step_size;
+	double max_platform_x, next_step;
 
-		X_Pos += next_step;
+	if (Platform_Moving_State == EPMS_Stopping || Platform_Moving_State == EPMS_Stop)
+		return;
+
+	max_platform_x = AsConfig::Max_X_Pos - Width + 1;
+	next_step = Speed / max_speed * AsConfig::Moving_step_size;
+
+	X_Pos += next_step;
 
 	if (X_Pos <= AsConfig::Border_X_Offset)
 		{
@@ -240,35 +245,29 @@ void AsPlatform::Move(bool to_left, bool key_down)
 		return;
 
 	if (to_left)
-	{
-		if (Platform_Moving_State == EPMS_Moving_Left)
-		{
-			if (!key_down)
-			{
-				Speed = 0.0;
-				Platform_Moving_State = EPMS_Stopping;
-				return;
-			}
-		}
-		else
-			Platform_Moving_State = EPMS_Moving_Left;
+		Left_Key_Down = key_down;
+	else
+		Right_Key_Down = key_down;
 
+	if (Left_Key_Down && Right_Key_Down)
+		return; // ignore simultaneous pressing of two keys
+
+	if (! Left_Key_Down && ! Right_Key_Down)
+	{
+		Speed = 0.0;
+		Platform_Moving_State = EPMS_Stopping;
+		return;
+	}
+
+	if (Left_Key_Down)
+	{
+		Platform_Moving_State = EPMS_Moving_Left;
 		Speed = -X_Step;
 	}
-	else
-	{
-		if (Platform_Moving_State == EPMS_Moving_Right)
-		{
-			if (!key_down)
-			{
-				Speed = 0.0;
-				Platform_Moving_State = EPMS_Stopping;
-				return;
-			}
-		}
-		else
-			Platform_Moving_State = EPMS_Moving_Right;
 
+	if (Right_Key_Down)
+	{
+		Platform_Moving_State = EPMS_Moving_Right;
 		Speed = X_Step;
 	}
 }

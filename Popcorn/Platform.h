@@ -62,6 +62,7 @@ private:
 
 	EPlatform_State Platform_State;
 	EPlatform_Moving_State Platform_Moving_State;
+	bool Right_Key_Down, Left_Key_Down;
 	int Inner_Width;
 	int Rolling_Step;
 	double Speed;
