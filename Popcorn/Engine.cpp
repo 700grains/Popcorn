@@ -5,8 +5,7 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-:Game_State (EGS_Lost_Ball), Rest_Distance(0), Life_Count(AsConfig::Initial_Life_Count)
-
+:Game_State (EGS_Lost_Ball), Rest_Distance(0), Life_Count(AsConfig::Initial_Life_Count), Movers{}, Modules{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
