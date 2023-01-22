@@ -1,6 +1,7 @@
 ﻿#include "Platform.h"
 
 // AsPlatform
+const double AsPlatform::Max_Glue_Spot_Height_Ration = 1.0;
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::~AsPlatform()
 {
@@ -9,7 +10,7 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Missing), Platform_Moving_State(EPMS_Stop), Right_Key_Down (false), 
-  Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Normal_Platform_Image_Width(0),
+  Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Normal_Platform_Image_Width(0),
   Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
@@ -116,6 +117,15 @@ void AsPlatform::Act()
 	case EPS_Roll_In:
 	case EPS_Expand_Roll_In:
 		Redraw_Platform();
+		break;
+
+
+
+	case EPS_Glue_Init:
+		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ration)
+			Glue_Spot_Height_Ratio += 0.02;
+		Redraw_Platform();
+		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -501,7 +511,7 @@ void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
 
 	RECT spot_rect;
 	int platform_top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
-	int spot_height = height * AsConfig::Global_Scale;
+	int spot_height = (int) ((double) height * AsConfig::D_Global_Scale * Glue_Spot_Height_Ratio);
 
 	// draw a spot of glue
 	spot_rect.left = (int)((X_Pos + 5.0 + (double) x_offset) * AsConfig::D_Global_Scale);

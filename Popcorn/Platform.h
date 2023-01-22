@@ -71,6 +71,7 @@ private:
 	int Inner_Width;
 	int Rolling_Step;
 	double Speed;
+	double Glue_Spot_Height_Ratio;
 
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
 	int* Normal_Platform_Image; // Platform image pixels on window background
@@ -83,6 +84,7 @@ private:
 
 	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color;
 
+	static const double Max_Glue_Spot_Height_Ration;
 	static const int Height = 7;
 	static const int Circle_Size = 7;
 	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size;
