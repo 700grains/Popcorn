@@ -522,6 +522,7 @@ void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
 	Draw_Glue_Spot(hdc, 9, 9, 5);
 
 	SelectClipRgn(hdc, 0);
+	DeleteObject(region);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
