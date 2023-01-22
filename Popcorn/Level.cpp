@@ -149,17 +149,8 @@ void AsLevel::Act()
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Clear(HDC hdc, RECT& paint_area)
-{
-	AsConfig::Throw(); ///!!! move code from Draw()
-}
-//------------------------------------------------------------------------------------------------------------
-void AsLevel::Draw(HDC hdc, RECT& paint_area)
-{// Output all bricks of the level
+{// 1. Erase all moving objects
 
-	int i, j;
-	RECT intersection_rect, brick_rect;
-
-	// 1. Erase all moving objects
 	Clear_Objects(hdc, paint_area, (AGraphics_Object**)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
 	if (Advertisement != 0)
 		Advertisement->Clear(hdc, paint_area);
@@ -169,8 +160,14 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 		Cancel_All_Activity();
 		Need_To_Cancel_All = false;
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Draw(HDC hdc, RECT& paint_area)
+{// Draw all the objects of the level
 
-	// 2. Draw all objects
+	int i, j;
+	RECT intersection_rect, brick_rect;
+
 	if (Advertisement != 0)
 		Advertisement->Draw(hdc, paint_area);
 
