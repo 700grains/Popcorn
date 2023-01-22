@@ -223,6 +223,10 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			X_Pos = AsConfig::Max_X_Pos - 1;
 			Rolling_Step = Max_Rolling_Step - 1;
 			break;
+
+		case EPS_Glue_Init:
+			Glue_Spot_Height_Ratio = 0.2;
+			break;
 	}
 		Platform_State = new_state;
 }
