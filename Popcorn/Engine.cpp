@@ -64,6 +64,13 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 	{
 		if (Modules[i] != 0)
 		{
+			Modules[i]->Clear(hdc, paint_area);
+		}
+	}
+	for (i = 0; i < AsConfig::Max_Modules_Count; i++)
+	{
+		if (Modules[i] != 0)
+		{
 			Modules[i]->Draw(hdc, paint_area);
 		}
 	}
