@@ -45,7 +45,7 @@ public:
 
 	EPlatform_State Get_State();
 	void Set_State(EPlatform_State new_state);
-	void Redraw_Platform();
+	void Redraw_Platform(bool update_rect = true);
 	void Move(bool to_left, bool key_down);
 	bool Hit_By(AFalling_Letter* falling_letter);
 	double Get_Middle_Pos();

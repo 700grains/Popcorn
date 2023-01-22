@@ -123,11 +123,14 @@ void AsPlatform::Act()
 
 	case EPS_Glue_Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ration)
+		{
 			Glue_Spot_Height_Ratio += 0.02;
+			Redraw_Platform(false);
+
+		}
 		else
 			Platform_State = EPS_Glue;
 
-		Redraw_Platform();
 		break;
 	}
 }
@@ -244,27 +247,28 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 }
 
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Redraw_Platform()
+void AsPlatform::Redraw_Platform(bool update_rect)
 {
 	int platform_width;
+	if (update_rect)
+	{
+		Prev_Platform_Rect = Platform_Rect;
 
-	Prev_Platform_Rect = Platform_Rect;
-
-	if (Platform_State == EPS_Roll_In)
-		platform_width = Circle_Size;
-	else
-		platform_width = Width;
+		if (Platform_State == EPS_Roll_In)
+			platform_width = Circle_Size;
+		else
+			platform_width = Width;
 
 
 
-	Platform_Rect.left = (int)(X_Pos * AsConfig::D_Global_Scale);
-	Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
-	Platform_Rect.right = Platform_Rect.left + platform_width * AsConfig::Global_Scale;
-	Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
-	
-	if (Platform_State == EPS_Meltdown)
-		Prev_Platform_Rect.bottom = (AsConfig::Max_Y_Pos + 1) * AsConfig::Global_Scale;
+		Platform_Rect.left = (int)(X_Pos * AsConfig::D_Global_Scale);
+		Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
+		Platform_Rect.right = Platform_Rect.left + platform_width * AsConfig::Global_Scale;
+		Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
 
+		if (Platform_State == EPS_Meltdown)
+			Prev_Platform_Rect.bottom = (AsConfig::Max_Y_Pos + 1) * AsConfig::Global_Scale;
+	}
 	InvalidateRect(AsConfig::Hwnd, &Prev_Platform_Rect, FALSE);
 	InvalidateRect(AsConfig::Hwnd, &Platform_Rect, FALSE);
 }
