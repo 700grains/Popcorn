@@ -492,6 +492,8 @@ void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
 
 	// draw a spot of glue
 	AsConfig::White_Color.Select(hdc);
+	AsConfig::BG_Color.Select_Pen(hdc);
+
 	spot_rect.left = (int) ((X_Pos + 5.0) * AsConfig::D_Global_Scale);
 	spot_rect.top = platform_top - spot_height;
 	spot_rect.right = spot_rect.left + 11 * AsConfig::Global_Scale;
