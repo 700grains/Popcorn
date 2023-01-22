@@ -280,11 +280,11 @@ V 1.3. S ("Speed")
 2.2.1. New platform state (+ resizing)
 2.2.2. Expanding platform animation (forward and reverse)
 
-2.3. P ("Floor")
-2.3.1. Floor rendering
-2.3.2. floor scale
-2.3.3. The interaction of the floor with the ball
-2.3.4. Hitting the ball with the bottom edge of the platform
+V 2.3. P ("Floor")
+V 2.3.1. Floor rendering
+V 2.3.2. floor scale
+V 2.3.3. The interaction of the floor with the ball
+V 2.3.4. Hitting the ball with the bottom edge of the platform
 
 2.4. L ("Laser")
 2.4.1. New state of the platform

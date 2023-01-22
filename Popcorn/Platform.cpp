@@ -169,6 +169,10 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 	case EPS_Expand_Roll_In:
 		Draw_Expanding_Roll_In_State(hdc, paint_area);
 		break;
+
+	case EPS_Glue_Init:
+		Draw_Glue_State(hdc, paint_area);
+		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -475,6 +479,11 @@ void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
 		Platform_State = EPS_Ready;
 		Redraw_Platform();
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
+{// draw a platform with spreading glue
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall* ball)
