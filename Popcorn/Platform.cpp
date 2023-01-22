@@ -493,7 +493,19 @@ void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
 {// draw a platform with spreading glue
+
+	HRGN region;
+	RECT glue_rect;
+
 	Draw_Normal_State(hdc, paint_area);
+
+	glue_rect.left = (int)((X_Pos + 5.0) * AsConfig::D_Global_Scale);
+	glue_rect.top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
+	glue_rect.right = glue_rect.left + Normal_Platform_Inner_Width * AsConfig::Global_Scale;
+	glue_rect.bottom = glue_rect.top + (Height - 2) * AsConfig::D_Global_Scale;
+
+	region = CreateRectRgnIndirect(&glue_rect);
+	SelectClipRgn(hdc, region);
 
 	AsConfig::BG_Color.Select(hdc);
 	Draw_Glue_Spot(hdc, 0, 13, 5);
@@ -504,6 +516,8 @@ void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
 	Draw_Glue_Spot(hdc, 0, 9, 4);
 	Draw_Glue_Spot(hdc, 6, 6, 4);
 	Draw_Glue_Spot(hdc, 9, 9, 5);
+
+	SelectClipRgn(hdc, 0);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
