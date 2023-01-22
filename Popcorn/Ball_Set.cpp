@@ -49,7 +49,10 @@ void AsBall_Set::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Clear(HDC hdc, RECT& paint_area)
 {
-	AsConfig::Throw(); ///!!! Need to do
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Balls[i].Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Draw(HDC hdc, RECT& paint_area)
