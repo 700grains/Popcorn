@@ -62,7 +62,16 @@ void AsBorder::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Clear(HDC hdc, RECT& paint_area)
 {
-	AsConfig::Throw(); ///!!! Need to do
+	RECT intersection_rect;
+	if (! AsConfig::Level_Has_Floor)
+		return;
+	
+	if (! IntersectRect(&intersection_rect, &paint_area, &Floor_Rect))
+			return;
+
+	AsConfig::BG_Color.Select(hdc);
+
+	Rectangle(hdc, Floor_Rect.left, Floor_Rect.top, Floor_Rect.right - 1, Floor_Rect.bottom - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw(HDC hdc, RECT& paint_area)
