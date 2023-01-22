@@ -106,7 +106,6 @@ void AsPlatform::Clear(HDC hdc, RECT& paint_area)
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
 		return;
-
 	switch (Platform_State)
 	{
 	case EPS_Ready:
