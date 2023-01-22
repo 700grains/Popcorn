@@ -128,7 +128,21 @@ void ABall::Act()
 //------------------------------------------------------------------------------------------------------------
 void ABall::Clear(HDC hdc, RECT& paint_area)
 {
-	AsConfig::Throw(); ///!!! move code from Draw()
+	RECT intersection_rect;
+
+	if (Ball_State == EBS_Disabled)
+		return;	
+
+	if ((Ball_State == EBS_Teleporting || Ball_State == EBS_Lost) && Ball_State == Previous_Ball_State)
+		return;
+
+	// 1. clearing the background
+	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect))
+	{
+		AsConfig::BG_Color.Select(hdc);
+
+		Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Draw(HDC hdc, RECT& paint_area)
@@ -141,13 +155,6 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
 	if ((Ball_State == EBS_Teleporting || Ball_State == EBS_Lost) && Ball_State == Previous_Ball_State)
 		return;
 
-	// 1. clearing the background
-	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect))
-	{
-		AsConfig::BG_Color.Select(hdc);
-
-		Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
-	}
 	switch (Ball_State)
 	{
 	case EBS_On_Parachute:
