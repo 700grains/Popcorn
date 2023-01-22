@@ -100,6 +100,50 @@ void AsPlatform::Act()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+void AsPlatform::Clear(HDC hdc, RECT& paint_area)
+{
+	AsConfig::Throw(); ///!!! Need to do
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw(HDC hdc, RECT& paint_area)
+{// Drawing the platform
+
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
+		return;
+
+	switch (Platform_State)
+	{
+	case EPS_Ready:
+	case EPS_Normal:
+		Draw_Normal_State(hdc, paint_area);
+		break;
+
+	case EPS_Pre_Meltdown:
+		Draw_Normal_State(hdc, paint_area);
+		Set_State(EPS_Meltdown);
+		break;
+
+	case EPS_Meltdown:
+		Draw_Meltdown_State(hdc, paint_area);
+		break;
+
+	case EPS_Roll_In:
+		Draw_Roll_In_State(hdc, paint_area);
+		break;
+
+	case EPS_Expand_Roll_In:
+		Draw_Expanding_Roll_In_State(hdc, paint_area);
+		break;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsPlatform::Is_Finished()
+{
+	return false; // Not used
+}
+//------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform::Get_State()
 {
 	return Platform_State;
@@ -160,40 +204,6 @@ void AsPlatform::Redraw_Platform()
 
 	InvalidateRect(AsConfig::Hwnd, &Prev_Platform_Rect, FALSE);
 	InvalidateRect(AsConfig::Hwnd, &Platform_Rect, FALSE);
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw(HDC hdc, RECT &paint_area)
-{// Drawing the platform
-
-	RECT intersection_rect;
-
-	if (!IntersectRect(&intersection_rect, &paint_area, &Platform_Rect) )
-		return;
-
-	switch (Platform_State)
-	{
-	case EPS_Ready:
-	case EPS_Normal:
-		Draw_Normal_State(hdc, paint_area);
-		break;
-
-	case EPS_Pre_Meltdown:
-		Draw_Normal_State(hdc, paint_area);
-		Set_State(EPS_Meltdown);
-		break;
-
-	case EPS_Meltdown:
-		Draw_Meltdown_State(hdc, paint_area);
-		break;
-
-	case EPS_Roll_In:
-		Draw_Roll_In_State(hdc, paint_area);
-		break;
-
-	case EPS_Expand_Roll_In:
-		Draw_Expanding_Roll_In_State(hdc, paint_area);
-		break;
-	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)
