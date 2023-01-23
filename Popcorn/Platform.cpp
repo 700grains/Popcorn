@@ -116,7 +116,6 @@ void AsPlatform::Advance(double max_speed)
 		else
 			if (Platform_Moving_State == EPMS_Moving_Right)
 				Ball_Set->On_Platform_Advance(0.0, fabs(Speed), max_speed);
-
 	}
 }
 //------------------------------------------------------------------------------------------------------------
