@@ -257,6 +257,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			while (Ball_Set->Release_Next_Ball())
 			{
 			}
+			return;
 		}
 		break;
 
