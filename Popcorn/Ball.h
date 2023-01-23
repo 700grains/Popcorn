@@ -76,6 +76,7 @@ public:
 	bool Is_Moving_Left();
 	void Set_On_Parachute(int brick_x, int brick_y);
 	void Forced_Advance(double direction, double max_speed);
+	void Release();
 
 	static void Add_Hit_Checker(AHit_Checker *hit_checker);
 
@@ -89,8 +90,8 @@ private:
 
 	EBall_State Ball_State, Previous_Ball_State;
 	//double Rest_Distance;
-	double Ball_Direction;
-	double Ball_Speed;
+	double Ball_Direction, Prev_Ball_Direction;
+	double Ball_Speed, Prev_Ball_Speed;
 
 	bool Testing_Is_Active;
 	int Test_Iteration;
