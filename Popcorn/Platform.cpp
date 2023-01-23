@@ -245,7 +245,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 	switch (new_state)
 	{
 	case EPS_Normal:
-		if (Platform_State == EPS_Glue)
+		if (Platform_State == EPS_Glue || Platform_State == EPS_Glue_Init)
 			return Set_State(EPS_Glue_Finalize);
 		break;
 
