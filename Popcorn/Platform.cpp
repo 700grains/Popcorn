@@ -111,7 +111,7 @@ void AsPlatform::Advance(double max_speed)
 		}
 
 	// move glued balls
-	if (Platform_State == EPS_Glue || Platform_State == EPS_Ready)
+	if (Platform_State == EPS_Glue || (Platform_State == EPS_Ready && Platform_Substate_Glue == EPSG_Active) )
 	{
 		if (Platform_Moving_State == EPMS_Moving_Left)
 			Ball_Set->On_Platform_Advance(M_PI, fabs(Speed), max_speed);
