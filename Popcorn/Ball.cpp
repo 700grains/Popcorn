@@ -87,6 +87,8 @@ void ABall::Finish_Movement()
 void ABall::Advance(double max_speed)
 {
 	int i;
+	int prev_hit_count = 0;
+	const int max_hits_count = 8;
 	bool got_hit = true;
 	double next_x_pos, next_y_pos;
 	double next_step;
@@ -107,7 +109,17 @@ void ABall::Advance(double max_speed)
 			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
 
 		//// Correcting the position when reflected from the platform
-		if (!got_hit)
+		if (got_hit)
+		{
+			++prev_hit_count;
+
+			if (prev_hit_count >= max_hits_count)
+			{
+				Ball_Direction += M_PI / 8.0;
+				prev_hit_count = 0;
+			}
+		}
+		else
 		{
 			// the ball will continue to move if it does not collide with other objects
 			Center_X_Pos = next_x_pos;
