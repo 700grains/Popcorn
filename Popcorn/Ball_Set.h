@@ -26,6 +26,7 @@ public:
 	void Inverse_Balls();
 	void Accelerate();
 	void Reset_Speed();
+	void On_Platform_Advance(double direction, double max_speed);
 
 
 private:

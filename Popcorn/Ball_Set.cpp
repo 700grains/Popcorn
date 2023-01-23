@@ -93,7 +93,6 @@ void AsBall_Set::Release_Next_Ball()
 			break;
 		}
 	}
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
@@ -246,6 +245,20 @@ void AsBall_Set::Reset_Speed()
 		current_ball = &Balls[i];
 		if (current_ball->Get_State() == EBS_Normal)
 			current_ball->Set_Speed(AsConfig::Normal_Ball_Speed);
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::On_Platform_Advance(double direction, double max_speed)
+{
+	int i;
+	ABall* current_ball;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
+
+		if (current_ball->Get_State() == EBS_On_Platform)
+			current_ball->Advance(max_speed);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
