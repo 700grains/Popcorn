@@ -258,7 +258,7 @@ void AsBall_Set::On_Platform_Advance(double direction, double max_speed)
 		current_ball = &Balls[i];
 
 		if (current_ball->Get_State() == EBS_On_Platform)
-			current_ball->Advance(max_speed);
+			current_ball->Forced_Advance(max_speed);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
