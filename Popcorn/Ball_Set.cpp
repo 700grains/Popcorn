@@ -107,8 +107,11 @@ bool AsBall_Set::Release_Next_Ball()
 void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 {
 	int i;
-
-	Balls[0].Set_State(EBS_On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+	for (i = 0; i < 5; i++)
+	{
+		Balls[i].Set_State(EBS_Normal);
+		Balls[i].Set_State(EBS_On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+	}
 
 	for (i = 1; i < AsConfig::Max_Balls_Count; i++)
 		Balls[i].Set_State(EBS_Disabled);
