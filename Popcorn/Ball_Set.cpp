@@ -77,7 +77,7 @@ void AsBall_Set::Release_From_The_Platform(double platform_x_pos)
 			Balls[i].Set_State(EBS_Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsBall_Set::Release_Next_Ball()
+bool AsBall_Set::Release_Next_Ball()
 {
 	int i;
 	ABall* current_ball;
@@ -88,9 +88,10 @@ void AsBall_Set::Release_Next_Ball()
 		if (current_ball->Get_State() == EBS_On_Platform)
 		{
 			current_ball->Release();
-			break;
+			return true;
 		}
 	}
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Set_On_The_Platform(double platform_x_pos)

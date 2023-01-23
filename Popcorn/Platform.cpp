@@ -137,24 +137,21 @@ void AsPlatform::Act()
 
 	case EPS_Glue_Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ration)
-		{
 			Glue_Spot_Height_Ratio += 0.02;
-			Redraw_Platform(false);
-		}
 		else
 			Platform_State = EPS_Glue;
 
+		Redraw_Platform(false);
 		break;	
 	
 	case EPS_Glue_Finalize:
 			if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ration)
-			{
 				Glue_Spot_Height_Ratio -= 0.05;
-				Redraw_Platform(false);
-			}
+
 			else
 				Platform_State = EPS_Normal;
 
+			Redraw_Platform(false);
 			break;
 	}
 }
@@ -277,7 +274,11 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			break;
 
 		case EPS_Glue_Finalize:
-			break; // do nothing
+			while (Ball_Set->Release_Next_Ball())
+			{
+
+			}
+			break;
 	}
 		Platform_State = new_state;
 }
