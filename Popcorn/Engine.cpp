@@ -222,36 +222,49 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	switch (falling_letter->Letter_Type)
 	{
 	case ELT_O: // "Cancel"
-		Platform.Set_State(EPS_Glue_Finalize);
+		Platform.Set_State(EPS_Normal);
 		break; // !!! Only glue is canceled so far
 
 	case ELT_I: // "Inversion"
 		Ball_Set.Inverse_Balls();
+		Platform.Set_State(EPS_Normal);
 		break;
+
 	case ELT_C: // "Speed"
 		Ball_Set.Reset_Speed();
+		Platform.Set_State(EPS_Normal);
 		break;
+
 	//case ELT_M: // "Monsters"
+
 	case ELT_G: // "Life"
 		if (Life_Count < AsConfig::Max_Life_Count)
 			++Life_Count; /// !!! should be displayed on the indicator
+		Platform.Set_State(EPS_Normal);
 		break;
+
 	case ELT_K: // "Glue"
 		Platform.Set_State(EPS_Glue_Init);
 		break;
+
 	//case ELT_W: // "Wider"
 
 	case ELT_T: // "Three"
 		Ball_Set.Triple_Balls();
+		Platform.Set_State(EPS_Normal);
 		break;
 
 	//case ELT_L: // "Laser"
+
 	case ELT_P: // "Floor"
 		AsConfig::Level_Has_Floor = true;
 		Border.Redraw_Floor();
 		// !!! display on the indicator!
+		Platform.Set_State(EPS_Normal);
 		break;
+
 	//case ELT_Plus: // Moving to the next level
+
 	default:
 		AsConfig::Throw();
 	}

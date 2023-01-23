@@ -244,42 +244,46 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 
 	switch (new_state)
 	{
-		case EPS_Pre_Meltdown:
-			Speed = 0.0;
+	case EPS_Normal:
+		if (Platform_State == EPS_Glue)
+			return Set_State(EPS_Glue_Finalize);
 		break;
 
-		case EPS_Meltdown:
-	
-		Platform_State = EPS_Meltdown;
-
-		len = sizeof(Meltdown_Platform_Y_Pos) / sizeof(Meltdown_Platform_Y_Pos[0]);
-
-		for (i = 0; i < len; i++)
-			Meltdown_Platform_Y_Pos[i] = Platform_Rect.top;
+	case EPS_Pre_Meltdown:
+		Speed = 0.0;
 		break;
 
-		case EPS_Roll_In:
-			X_Pos = AsConfig::Max_X_Pos - 1;
-			Rolling_Step = Max_Rolling_Step - 1;
-			break;
+	case EPS_Meltdown:
+	Platform_State = EPS_Meltdown;
 
-		case EPS_Glue_Init:
-			if (Platform_State == EPS_Glue || Platform_State == EPS_Glue_Finalize)
-				return;
-			else
-				Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
-			break;
+	len = sizeof(Meltdown_Platform_Y_Pos) / sizeof(Meltdown_Platform_Y_Pos[0]);
 
-		case EPS_Glue:
-			AsConfig::Throw(); // We do not set this state using Set_State();
-			break;
+	for (i = 0; i < len; i++)
+		Meltdown_Platform_Y_Pos[i] = Platform_Rect.top;
+		break;
 
-		case EPS_Glue_Finalize:
-			while (Ball_Set->Release_Next_Ball())
-			{
+	case EPS_Roll_In:
+		X_Pos = AsConfig::Max_X_Pos - 1;
+		Rolling_Step = Max_Rolling_Step - 1;
+		break;
 
-			}
-			break;
+	case EPS_Glue_Init:
+		if (Platform_State == EPS_Glue || Platform_State == EPS_Glue_Finalize)
+			return;
+		else
+			Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
+		break;
+
+	case EPS_Glue:
+		AsConfig::Throw(); // We do not set this state using Set_State();
+		break;
+
+	case EPS_Glue_Finalize:
+		while (Ball_Set->Release_Next_Ball())
+		{
+
+		}
+		break;
 	}
 		Platform_State = new_state;
 }
