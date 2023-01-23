@@ -403,7 +403,7 @@ void ABall::Set_On_Parachute(int brick_x, int brick_y)
 	Redraw_Parachute();
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Forced_Advance(double direction, double max_speed)
+void ABall::Forced_Advance(double direction, double speed, double max_speed)
 {
 	EBall_State prev_ball_state = Ball_State;
 	double prev_direction = Ball_Direction;
@@ -411,7 +411,7 @@ void ABall::Forced_Advance(double direction, double max_speed)
 
 	Ball_State = EBS_Normal;
 	Ball_Direction = direction;
-	Ball_Speed = max_speed;
+	Ball_Speed = speed;
 
 	Advance(max_speed);
 

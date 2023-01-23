@@ -112,10 +112,10 @@ void AsPlatform::Advance(double max_speed)
 	if (Platform_State == EPS_Glue || Platform_State == EPS_Ready)
 	{
 		if (Platform_Moving_State == EPMS_Moving_Left)
-			Ball_Set->On_Platform_Advance(M_PI, max_speed);
+			Ball_Set->On_Platform_Advance(M_PI, fabs(Speed), max_speed);
 		else
 			if (Platform_Moving_State == EPMS_Moving_Right)
-				Ball_Set->On_Platform_Advance(0.0, max_speed);
+				Ball_Set->On_Platform_Advance(0.0, fabs(Speed), max_speed);
 
 	}
 }

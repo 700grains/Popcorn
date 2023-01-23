@@ -246,7 +246,7 @@ void AsBall_Set::Reset_Speed()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void AsBall_Set::On_Platform_Advance(double direction, double max_speed)
+void AsBall_Set::On_Platform_Advance(double direction, double platform_speed, double max_speed)
 {
 	int i;
 	ABall* current_ball;
@@ -256,7 +256,7 @@ void AsBall_Set::On_Platform_Advance(double direction, double max_speed)
 		current_ball = &Balls[i];
 
 		if (current_ball->Get_State() == EBS_On_Platform)
-			current_ball->Forced_Advance(direction, max_speed);
+			current_ball->Forced_Advance(direction, platform_speed, max_speed);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
