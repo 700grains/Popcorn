@@ -115,7 +115,7 @@ void ABall::Advance(double max_speed)
 
 			if (prev_hit_count >= max_hits_count)
 			{
-				Ball_Direction += M_PI / 8.0;
+				Ball_Direction += AsConfig::Min_Ball_Angle;
 				prev_hit_count = 0;
 			}
 		}
