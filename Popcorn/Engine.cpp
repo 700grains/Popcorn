@@ -205,7 +205,8 @@ void AsEngine::Act()
 
 	Platform.Act();
 	Level.Act();
-	Ball_Set.Act();
+	if (Platform.Get_State() != EPS_Ready)
+		Ball_Set.Act();
 
 	while (Level.Get_Next_Falling_Letter(index, &falling_letter) )
 	{
