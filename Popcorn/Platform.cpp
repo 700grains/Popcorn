@@ -262,8 +262,13 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 				Glue_Spot_Height_Ratio = 0.4;
 			break;
 
-		//case EPS_Glue: //!!!
-		//case EPS_Glue_Finalize: //!!!
+		case EPS_Glue:
+			AsConfig::Throw(); // We do not set this state using Set_State();
+			break;
+
+		case EPS_Glue_Finalize:
+
+			break;
 	}
 		Platform_State = new_state;
 }
