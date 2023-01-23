@@ -136,16 +136,19 @@ void AsPlatform::Act()
 		Redraw_Platform();
 		break;
 
-	case EPS_Glue_Init:
-		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
-			Glue_Spot_Height_Ratio += 0.02;
-		else
-			Platform_State = EPS_Glue;
+	case EPS_Glue:
+		switch (Platform_Substate_Glue)
+		{
+		case EPSG_Init:
+			if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
+				Glue_Spot_Height_Ratio += 0.02;
+			else
+				Platform_State = EPS_Glue;
 
-		Redraw_Platform(false);
-		break;	
-	
-	case EPS_Glue_Finalize:
+			Redraw_Platform(false);
+			break;
+
+		case EPSG_Finalize:
 			if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
 				Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
 
@@ -154,6 +157,10 @@ void AsPlatform::Act()
 
 			Redraw_Platform(false);
 			break;
+		default:
+			break;
+		}
+		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -170,9 +177,7 @@ void AsPlatform::Clear(HDC hdc, RECT& paint_area)
 	case EPS_Pre_Meltdown:
 	case EPS_Roll_In:
 	case EPS_Expand_Roll_In:
-	case EPS_Glue_Init:
 	case EPS_Glue:
-	case EPS_Glue_Finalize:
 
 		// Clearing the old place with the background color
 		AsConfig::BG_Color.Select(hdc);
@@ -212,9 +217,7 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		Draw_Expanding_Roll_In_State(hdc, paint_area);
 		break;
 
-	case EPS_Glue_Init:
 	case EPS_Glue:
-	case EPS_Glue_Finalize:
 		Draw_Glue_State(hdc, paint_area);
 		break;
 	}
@@ -245,8 +248,14 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 	switch (new_state)
 	{
 	case EPS_Normal:
-		if (Platform_State == EPS_Glue || Platform_State == EPS_Glue_Init)
-			return Set_State(EPS_Glue_Finalize);
+		if (Platform_State == EPS_Glue)
+		{
+			Platform_Substate_Glue = EPSG_Finalize;
+
+			while (Ball_Set->Release_Next_Ball())
+			{
+			}
+		}
 		break;
 
 	case EPS_Pre_Meltdown:
@@ -267,21 +276,14 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		Rolling_Step = Max_Rolling_Step - 1;
 		break;
 
-	case EPS_Glue_Init:
-		if (Platform_State == EPS_Glue || Platform_State == EPS_Glue_Finalize)
+	case EPS_Glue:
+		if (Platform_Substate_Glue == EPSG_Finalize)
 			return;
 		else
-			Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
-		break;
-
-	case EPS_Glue:
-		AsConfig::Throw(); // We do not set this state using Set_State();
-		break;
-
-	case EPS_Glue_Finalize:
-		while (Ball_Set->Release_Next_Ball())
 		{
-
+			Platform_Substate_Glue = EPSG_Init;
+				
+			Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
 		}
 		break;
 	}
@@ -317,7 +319,7 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)
 {
-	if (! (Platform_State == EPS_Normal || Platform_State == EPS_Glue || Platform_State == EPS_Glue_Init || Platform_State == EPS_Glue_Finalize) )
+	if (! (Platform_State == EPS_Normal || Platform_State == EPS_Glue) )
 		return;
 
 	if (to_left)

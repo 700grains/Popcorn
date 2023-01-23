@@ -244,7 +244,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		break;
 
 	case ELT_K: // "Glue"
-		Platform.Set_State(EPS_Glue_Init);
+		Platform.Set_State(EPS_Glue);
 		break;
 
 	//case ELT_W: // "Wider"
