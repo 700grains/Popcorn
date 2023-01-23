@@ -143,7 +143,7 @@ void AsPlatform::Act()
 			if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
 				Glue_Spot_Height_Ratio += 0.02;
 			else
-				Platform_State = EPS_Glue;
+				Platform_Substate_Glue = EPSG_Active;
 
 			Redraw_Platform(false);
 			break;
@@ -151,9 +151,11 @@ void AsPlatform::Act()
 		case EPSG_Finalize:
 			if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
 				Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
-
 			else
+			{
 				Platform_State = EPS_Normal;
+				Platform_Substate_Glue = EPSG_Unknown;
+			}
 
 			Redraw_Platform(false);
 			break;
