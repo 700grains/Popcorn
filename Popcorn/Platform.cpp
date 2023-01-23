@@ -306,8 +306,8 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 		if (Platform_State == EPS_Meltdown)
 			Prev_Platform_Rect.bottom = (AsConfig::Max_Y_Pos + 1) * AsConfig::Global_Scale;
 	}
-	InvalidateRect(AsConfig::Hwnd, &Prev_Platform_Rect, FALSE);
-	InvalidateRect(AsConfig::Hwnd, &Platform_Rect, FALSE);
+	AsConfig::Invalidate_Rect(Prev_Platform_Rect);
+	AsConfig::Invalidate_Rect(Platform_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)

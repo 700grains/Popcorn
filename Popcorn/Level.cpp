@@ -319,7 +319,7 @@ void AsLevel::Redraw_Brick(int brick_x, int brick_y)
 	brick_rect.right = brick_rect.left + AsConfig::Brick_Width * AsConfig::Global_Scale;
 	brick_rect.bottom = brick_rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 
-	InvalidateRect(AsConfig::Hwnd, &brick_rect, FALSE);
+	AsConfig::Invalidate_Rect(brick_rect);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type)

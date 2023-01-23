@@ -270,11 +270,11 @@ V 1.3. S ("Speed")
 
 
 2. Complex:
-2.1. G ("Glue")
-2.1.1. New state of the platform
-2.1.2. Spreading glue animation (forward and reverse)
-2.1.3. Fixing the ball (+ new state of the ball)
-2.1.4. Ball launch by space and timeout
+V 2.1. K ("Glue")
+V 2.1.1. New state of the platform
+V 2.1.2. Spreading glue animation (forward and reverse)
+V 2.1.3. Fixing the ball (+ new state of the ball)
+V 2.1.4. Ball launch by space and timeout
 
 2.2. W ("Wider")
 2.2.1. New platform state (+ resizing)
