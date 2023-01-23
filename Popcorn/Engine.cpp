@@ -219,7 +219,10 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 {
 	switch (falling_letter->Letter_Type)
 	{
-	//case ELT_O: // "Cancel"
+	case ELT_O: // "Cancel"
+		Platform.Set_State(EPS_Glue_Finalize);
+		break; // !!! Only glue is canceled so far
+
 	case ELT_I: // "Inversion"
 		Ball_Set.Inverse_Balls();
 		break;
