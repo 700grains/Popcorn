@@ -426,6 +426,10 @@ void ABall::Release()
 { // continue the interrupted movement of the ball
 	Set_State(EBS_Normal, Center_X_Pos, Center_Y_Pos);
 	Ball_Speed = Prev_Ball_Speed;
+
+	if (Ball_Speed < AsConfig::Normal_Ball_Speed)
+		Ball_Speed = AsConfig::Normal_Ball_Speed;
+
 	Ball_Direction = Prev_Ball_Direction;
 	Release_Timer_Tick = 0;
 }
