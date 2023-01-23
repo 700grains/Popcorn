@@ -354,7 +354,31 @@ void ABall::Set_Direction(double new_direction)
 	while (new_direction < 0.0)
 		new_direction += pi_2;
 
+
+	// 2. Correcting the angle of the ball when approaching the horizontal closer than AsConfig::Min_Ball_Angle
+	
+	// 2.1 Left side
+	// 
+	// 2.1.1 Top
+	if (new_direction < AsConfig::Min_Ball_Angle)
+		new_direction = AsConfig::Min_Ball_Angle;
+
+	// 2.1.2 Bottom
+	if (new_direction > pi_2 - AsConfig::Min_Ball_Angle)
+		new_direction = pi_2 - AsConfig::Min_Ball_Angle;
+
+	// 2.2 Right side
+	// 
+	// 2.2.1 Top
+	if (new_direction > M_PI - AsConfig::Min_Ball_Angle && new_direction < M_PI)
+		new_direction = M_PI - AsConfig::Min_Ball_Angle;
+
+	// 2.2.2 Bottom
+	if (new_direction >= M_PI && new_direction < M_PI + AsConfig::Min_Ball_Angle)
+		new_direction = M_PI + AsConfig::Min_Ball_Angle;
+
 	Ball_Direction = new_direction;
+
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Reflect(bool from_horizontal)
