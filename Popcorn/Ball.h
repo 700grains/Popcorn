@@ -90,6 +90,7 @@ private:
 
 	EBall_State Ball_State, Previous_Ball_State;
 	//double Rest_Distance;
+	int Release_Timer_Tick; // Time counter after which the glued ball is released from the platform
 	double Ball_Direction, Prev_Ball_Direction;
 	double Ball_Speed, Prev_Ball_Speed;
 
@@ -103,6 +104,7 @@ private:
 	RECT Parachute_Rect, Previous_Parachute_Rect;
 
 	static const int Parachute_Size = 15;
+	static const int On_Platform_Timeout = 10 * AsConfig::FPS; // The time the ball is on the platform
 	static int Hit_Checkers_Count;
 	static AHit_Checker* Hit_Checkers[3];
 };

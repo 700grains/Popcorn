@@ -55,8 +55,9 @@ AHit_Checker* ABall::Hit_Checkers[] = {};
 
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
-	: Ball_State (EBS_Disabled), Previous_Ball_State(EBS_Disabled), Center_X_Pos(0), Center_Y_Pos(0.0), Ball_Speed(0.0), Prev_Ball_Speed (0.0),
-	Ball_Direction(0.0), Prev_Ball_Direction (0.0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}
+	: Ball_State (EBS_Disabled), Previous_Ball_State(EBS_Disabled), Release_Timer_Tick (0), Center_X_Pos(0), Center_Y_Pos(0.0), 
+	  Ball_Speed(0.0), Prev_Ball_Speed (0.0), Ball_Direction(0.0), Prev_Ball_Direction (0.0), Testing_Is_Active(false), Test_Iteration(0), 
+	  Ball_Rect{}, Prev_Ball_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -290,6 +291,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		//Rest_Distance = 0.0;
 		Prev_Ball_Direction = Ball_Direction;
 		//Ball_Direction = M_PI_4;
+		Release_Timer_Tick = AsConfig::Current_Timer_Tick + On_Platform_Timeout;
 		Redraw_Ball();
 		break;
 
