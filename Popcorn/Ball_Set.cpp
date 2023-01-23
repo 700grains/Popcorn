@@ -44,7 +44,17 @@ double AsBall_Set::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Act()
 {
-	// Not used
+	int i;
+	ABall* current_ball;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_ball = &Balls[i];
+
+		if (current_ball->Get_State() == EBS_On_Platform)
+			if (current_ball->Release_Timer_Tick != 0 && AsConfig::Current_Timer_Tick >= current_ball->Release_Timer_Tick)
+				current_ball->Release();
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Clear(HDC hdc, RECT& paint_area)

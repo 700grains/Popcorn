@@ -78,6 +78,8 @@ public:
 	void Forced_Advance(double direction, double speed, double max_speed);
 	void Release();
 
+	int Release_Timer_Tick; // Time counter after which the glued ball is released from the platform
+
 	static void Add_Hit_Checker(AHit_Checker *hit_checker);
 
 	static const double Radius;
@@ -90,7 +92,6 @@ private:
 
 	EBall_State Ball_State, Previous_Ball_State;
 	//double Rest_Distance;
-	int Release_Timer_Tick; // Time counter after which the glued ball is released from the platform
 	double Ball_Direction, Prev_Ball_Direction;
 	double Ball_Speed, Prev_Ball_Speed;
 
