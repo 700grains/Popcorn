@@ -1,8 +1,9 @@
 ﻿#include "Platform.h"
 
 // AsPlatform
-const double AsPlatform::Max_Glue_Spot_Height_Ration = 1.0;
-const double AsPlatform::Min_Glue_Spot_Height_Ration = 0.4;
+const double AsPlatform::Max_Glue_Spot_Height_Ratio = 1.0;
+const double AsPlatform::Min_Glue_Spot_Height_Ratio = 0.4;
+const double AsPlatform::Glue_Spot_Ratio_Step = 0.05;
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::~AsPlatform()
 {
@@ -136,7 +137,7 @@ void AsPlatform::Act()
 		break;
 
 	case EPS_Glue_Init:
-		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ration)
+		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
 			Glue_Spot_Height_Ratio += 0.02;
 		else
 			Platform_State = EPS_Glue;
@@ -145,8 +146,8 @@ void AsPlatform::Act()
 		break;	
 	
 	case EPS_Glue_Finalize:
-			if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ration)
-				Glue_Spot_Height_Ratio -= 0.05;
+			if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
+				Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
 
 			else
 				Platform_State = EPS_Normal;
@@ -266,7 +267,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			if (Platform_State == EPS_Glue || Platform_State == EPS_Glue_Finalize)
 				return;
 			else
-				Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ration;
+				Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
 			break;
 
 		case EPS_Glue:
