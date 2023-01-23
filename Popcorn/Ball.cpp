@@ -128,6 +128,8 @@ void ABall::Advance(double max_speed)
 			if (Testing_Is_Active)
 				Rest_Test_Distance -= next_step;
 		}
+		if (Ball_State == EBS_On_Platform)
+			break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
