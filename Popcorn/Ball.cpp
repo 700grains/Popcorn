@@ -390,13 +390,19 @@ void ABall::Set_On_Parachute(int brick_x, int brick_y)
 //------------------------------------------------------------------------------------------------------------
 void ABall::Forced_Advance(double direction, double max_speed)
 {
+	EBall_State prev_ball_state = Ball_State;
 	double prev_direction = Ball_Direction;
+	double prev_speed = Ball_Speed;
 
+	Ball_State = EBS_Normal;
 	Ball_Direction = direction;
+	Ball_Speed = max_speed;
 
 	Advance(max_speed);
 
 	Ball_Direction = prev_direction;
+	Ball_Speed = prev_speed;
+	Ball_State = prev_ball_state;
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)
