@@ -6,7 +6,7 @@
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::AsPlatform_State()
 : Current_State(EPlatform_State::Regular), Regular(EPlatform_Substate_Regular::Missing), Meltdown(EPlatform_Substate_Meltdown::Unknown),
-  RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Moving(EPlatform_Moving_State::Stop)
+  RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Expanding (EPlatform_Substate_Expanding::Unknown), Moving(EPlatform_Moving_State::Stop)
 {
 
 }
