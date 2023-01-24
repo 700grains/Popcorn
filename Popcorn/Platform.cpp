@@ -12,7 +12,7 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Regular), Platform_Substate_Regular (EPlatform_Substate_Regular::Missing), Platform_Substate_Meltdown (EPlatform_Substate_Meltdown::Unknown),
-  Platform_Substate_RollIng (EPlatform_Substate_RollIng::Unknown), Platform_Substate_Glue (EPSG_Unknown), Platform_Moving_State(EPMS_Stop),
+  Platform_Substate_RollIng (EPlatform_Substate_RollIng::Unknown), Platform_Substate_Glue (EPlatform_Substate_Glue::Unknown), Platform_Moving_State(EPMS_Stop),
   Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Ball_Set(0), 
   Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
@@ -61,7 +61,7 @@ _on_hit:
 	if (ball->Get_State() == EBS_On_Parachute)
 		ball->Set_State(EBS_Off_Parachute);
 
-	if (Platform_State == EPS_Glue && Platform_Substate_Glue == EPSG_Active)
+	if (Platform_State == EPS_Glue && Platform_Substate_Glue == EPlatform_Substate_Glue::Active)
 	{
 		ball->Get_Center(ball_x, ball_y);
 		ball->Set_State(EBS_On_Platform, ball_x, ball_y);
@@ -113,7 +113,7 @@ void AsPlatform::Advance(double max_speed)
 
 	// move glued balls
 	if ( (Platform_State == EPS_Regular && Platform_Substate_Regular == EPlatform_Substate_Regular::Ready)
-		|| Platform_State == EPS_Glue && Platform_Substate_Glue == EPSG_Active)
+		|| Platform_State == EPS_Glue && Platform_Substate_Glue == EPlatform_Substate_Glue::Active)
 	{
 		if (Platform_Moving_State == EPMS_Moving_Left)
 			Ball_Set->On_Platform_Advance(M_PI, fabs(Speed), max_speed);
@@ -249,11 +249,11 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 
 	case EPS_Glue:
-		if (Platform_Substate_Glue == EPSG_Finalize)
+		if (Platform_Substate_Glue == EPlatform_Substate_Glue::Finalize)
 			return;
 		else
 		{
-			Platform_Substate_Glue = EPSG_Init;
+			Platform_Substate_Glue = EPlatform_Substate_Glue::Init;
 				
 			Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
 		}
@@ -271,7 +271,7 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 	{
 		if (Platform_State == EPS_Glue)
 		{
-			Platform_Substate_Glue = EPSG_Finalize;
+			Platform_Substate_Glue = EPlatform_Substate_Glue::Finalize;
 
 			while (Ball_Set->Release_Next_Ball())
 			{
@@ -444,22 +444,22 @@ void AsPlatform::Act_For_Glue_State()
 {
 	switch (Platform_Substate_Glue)
 	{
-	case EPSG_Init:
+	case EPlatform_Substate_Glue::Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
 			Glue_Spot_Height_Ratio += 0.02;
 		else
-			Platform_Substate_Glue = EPSG_Active;
+			Platform_Substate_Glue = EPlatform_Substate_Glue::Active;
 
 		Redraw_Platform(false);
 		break;
 
-	case EPSG_Finalize:
+	case EPlatform_Substate_Glue::Finalize:
 		if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
 			Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
 		else
 		{
 			Set_State(EPlatform_Substate_Regular::Normal);
-			Platform_Substate_Glue = EPSG_Unknown;
+			Platform_Substate_Glue = EPlatform_Substate_Glue::Unknown;
 		}
 
 		Redraw_Platform(false);

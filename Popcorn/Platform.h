@@ -38,13 +38,13 @@ enum class EPlatform_Substate_RollIng : unsigned char
 	Expand_Roll_In,
 };
 //------------------------------------------------------------------------------------------------------------
-enum EPlatform_Substate_Glue
+enum class EPlatform_Substate_Glue : unsigned char
 {
-	EPSG_Unknown,
+	Unknown,
 
-	EPSG_Init,
-	EPSG_Active,
-	EPSG_Finalize,
+	Init,
+	Active,
+	Finalize,
 };
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_Moving_State
