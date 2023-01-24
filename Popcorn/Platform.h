@@ -55,7 +55,19 @@ enum class EPlatform_Moving_State : unsigned char
 	Moving_Right
 };
 //------------------------------------------------------------------------------------------------------------
-class AsPlatform: public AHit_Checker, public AMover, public AGraphics_Object
+class APlatform_State
+{
+public:
+	EPlatform_State Current_State;
+	EPlatform_Substate_Regular Regular;
+	EPlatform_Substate_Meltdown Meltdown;
+	EPlatform_Substate_RollIng RollIng;
+	EPlatform_Substate_Glue Glue;
+
+	EPlatform_Moving_State Moving;
+};
+//------------------------------------------------------------------------------------------------------------
+class AsPlatform : public AHit_Checker, public AMover, public AGraphics_Object
 {
 public:
 	~AsPlatform();
@@ -103,12 +115,7 @@ private:
 	bool Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len);
 	void Get_Normal_Platform_Image(HDC hdc);
 
-	EPlatform_State Platform_State;
-	EPlatform_Substate_Regular Platform_Substate_Regular;
-	EPlatform_Substate_Meltdown Platform_Substate_Meltdown;
-	EPlatform_Substate_RollIng Platform_Substate_RollIng;
-	EPlatform_Substate_Glue Platform_Substate_Glue;
-	EPlatform_Moving_State Platform_Moving_State;
+	APlatform_State Platform_State;
 	bool Right_Key_Down, Left_Key_Down;
 	int Inner_Width;
 	int Rolling_Step;
