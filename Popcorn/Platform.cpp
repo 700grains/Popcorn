@@ -283,7 +283,17 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 	Platform_State = EPS_Regular;
 	Platform_Substate_Regular = new_regular_state;
 }
+//------------------------------------------------------------------------------------------------------------
+bool AsPlatform::Has_State(EPlatform_Substate_Regular regular_state)
+{
+	if (Platform_State != EPS_Regular)
+		return false;
 
+	if (Platform_Substate_Regular == regular_state)
+		return true;
+	else
+		return false;
+}
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Redraw_Platform(bool update_rect)
 {
