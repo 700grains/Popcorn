@@ -183,9 +183,15 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		Draw_Normal_State(hdc, paint_area);
 		break;
 
+	//case EPS_Pre_Meltdown:
+	//	Draw_Normal_State(hdc, paint_area);
+	//	Set_State(EPS_Meltdown);
+	//	break;
+
 	case EPS_Meltdown:
-		Draw_Meltdown_State(hdc, paint_area);
-		break;
+		if (Platform_Substate_Meltdown == EPSM_Active)
+			Draw_Meltdown_State(hdc, paint_area);
+		 break;
 
 	case EPS_Roll_In:
 		Draw_Roll_In_State(hdc, paint_area);
@@ -237,17 +243,18 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		}
 		break;
 
-	case EPS_Pre_Meltdown:
-		Speed = 0.0;
-		break;
+	//case EPS_Pre_Meltdown:
+	//	Speed = 0.0;
+	//	break;
 
 	case EPS_Meltdown:
-	Platform_State = EPS_Meltdown;
+		Speed = 0.0;
+		Platform_Substate_Meltdown = EPSM_Init;
 
-	len = sizeof(Meltdown_Platform_Y_Pos) / sizeof(Meltdown_Platform_Y_Pos[0]);
+		len = sizeof(Meltdown_Platform_Y_Pos) / sizeof(Meltdown_Platform_Y_Pos[0]);
 
-	for (i = 0; i < len; i++)
-		Meltdown_Platform_Y_Pos[i] = Platform_Rect.top;
+		for (i = 0; i < len; i++)
+			Meltdown_Platform_Y_Pos[i] = Platform_Rect.top;
 		break;
 
 	case EPS_Roll_In:
@@ -366,8 +373,16 @@ double AsPlatform::Get_Middle_Pos()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Meltdown_State()
 {
-	if (Platform_Substate_Meltdown == EPSM_Active)
+	switch (Platform_Substate_Meltdown)
+	{
+	case EPSM_Init:
+		Platform_Substate_Meltdown = EPSM_Active;
+		break;
+
+	case EPSM_Active:
 		Redraw_Platform();
+		break;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Glue_State()

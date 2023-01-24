@@ -154,7 +154,7 @@ void AsEngine::Play_Level()
 	{ // All balls are lost!
 		Game_State = EGS_Lost_Ball;
 		Level.Stop();
-		Platform.Set_State(EPS_Pre_Meltdown);
+		Platform.Set_State(EPS_Meltdown);
 	}
 	else
 		Ball_Set.Accelerate();
