@@ -11,9 +11,9 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Missing), Platform_Substate_Glue (EPSG_Unknown), Platform_Moving_State(EPMS_Stop), Right_Key_Down (false),
-  Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Ball_Set(0), Normal_Platform_Image_Width(0),
-  Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
+: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Missing), Platform_Substate_Meltdown (EPSM_Unknown), Platform_Substate_Glue (EPSG_Unknown), Platform_Moving_State(EPMS_Stop), 
+  Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Ball_Set(0), 
+  Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
