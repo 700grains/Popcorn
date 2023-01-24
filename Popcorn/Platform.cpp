@@ -400,6 +400,7 @@ void AsPlatform::Act_For_Rolling_State()
 		{
 			Inner_Width = Normal_Platform_Inner_Width;
 			Platform_State = EPS_Ready;
+			Platform_Substate_RollIng = EPSR_Unknown;
 			Redraw_Platform();
 		}
 		break;
@@ -569,7 +570,7 @@ void AsPlatform::Draw_Rolling_State(HDC hdc, RECT& paint_area)
 	case EPSR_Expand_Roll_In:
 		Draw_Normal_State(hdc, paint_area);
 		break;
-	}
+	} 
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
