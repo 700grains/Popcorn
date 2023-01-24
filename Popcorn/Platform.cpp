@@ -296,7 +296,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		{
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Init;
 
-			Expanding_Platform_Width = Min_Expanding_Platform_Width;
+			Expanding_Platform_Width = Max_Expanding_Platform_Width;
 		}
 		break;
 	}
@@ -748,6 +748,7 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	// 1. Draw side balls
 	Platform_Circle_Color.Select(hdc);
 
+	// left ball
 	rect.left = (int)(x * d_scale);
 	rect.top = y * scale;
 	rect.right = (int)((x + (double)Circle_Size) * d_scale);
@@ -755,9 +756,10 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
-	rect.left = (int)((x + Inner_Width) * d_scale);
+	// right ball
+	rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
 	rect.top = y * scale;
-	rect.right = (int)((x + (double)Circle_Size + Inner_Width) * d_scale);
+	rect.right = rect.left + Circle_Size * scale;
 	rect.bottom = (y + Circle_Size) * scale;
 
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
