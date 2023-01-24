@@ -38,7 +38,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	//Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
 	
 	//Platform.Set_State(EPlatform_State::Normal);
-	//Platform.Set_State(EPlatform_State::Glue_Init);
+	Platform.Set_State(EPlatform_State::Expanding);
 
 	Platform.Redraw_Platform();
 

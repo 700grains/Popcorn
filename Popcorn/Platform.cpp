@@ -35,8 +35,8 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0),
-Glue_Spot_Height_Ratio (0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), 
+: X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Speed (0.0),
+Glue_Spot_Height_Ratio (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width),
 Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
@@ -715,7 +715,50 @@ void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 {// Draw expanding platform
+	// 1. balls on the side.
+	// 1.1 hole under the arch
+	// 1.2 arch
 
+
+	// 2. Central part
+
+	// 3. connecting lines
+
+	double x = X_Pos;
+	int y = AsConfig::Platform_Y_Pos;
+	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
+	RECT inner_rect, rect;
+
+	// 1. Draw side balls
+	Platform_Circle_Color.Select(hdc);
+
+	rect.left = (int)(x * d_scale);
+	rect.top = y * scale;
+	rect.right = (int)((x + (double)Circle_Size) * d_scale);
+	rect.bottom = (y + Circle_Size) * scale;
+
+	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
+
+	rect.left = (int)((x + Inner_Width) * d_scale);
+	rect.top = y * scale;
+	rect.right = (int)((x + (double)Circle_Size + Inner_Width) * d_scale);
+	rect.bottom = (y + Circle_Size) * scale;
+
+	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
+
+	// 2. Draw the highlight
+	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
+
+	// 3. Draw the middle part
+	Platform_Inner_Color.Select(hdc);
+
+	inner_rect.left = (int)((x + 4) * d_scale);
+	inner_rect.top = (y + 1) * scale;
+	inner_rect.right = inner_rect.left + 12 * scale;
+	inner_rect.bottom = (y + 1 + 5) * scale;
+
+	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right, inner_rect.bottom);
 
 }
 //------------------------------------------------------------------------------------------------------------
