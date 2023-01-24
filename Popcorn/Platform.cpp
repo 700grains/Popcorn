@@ -323,7 +323,7 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)
 {
-	if (! (Platform_State == EPS_Normal || Platform_State == EPS_Glue) )
+	if (! Has_State(EPlatform_Substate_Regular::Normal) || Platform_State == EPS_Glue )
 		return;
 
 	if (to_left)
@@ -358,17 +358,15 @@ void AsPlatform::On_Space_Key(bool key_down)
 {
 	if (!key_down)
 		return;
-	switch (Get_State())
-	{
-	case EPS_Ready:
-		Ball_Set->Release_From_The_Platform(Get_Middle_Pos() );
-		Set_State(EPS_Normal);
-		break;
 
-	case EPS_Glue:
-		Ball_Set->Release_Next_Ball();
-		break;
+	if (Has_State(EPlatform_Substate_Regular::Ready))
+	{
+		Ball_Set->Release_From_The_Platform(Get_Middle_Pos());
+		Set_State(EPlatform_Substate_Regular::Normal);
 	}
+	else
+		if (Platform_State == EPS_Glue)
+			Ball_Set->Release_Next_Ball();
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
