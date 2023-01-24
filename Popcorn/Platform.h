@@ -72,6 +72,7 @@ public:
 	double X_Pos;
 
 private:
+	void Act_For_Glue_State();
 	void Draw_Circle_Highlight(HDC hdc, int x, int y);
 	void Draw_Normal_State(HDC hdc, RECT &paint_area);
 	void Draw_Meltdown_State(HDC hdc, RECT &paint_area);

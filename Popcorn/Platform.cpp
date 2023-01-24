@@ -137,36 +137,15 @@ void AsPlatform::Act()
 		break;
 
 	case EPS_Glue:
-		switch (Platform_Substate_Glue)
-		{
-		case EPSG_Init:
-			if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
-				Glue_Spot_Height_Ratio += 0.02;
-			else
-				Platform_Substate_Glue = EPSG_Active;
+		Act_For_Glue_State();
+		break;
 
-			Redraw_Platform(false);
-			break;
-
-		case EPSG_Finalize:
-			if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
-				Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
-			else
-			{
-				Platform_State = EPS_Normal;
-				Platform_Substate_Glue = EPSG_Unknown;
-			}
-
-			Redraw_Platform(false);
-			break;
-		default:
-			break;
-		}
+	default:
 		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Clear(HDC hdc, RECT& paint_area)
+void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 {
 	RECT intersection_rect;
 
@@ -386,6 +365,33 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 double AsPlatform::Get_Middle_Pos()
 {
 	return X_Pos + (double)Width / 2.0;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Act_For_Glue_State()
+{
+	switch (Platform_Substate_Glue)
+	{
+	case EPSG_Init:
+		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
+			Glue_Spot_Height_Ratio += 0.02;
+		else
+			Platform_Substate_Glue = EPSG_Active;
+
+		Redraw_Platform(false);
+		break;
+
+	case EPSG_Finalize:
+		if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
+			Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
+		else
+		{
+			Platform_State = EPS_Normal;
+			Platform_Substate_Glue = EPSG_Unknown;
+		}
+
+		Redraw_Platform(false);
+		break;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
