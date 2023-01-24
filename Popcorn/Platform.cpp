@@ -760,6 +760,8 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
+	Rectangle(hdc, rect.left + 4 * scale, rect.top, rect.right - scale + 1, rect.bottom - 1);
+
 	Truss_Color.Select(hdc);
 
 	arc_rect.left = rect.left + 4 * scale + 2;
@@ -771,6 +773,8 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	AsConfig::BG_Color.Select(hdc);
 	Ellipse(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1);
+
+
 	
 	Truss_Color.Select(hdc);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
