@@ -729,11 +729,12 @@ void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
 
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
+void AsPlatform::Draw_Expanding_State(HDC hdc, RECT & paint_area)
 {// Draw expanding platform
 	// 1. balls on the side.
 	// 1.1 hole under the arch
 	// 1.2 arch
+
 
 
 	// 2. Central part
@@ -741,12 +742,47 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
-	int arc_mid_x;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
-	RECT inner_rect, rect, arc_rect;
+	RECT inner_rect;
+
 
 	// 1. Draw left side
+	Draw_Expanding_Platform_Ball(hdc);
+
+	// 1.5 Truss
+	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
+	inner_rect.top = (y + 1) * scale;
+	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
+	inner_rect.bottom = (y + 1 + 5) * scale;
+
+	Draw_Expanding_Truss(hdc, inner_rect);
+
+	//// 2 right side
+	//rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
+	//rect.top = y * scale;
+	//rect.right = rect.left + Circle_Size * scale;
+	//rect.bottom = (y + Circle_Size) * scale;
+
+	//Platform_Circle_Color.Select(hdc);
+	//Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
+
+	// 3. Draw the middle part
+	Platform_Inner_Color.Select(hdc);
+
+	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right, inner_rect.bottom);
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Expanding_Platform_Ball(HDC hdc)
+{// Draw expanding platforms side ball
+	double x = X_Pos;
+	int y = AsConfig::Platform_Y_Pos;
+	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
+	int arc_mid_x;
+
+	RECT rect, arc_rect;
 
 	// 1.1 ball
 	rect.left = (int)(x * d_scale);
@@ -779,27 +815,6 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Truss_Color.Select(hdc);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
 
-	// 1.5 Truss
-	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
-	inner_rect.top = (y + 1) * scale;
-	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
-	inner_rect.bottom = (y + 1 + 5) * scale;
-
-	Draw_Expanding_Truss(hdc, inner_rect);
-
-	// 2 right side
-	rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
-	rect.top = y * scale;
-	rect.right = rect.left + Circle_Size * scale;
-	rect.bottom = (y + Circle_Size) * scale;
-
-	Platform_Circle_Color.Select(hdc);
-	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
-
-	// 3. Draw the middle part
-	Platform_Inner_Color.Select(hdc);
-
-	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right, inner_rect.bottom);
 
 }
 //------------------------------------------------------------------------------------------------------------
