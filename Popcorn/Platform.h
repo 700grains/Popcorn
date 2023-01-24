@@ -4,12 +4,12 @@
 #include "Ball_Set.h"
 
 //------------------------------------------------------------------------------------------------------------
-enum EPlatform_State
+enum class EPlatform_State : unsigned char
 {
-	EPS_Regular,
-	EPS_Meltdown,
-	EPS_Rolling,
-	EPS_Glue,
+	Regular,
+	Meltdown,
+	Rolling,
+	Glue,
 };
 //------------------------------------------------------------------------------------------------------------
 enum class EPlatform_Substate_Regular : unsigned char

@@ -37,8 +37,8 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	//Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
 	
-	//Platform.Set_State(EPS_Normal);
-	//Platform.Set_State(EPS_Glue_Init);
+	//Platform.Set_State(EPlatform_State::Normal);
+	//Platform.Set_State(EPlatform_State::Glue_Init);
 
 	Platform.Redraw_Platform();
 
@@ -121,7 +121,7 @@ int AsEngine::On_Timer()
 		if (Platform.Has_State (EPlatform_Substate_Regular::Missing) )
 		{
 			Game_State = EGS_Restart_Level;
-			Platform.Set_State(EPS_Rolling);
+			Platform.Set_State(EPlatform_State::Rolling);
 		}
 			break;
 		
@@ -131,7 +131,7 @@ int AsEngine::On_Timer()
 		{
 			Game_State = EGS_Play_Level;
 			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos() );
-			//Platform.Set_State(EPS_Glue_Init);
+			//Platform.Set_State(EPlatform_State::Glue_Init);
 		}
 		break;
 	}
@@ -153,7 +153,7 @@ void AsEngine::Play_Level()
 	{ // All balls are lost!
 		Game_State = EGS_Lost_Ball;
 		Level.Stop();
-		Platform.Set_State(EPS_Meltdown);
+		Platform.Set_State(EPlatform_State::Meltdown);
 	}
 	else
 		Ball_Set.Accelerate();
@@ -243,7 +243,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		break;
 
 	case ELT_K: // "Glue"
-		Platform.Set_State(EPS_Glue);
+		Platform.Set_State(EPlatform_State::Glue);
 		break;
 
 	//case ELT_W: // "Wider"
