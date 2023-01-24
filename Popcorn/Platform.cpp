@@ -748,10 +748,9 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect, rect, arc_rect;
 
-	// 1. Draw side balls
+	// 1. Draw left side
 
-	// 1.1 left ball
-
+	// 1.1 ball
 	rect.left = (int)(x * d_scale);
 	rect.top = y * scale;
 	rect.right = (int)((x + (double)Circle_Size) * d_scale);
@@ -760,10 +759,13 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
+	// 1.2 Truss adapter
 	Rectangle(hdc, rect.left + 4 * scale, rect.top, rect.right - scale + 1, rect.bottom - 1);
 
-	Truss_Color.Select(hdc);
+	// 1.3 Draw the highlight
+	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
 
+	// 1.4 Draw truss arc
 	arc_rect.left = rect.left + 4 * scale + 2;
 	arc_rect.top = rect.top + scale + 1;
 	arc_rect.right = rect.left + (4 + 3) * scale + 2;
@@ -771,19 +773,16 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	arc_mid_x = arc_rect.left + (arc_rect.right - arc_rect.left) / 2;
 
+	// 1.4.1 Hole in the ball under the arc
 	AsConfig::BG_Color.Select(hdc);
 	Ellipse(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1);
 
-
-	
+	// 1.4.2 The arc itself
 	Truss_Color.Select(hdc);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
 
-	// 1.2. Draw the highlight
-	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
 
-	// 1.3. Truss
-
+	// 1.5 Truss
 	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
 	inner_rect.top = (y + 1) * scale;
 	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
@@ -805,7 +804,7 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 
 
-	// 1.2 right ball
+	// 2 right side
 	rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
 	rect.top = y * scale;
 	rect.right = rect.left + Circle_Size * scale;
