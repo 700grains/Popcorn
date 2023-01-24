@@ -226,16 +226,8 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 
 	switch (new_state)
 	{
-	case EPS_Normal:
-		if (Platform_State == EPS_Glue)
-		{
-			Platform_Substate_Glue = EPSG_Finalize;
-
-			while (Ball_Set->Release_Next_Ball())
-			{
-			}
-			return;
-		}
+	case EPS_Regular:
+		AsConfig::Throw(); // state EPS_Regular is set implicitly when called AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 		break;
 
 	case EPS_Meltdown:
@@ -267,6 +259,29 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 	}
 		Platform_State = new_state;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
+{
+	if (Platform_State == EPS_Regular && Platform_Substate_Regular == new_regular_state)
+		return;
+
+	if (new_regular_state == EPlatform_Substate_Regular::Normal)
+	{
+		if (Platform_State == EPS_Glue)
+		{
+			Platform_Substate_Glue = EPSG_Finalize;
+
+			while (Ball_Set->Release_Next_Ball())
+			{
+			}
+
+			return;
+		}
+	}
+
+	Platform_State = EPS_Regular;
+	Platform_Substate_Regular = new_regular_state;
 }
 
 //------------------------------------------------------------------------------------------------------------
