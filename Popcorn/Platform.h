@@ -6,9 +6,7 @@
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_State
 {
-	EPS_Missing,
-	EPS_Normal,
-	EPS_Ready,
+	EPS_Regular,
 	EPS_Meltdown,
 	EPS_Rolling,
 	EPS_Glue,
@@ -104,6 +102,7 @@ private:
 	void Get_Normal_Platform_Image(HDC hdc);
 
 	EPlatform_State Platform_State;
+	EPlatform_Substate_Regular Platform_Substate_Regular;
 	EPlatform_Substate_Meltdown Platform_Substate_Meltdown;
 	EPlatform_Substate_RollIng Platform_Substate_RollIng;
 	EPlatform_Substate_Glue Platform_Substate_Glue;
