@@ -61,6 +61,7 @@ public:
 	AsPlatform_State();
 
 	operator EPlatform_State() const;
+	void operator = (EPlatform_State new_state);
 
 	EPlatform_Substate_Regular Regular;
 	EPlatform_Substate_Meltdown Meltdown;

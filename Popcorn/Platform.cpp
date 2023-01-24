@@ -16,7 +16,11 @@ AsPlatform_State::operator EPlatform_State() const
 	return Current_State;
 }
 //------------------------------------------------------------------------------------------------------------
-
+void AsPlatform_State::operator = (EPlatform_State new_state) 
+{
+	Current_State = new_state;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
