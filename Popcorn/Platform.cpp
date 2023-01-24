@@ -222,6 +222,10 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 	case EPlatform_State::Glue:
 		Draw_Glue_State(hdc, paint_area);
 		break;
+
+	case EPlatform_State::Expanding:
+		Draw_Expanding_State(hdc, paint_area);
+		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -706,6 +710,12 @@ void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
 	spot_rect.bottom = platform_top + spot_height - AsConfig::Global_Scale;
 
 	Chord(hdc, spot_rect.left, spot_rect.top, spot_rect.right - 1, spot_rect.bottom - 1, spot_rect.left, platform_top - 1, spot_rect.right - 1, platform_top - 1);
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
+{// Draw expanding platform
+
 
 }
 //------------------------------------------------------------------------------------------------------------
