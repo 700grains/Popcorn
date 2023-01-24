@@ -111,7 +111,8 @@ void AsPlatform::Advance(double max_speed)
 		}
 
 	// move glued balls
-	if (Platform_State == EPS_Glue || (Platform_State == EPS_Ready && Platform_Substate_Glue == EPSG_Active) )
+	if ( (Platform_State == EPS_Regular && Platform_Substate_Regular == EPlatform_Substate_Regular::Ready)
+		|| Platform_State == EPS_Glue && Platform_Substate_Glue == EPSG_Active)
 	{
 		if (Platform_Moving_State == EPMS_Moving_Left)
 			Ball_Set->On_Platform_Advance(M_PI, fabs(Speed), max_speed);
@@ -155,8 +156,13 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 		return;
 	switch (Platform_State)
 	{
-	case EPS_Ready:
-	case EPS_Normal:
+	case EPS_Regular:
+	{
+		if (Platform_Substate_Regular == EPlatform_Substate_Regular::Missing)
+			break;
+	}
+	// else - no break;
+
 	case EPS_Rolling:
 	case EPS_Glue:
 
@@ -176,9 +182,9 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 
 	switch (Platform_State)
 	{
-	case EPS_Ready:
-	case EPS_Normal:
-		Draw_Normal_State(hdc, paint_area);
+	case EPS_Regular:
+		if (Platform_Substate_Regular == EPlatform_Substate_Regular::Ready || Platform_Substate_Regular == EPlatform_Substate_Regular::Normal)
+			Draw_Normal_State(hdc, paint_area);
 		break;
 
 	case EPS_Meltdown:
