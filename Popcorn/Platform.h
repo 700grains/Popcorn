@@ -14,13 +14,13 @@ enum EPlatform_State
 	EPS_Glue,
 };
 //------------------------------------------------------------------------------------------------------------
-enum EPlatform_Substate_Regular
+enum class EPlatform_Substate_Regular : unsigned char
 {
-	EPSR_Unknown,
+	Unknown,
 
-	EPSR_Missing,
-	EPSR_Normal,
-	EPSR_Ready,
+	Missing,
+	Normal,
+	Ready,
 };
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_Substate_Meltdown
