@@ -152,7 +152,7 @@ private:
 
 	RECT Platform_Rect, Prev_Platform_Rect;
 
-	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color;
+	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color, Truss_Color;
 
 	static const double Max_Glue_Spot_Height_Ratio, Min_Glue_Spot_Height_Ratio, Glue_Spot_Ratio_Step;
 	static const double Min_Expanding_Platform_Width, Max_Expanding_Platform_Width, Expanding_Platform_Width_Step;

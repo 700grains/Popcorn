@@ -41,7 +41,8 @@ AsPlatform::~AsPlatform()
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Speed (0.0),
 Glue_Spot_Height_Ratio (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width),
-Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
+Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
+Truss_Color(Platform_Inner_Color, AsConfig::Global_Scale)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
 }
@@ -741,6 +742,7 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
+	int arc_mid_x;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect, rect;
@@ -757,8 +759,10 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
-	Platform_Inner_Color.Select(hdc);
-	Ellipse(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1);
+	Truss_Color.Select(hdc);
+	arc_mid_x = rect.left + 4 * scale + 3 * scale / 2;
+	// Ellipse(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1);
+	Arc(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1, arc_mid_x, rect.top + scale, arc_mid_x,  rect.bottom - scale - 1);
 
 
 	// 1.2 right ball
