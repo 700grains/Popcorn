@@ -131,6 +131,9 @@ void AsPlatform::Act()
 	switch (Platform_State)
 	{
 	case EPS_Meltdown:
+		Act_For_Meltdown_State();
+		break;
+
 	case EPS_Roll_In:
 	case EPS_Expand_Roll_In:
 		Redraw_Platform();
@@ -365,6 +368,12 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 double AsPlatform::Get_Middle_Pos()
 {
 	return X_Pos + (double)Width / 2.0;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Act_For_Meltdown_State()
+{
+	if (Platform_Substate_Meltdown == EPSM_Active)
+		Redraw_Platform();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Glue_State()
