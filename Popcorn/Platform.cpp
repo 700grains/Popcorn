@@ -31,6 +31,7 @@ const double AsPlatform::Glue_Spot_Ratio_Step = 0.05;
 const double AsPlatform::Min_Expanding_Platform_Width = (double) Normal_Width;
 const double AsPlatform::Max_Expanding_Platform_Width = 40.0;
 const double AsPlatform::Expanding_Platform_Width_Step = 1.0;
+
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::~AsPlatform()
 {
@@ -767,9 +768,9 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	// 3. Draw the middle part
 	Platform_Inner_Color.Select(hdc);
 
-	inner_rect.left = (int)((x + 4) * d_scale);
+	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
 	inner_rect.top = (y + 1) * scale;
-	inner_rect.right = inner_rect.left + 12 * scale;
+	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
 	inner_rect.bottom = (y + 1 + 5) * scale;
 
 	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right, inner_rect.bottom);

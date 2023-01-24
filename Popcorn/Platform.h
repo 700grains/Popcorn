@@ -159,6 +159,7 @@ private:
 	static const int Height = 7;
 	static const int Circle_Size = 7;
 	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size;
+	static const int Expanding_Platform_Inner_Width = 12;
 	static const int Meltdown_Speed = 3;
 	static const int Max_Rolling_Step = 16;
 	static const int Roll_In_Platform_End_X_Pos = 99;
