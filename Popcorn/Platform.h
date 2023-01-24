@@ -30,12 +30,12 @@ enum class EPlatform_Substate_Meltdown : unsigned char
 
 };
 //------------------------------------------------------------------------------------------------------------
-enum EPlatform_Substate_RollIng
+enum class EPlatform_Substate_RollIng : unsigned char
 {
-	EPSR_Unknown,
+	Unknown,
 
-	EPSR_Roll_In,
-	EPSR_Expand_Roll_In,
+	Roll_In,
+	Expand_Roll_In,
 };
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_Substate_Glue

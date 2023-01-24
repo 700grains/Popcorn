@@ -11,7 +11,8 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Regular), Platform_Substate_Regular (EPlatform_Substate_Regular::Missing), Platform_Substate_Meltdown (EPlatform_Substate_Meltdown::Unknown), Platform_Substate_RollIng (EPSR_Unknown), Platform_Substate_Glue (EPSG_Unknown), Platform_Moving_State(EPMS_Stop),
+: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPS_Regular), Platform_Substate_Regular (EPlatform_Substate_Regular::Missing), Platform_Substate_Meltdown (EPlatform_Substate_Meltdown::Unknown),
+  Platform_Substate_RollIng (EPlatform_Substate_RollIng::Unknown), Platform_Substate_Glue (EPSG_Unknown), Platform_Moving_State(EPMS_Stop),
   Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Ball_Set(0), 
   Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
@@ -241,7 +242,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 
 	case EPS_Rolling:
-		Platform_Substate_RollIng = EPSR_Roll_In;
+		Platform_Substate_RollIng = EPlatform_Substate_RollIng::Roll_In;
 
 		X_Pos = AsConfig::Max_X_Pos - 1;
 		Rolling_Step = Max_Rolling_Step - 1;
@@ -302,7 +303,7 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 	{
 		Prev_Platform_Rect = Platform_Rect;
 
-		if (Platform_State == EPS_Rolling && Platform_Substate_RollIng == EPSR_Roll_In)
+		if (Platform_State == EPS_Rolling && Platform_Substate_RollIng == EPlatform_Substate_RollIng::Roll_In)
 			platform_width = Circle_Size;
 		else
 			platform_width = Width;
@@ -405,7 +406,7 @@ void AsPlatform::Act_For_Rolling_State()
 {
 	switch (Platform_Substate_RollIng)
 	{
-	case EPSR_Roll_In:
+	case EPlatform_Substate_RollIng::Roll_In:
 		++Rolling_Step;
 
 		if (Rolling_Step >= Max_Rolling_Step)
@@ -416,12 +417,12 @@ void AsPlatform::Act_For_Rolling_State()
 		if (X_Pos <= Roll_In_Platform_End_X_Pos)
 		{
 			X_Pos += Rolling_Platform_Speed;
-			Platform_Substate_RollIng = EPSR_Expand_Roll_In;
+			Platform_Substate_RollIng = EPlatform_Substate_RollIng::Expand_Roll_In;
 			Inner_Width = 1;
 		}
 		break;
 
-	case EPSR_Expand_Roll_In:
+	case EPlatform_Substate_RollIng::Expand_Roll_In:
 		--X_Pos;
 		Inner_Width += 2;
 
@@ -429,7 +430,7 @@ void AsPlatform::Act_For_Rolling_State()
 		{
 			Inner_Width = Normal_Platform_Inner_Width;
 			Set_State(EPlatform_Substate_Regular::Ready);
-			Platform_Substate_RollIng = EPSR_Unknown;
+			Platform_Substate_RollIng = EPlatform_Substate_RollIng::Unknown;
 			Redraw_Platform();
 		}
 		break;
@@ -592,11 +593,11 @@ void AsPlatform::Draw_Rolling_State(HDC hdc, RECT& paint_area)
 
 	switch (Platform_Substate_RollIng)
 	{
-	case EPSR_Roll_In:
+	case EPlatform_Substate_RollIng::Roll_In:
 		Draw_Roll_In_State(hdc, paint_area);
 		break;
 
-	case EPSR_Expand_Roll_In:
+	case EPlatform_Substate_RollIng::Expand_Roll_In:
 		Draw_Normal_State(hdc, paint_area);
 		break;
 	} 
