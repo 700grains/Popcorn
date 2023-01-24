@@ -791,6 +791,11 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	LineTo(hdc, truss_x - 8 * scale, tuss_top_y);
 
 
+	MoveToEx(hdc, truss_x, tuss_bot_y, 0);
+	LineTo(hdc, truss_x - 4 * scale - 1, tuss_top_y);
+	LineTo(hdc, truss_x - 8 * scale, tuss_bot_y);
+
+
 
 	// 1.2 right ball
 	rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
