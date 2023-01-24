@@ -346,7 +346,7 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)
 {
-	if (! Has_State(EPlatform_Substate_Regular::Normal) || Platform_State == EPlatform_State::Glue )
+	if (! (Has_State(EPlatform_Substate_Regular::Normal) || Platform_State == EPlatform_State::Glue) )
 		return;
 
 	if (to_left)
