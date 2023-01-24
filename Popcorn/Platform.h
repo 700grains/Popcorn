@@ -47,12 +47,12 @@ enum class EPlatform_Substate_Glue : unsigned char
 	Finalize,
 };
 //------------------------------------------------------------------------------------------------------------
-enum EPlatform_Moving_State
+enum class EPlatform_Moving_State : unsigned char
 {
-	EPMS_Stopping, 
-	EPMS_Stop,
-	EPMS_Moving_Left,
-	EPMS_Moving_Right
+	Stopping, 
+	Stop,
+	Moving_Left,
+	Moving_Right
 };
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform: public AHit_Checker, public AMover, public AGraphics_Object

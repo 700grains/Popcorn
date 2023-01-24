@@ -12,7 +12,7 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Platform_State(EPlatform_State::Regular), Platform_Substate_Regular (EPlatform_Substate_Regular::Missing), Platform_Substate_Meltdown (EPlatform_Substate_Meltdown::Unknown),
-  Platform_Substate_RollIng (EPlatform_Substate_RollIng::Unknown), Platform_Substate_Glue (EPlatform_Substate_Glue::Unknown), Platform_Moving_State(EPMS_Stop),
+  Platform_Substate_RollIng (EPlatform_Substate_RollIng::Unknown), Platform_Substate_Glue (EPlatform_Substate_Glue::Unknown), Platform_Moving_State(EPlatform_Moving_State::Stop),
   Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Ball_Set(0), 
   Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
   Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
@@ -76,20 +76,20 @@ void AsPlatform::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Finish_Movement()
 {
-	if (Platform_Moving_State == EPMS_Stop)
+	if (Platform_Moving_State == EPlatform_Moving_State::Stop)
 		return;
 
 	Redraw_Platform();
 
-	if (Platform_Moving_State == EPMS_Stopping)
-		Platform_Moving_State = EPMS_Stop;
+	if (Platform_Moving_State == EPlatform_Moving_State::Stopping)
+		Platform_Moving_State = EPlatform_Moving_State::Stop;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Advance(double max_speed)
 {
 	double max_platform_x, next_step;
 
-	if (Platform_Moving_State == EPMS_Stopping || Platform_Moving_State == EPMS_Stop)
+	if (Platform_Moving_State == EPlatform_Moving_State::Stopping || Platform_Moving_State == EPlatform_Moving_State::Stop)
 		return;
 
 	max_platform_x = AsConfig::Max_X_Pos - Width + 1;
@@ -101,24 +101,24 @@ void AsPlatform::Advance(double max_speed)
 		{
 			X_Pos = AsConfig::Border_X_Offset;
 			Speed = 0.0;
-			Platform_Moving_State = EPMS_Stopping;
+			Platform_Moving_State = EPlatform_Moving_State::Stopping;
 		}
 
 	if (X_Pos >= max_platform_x)
 		{
 			X_Pos = max_platform_x;
 			Speed = 0.0;
-			Platform_Moving_State = EPMS_Stopping;
+			Platform_Moving_State = EPlatform_Moving_State::Stopping;
 		}
 
 	// move glued balls
 	if ( (Platform_State == EPlatform_State::Regular && Platform_Substate_Regular == EPlatform_Substate_Regular::Ready)
 		|| Platform_State == EPlatform_State::Glue && Platform_Substate_Glue == EPlatform_Substate_Glue::Active)
 	{
-		if (Platform_Moving_State == EPMS_Moving_Left)
+		if (Platform_Moving_State == EPlatform_Moving_State::Moving_Left)
 			Ball_Set->On_Platform_Advance(M_PI, fabs(Speed), max_speed);
 		else
-			if (Platform_Moving_State == EPMS_Moving_Right)
+			if (Platform_Moving_State == EPlatform_Moving_State::Moving_Right)
 				Ball_Set->On_Platform_Advance(0.0, fabs(Speed), max_speed);
 	}
 }
@@ -338,19 +338,19 @@ void AsPlatform::Move(bool to_left, bool key_down)
 	if (! Left_Key_Down && ! Right_Key_Down)
 	{
 		Speed = 0.0;
-		Platform_Moving_State = EPMS_Stopping;
+		Platform_Moving_State = EPlatform_Moving_State::Stopping;
 		return;
 	}
 
 	if (Left_Key_Down)
 	{
-		Platform_Moving_State = EPMS_Moving_Left;
+		Platform_Moving_State = EPlatform_Moving_State::Moving_Left;
 		Speed = -X_Step;
 	}
 
 	if (Right_Key_Down)
 	{
-		Platform_Moving_State = EPMS_Moving_Right;
+		Platform_Moving_State = EPlatform_Moving_State::Moving_Right;
 		Speed = X_Step;
 	}
 }
