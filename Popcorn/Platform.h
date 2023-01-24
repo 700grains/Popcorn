@@ -14,6 +14,15 @@ enum EPlatform_State
 	EPS_Glue,
 };
 //------------------------------------------------------------------------------------------------------------
+enum EPlatform_Substate_Regular
+{
+	EPSR_Unknown,
+
+	EPSR_Missing,
+	EPSR_Normal,
+	EPSR_Ready,
+};
+//------------------------------------------------------------------------------------------------------------
 enum EPlatform_Substate_Meltdown
 {
 	EPSM_Unknown,
