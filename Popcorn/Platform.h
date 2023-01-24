@@ -21,12 +21,12 @@ enum class EPlatform_Substate_Regular : unsigned char
 	Ready,
 };
 //------------------------------------------------------------------------------------------------------------
-enum EPlatform_Substate_Meltdown
+enum class EPlatform_Substate_Meltdown : unsigned char
 {
-	EPSM_Unknown,
-		
-	EPSM_Init,
-	EPSM_Active,
+	Unknown,
+	
+	Init,
+	Active,
 
 };
 //------------------------------------------------------------------------------------------------------------
