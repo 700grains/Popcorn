@@ -118,7 +118,7 @@ int AsEngine::On_Timer()
 
 
 	case EGS_Lost_Ball:
-		if (Platform.Get_State() == EPS_Missing)
+		if (Platform.Has_State (EPlatform_Substate_Regular::Missing) )
 		{
 			Game_State = EGS_Restart_Level;
 			Platform.Set_State(EPS_Rolling);
@@ -127,7 +127,7 @@ int AsEngine::On_Timer()
 		
 
 	case EGS_Restart_Level:
-		if (Platform.Get_State() == EPS_Ready)
+		if (Platform.Has_State (EPlatform_Substate_Regular::Ready) )
 		{
 			Game_State = EGS_Play_Level;
 			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos() );
@@ -204,7 +204,7 @@ void AsEngine::Act()
 
 	Platform.Act();
 	Level.Act();
-	if (Platform.Get_State() != EPS_Ready)
+	if (! Platform.Has_State(EPlatform_Substate_Regular::Ready) )
 		Ball_Set.Act();
 
 	while (Level.Get_Next_Falling_Letter(index, &falling_letter) )
@@ -221,17 +221,17 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	switch (falling_letter->Letter_Type)
 	{
 	case ELT_O: // "Cancel"
-		Platform.Set_State(EPS_Normal);
+		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break; // !!! Only glue is canceled so far
 
 	case ELT_I: // "Inversion"
 		Ball_Set.Inverse_Balls();
-		Platform.Set_State(EPS_Normal);
+		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
 	case ELT_C: // "Speed"
 		Ball_Set.Reset_Speed();
-		Platform.Set_State(EPS_Normal);
+		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
 	//case ELT_M: // "Monsters"
@@ -239,7 +239,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	case ELT_G: // "Life"
 		if (Life_Count < AsConfig::Max_Life_Count)
 			++Life_Count; /// !!! should be displayed on the indicator
-		Platform.Set_State(EPS_Normal);
+		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
 	case ELT_K: // "Glue"
@@ -249,7 +249,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	//case ELT_W: // "Wider"
 
 	case ELT_T: // "Three"
-		Platform.Set_State(EPS_Normal);
+		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		Ball_Set.Triple_Balls();
 		break;
 
@@ -259,7 +259,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		AsConfig::Level_Has_Floor = true;
 		Border.Redraw_Floor();
 		// !!! display on the indicator!
-		Platform.Set_State(EPS_Normal);
+		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
 	//case ELT_Plus: // Moving to the next level
