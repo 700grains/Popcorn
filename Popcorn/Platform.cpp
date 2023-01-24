@@ -567,7 +567,7 @@ void AsPlatform::Draw_Rolling_State(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPSR_Expand_Roll_In:
-		Draw_Expanding_Roll_In_State(hdc, paint_area);
+		Draw_Normal_State(hdc, paint_area);
 		break;
 	}
 }
@@ -607,11 +607,6 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 	// 3. Highlight
 	Draw_Circle_Highlight(hdc, x, y);
 
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
-{// Drawing an expanding platform
-	Draw_Normal_State(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
