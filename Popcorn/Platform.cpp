@@ -28,6 +28,9 @@ void AsPlatform_State::operator = (EPlatform_State new_state)
 const double AsPlatform::Max_Glue_Spot_Height_Ratio = 1.0;
 const double AsPlatform::Min_Glue_Spot_Height_Ratio = 0.4;
 const double AsPlatform::Glue_Spot_Ratio_Step = 0.05;
+const double AsPlatform::Min_Expanding_Platform_Width = (double) Normal_Width;
+const double AsPlatform::Max_Expanding_Platform_Width = 40.0;
+const double AsPlatform::Expanding_Platform_Width_Step = 1.0;
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::~AsPlatform()
 {
@@ -280,8 +283,19 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		else
 		{
 			Platform_State.Glue = EPlatform_Substate_Glue::Init;
-				
+
 			Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
+		}
+		break;
+
+	case EPlatform_State::Expanding:
+		if (Platform_State.Expanding == EPlatform_Substate_Expanding::Finalize)
+			return;
+		else
+		{
+			Platform_State.Expanding = EPlatform_Substate_Expanding::Init;
+
+			Expanding_Platform_Width = Min_Expanding_Platform_Width;
 		}
 		break;
 	}

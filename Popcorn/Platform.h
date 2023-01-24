@@ -140,6 +140,7 @@ private:
 	int Rolling_Step;
 	double Speed;
 	double Glue_Spot_Height_Ratio;
+	double Expanding_Platform_Width;
 	AsBall_Set* Ball_Set;
 
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
@@ -154,6 +155,7 @@ private:
 	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color;
 
 	static const double Max_Glue_Spot_Height_Ratio, Min_Glue_Spot_Height_Ratio, Glue_Spot_Ratio_Step;
+	static const double Min_Expanding_Platform_Width, Max_Expanding_Platform_Width, Expanding_Platform_Width_Step;
 	static const int Height = 7;
 	static const int Circle_Size = 7;
 	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size;
