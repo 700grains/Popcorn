@@ -10,8 +10,7 @@ enum EPlatform_State
 	EPS_Normal,
 	EPS_Ready,
 	EPS_Meltdown,
-	EPS_Roll_In,
-	EPS_Expand_Roll_In,
+	EPS_Rolling,
 	EPS_Glue,
 };
 //------------------------------------------------------------------------------------------------------------
@@ -22,6 +21,14 @@ enum EPlatform_Substate_Meltdown
 	EPSM_Init,
 	EPSM_Active,
 
+};
+//------------------------------------------------------------------------------------------------------------
+enum EPlatform_Substate_RollIng
+{
+	EPSR_Unknown,
+
+	EPSR_Roll_In,
+	EPSR_Expand_Roll_In,
 };
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_Substate_Glue
@@ -88,6 +95,7 @@ private:
 
 	EPlatform_State Platform_State;
 	EPlatform_Substate_Meltdown Platform_Substate_Meltdown;
+	EPlatform_Substate_RollIng Platform_Substate_RollIng;
 	EPlatform_Substate_Glue Platform_Substate_Glue;
 	EPlatform_Moving_State Platform_Moving_State;
 	bool Right_Key_Down, Left_Key_Down;
