@@ -158,7 +158,6 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 	{
 	case EPS_Ready:
 	case EPS_Normal:
-	case EPS_Pre_Meltdown:
 	case EPS_Roll_In:
 	case EPS_Expand_Roll_In:
 	case EPS_Glue:
@@ -182,11 +181,6 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 	case EPS_Ready:
 	case EPS_Normal:
 		Draw_Normal_State(hdc, paint_area);
-		break;
-
-	case EPS_Pre_Meltdown:
-		Draw_Normal_State(hdc, paint_area);
-		Set_State(EPS_Meltdown);
 		break;
 
 	case EPS_Meltdown:
