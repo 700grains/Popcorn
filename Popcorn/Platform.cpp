@@ -731,14 +731,6 @@ void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Expanding_State(HDC hdc, RECT & paint_area)
 {// Draw expanding platform
-	// 1. balls on the side.
-	// 1.1 hole under the arch
-	// 1.2 arch
-
-
-
-	// 2. Central part
-
 
 	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
@@ -746,17 +738,25 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT & paint_area)
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect;
 
-
-	// 1. Draw left side
-	Draw_Expanding_Platform_Ball(hdc);
-
-	// 1.5 Truss
 	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
 	inner_rect.top = (y + 1) * scale;
 	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
 	inner_rect.bottom = (y + 1 + 5) * scale;
 
-	Draw_Expanding_Truss(hdc, inner_rect);
+	// 1. Draw left side
+	// 1.1 the ball
+	Draw_Expanding_Platform_Ball(hdc, true);
+
+	// 1.2 Truss
+	Draw_Expanding_Truss(hdc, inner_rect, true);
+
+	// 2. Draw right side
+	// 2.1 the ball
+	Draw_Expanding_Platform_Ball(hdc, false);
+
+	// 2.2 Truss
+	Draw_Expanding_Truss(hdc, inner_rect, false);
+
 
 	//// 2 right side
 	//rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
@@ -774,27 +774,37 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT & paint_area)
 
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Expanding_Platform_Ball(HDC hdc)
+void AsPlatform::Draw_Expanding_Platform_Ball(HDC hdc, bool is_left)
 {// Draw expanding platforms side ball
 	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	int arc_mid_x;
+	int arc_start_y, arc_finish_y;
+	int arc_right_offset;
 
 	RECT rect, arc_rect;
 
 	// 1.1 ball
-	rect.left = (int)(x * d_scale);
+	if (is_left)
+		rect.left = (int)(x * d_scale);
+	else
+		rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
+
 	rect.top = y * scale;
-	rect.right = (int)((x + (double)Circle_Size) * d_scale);
+	rect.right = rect.left + Circle_Size * scale;
 	rect.bottom = (y + Circle_Size) * scale;
 
 	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
 	// 1.2 Truss adapter
-	Rectangle(hdc, rect.left + 4 * scale, rect.top, rect.right - scale + 1, rect.bottom - 1);
+	if (is_left)
+		Rectangle(hdc, rect.left + 4 * scale, rect.top, rect.right - scale + 1, rect.bottom - 1);
+	else
+		Rectangle(hdc, rect.left + 1, rect.top, rect.left + 3 * scale, rect.bottom - 1);
+
 
 	// 1.3 Draw the highlight
 	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
@@ -807,18 +817,36 @@ void AsPlatform::Draw_Expanding_Platform_Ball(HDC hdc)
 
 	arc_mid_x = arc_rect.left + (arc_rect.right - arc_rect.left) / 2;
 
+
+	if (is_left)
+	{
+		arc_start_y = arc_rect.top;
+		arc_finish_y = arc_rect.bottom;
+	}
+	else 
+	{
+		arc_right_offset = (Circle_Size - 2) * scale + 1;
+
+		arc_start_y = arc_rect.bottom;
+		arc_finish_y = arc_rect.top;
+
+		arc_rect.left -= arc_right_offset;
+		arc_rect.right -= arc_right_offset;
+		arc_mid_x -= arc_right_offset;
+	}
+
 	// 1.4.1 Hole in the ball under the arc
 	AsConfig::BG_Color.Select(hdc);
 	Ellipse(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1);
 
 	// 1.4.2 The arc itself
 	Truss_Color.Select(hdc);
-	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
+	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_start_y, arc_mid_x, arc_finish_y);
 
 
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect)
+void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left)
 {// Draw truss for expanding platform
 	int truss_x;
 	int tuss_top_y, tuss_bot_y;
