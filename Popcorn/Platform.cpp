@@ -742,8 +742,6 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
 	int arc_mid_x;
-	int truss_x;
-	int tuss_top_y, tuss_bot_y;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect, rect, arc_rect;
@@ -781,28 +779,13 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Truss_Color.Select(hdc);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
 
-
 	// 1.5 Truss
 	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
 	inner_rect.top = (y + 1) * scale;
 	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
 	inner_rect.bottom = (y + 1 + 5) * scale;
 
-	Truss_Color.Select(hdc);
-	truss_x = inner_rect.left + 1;
-	tuss_top_y = inner_rect.top + 1;
-	tuss_bot_y = inner_rect.bottom - scale + 1;
-
-	MoveToEx(hdc, truss_x, tuss_top_y, 0);
-	LineTo(hdc, truss_x - 4 * scale - 1, tuss_bot_y);
-	LineTo(hdc, truss_x - 8 * scale, tuss_top_y);
-
-
-	MoveToEx(hdc, truss_x, tuss_bot_y, 0);
-	LineTo(hdc, truss_x - 4 * scale - 1, tuss_top_y);
-	LineTo(hdc, truss_x - 8 * scale, tuss_bot_y);
-
-
+	Draw_Expanding_Truss(hdc, inner_rect);
 
 	// 2 right side
 	rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
@@ -820,7 +803,28 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall* ball)
+void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect)
+{// Draw truss for expanding platform
+	int truss_x;
+	int tuss_top_y, tuss_bot_y;
+	const int scale = AsConfig::Global_Scale;
+
+	truss_x = inner_rect.left + 1;
+	tuss_top_y = inner_rect.top + 1;
+	tuss_bot_y = inner_rect.bottom - scale + 1;
+
+	MoveToEx(hdc, truss_x, tuss_top_y, 0);
+	LineTo(hdc, truss_x - 4 * scale - 1, tuss_bot_y);
+	LineTo(hdc, truss_x - 8 * scale, tuss_top_y);
+
+
+	MoveToEx(hdc, truss_x, tuss_bot_y, 0);
+	LineTo(hdc, truss_x - 4 * scale - 1, tuss_top_y);
+	LineTo(hdc, truss_x - 8 * scale, tuss_bot_y);
+
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall * ball)
 {
 	double dx, dy;
 	double platform_ball_x, platform_ball_y, platform_ball_radius;
