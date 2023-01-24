@@ -746,22 +746,28 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	RECT inner_rect, rect;
 
 	// 1. Draw side balls
-	Platform_Circle_Color.Select(hdc);
 
-	// left ball
+	// 1.1 left ball
+
 	rect.left = (int)(x * d_scale);
 	rect.top = y * scale;
 	rect.right = (int)((x + (double)Circle_Size) * d_scale);
 	rect.bottom = (y + Circle_Size) * scale;
 
+	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
-	// right ball
+	Platform_Inner_Color.Select(hdc);
+	Ellipse(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1);
+
+
+	// 1.2 right ball
 	rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
 	rect.top = y * scale;
 	rect.right = rect.left + Circle_Size * scale;
 	rect.bottom = (y + Circle_Size) * scale;
 
+	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
 	// 2. Draw the highlight
