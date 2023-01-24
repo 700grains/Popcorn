@@ -55,9 +55,11 @@ enum class EPlatform_Moving_State : unsigned char
 	Moving_Right
 };
 //------------------------------------------------------------------------------------------------------------
-class APlatform_State
+class AsPlatform_State
 {
 public:
+	AsPlatform_State();
+
 	EPlatform_State Current_State;
 	EPlatform_Substate_Regular Regular;
 	EPlatform_Substate_Meltdown Meltdown;
@@ -115,7 +117,7 @@ private:
 	bool Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len);
 	void Get_Normal_Platform_Image(HDC hdc);
 
-	APlatform_State Platform_State;
+	AsPlatform_State Platform_State;
 	bool Right_Key_Down, Left_Key_Down;
 	int Inner_Width;
 	int Rolling_Step;

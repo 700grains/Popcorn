@@ -1,5 +1,20 @@
 ﻿#include "Platform.h"
 
+
+
+// AsPlatform_State
+//------------------------------------------------------------------------------------------------------------
+AsPlatform_State::AsPlatform_State()
+: Current_State(EPlatform_State::Regular), Regular(EPlatform_Substate_Regular::Missing), Meltdown(EPlatform_Substate_Meltdown::Unknown),
+  RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Moving(EPlatform_Moving_State::Stop)
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AsPlatform
 const double AsPlatform::Max_Glue_Spot_Height_Ratio = 1.0;
 const double AsPlatform::Min_Glue_Spot_Height_Ratio = 0.4;
@@ -11,11 +26,9 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), Platform_State(EPlatform_State::Regular), Platform_Substate_Regular (EPlatform_Substate_Regular::Missing), Platform_Substate_Meltdown (EPlatform_Substate_Meltdown::Unknown),
-  Platform_Substate_RollIng (EPlatform_Substate_RollIng::Unknown), Platform_Substate_Glue (EPlatform_Substate_Glue::Unknown), Platform_Moving_State(EPlatform_Moving_State::Stop),
-  Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Ball_Set(0), 
-  Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
-  Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
+: X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width),Rolling_Step (0), Speed (0.0),
+Glue_Spot_Height_Ratio (0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width), 
+Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
 }
