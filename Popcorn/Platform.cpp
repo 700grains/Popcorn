@@ -428,7 +428,7 @@ void AsPlatform::Act_For_Rolling_State()
 		if (Inner_Width >= Normal_Platform_Inner_Width)
 		{
 			Inner_Width = Normal_Platform_Inner_Width;
-			Platform_State = EPS_Ready;
+			Set_State(EPlatform_Substate_Regular::Ready);
 			Platform_Substate_RollIng = EPSR_Unknown;
 			Redraw_Platform();
 		}
@@ -457,7 +457,7 @@ void AsPlatform::Act_For_Glue_State()
 			Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
 		else
 		{
-			Platform_State = EPS_Normal;
+			Set_State(EPlatform_Substate_Regular::Normal);
 			Platform_Substate_Glue = EPSG_Unknown;
 		}
 
@@ -514,7 +514,7 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 
 	AsConfig::Round_Rect(hdc, inner_rect, 3);
 
-	if (Normal_Platform_Image == 0 && Platform_State == EPS_Ready)
+	if (Normal_Platform_Image == 0 && Has_State(EPlatform_Substate_Regular::Ready) )
 		Get_Normal_Platform_Image(hdc);
 
 }
@@ -584,7 +584,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 		Meltdown_Platform_Y_Pos[i] += y_offset;
 	}
 	if (moved_columns_count == 0)
-		Platform_State = EPS_Missing; // the whole platform is moved outside the window
+		Set_State(EPlatform_Substate_Regular::Missing); // the whole platform is moved outside the window
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Rolling_State(HDC hdc, RECT& paint_area)
