@@ -60,13 +60,17 @@ class AsPlatform_State
 public:
 	AsPlatform_State();
 
-	EPlatform_State Current_State;
+	operator EPlatform_State() const;
+
 	EPlatform_Substate_Regular Regular;
 	EPlatform_Substate_Meltdown Meltdown;
 	EPlatform_Substate_RollIng RollIng;
 	EPlatform_Substate_Glue Glue;
 
 	EPlatform_Moving_State Moving;
+
+private:
+	EPlatform_State Current_State;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform : public AHit_Checker, public AMover, public AGraphics_Object

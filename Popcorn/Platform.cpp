@@ -11,6 +11,11 @@ AsPlatform_State::AsPlatform_State()
 
 }
 //------------------------------------------------------------------------------------------------------------
+AsPlatform_State::operator EPlatform_State() const
+{
+	return Current_State;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -74,7 +79,7 @@ _on_hit:
 	if (ball->Get_State() == EBS_On_Parachute)
 		ball->Set_State(EBS_Off_Parachute);
 
-	if (Platform_State.Current_State == EPlatform_State::Glue && Platform_State.Glue == EPlatform_Substate_Glue::Active)
+	if (Platform_State == EPlatform_State::Glue && Platform_State.Glue == EPlatform_Substate_Glue::Active)
 	{
 		ball->Get_Center(ball_x, ball_y);
 		ball->Set_State(EBS_On_Platform, ball_x, ball_y);
