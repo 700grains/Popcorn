@@ -181,11 +181,6 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		Draw_Normal_State(hdc, paint_area);
 		break;
 
-	//case EPS_Pre_Meltdown:
-	//	Draw_Normal_State(hdc, paint_area);
-	//	Set_State(EPS_Meltdown);
-	//	break;
-
 	case EPS_Meltdown:
 		if (Platform_Substate_Meltdown == EPSM_Active)
 			Draw_Meltdown_State(hdc, paint_area);
@@ -237,10 +232,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		}
 		break;
 
-	//case EPS_Pre_Meltdown:
-	//	Speed = 0.0;
-	//	break;
-
 	case EPS_Meltdown:
 		Speed = 0.0;
 		Platform_Substate_Meltdown = EPSM_Init;
@@ -251,7 +242,9 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			Meltdown_Platform_Y_Pos[i] = Platform_Rect.top;
 		break;
 
-	case EPS_Roll_In:
+	case EPS_Rolling:
+		Platform_Substate_RollIng = EPSR_Roll_In;
+
 		X_Pos = AsConfig::Max_X_Pos - 1;
 		Rolling_Step = Max_Rolling_Step - 1;
 		break;
@@ -278,7 +271,7 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 	{
 		Prev_Platform_Rect = Platform_Rect;
 
-		if (Platform_State == EPS_Roll_In)
+		if (Platform_State == EPS_Rolling && Platform_Substate_RollIng == EPSR_Roll_In)
 			platform_width = Circle_Size;
 		else
 			platform_width = Width;
@@ -592,7 +585,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 	if (X_Pos <= Roll_In_Platform_End_X_Pos)
 	{
 		X_Pos += Rolling_Platform_Speed;
-		Platform_State = EPS_Expand_Roll_In;
+		Platform_Substate_RollIng = EPSR_Expand_Roll_In;
 		Inner_Width = 1;
 	}
 }
