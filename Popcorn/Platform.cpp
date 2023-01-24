@@ -768,7 +768,11 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	arc_rect.bottom = rect.bottom - scale - 1;
 
 	arc_mid_x = arc_rect.left + (arc_rect.right - arc_rect.left) / 2;
-	// Ellipse(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1);
+
+	AsConfig::BG_Color.Select(hdc);
+	Ellipse(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1);
+	
+	Truss_Color.Select(hdc);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
 
 	// 1.2. Draw the highlight
