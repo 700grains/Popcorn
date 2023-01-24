@@ -82,9 +82,11 @@ public:
 private:
 	void Act_For_Glue_State();
 	void Act_For_Meltdown_State();
+	void Act_For_Rolling_State();
 	void Draw_Circle_Highlight(HDC hdc, int x, int y);
 	void Draw_Normal_State(HDC hdc, RECT &paint_area);
 	void Draw_Meltdown_State(HDC hdc, RECT &paint_area);
+	void Draw_Rolling_State(HDC hdc, RECT& paint_area);
 	void Draw_Roll_In_State(HDC hdc, RECT& paint_area);
 	void Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area);
 	void Draw_Glue_State(HDC hdc, RECT& paint_area);

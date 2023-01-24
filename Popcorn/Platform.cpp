@@ -135,7 +135,7 @@ void AsPlatform::Act()
 		break;
 
 	case EPS_Rolling:
-		Redraw_Platform();
+		Act_For_Rolling_State();
 		break;
 
 	case EPS_Glue:
@@ -157,8 +157,7 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 	{
 	case EPS_Ready:
 	case EPS_Normal:
-	case EPS_Roll_In:
-	case EPS_Expand_Roll_In:
+	case EPS_Rolling:
 	case EPS_Glue:
 
 		// Clearing the old place with the background color
@@ -192,12 +191,8 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 			Draw_Meltdown_State(hdc, paint_area);
 		 break;
 
-	case EPS_Roll_In:
-		Draw_Roll_In_State(hdc, paint_area);
-		break;
-
-	case EPS_Expand_Roll_In:
-		Draw_Expanding_Roll_In_State(hdc, paint_area);
+	case EPS_Rolling:
+		Draw_Rolling_State(hdc, paint_area);
 		break;
 
 	case EPS_Glue:
@@ -384,6 +379,11 @@ void AsPlatform::Act_For_Meltdown_State()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+void AsPlatform::Act_For_Rolling_State()
+{
+	Redraw_Platform();
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Glue_State()
 {
 	switch (Platform_Substate_Glue)
@@ -532,7 +532,22 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 		Platform_State = EPS_Missing; // the whole platform is moved outside the window
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT& paint_area)
+void AsPlatform::Draw_Rolling_State(HDC hdc, RECT& paint_area)
+{ //draw a rolling out and expanding platform
+
+	switch (Platform_Substate_RollIng)
+	{
+	case EPSR_Roll_In:
+		Draw_Roll_In_State(hdc, paint_area);
+		break;
+
+	case EPSR_Expand_Roll_In:
+		Draw_Expanding_Roll_In_State(hdc, paint_area);
+		break;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 {// Draw a rolling out platform
 
 	int x = (int)(X_Pos * AsConfig::D_Global_Scale);
