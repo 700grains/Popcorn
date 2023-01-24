@@ -738,14 +738,14 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	// 2. Central part
 
-	// 3. connecting lines
 
 	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
 	int arc_mid_x;
+	int truss_x;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
-	RECT inner_rect, rect;
+	RECT inner_rect, rect, arc_rect;
 
 	// 1. Draw side balls
 
@@ -760,9 +760,32 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
 	Truss_Color.Select(hdc);
+
+	arc_rect.left = rect.left + 4 * scale;
+	arc_rect.top = rect.top + scale + 1;
+	arc_rect.right = rect.left + (4 + 3) * scale;
+	arc_rect.bottom = rect.bottom - scale - 1;
+
 	arc_mid_x = rect.left + 4 * scale + 3 * scale / 2;
 	// Ellipse(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1);
-	Arc(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1, arc_mid_x, rect.top + scale, arc_mid_x,  rect.bottom - scale - 1);
+	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
+
+	// 1.2. Draw the highlight
+	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
+
+	// 1.3. Truss
+
+	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
+	inner_rect.top = (y + 1) * scale;
+	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
+	inner_rect.bottom = (y + 1 + 5) * scale;
+
+	Truss_Color.Select(hdc);
+	truss_x = inner_rect.left + 1;
+	MoveToEx(hdc, truss_x, inner_rect.top + 1, 0);
+	LineTo(hdc, truss_x - 4 * scale - 1, inner_rect.bottom - scale + 1);
+	LineTo(hdc, truss_x - 8 * scale, inner_rect.top + 1);
+
 
 
 	// 1.2 right ball
@@ -774,16 +797,8 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1.0, rect.bottom - 1);
 
-	// 2. Draw the highlight
-	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
-
 	// 3. Draw the middle part
 	Platform_Inner_Color.Select(hdc);
-
-	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
-	inner_rect.top = (y + 1) * scale;
-	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
-	inner_rect.bottom = (y + 1 + 5) * scale;
 
 	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right, inner_rect.bottom);
 
