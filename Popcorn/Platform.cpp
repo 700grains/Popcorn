@@ -743,6 +743,7 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	int y = AsConfig::Platform_Y_Pos;
 	int arc_mid_x;
 	int truss_x;
+	int tuss_top_y, tuss_bot_y;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect, rect, arc_rect;
@@ -761,12 +762,12 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	Truss_Color.Select(hdc);
 
-	arc_rect.left = rect.left + 4 * scale;
+	arc_rect.left = rect.left + 4 * scale + 2;
 	arc_rect.top = rect.top + scale + 1;
-	arc_rect.right = rect.left + (4 + 3) * scale;
+	arc_rect.right = rect.left + (4 + 3) * scale + 2;
 	arc_rect.bottom = rect.bottom - scale - 1;
 
-	arc_mid_x = rect.left + 4 * scale + 3 * scale / 2;
+	arc_mid_x = arc_rect.left + (arc_rect.right - arc_rect.left) / 2;
 	// Ellipse(hdc, rect.left + 4 * scale, rect.top + scale, rect.left + (4 + 3) * scale, rect.bottom - scale - 1);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_rect.top, arc_mid_x, arc_rect.bottom);
 
@@ -782,9 +783,12 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 
 	Truss_Color.Select(hdc);
 	truss_x = inner_rect.left + 1;
-	MoveToEx(hdc, truss_x, inner_rect.top + 1, 0);
-	LineTo(hdc, truss_x - 4 * scale - 1, inner_rect.bottom - scale + 1);
-	LineTo(hdc, truss_x - 8 * scale, inner_rect.top + 1);
+	tuss_top_y = inner_rect.top + 1;
+	tuss_bot_y = inner_rect.bottom - scale + 1;
+
+	MoveToEx(hdc, truss_x, tuss_top_y, 0);
+	LineTo(hdc, truss_x - 4 * scale - 1, tuss_bot_y);
+	LineTo(hdc, truss_x - 8 * scale, tuss_top_y);
 
 
 
