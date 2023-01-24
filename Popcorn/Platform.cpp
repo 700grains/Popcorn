@@ -374,6 +374,38 @@ void AsPlatform::Act_For_Meltdown_State()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Rolling_State()
 {
+	switch (Platform_Substate_RollIng)
+	{
+	case EPSR_Roll_In:
+		++Rolling_Step;
+
+		if (Rolling_Step >= Max_Rolling_Step)
+			Rolling_Step -= Max_Rolling_Step;
+
+		X_Pos -= Rolling_Platform_Speed;
+
+		if (X_Pos <= Roll_In_Platform_End_X_Pos)
+		{
+			X_Pos += Rolling_Platform_Speed;
+			Platform_Substate_RollIng = EPSR_Expand_Roll_In;
+			Inner_Width = 1;
+		}
+		break;
+
+	case EPSR_Expand_Roll_In:
+		--X_Pos;
+		Inner_Width += 2;
+
+		if (Inner_Width >= Normal_Platform_Inner_Width)
+		{
+			Inner_Width = Normal_Platform_Inner_Width;
+			Platform_State = EPS_Ready;
+			Redraw_Platform();
+		}
+		break;
+	}
+
+
 	Redraw_Platform();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -575,35 +607,11 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 	// 3. Highlight
 	Draw_Circle_Highlight(hdc, x, y);
 
-	++Rolling_Step;
-
-	if (Rolling_Step >= Max_Rolling_Step)
-		Rolling_Step -= Max_Rolling_Step;
-
-	X_Pos -= Rolling_Platform_Speed;
-
-	if (X_Pos <= Roll_In_Platform_End_X_Pos)
-	{
-		X_Pos += Rolling_Platform_Speed;
-		Platform_Substate_RollIng = EPSR_Expand_Roll_In;
-		Inner_Width = 1;
-	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT& paint_area)
 {// Drawing an expanding platform
-
 	Draw_Normal_State(hdc, paint_area);
-
-	--X_Pos;
-	Inner_Width += 2;
-
-	if (Inner_Width >= Normal_Platform_Inner_Width)
-	{
-		Inner_Width = Normal_Platform_Inner_Width;
-		Platform_State = EPS_Ready;
-		Redraw_Platform();
-	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)

@@ -122,7 +122,6 @@ int AsEngine::On_Timer()
 		{
 			Game_State = EGS_Restart_Level;
 			Platform.Set_State(EPS_Rolling);
-
 		}
 			break;
 		
