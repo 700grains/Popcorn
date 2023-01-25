@@ -50,6 +50,15 @@ enum class EPlatform_Substate_Glue : unsigned char
 	Finalize,
 };
 //------------------------------------------------------------------------------------------------------------
+enum class EPlatform_Substate_Laser : unsigned char
+{
+	Unknown,
+
+	Init,
+	Active,
+	Finalize,
+};
+//------------------------------------------------------------------------------------------------------------
 enum class EPlatform_Substate_Expanding : unsigned char
 {
 	Unknown,
@@ -82,6 +91,7 @@ public:
 	EPlatform_Substate_Meltdown Meltdown;
 	EPlatform_Substate_RollIng RollIng;
 	EPlatform_Substate_Glue Glue;
+	EPlatform_Substate_Laser Laser;
 	EPlatform_Substate_Expanding Expanding;
 
 	EPlatform_Moving_State Moving;

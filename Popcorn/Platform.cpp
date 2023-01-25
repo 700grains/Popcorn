@@ -6,7 +6,8 @@
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::AsPlatform_State()
 : Current_State(EPlatform_State::Regular), Next_State (EPlatform_State::Unknown), Regular(EPlatform_Substate_Regular::Missing), Meltdown(EPlatform_Substate_Meltdown::Unknown),
-  RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Expanding (EPlatform_Substate_Expanding::Unknown), Moving(EPlatform_Moving_State::Stop)
+  RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Laser (EPlatform_Substate_Laser::Unknown), Expanding (EPlatform_Substate_Expanding::Unknown),
+	Moving(EPlatform_Moving_State::Stop)
 {
 
 }
@@ -360,7 +361,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 {
-
 	if (Platform_State == EPlatform_State::Regular && Platform_State.Regular == new_regular_state)
 		return;
 

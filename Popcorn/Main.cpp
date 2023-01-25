@@ -276,9 +276,9 @@ V 2.1.2. Spreading glue animation (forward and reverse)
 V 2.1.3. Fixing the ball (+ new state of the ball)
 V 2.1.4. Ball launch by space and timeout
 
-2.2. W ("Wider")
-2.2.1. New platform state (+ resizing)
-2.2.2. Expanding platform animation (forward and reverse)
+V 2.2. W ("Wider")
+V 2.2.1. New platform state (+ resizing)
+V 2.2.2. Expanding platform animation (forward and reverse)
 
 V 2.3. P ("Floor")
 V 2.3.1. Floor rendering
