@@ -1060,6 +1060,11 @@ void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left)
 
 }
 //------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
+{// Draw laser platform
+
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall * ball)
 {
 	double dx, dy;
