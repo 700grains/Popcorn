@@ -375,7 +375,7 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)
 {
-	if (! (Has_State(EPlatform_Substate_Regular::Normal) || Platform_State == EPlatform_State::Glue) )
+	if (! (Has_State(EPlatform_Substate_Regular::Normal) || Platform_State == EPlatform_State::Glue || Platform_State == EPlatform_State::Expanding) )
 		return;
 
 	if (to_left)
@@ -537,7 +537,7 @@ void AsPlatform::Act_For_Expanding_State()
 		else
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Active;
 
-		Redraw_Platform();
+		Redraw_Platform(false);
 		break;
 
 	case EPlatform_Substate_Expanding::Active:
@@ -555,7 +555,7 @@ void AsPlatform::Act_For_Expanding_State()
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Unknown;
 		}
 
-		Redraw_Platform();
+		Redraw_Platform(false);
 		break;
 
 	default:
