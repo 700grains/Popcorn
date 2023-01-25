@@ -189,7 +189,7 @@ void AsEngine::Advance_Movers()
 				Movers[i]->Advance(max_speed);
 
 		//Platform.Advance(max_speed);
-		Rest_Distance -= AsConfig::Moving_step_size;
+		Rest_Distance -= AsConfig::Moving_Step_Size;
 	}
 	// 3. Finishiing all moves on the frame
 	for (i = 0; i < AsConfig::Max_Movers_Count; i++)

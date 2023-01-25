@@ -120,7 +120,7 @@ void AsPlatform::Advance(double max_speed)
 		return;
 
 	max_platform_x = AsConfig::Max_X_Pos - Width + 1;
-	next_step = Speed / max_speed * AsConfig::Moving_step_size;
+	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
 
 	X_Pos += next_step;
 
@@ -738,7 +738,7 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT & paint_area)
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect;
 
-	inner_rect.left = (int)(x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale;
+	inner_rect.left = (int) ( (x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale);
 	inner_rect.top = (y + 1) * scale;
 	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
 	inner_rect.bottom = (y + 1 + 5) * scale;
@@ -770,7 +770,7 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT & paint_area)
 	// 3. Draw the middle part
 	Platform_Inner_Color.Select(hdc);
 
-	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right, inner_rect.bottom);
+	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right - 1, inner_rect.bottom - 1);
 
 }
 //------------------------------------------------------------------------------------------------------------
@@ -849,21 +849,24 @@ void AsPlatform::Draw_Expanding_Platform_Ball(HDC hdc, bool is_left)
 void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left)
 {// Draw truss for expanding platform
 	int truss_x;
-	int tuss_top_y, tuss_bot_y;
+	int truss_top_y, truss_bot_y;
 	const int scale = AsConfig::Global_Scale;
 
 	truss_x = inner_rect.left + 1;
-	tuss_top_y = inner_rect.top + 1;
-	tuss_bot_y = inner_rect.bottom - scale + 1;
+	if (!is_left)
+		truss_x += (Expanding_Platform_Inner_Width + 8 - 1) * scale + 1;
 
-	MoveToEx(hdc, truss_x, tuss_top_y, 0);
-	LineTo(hdc, truss_x - 4 * scale - 1, tuss_bot_y);
-	LineTo(hdc, truss_x - 8 * scale, tuss_top_y);
+	truss_top_y = inner_rect.top + 1;
+	truss_bot_y = inner_rect.bottom - scale + 1;
+
+	MoveToEx(hdc, truss_x, truss_top_y, 0);
+	LineTo(hdc, truss_x - 4 * scale - 1, truss_bot_y);
+	LineTo(hdc, truss_x - 8 * scale, truss_top_y);
 
 
-	MoveToEx(hdc, truss_x, tuss_bot_y, 0);
-	LineTo(hdc, truss_x - 4 * scale - 1, tuss_top_y);
-	LineTo(hdc, truss_x - 8 * scale, tuss_bot_y);
+	MoveToEx(hdc, truss_x, truss_bot_y, 0);
+	LineTo(hdc, truss_x - 4 * scale - 1, truss_top_y);
+	LineTo(hdc, truss_x - 8 * scale, truss_bot_y);
 
 }
 //------------------------------------------------------------------------------------------------------------
@@ -887,7 +890,7 @@ bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double 
 	distance = sqrt(dx * dx + dy * dy);
 	two_radiuses = platform_ball_radius + ball->Radius;
 
-	if (distance + AsConfig::Moving_step_size < two_radiuses)
+	if (distance + AsConfig::Moving_Step_Size < two_radiuses)
 	{// The ball touched the side ball
 
 		beta = atan2(-dy, dx);

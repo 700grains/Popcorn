@@ -96,7 +96,7 @@ void ABall::Advance(double max_speed)
 	if (Ball_State == EBS_On_Platform || Ball_State == EBS_Disabled || Ball_State == EBS_Lost || Ball_State == EBS_Teleporting)
 		return;
 
-	next_step = Ball_Speed / max_speed * AsConfig::Moving_step_size;
+	next_step = Ball_Speed / max_speed * AsConfig::Moving_Step_Size;
 
 	while (got_hit)
 	{
