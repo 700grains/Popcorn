@@ -171,6 +171,10 @@ void AsPlatform::Act()
 		Act_For_Glue_State();
 		break;
 
+	case EPlatform_State::Expanding:
+		Act_For_Expanding_State();
+		break;
+
 	default:
 		break;
 	}
@@ -296,7 +300,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		else
 		{
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Init;
-
 			Expanding_Platform_Width = Max_Expanding_Platform_Width;
 		}
 		break;
@@ -488,11 +491,14 @@ void AsPlatform::Act_For_Glue_State()
 	{
 	case EPlatform_Substate_Glue::Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
-			Glue_Spot_Height_Ratio += 0.02;
+			Glue_Spot_Height_Ratio += Glue_Spot_Ratio_Step;
 		else
 			Platform_State.Glue = EPlatform_Substate_Glue::Active;
 
 		Redraw_Platform(false);
+		break;
+
+	case EPlatform_Substate_Glue::Active:
 		break;
 
 	case EPlatform_Substate_Glue::Finalize:
@@ -506,6 +512,42 @@ void AsPlatform::Act_For_Glue_State()
 
 		Redraw_Platform(false);
 		break;
+
+	default:
+		AsConfig::Throw();
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Act_For_Expanding_State()
+{
+	switch (Platform_State.Expanding)
+	{
+	case EPlatform_Substate_Expanding::Init:
+		if (Expanding_Platform_Width < Max_Expanding_Platform_Width)
+			Expanding_Platform_Width += Expanding_Platform_Width_Step;
+		else
+			Platform_State.Expanding = EPlatform_Substate_Expanding::Active;
+
+		Redraw_Platform(false);
+		break;
+
+	case EPlatform_Substate_Expanding::Active:
+		break;
+
+	case EPlatform_Substate_Expanding::Finalize:
+		if (Expanding_Platform_Width > Min_Expanding_Platform_Width)
+			Expanding_Platform_Width -= Expanding_Platform_Width_Step;
+		else
+		{
+			Set_State(EPlatform_Substate_Regular::Normal);
+			Platform_State.Expanding = EPlatform_Substate_Expanding::Unknown;
+		}
+
+		Redraw_Platform(false);
+		break;
+
+	default:
+		AsConfig::Throw();
 	}
 }
 //------------------------------------------------------------------------------------------------------------
