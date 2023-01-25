@@ -40,11 +40,11 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Last_Redraw_Timer_Tick (0), Speed (0.0),
-Glue_Spot_Height_Ratio (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0), Width(Normal_Width),
+Glue_Spot_Height_Ratio (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0),
 Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
 Truss_Color(Platform_Inner_Color, AsConfig::Global_Scale)
 {
-	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
+	X_Pos = (AsConfig::Max_X_Pos - Normal_Width) / 2;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
@@ -119,7 +119,7 @@ void AsPlatform::Advance(double max_speed)
 	if (Platform_State.Moving == EPlatform_Moving_State::Stopping || Platform_State.Moving == EPlatform_Moving_State::Stop)
 		return;
 
-	max_platform_x = AsConfig::Max_X_Pos - Width + 1;
+	max_platform_x = AsConfig::Max_X_Pos - Get_Current_Width() + 1;
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
 
 	X_Pos += next_step;
@@ -428,7 +428,7 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 //------------------------------------------------------------------------------------------------------------
 double AsPlatform::Get_Middle_Pos()
 {
-	return X_Pos + (double)Width / 2.0;
+	return X_Pos + Get_Current_Width() / 2.0;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Meltdown_State()
@@ -1006,7 +1006,7 @@ void AsPlatform::Get_Normal_Platform_Image(HDC hdc)
 	int x = (int)(X_Pos * AsConfig::D_Global_Scale);
 	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 
-	Normal_Platform_Image_Width = Width * AsConfig::Global_Scale;
+	Normal_Platform_Image_Width = Normal_Width * AsConfig::Global_Scale;
 	Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
 
 	Normal_Platform_Image = new int[Normal_Platform_Image_Width * Normal_Platform_Image_Height];
@@ -1018,15 +1018,11 @@ void AsPlatform::Get_Normal_Platform_Image(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 double AsPlatform::Get_Current_Width()
 {
-	double platform_width;
-
 	if (Platform_State == EPlatform_State::Rolling && Platform_State.RollIng == EPlatform_Substate_RollIng::Roll_In)
 		return (double)Circle_Size;
 	else if (Platform_State == EPlatform_State::Expanding)
 		return Expanding_Platform_Width;
 	else
-		return (double)Width;
-
-
+		return (double)Normal_Width;
 }
 //------------------------------------------------------------------------------------------------------------
