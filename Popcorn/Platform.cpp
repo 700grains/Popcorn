@@ -6,7 +6,7 @@
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::AsPlatform_State()
 : Current_State(EPlatform_State::Regular), Next_State (EPlatform_State::Unknown), Regular(EPlatform_Substate_Regular::Missing), Meltdown(EPlatform_Substate_Meltdown::Unknown),
-  RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Laser (EPlatform_Substate_Laser::Unknown), Expanding (EPlatform_Substate_Expanding::Unknown),
+  RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Expanding (EPlatform_Substate_Expanding::Unknown), Laser(EPlatform_Substate_Laser::Unknown),
 	Moving(EPlatform_Moving_State::Stop)
 {
 
@@ -42,10 +42,14 @@ void AsPlatform_State::Set_Next_State(EPlatform_State next_state)
 
 	case EPlatform_State::Glue:
 		Glue = EPlatform_Substate_Glue::Finalize;
-		break;
-
+		break;	
+	
 	case EPlatform_State::Expanding:
 		Expanding = EPlatform_Substate_Expanding::Finalize;
+		break;
+
+	case EPlatform_State::Laser:
+		Laser = EPlatform_Substate_Laser::Finalize;
 		break;
 
 	default:
@@ -207,6 +211,10 @@ void AsPlatform::Act()
 		Act_For_Expanding_State();
 		break;
 
+	case EPlatform_State::Laser:
+		Act_For_Laser_State();
+		break;
+
 	default:
 		break;
 	}
@@ -230,6 +238,7 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 	case EPlatform_State::Rolling:
 	case EPlatform_State::Glue:
 	case EPlatform_State::Expanding:
+	case EPlatform_State::Laser:
 
 		// Clearing the old place with the background color
 		AsConfig::BG_Color.Select(hdc);
@@ -268,6 +277,10 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 
 	case EPlatform_State::Expanding:
 		Draw_Expanding_State(hdc, paint_area);
+		break;
+
+	case EPlatform_State::Laser:
+		Draw_Laser_State(hdc, paint_area);
 		break;
 	}
 }
@@ -355,6 +368,23 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			Expanding_Platform_Width = Min_Expanding_Platform_Width;
 		}
 		break;
+
+	case EPlatform_State::Laser:
+		if (Platform_State != EPlatform_State::Regular)
+		{
+			Platform_State.Set_Next_State(new_state);
+			return;
+		}
+
+		if (Platform_State.Laser == EPlatform_Substate_Laser::Finalize)
+			return;
+		else
+		{
+			Platform_State.Laser = EPlatform_Substate_Laser::Init;
+			..Expanding_Platform_Width = Min_Expanding_Platform_Width;
+		}
+
+		break;
 	}
 		Platform_State = new_state;
 }
@@ -380,15 +410,26 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 			return;		
 		
 		case EPlatform_State::Expanding:
-				if (Platform_State.Expanding == EPlatform_Substate_Expanding::Unknown)
-				{ // State finalization finished
-					Set_Next_Or_Regular_State(new_regular_state);
-				}
-				else
-				{// We start the finalization of the state
-					Platform_State.Expanding = EPlatform_Substate_Expanding::Finalize;
-				}
-				return;
+			if (Platform_State.Expanding == EPlatform_Substate_Expanding::Unknown)
+			{ // State finalization finished
+				Set_Next_Or_Regular_State(new_regular_state);
+			}
+			else
+			{// We start the finalization of the state
+				Platform_State.Expanding = EPlatform_Substate_Expanding::Finalize;
+			}
+			return;
+
+		case EPlatform_State::Laser:
+			if (Platform_State.Laser == EPlatform_Substate_Laser::Unknown)
+			{ // State finalization finished
+				Set_Next_Or_Regular_State(new_regular_state);
+			}
+			else
+			{// We start the finalization of the state
+				Platform_State.Laser = EPlatform_Substate_Laser::Finalize;
+			}
+			return;
 		}
 	}
 

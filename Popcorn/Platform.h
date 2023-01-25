@@ -12,7 +12,8 @@ enum class EPlatform_State : unsigned char
 	Meltdown,
 	Rolling,
 	Glue,
-	Expanding
+	Expanding,
+	Laser
 };
 //------------------------------------------------------------------------------------------------------------
 enum class EPlatform_Substate_Regular : unsigned char
@@ -50,7 +51,7 @@ enum class EPlatform_Substate_Glue : unsigned char
 	Finalize,
 };
 //------------------------------------------------------------------------------------------------------------
-enum class EPlatform_Substate_Laser : unsigned char
+enum class EPlatform_Substate_Expanding : unsigned char
 {
 	Unknown,
 
@@ -59,7 +60,7 @@ enum class EPlatform_Substate_Laser : unsigned char
 	Finalize,
 };
 //------------------------------------------------------------------------------------------------------------
-enum class EPlatform_Substate_Expanding : unsigned char
+enum class EPlatform_Substate_Laser : unsigned char
 {
 	Unknown,
 
