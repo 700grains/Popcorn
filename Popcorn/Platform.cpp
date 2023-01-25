@@ -85,9 +85,9 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Last_Redraw_Timer_Tick (0), Speed (0.0),
-Glue_Spot_Height_Ratio (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),Normal_Platform_Image(0),
-Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
+: X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Laser_Transofrmation_Step (0), 
+Last_Redraw_Timer_Tick (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
+Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
 Truss_Color(Platform_Inner_Color, AsConfig::Global_Scale)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Normal_Width) / 2;
@@ -650,7 +650,7 @@ void AsPlatform::Act_For_Expanding_State()
 
 	case EPlatform_Substate_Expanding::Active:
 		break;
-		 
+
 	case EPlatform_Substate_Expanding::Finalize:
 		if (Expanding_Platform_Width > Min_Expanding_Platform_Width)
 		{
@@ -661,6 +661,39 @@ void AsPlatform::Act_For_Expanding_State()
 		else
 		{
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Unknown;
+			Set_State(EPlatform_Substate_Regular::Normal);
+		}
+
+		Redraw_Platform();
+		break;
+
+	default:
+		AsConfig::Throw();
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Act_For_Laser_State()
+{
+	switch (Platform_State.Laser)
+	{
+	case EPlatform_Substate_Laser::Init:
+		if (Laser_Transofrmation_Step < Max_Laser_Transofrmation_Step)
+			++Laser_Transofrmation_Step;
+		else
+			Platform_State.Laser = EPlatform_Substate_Laser::Active;
+
+		Redraw_Platform();
+		break;
+
+	case EPlatform_Substate_Laser::Active:
+		break;
+
+	case EPlatform_Substate_Laser::Finalize:
+		if (Laser_Transofrmation_Step > 0)
+			--Laser_Transofrmation_Step;
+		else
+		{
+			Platform_State.Laser = EPlatform_Substate_Laser::Unknown;
 			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 

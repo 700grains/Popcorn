@@ -13,7 +13,7 @@ enum class EPlatform_State : unsigned char
 	Rolling,
 	Glue,
 	Expanding,
-	Laser
+	Laser,
 };
 //------------------------------------------------------------------------------------------------------------
 enum class EPlatform_Substate_Regular : unsigned char
@@ -92,8 +92,8 @@ public:
 	EPlatform_Substate_Meltdown Meltdown;
 	EPlatform_Substate_RollIng RollIng;
 	EPlatform_Substate_Glue Glue;
-	EPlatform_Substate_Laser Laser;
 	EPlatform_Substate_Expanding Expanding;
+	EPlatform_Substate_Laser Laser;
 
 	EPlatform_Moving_State Moving;
 
@@ -138,6 +138,7 @@ private:
 	void Act_For_Rolling_State();
 	void Act_For_Glue_State();
 	void Act_For_Expanding_State();
+	void Act_For_Laser_State();
 
 	void Draw_Circle_Highlight(HDC hdc, int x, int y);
 	void Draw_Normal_State(HDC hdc, RECT &paint_area);
@@ -162,6 +163,7 @@ private:
 	bool Right_Key_Down, Left_Key_Down;
 	int Inner_Width;
 	int Rolling_Step;
+	int Laser_Transofrmation_Step;
 	int Last_Redraw_Timer_Tick;
 	double Speed;
 	double Glue_Spot_Height_Ratio;
@@ -181,6 +183,7 @@ private:
 
 	static const double Max_Glue_Spot_Height_Ratio, Min_Glue_Spot_Height_Ratio, Glue_Spot_Ratio_Step;
 	static const double Min_Expanding_Platform_Width, Max_Expanding_Platform_Width, Expanding_Platform_Width_Step;
+	static const int Max_Laser_Transofrmation_Step = 8;
 	static const int Height = 7;
 	static const int Circle_Size = 7;
 	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size;
