@@ -632,8 +632,8 @@ void AsPlatform::Act_For_Expanding_State()
 		}
 		else
 		{
-			Set_State(EPlatform_Substate_Regular::Normal);
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Unknown;
+			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
 		Redraw_Platform();
