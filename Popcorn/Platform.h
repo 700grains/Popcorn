@@ -76,6 +76,7 @@ public:
 	void operator = (EPlatform_State new_state);
 
 	void Set_Next_State(EPlatform_State next_state);
+	EPlatform_State Get_Next_State();
 
 	EPlatform_Substate_Regular Regular;
 	EPlatform_Substate_Meltdown Meltdown;

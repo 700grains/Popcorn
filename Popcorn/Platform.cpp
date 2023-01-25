@@ -56,6 +56,11 @@ void AsPlatform_State::Set_Next_State(EPlatform_State next_state)
 	Next_State = next_state;
 }
 //------------------------------------------------------------------------------------------------------------
+EPlatform_State AsPlatform_State::Get_Next_State()
+{
+	return Next_State;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -355,6 +360,8 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 {
+	EPlatform_State next_state;
+
 	if (Platform_State == EPlatform_State::Regular && Platform_State.Regular == new_regular_state)
 		return;
 
@@ -362,12 +369,28 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 	{
 		if (Platform_State == EPlatform_State::Glue)
 		{
-			Platform_State.Glue = EPlatform_Substate_Glue::Finalize;
 
-			while (Ball_Set->Release_Next_Ball())
-			{
+			if (Platform_State.Glue == EPlatform_Substate_Glue::Unknown)
+			{ // State finalization finished
+
+				Platform_State = EPlatform_State::Regular;
+
+				// If there is a deferred state, then we translate into it, and not into the "Regular"
+				next_state = Platform_State.Get_Next_State();
+
+				if (next_state != EPlatform_State::Unknown)
+					Set_State(next_state);
+				else
+					Platform_State.Regular = new_regular_state;
 			}
+			else
+			{ // We start the finalization of the state
+				Platform_State.Glue = EPlatform_Substate_Glue::Finalize;
 
+				while (Ball_Set->Release_Next_Ball())
+				{
+				}
+			}
 			return;
 		}
 	}
@@ -548,8 +571,8 @@ void AsPlatform::Act_For_Glue_State()
 			Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
 		else
 		{
-			Set_State(EPlatform_Substate_Regular::Normal);
 			Platform_State.Glue = EPlatform_Substate_Glue::Unknown;
+			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
 		Redraw_Platform();
