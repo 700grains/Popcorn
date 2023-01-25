@@ -360,7 +360,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 {
-	EPlatform_State next_state;
 
 	if (Platform_State == EPlatform_State::Regular && Platform_State.Regular == new_regular_state)
 		return;
@@ -372,16 +371,7 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 		case EPlatform_State::Glue:
 			if (Platform_State.Glue == EPlatform_Substate_Glue::Unknown)
 			{ // State finalization finished
-
-				Platform_State = EPlatform_State::Regular;
-
-				// If there is a deferred state, then we translate into it, and not into the "Regular"
-				next_state = Platform_State.Get_Next_State();
-
-				if (next_state != EPlatform_State::Unknown)
-					Set_State(next_state);
-				else
-					Platform_State.Regular = new_regular_state;
+				Set_Next_Or_Regular_State(new_regular_state);
 			}
 			else
 			{ // We start the finalization of the state
@@ -392,16 +382,7 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 		case EPlatform_State::Expanding:
 				if (Platform_State.Expanding == EPlatform_Substate_Expanding::Unknown)
 				{ // State finalization finished
-
-					Platform_State = EPlatform_State::Regular;
-
-					// If there is a deferred state, then we translate into it, and not into the "Regular"
-					next_state = Platform_State.Get_Next_State();
-
-					if (next_state != EPlatform_State::Unknown)
-						Set_State(next_state);
-					else
-						Platform_State.Regular = new_regular_state;
+					Set_Next_Or_Regular_State(new_regular_state);
 				}
 				else
 				{// We start the finalization of the state
@@ -587,7 +568,7 @@ void AsPlatform::Act_For_Glue_State()
 		{
 			Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
 
-			while (Ball_Set->Release_Next_Ball())
+			while (Ball_Set->Release_Next_Ball()) // Can be moved to the "else" so that the balls are released when the glue is completely gone
 			{
 			}
 		}
@@ -1134,5 +1115,20 @@ bool AsPlatform::Correct_Platform_Pos()
 		got_corrected = true;
 	}
 	return got_corrected;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Set_Next_Or_Regular_State(EPlatform_Substate_Regular new_regular_state)
+{
+	EPlatform_State next_state;
+
+	Platform_State = EPlatform_State::Regular;
+
+	// If there is a deferred state, then we translate into it, and not into the "Regular"
+	next_state = Platform_State.Get_Next_State();
+
+	if (next_state != EPlatform_State::Unknown)
+		Set_State(next_state);
+	else
+		Platform_State.Regular = new_regular_state;
 }
 //------------------------------------------------------------------------------------------------------------
