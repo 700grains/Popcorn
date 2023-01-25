@@ -115,7 +115,7 @@ public:
 	double Get_Middle_Pos();
 
 
-	int Width;
+	int Width_2;
 	double X_Pos;
 
 private:
@@ -138,6 +138,8 @@ private:
 	bool Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall* ball);
 	bool Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len);
 	void Get_Normal_Platform_Image(HDC hdc);
+	double Get_Current_Width();
+
 
 	AsPlatform_State Platform_State;
 	bool Right_Key_Down, Left_Key_Down;
