@@ -351,15 +351,17 @@ void AsPlatform::Redraw_Platform(bool update_rect)
 		Prev_Platform_Rect = Platform_Rect;
 
 		if (Platform_State == EPlatform_State::Rolling && Platform_State.RollIng == EPlatform_Substate_RollIng::Roll_In)
-			platform_width = Circle_Size;
+			platform_width = Circle_Size * AsConfig::Global_Scale;
+		else if (Platform_State == EPlatform_State::Expanding)
+			platform_width = (int)(Expanding_Platform_Width * AsConfig::D_Global_Scale);
 		else
-			platform_width = Width;
+			platform_width = Width * AsConfig::Global_Scale;
 
 
 
 		Platform_Rect.left = (int)(X_Pos * AsConfig::D_Global_Scale);
 		Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
-		Platform_Rect.right = Platform_Rect.left + platform_width * AsConfig::Global_Scale;
+		Platform_Rect.right = Platform_Rect.left + platform_width;
 		Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
 
 		if (Platform_State == EPlatform_State::Meltdown)
