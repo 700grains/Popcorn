@@ -472,7 +472,8 @@ void AsPlatform::Redraw_Platform()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Move(bool to_left, bool key_down)
 {
-	if (! (Has_State(EPlatform_Substate_Regular::Normal) || Platform_State == EPlatform_State::Glue || Platform_State == EPlatform_State::Expanding) )
+	if (! (Has_State(EPlatform_Substate_Regular::Normal) || Platform_State == EPlatform_State::Glue || Platform_State == EPlatform_State::Expanding || 
+		Platform_State == EPlatform_State::Laser) )
 		return;
 
 	if (to_left)
@@ -516,6 +517,9 @@ void AsPlatform::On_Space_Key(bool key_down)
 	else
 		if (Platform_State == EPlatform_State::Glue)
 			Ball_Set->Release_Next_Ball();
+		else if (Platform_State == EPlatform_State::Laser)
+			AsConfig::Throw(); // TODO
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
