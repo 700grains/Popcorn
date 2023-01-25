@@ -259,6 +259,12 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 
 	case EPlatform_State::Meltdown:
+		if (Platform_State != EPlatform_State::Regular)
+		{
+			Platform_State.Set_Next_State(new_state);
+			return;
+		}
+
 		Speed = 0.0;
 		Platform_State.Meltdown = EPlatform_Substate_Meltdown::Init;
 
@@ -276,6 +282,12 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 
 	case EPlatform_State::Glue:
+		if (Platform_State != EPlatform_State::Regular)
+		{
+			Platform_State.Set_Next_State(new_state);
+			return;
+		}
+
 		if (Platform_State.Glue == EPlatform_Substate_Glue::Finalize)
 			return;
 		else
@@ -287,6 +299,12 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 
 	case EPlatform_State::Expanding:
+		if (Platform_State != EPlatform_State::Regular)
+		{
+			Platform_State.Set_Next_State(new_state);
+			return;
+		}
+
 		if (Platform_State.Expanding == EPlatform_Substate_Expanding::Finalize)
 			return;
 		else

@@ -73,6 +73,8 @@ public:
 	operator EPlatform_State() const;
 	void operator = (EPlatform_State new_state);
 
+	void Set_Next_State(EPlatform_State new_state);
+
 	EPlatform_Substate_Regular Regular;
 	EPlatform_Substate_Meltdown Meltdown;
 	EPlatform_Substate_RollIng RollIng;
