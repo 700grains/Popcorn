@@ -114,29 +114,19 @@ void AsPlatform::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Advance(double max_speed)
 {
-	double max_platform_x, next_step;
+	double next_step;
 
 	if (Platform_State.Moving == EPlatform_Moving_State::Stopping || Platform_State.Moving == EPlatform_Moving_State::Stop)
 		return;
 
-	max_platform_x = AsConfig::Max_X_Pos - Get_Current_Width() + 1;
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
-
 	X_Pos += next_step;
 
-	if (X_Pos <= AsConfig::Border_X_Offset)
-		{
-			X_Pos = AsConfig::Border_X_Offset;
-			Speed = 0.0;
-			Platform_State.Moving = EPlatform_Moving_State::Stopping;
-		}
-
-	if (X_Pos >= max_platform_x)
-		{
-			X_Pos = max_platform_x;
-			Speed = 0.0;
-			Platform_State.Moving = EPlatform_Moving_State::Stopping;
-		}
+	if (Correct_Platform_Pos() )
+	{
+		Speed = 0.0;
+		Platform_State.Moving = EPlatform_Moving_State::Stopping;
+	}
 
 	// move glued balls
 	if ( (Platform_State == EPlatform_State::Regular && Platform_State.Regular == EPlatform_Substate_Regular::Ready)
@@ -525,6 +515,7 @@ void AsPlatform::Act_For_Expanding_State()
 		{
 			Expanding_Platform_Width += Expanding_Platform_Width_Step;
 			X_Pos -= Expanding_Platform_Width_Step / 2;
+			Correct_Platform_Pos();
 		}
 		else
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Active;
@@ -540,6 +531,7 @@ void AsPlatform::Act_For_Expanding_State()
 		{
 			Expanding_Platform_Width -= Expanding_Platform_Width_Step;
 			X_Pos += Expanding_Platform_Width_Step / 2;
+			Correct_Platform_Pos();
 		}
 		else
 		{
@@ -1024,5 +1016,24 @@ double AsPlatform::Get_Current_Width()
 		return Expanding_Platform_Width;
 	else
 		return (double)Normal_Width;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsPlatform::Correct_Platform_Pos()
+{
+	bool got_corrected = false;
+
+	double max_platform_x = AsConfig::Max_X_Pos - Get_Current_Width() + 1;
+
+	if (X_Pos <= AsConfig::Border_X_Offset)
+	{
+		X_Pos = AsConfig::Border_X_Offset;
+		got_corrected = true;
+	}
+	if (X_Pos >= max_platform_x)
+	{
+		X_Pos = max_platform_x;
+		got_corrected = true;
+	}
+	return got_corrected;
 }
 //------------------------------------------------------------------------------------------------------------

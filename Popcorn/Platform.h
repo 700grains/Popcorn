@@ -114,8 +114,6 @@ public:
 	bool Hit_By(AFalling_Letter* falling_letter);
 	double Get_Middle_Pos();
 
-
-	int Width_2;
 	double X_Pos;
 
 private:
@@ -139,6 +137,7 @@ private:
 	bool Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len);
 	void Get_Normal_Platform_Image(HDC hdc);
 	double Get_Current_Width();
+	bool Correct_Platform_Pos();
 
 
 	AsPlatform_State Platform_State;
