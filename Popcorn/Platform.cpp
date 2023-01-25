@@ -5,7 +5,7 @@
 // AsPlatform_State
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::AsPlatform_State()
-: Current_State(EPlatform_State::Regular), Regular(EPlatform_Substate_Regular::Missing), Meltdown(EPlatform_Substate_Meltdown::Unknown),
+: Current_State(EPlatform_State::Regular), Next_State (EPlatform_State::Unknown), Regular(EPlatform_Substate_Regular::Missing), Meltdown(EPlatform_Substate_Meltdown::Unknown),
   RollIng(EPlatform_Substate_RollIng::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Expanding (EPlatform_Substate_Expanding::Unknown), Moving(EPlatform_Moving_State::Stop)
 {
 
@@ -21,6 +21,42 @@ void AsPlatform_State::operator = (EPlatform_State new_state)
 	Current_State = new_state;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsPlatform_State::Set_Next_State(EPlatform_State next_state)
+{
+	if (next_state == Current_State)
+		return;
+
+	switch (Current_State)
+	{
+	case EPlatform_State::Regular:
+		AsConfig::Throw(); // Switching to another state from the Regular state must be explicit.
+		break;
+
+	case EPlatform_State::Meltdown:
+		return; // We ignore the next state after Meltdown. the game process must be restarted
+
+	case EPlatform_State::Rolling:
+		AsConfig::Throw(); // Rolling should go to the next state by itself
+		break;
+
+	case EPlatform_State::Glue:
+		Glue = EPlatform_Substate_Glue::Finalize;
+		break;
+
+	case EPlatform_State::Expanding:
+		Expanding = EPlatform_Substate_Expanding::Finalize;
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
+
+
+	Next_State = next_state;
+}
+//------------------------------------------------------------------------------------------------------------
+
 
 
 
