@@ -88,7 +88,7 @@ public:
 
 private:
 	EPlatform_State Current_State;
-	EPlatform_State Next_State;
+	EPlatform_State Next_State; // We enter this state from AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 };
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform : public AHit_Checker, public AMover, public AGraphics_Object

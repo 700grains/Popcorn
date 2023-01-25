@@ -367,9 +367,9 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 
 	if (new_regular_state == EPlatform_Substate_Regular::Normal)
 	{
-		if (Platform_State == EPlatform_State::Glue)
+		switch (Platform_State)
 		{
-
+		case EPlatform_State::Glue:
 			if (Platform_State.Glue == EPlatform_Substate_Glue::Unknown)
 			{ // State finalization finished
 
@@ -391,7 +391,27 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 				{
 				}
 			}
-			return;
+			return;		
+		
+		case EPlatform_State::Expanding:
+				if (Platform_State.Expanding == EPlatform_Substate_Expanding::Unknown)
+				{ // State finalization finished
+
+					Platform_State = EPlatform_State::Regular;
+
+					// If there is a deferred state, then we translate into it, and not into the "Regular"
+					next_state = Platform_State.Get_Next_State();
+
+					if (next_state != EPlatform_State::Unknown)
+						Set_State(next_state);
+					else
+						Platform_State.Regular = new_regular_state;
+				}
+				else
+				{// We start the finalization of the state
+					Platform_State.Expanding = EPlatform_Substate_Expanding::Finalize;
+				}
+				return;
 		}
 	}
 
