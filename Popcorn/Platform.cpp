@@ -532,7 +532,7 @@ void AsPlatform::Act_For_Expanding_State()
 		else
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Active;
 
-		Redraw_Platform(false);
+		Redraw_Platform();
 		break;
 
 	case EPlatform_Substate_Expanding::Active:
@@ -547,7 +547,7 @@ void AsPlatform::Act_For_Expanding_State()
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Unknown;
 		}
 
-		Redraw_Platform(false);
+		Redraw_Platform();
 		break;
 
 	default:
