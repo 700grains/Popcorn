@@ -528,7 +528,10 @@ void AsPlatform::Act_For_Expanding_State()
 	{
 	case EPlatform_Substate_Expanding::Init:
 		if (Expanding_Platform_Width < Max_Expanding_Platform_Width)
+		{
 			Expanding_Platform_Width += Expanding_Platform_Width_Step;
+			X_Pos -= Expanding_Platform_Width_Step / 2;
+		}
 		else
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Active;
 
@@ -540,7 +543,11 @@ void AsPlatform::Act_For_Expanding_State()
 
 	case EPlatform_Substate_Expanding::Finalize:
 		if (Expanding_Platform_Width > Min_Expanding_Platform_Width)
+		{
 			Expanding_Platform_Width -= Expanding_Platform_Width_Step;
+			X_Pos += Expanding_Platform_Width_Step / 2;
+
+		}
 		else
 		{
 			Set_State(EPlatform_Substate_Regular::Normal);
