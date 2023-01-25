@@ -897,13 +897,21 @@ void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left)
 	int truss_x;
 	int truss_top_y, truss_bot_y;
 	double expansion_ratio; // [1.0 ... 0.0]
+	double truss_x_offset;
 	const int scale = AsConfig::Global_Scale;
 
 	expansion_ratio = (Max_Expanding_Platform_Width - Expanding_Platform_Width) / (Max_Expanding_Platform_Width - Min_Expanding_Platform_Width);
+	truss_x_offset = 6.0 * expansion_ratio * AsConfig::D_Global_Scale; // !!! should I make it int?
 
 	truss_x = inner_rect.left + 1;
-	if (!is_left)
+
+	if (is_left)
+		truss_x += truss_x_offset;
+	else
+	{
 		truss_x += (Expanding_Platform_Inner_Width + 8 - 1) * scale + 1;
+		truss_x -= truss_x_offset;
+	}
 
 	truss_top_y = inner_rect.top + 1;
 	truss_bot_y = inner_rect.bottom - scale + 1;
