@@ -197,10 +197,12 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 
 	case EPlatform_State::Rolling:
 	case EPlatform_State::Glue:
+	case EPlatform_State::Expanding:
 
 		// Clearing the old place with the background color
 		AsConfig::BG_Color.Select(hdc);
 		Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
+		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -300,7 +302,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		else
 		{
 			Platform_State.Expanding = EPlatform_Substate_Expanding::Init;
-			Expanding_Platform_Width = Max_Expanding_Platform_Width;
+			Expanding_Platform_Width = Min_Expanding_Platform_Width;
 		}
 		break;
 	}
