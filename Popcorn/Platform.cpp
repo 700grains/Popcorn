@@ -896,7 +896,10 @@ void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left)
 {// Draw truss for expanding platform
 	int truss_x;
 	int truss_top_y, truss_bot_y;
+	double expansion_ratio; // [1.0 ... 0.0]
 	const int scale = AsConfig::Global_Scale;
+
+	expansion_ratio = (Max_Expanding_Platform_Width - Expanding_Platform_Width) / (Max_Expanding_Platform_Width - Min_Expanding_Platform_Width);
 
 	truss_x = inner_rect.left + 1;
 	if (!is_left)
