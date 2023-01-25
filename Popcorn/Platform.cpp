@@ -381,7 +381,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		else
 		{
 			Platform_State.Laser = EPlatform_Substate_Laser::Init;
-			..Expanding_Platform_Width = Min_Expanding_Platform_Width;
+			Laser_Transofrmation_Step = 0;
 		}
 
 		break;
