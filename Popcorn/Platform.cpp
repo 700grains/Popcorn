@@ -386,10 +386,6 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 			else
 			{ // We start the finalization of the state
 				Platform_State.Glue = EPlatform_Substate_Glue::Finalize;
-
-				while (Ball_Set->Release_Next_Ball())
-				{
-				}
 			}
 			return;		
 		
@@ -588,7 +584,13 @@ void AsPlatform::Act_For_Glue_State()
 
 	case EPlatform_Substate_Glue::Finalize:
 		if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
+		{
 			Glue_Spot_Height_Ratio -= Glue_Spot_Ratio_Step;
+
+			while (Ball_Set->Release_Next_Ball())
+			{
+			}
+		}
 		else
 		{
 			Platform_State.Glue = EPlatform_Substate_Glue::Unknown;
