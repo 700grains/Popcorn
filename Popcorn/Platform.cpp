@@ -1072,11 +1072,10 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	SelectClipRgn(hdc, region);
 
 	// 1. Left wing
-	x = (int)(X_Pos * d_scale);
-	y = (AsConfig::Platform_Y_Pos + 1) * scale;
-
 	Platform_Circle_Color.Select_Pen(hdc);
 
+	x = (int)(X_Pos * d_scale);
+	y = (AsConfig::Platform_Y_Pos + 1) * scale;
 	Ellipse(hdc, x, y, x + 7 * scale - 1, y + 12 * scale - 1);
 
 	// 1.1. Left bridge
@@ -1086,11 +1085,10 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 
 	// 2. Right wing
-	x = (int)(X_Pos * d_scale) + Normal_Width * scale - 1;
-	y = (AsConfig::Platform_Y_Pos + 1) * scale;
-
 	Platform_Circle_Color.Select_Pen(hdc);
 
+	x = (int)(X_Pos * d_scale) + Normal_Width * scale - 1;
+	y = (AsConfig::Platform_Y_Pos + 1) * scale;
 	Ellipse(hdc, x, y, x - (7 * scale - 1), y + 12 * scale - 1);
 
 	// 2.1. Right bridge
@@ -1104,13 +1102,19 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	x = (int)((X_Pos + 6.0) * d_scale);
 	y = (AsConfig::Platform_Y_Pos + 3) * scale;
+	// Rectangle(hdc, x, y, x + 2 * scale - 1, y + 4 * scale - 1);
 
-	Rectangle(hdc, x, y, x + 2 * scale - 1, y + 4 * scale - 1);
+	POINT left_leg_points[7] =
+	{
+		{x, y}, {x + 2 * scale, y - 2 * scale}, {x + 4 * scale, y - 2 * scale}, {x + 4 * scale, y},
+		{x + 2 * scale, y + 2 * scale}, {x + 2 * scale, y + 4 * scale}, {x, y + 4 * scale}
+	};
+
+	Polygon(hdc, left_leg_points, 7);
 
 	// 3.2 Right leg
 	x = (int)((X_Pos * d_scale) + (Normal_Width - 6) * scale - 1);
 	y = (AsConfig::Platform_Y_Pos + 3) * scale;
-
 	Rectangle(hdc, x, y, x - (2 * scale - 1), y + 4 * scale - 1);
 
 	// 3.3 Cabin
@@ -1119,13 +1123,15 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	x = (int)((X_Pos + 9.0) * d_scale);
 	y = (AsConfig::Platform_Y_Pos - 1) * scale;
-
 	Ellipse(hdc, x, y, x + 10 * scale - 1, y + 8 * scale - 1);
 
+	// 3.3.2 middle part
 	AsConfig::BG_Color.Select(hdc);
 	x += scale;
-	
 	Ellipse(hdc, x, y, x + 8 * scale - 1, y + 6 * scale - 1);
+
+
+
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
