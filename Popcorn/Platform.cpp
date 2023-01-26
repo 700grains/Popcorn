@@ -1072,52 +1072,86 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	SelectClipRgn(hdc, region);
 
 	// 1. Left wing
-	Platform_Circle_Color.Select(hdc);
-
-	x = (int)(X_Pos * d_scale);
-	y = (AsConfig::Platform_Y_Pos + 1) * scale;
-	Ellipse(hdc, x, y, x + 7 * scale - 1, y + 12 * scale - 1);
-
-	// 1.1. Left bridge
-	x += 5 * scale;
-	y += 1 * scale;
-	Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
-
-	// 1.2 Left gun
-	Gun_Color.Select(hdc);
-	x = (int)( (X_Pos + 3.0) * d_scale);
-	y = AsConfig::Platform_Y_Pos * scale;
-
-	MoveToEx(hdc, x + 1, y + 1, 0);
-	LineTo(hdc, x + 1, y + 3 * scale + 1);
-
-	// 1.3 Left tail
-	Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
-
+	Draw_Laser_Wing(hdc, true);
+	
 	// 2. Right wing
-	Platform_Circle_Color.Select(hdc);
-
-	x = (int)(X_Pos * d_scale) + Normal_Width * scale - 1;
-	y = (AsConfig::Platform_Y_Pos + 1) * scale;
-	Ellipse(hdc, x, y, x - (7 * scale - 1), y + 12 * scale - 1);
-
-	// 2.1. Right bridge
-	x -= 5 * scale;
-	y += 1 * scale;
-	Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
-
-	// 2.2 Right gun
-	Gun_Color.Select(hdc);
-	x = (int)(X_Pos * d_scale) + (Normal_Width - 4) * scale;
-	y = AsConfig::Platform_Y_Pos * scale;
-
-	MoveToEx(hdc, x + 1, y + 1, 0);
-	LineTo(hdc, x + 1, y + 3 * scale + 1);
-
-	// 2.3 Right tail
-	Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
+	Draw_Laser_Wing(hdc, false);
 
 	// 3. Middle part
+	Draw_Laser_Middle_Part(hdc);
+
+	// 3.3 Cabin
+	Draw_Laser_Cabin(hdc);
+
+
+	SelectClipRgn(hdc, 0);
+	DeleteObject(region);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
+{
+	const double d_scale = AsConfig::D_Global_Scale;
+	const int scale = AsConfig::Global_Scale;
+	int x, y;
+	int x_offset;
+
+	// 1. Left wing
+	Platform_Circle_Color.Select(hdc);
+
+	if (is_left)
+	{
+		x = (int)(X_Pos * d_scale);
+		y = (AsConfig::Platform_Y_Pos + 1) * scale;
+		Ellipse(hdc, x, y, x + 7 * scale - 1, y + 12 * scale - 1);
+
+		// 1.1. Left bridge
+		x += 5 * scale;
+		y += 1 * scale;
+		Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
+
+		// 1.2 Left gun
+		Gun_Color.Select(hdc);
+		x = (int)((X_Pos + 3.0) * d_scale);
+		y = AsConfig::Platform_Y_Pos * scale;
+
+		MoveToEx(hdc, x + 1, y + 1, 0);
+		LineTo(hdc, x + 1, y + 3 * scale + 1);
+
+		// 1.3 Left tail
+		Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
+	}
+	else
+	{
+		Platform_Circle_Color.Select(hdc);
+
+		x = (int)(X_Pos * d_scale) + Normal_Width * scale - 1;
+		y = (AsConfig::Platform_Y_Pos + 1) * scale;
+		Ellipse(hdc, x, y, x - (7 * scale - 1), y + 12 * scale - 1);
+
+		// 2.1. Right bridge
+		x -= 5 * scale;
+		y += 1 * scale;
+		Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
+
+		// 2.2 Right gun
+		Gun_Color.Select(hdc);
+		x = (int)(X_Pos * d_scale) + (Normal_Width - 4) * scale;
+		y = AsConfig::Platform_Y_Pos * scale;
+
+		MoveToEx(hdc, x + 1, y + 1, 0);
+		LineTo(hdc, x + 1, y + 3 * scale + 1);
+
+		// 2.3 Right tail
+		Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Laser_Middle_Part(HDC hdc)
+{
+	const double d_scale = AsConfig::D_Global_Scale;
+	const int scale = AsConfig::Global_Scale;
+	int x, y;
+
 	// 3.1 Left leg
 	Platform_Inner_Color.Select(hdc);
 
@@ -1145,8 +1179,14 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	};
 
 	Polygon(hdc, right_leg_points, 7);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Draw_Laser_Cabin(HDC hdc)
+{
+	const double d_scale = AsConfig::D_Global_Scale;
+	const int scale = AsConfig::Global_Scale;
+	int x, y;
 
-	// 3.3 Cabin
 	// 3.3.1 outer part
 	Platform_Inner_Color.Select(hdc);
 
@@ -1164,10 +1204,6 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	x += scale;
 	y += scale;
 	Ellipse(hdc, x, y, x + 6 * scale - 1, y + 4 * scale - 1);
-
-	SelectClipRgn(hdc, 0);
-	DeleteObject(region);
-
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall * ball)
