@@ -1091,6 +1091,9 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	MoveToEx(hdc, x + 1, y + 1, 0);
 	LineTo(hdc, x + 1, y + 3 * scale + 1);
 
+	// 1.3 Left tail
+	Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
+
 	// 2. Right wing
 	Platform_Circle_Color.Select_Pen(hdc);
 
@@ -1110,6 +1113,9 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	MoveToEx(hdc, x + 1, y + 1, 0);
 	LineTo(hdc, x + 1, y + 3 * scale + 1);
+
+	// 2.3 Right tail
+	Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
 
 	// 3. Middle part
 	// 3.1 Left leg
