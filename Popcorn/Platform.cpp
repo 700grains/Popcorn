@@ -88,7 +88,7 @@ AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Laser_Transofrmation_Step (0), 
 Last_Redraw_Timer_Tick (0), Speed (0.0), Glue_Spot_Height_Ratio (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
 Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
-Truss_Color(Platform_Inner_Color, AsConfig::Global_Scale)
+Truss_Color(Platform_Inner_Color, AsConfig::Global_Scale), Gun_Color (Highlight_Color, AsConfig::Global_Scale)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Normal_Width) / 2;
 }
@@ -1083,6 +1083,13 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	y += 1 * scale;
 	Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
 
+	// 1.2 Left gun
+	Gun_Color.Select(hdc);
+	x = (int)( (X_Pos + 3.0) * d_scale);
+	y = AsConfig::Platform_Y_Pos * scale;
+
+	MoveToEx(hdc, x + 1, y + 1, 0);
+	LineTo(hdc, x + 1, y + 3 * scale + 1);
 
 	// 2. Right wing
 	Platform_Circle_Color.Select_Pen(hdc);
@@ -1095,6 +1102,14 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	x -= 5 * scale;
 	y += 1 * scale;
 	Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
+
+	// 2.2 Right gun
+	Gun_Color.Select(hdc);
+	x = (int)(X_Pos * d_scale) + (Normal_Width - 4) * scale;
+	y = AsConfig::Platform_Y_Pos * scale;
+
+	MoveToEx(hdc, x + 1, y + 1, 0);
+	LineTo(hdc, x + 1, y + 3 * scale + 1);
 
 	// 3. Middle part
 	// 3.1 Left leg
