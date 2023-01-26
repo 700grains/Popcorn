@@ -1113,6 +1113,19 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	Rectangle(hdc, x, y, x - (2 * scale - 1), y + 4 * scale - 1);
 
+	// 3.3 Cabin
+	// 3.3.1 outer part
+	Platform_Inner_Color.Select(hdc);
+
+	x = (int)((X_Pos + 9.0) * d_scale);
+	y = (AsConfig::Platform_Y_Pos - 1) * scale;
+
+	Ellipse(hdc, x, y, x + 10 * scale - 1, y + 8 * scale - 1);
+
+	AsConfig::BG_Color.Select(hdc);
+	x += scale;
+	
+	Ellipse(hdc, x, y, x + 8 * scale - 1, y + 6 * scale - 1);
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
