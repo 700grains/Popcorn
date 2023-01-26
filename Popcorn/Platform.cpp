@@ -1077,11 +1077,11 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	// 2. Right wing
 	Draw_Laser_Wing(hdc, false);
 
-	// 3. Middle part
-	Draw_Laser_Middle_Part(hdc);
+	//// 3. Middle part
+	//Draw_Laser_Middle_Part(hdc);
 
-	// 3.3 Cabin
-	Draw_Laser_Cabin(hdc);
+	//// 3.3 Cabin
+	//Draw_Laser_Cabin(hdc);
 
 
 	SelectClipRgn(hdc, 0);
@@ -1095,6 +1095,7 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	int x, y;
 	int x_offset;
 	double ratio = (double)Laser_Transofrmation_Step / (double)Max_Laser_Transofrmation_Step;
+	int Height;
 
 	// 1. Left wing
 	Platform_Circle_Color.Select(hdc);
@@ -1103,23 +1104,26 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	{
 		x = (int)(X_Pos * d_scale);
 		y = (AsConfig::Platform_Y_Pos + 1) * scale;
-		Ellipse(hdc, x, y, x + 7 * scale - 1, y + 12 * scale - 1);
 
-		// 1.1. Left bridge
-		x += 5 * scale;
-		y += 1 * scale;
-		Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
+		// Changing size from 7x7 to 7x12 pixels
+		Height = (7.0 + 5.0 * ratio) * d_scale;
+		Ellipse(hdc, x, y, x + 7 * scale - 1, y + Height - 1);
 
-		// 1.2 Left gun
-		Gun_Color.Select(hdc);
-		x = (int)((X_Pos + 3.0) * d_scale);
-		y = AsConfig::Platform_Y_Pos * scale;
+		//// 1.1. Left bridge
+		//x += 5 * scale;
+		//y += 1 * scale;
+		//Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
 
-		MoveToEx(hdc, x + 1, y + 1, 0);
-		LineTo(hdc, x + 1, y + 3 * scale + 1);
+		//// 1.2 Left gun
+		//Gun_Color.Select(hdc);
+		//x = (int)((X_Pos + 3.0) * d_scale);
+		//y = AsConfig::Platform_Y_Pos * scale;
 
-		// 1.3 Left tail
-		Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
+		//MoveToEx(hdc, x + 1, y + 1, 0);
+		//LineTo(hdc, x + 1, y + 3 * scale + 1);
+
+		//// 1.3 Left tail
+		//Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
 	}
 	else
 	{
@@ -1129,22 +1133,23 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 		y = (AsConfig::Platform_Y_Pos + 1) * scale;
 		Ellipse(hdc, x, y, x - (7 * scale - 1), y + 12 * scale - 1);
 
-		// 2.1. Right bridge
-		x -= 5 * scale;
-		y += 1 * scale;
-		Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
+		//// 2.1. Right bridge
+		//x -= 5 * scale;
+		//y += 1 * scale;
+		//Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
 
-		// 2.2 Right gun
-		Gun_Color.Select(hdc);
-		x = (int)(X_Pos * d_scale) + (Normal_Width - 4) * scale;
-		y = AsConfig::Platform_Y_Pos * scale;
+		//// 2.2 Right gun
+		//Gun_Color.Select(hdc);
+		//x = (int)(X_Pos * d_scale) + (Normal_Width - 4) * scale;
+		//y = AsConfig::Platform_Y_Pos * scale;
 
-		MoveToEx(hdc, x + 1, y + 1, 0);
-		LineTo(hdc, x + 1, y + 3 * scale + 1);
+		//MoveToEx(hdc, x + 1, y + 1, 0);
+		//LineTo(hdc, x + 1, y + 3 * scale + 1);
 
-		// 2.3 Right tail
-		Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
+		//// 2.3 Right tail
+		//Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
 	}
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Laser_Middle_Part(HDC hdc)
