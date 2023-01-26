@@ -1146,8 +1146,6 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	Polygon(hdc, right_leg_points, 7);
 
-
-
 	// 3.3 Cabin
 	// 3.3.1 outer part
 	Platform_Inner_Color.Select(hdc);
@@ -1159,25 +1157,13 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	// 3.3.2 middle ring
 	AsConfig::BG_Color.Select(hdc);
 	x += scale;
-	y += scale;
 	Ellipse(hdc, x, y, x + 8 * scale - 1, y + 6 * scale - 1);
 
 	// 3.3.3. Inner part
 	AsConfig::White_Color.Select(hdc);
 	x += scale;
+	y += scale;
 	Ellipse(hdc, x, y, x + 6 * scale - 1, y + 4 * scale - 1);
-
-
-
-
-
-
-
-
-
-
-
-
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
