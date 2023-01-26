@@ -1072,7 +1072,7 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	SelectClipRgn(hdc, region);
 
 	// 1. Left wing
-	Platform_Circle_Color.Select_Pen(hdc);
+	Platform_Circle_Color.Select(hdc);
 
 	x = (int)(X_Pos * d_scale);
 	y = (AsConfig::Platform_Y_Pos + 1) * scale;
@@ -1095,7 +1095,7 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	Ellipse(hdc, x - scale, y + 5 * scale + 1, x + 2 * scale - 1, y + 11 * scale);
 
 	// 2. Right wing
-	Platform_Circle_Color.Select_Pen(hdc);
+	Platform_Circle_Color.Select(hdc);
 
 	x = (int)(X_Pos * d_scale) + Normal_Width * scale - 1;
 	y = (AsConfig::Platform_Y_Pos + 1) * scale;
@@ -1119,7 +1119,7 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	// 3. Middle part
 	// 3.1 Left leg
-	Platform_Inner_Color.Select_Pen(hdc);
+	Platform_Inner_Color.Select(hdc);
 
 	x = (int)((X_Pos + 6.0) * d_scale);
 	y = (AsConfig::Platform_Y_Pos + 3) * scale;
