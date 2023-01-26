@@ -1062,6 +1062,13 @@ void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 {// Draw laser platform
+	HRGN region;
+
+	region = CreateRectRgnIndirect(&Platform_Rect);
+	SelectClipRgn(hdc, region);
+
+	SelectClipRgn(hdc, 0);
+	DeleteObject(region);
 
 }
 //------------------------------------------------------------------------------------------------------------
