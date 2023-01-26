@@ -1075,7 +1075,7 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	Draw_Laser_Wing(hdc, true);
 	
 	// 2. Right wing
-	Draw_Laser_Wing(hdc, false);
+	//Draw_Laser_Wing(hdc, false);
 
 	//// 3. Middle part
 	//Draw_Laser_Middle_Part(hdc);
@@ -1095,7 +1095,7 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	int x, y;
 	int x_offset;
 	double ratio = (double)Laser_Transofrmation_Step / (double)Max_Laser_Transofrmation_Step;
-	int Height;
+	int width, height;
 
 	// 1. Left wing
 AsConfig::BG_Color.Select(hdc);
@@ -1107,13 +1107,26 @@ AsConfig::BG_Color.Select(hdc);
 		y = (AsConfig::Platform_Y_Pos + 1) * scale;
 
 		// Changing size from 7x7 to 7x12 pixels
-		Height = (7.0 + 5.0 * ratio) * d_scale;
-		Ellipse(hdc, x, y, x + 7 * scale - 1, y + Height - 1);
+		height = (7.0 + 5.0 * ratio) * d_scale;
+		Ellipse(hdc, x, y, x + 7 * scale - 1, y + height - 1);
 
-		// 1.1. Left bridge
-		x += 5 * scale;
-		y += 1 * scale;
-		Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
+		//// 1.1. Left bridge
+		//// Position: (3:6) -> (5 : 2)
+		//// Size should change from 1x1 to 6x5 pixels
+
+		x = (int)(X_Pos * d_scale);
+		x += 3 * scale;
+
+		y = AsConfig::Platform_Y_Pos * scale;
+		y += 6 * scale;
+		width = scale;
+		height = scale;
+
+		Rectangle(hdc, x, y, x + width - 1, y + height - 1);
+
+		//x += 5 * scale;
+		//y += 1 * scale;
+		//Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
 
 		//// 1.2 Left gun
 		//Gun_Color.Select(hdc);
@@ -1134,10 +1147,22 @@ AsConfig::BG_Color.Select(hdc);
 		y = (AsConfig::Platform_Y_Pos + 1) * scale;
 		Ellipse(hdc, x, y, x - (7 * scale - 1), y + 12 * scale - 1);
 
-		// 2.1. Right bridge
-		x -= 5 * scale;
-		y += 1 * scale;
-		Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
+		//// 2.1. Right bridge]
+
+		x = (int)(X_Pos * d_scale);
+		x += 5 * scale;
+
+		y = AsConfig::Platform_Y_Pos * scale;
+		y += 2 * scale;
+		width = 6 * scale;
+		height = 5 * scale;
+
+		Rectangle(hdc, x, y, x + width - 1, y + height - 1);
+
+
+		//x -= 5 * scale;
+		//y += 1 * scale;
+		//Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
 
 		//// 2.2 Right gun
 		//Gun_Color.Select(hdc);
