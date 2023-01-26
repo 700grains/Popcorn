@@ -1135,10 +1135,25 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	y = (AsConfig::Platform_Y_Pos - 1) * scale;
 	Ellipse(hdc, x, y, x + 10 * scale - 1, y + 8 * scale - 1);
 
-	// 3.3.2 middle part
+	// 3.3.2 middle ring
 	AsConfig::BG_Color.Select(hdc);
 	x += scale;
+	y += scale;
 	Ellipse(hdc, x, y, x + 8 * scale - 1, y + 6 * scale - 1);
+
+	// 3.3.3. Inner part
+	AsConfig::White_Color.Select(hdc);
+	x += scale;
+	Ellipse(hdc, x, y, x + 6 * scale - 1, y + 4 * scale - 1);
+
+
+
+
+
+
+
+
+
 
 
 
