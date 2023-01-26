@@ -1073,7 +1073,7 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	// 1. Left wing
 	x = (int)(X_Pos * d_scale);
-	y = AsConfig::Platform_Y_Pos * scale;
+	y = (AsConfig::Platform_Y_Pos + 1) * scale;
 
 	Platform_Circle_Color.Select_Pen(hdc);
 
@@ -1081,13 +1081,13 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	// 1.1. Left bridge
 	x += 5 * scale;
-	y += 2 * scale;
+	y += 1 * scale;
 	Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
 
 
 	// 2. Right wing
 	x = (int)(X_Pos * d_scale) + Normal_Width * scale - 1;
-	y = AsConfig::Platform_Y_Pos * scale;
+	y = (AsConfig::Platform_Y_Pos + 1) * scale;
 
 	Platform_Circle_Color.Select_Pen(hdc);
 
@@ -1095,7 +1095,7 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	// 2.1. Right bridge
 	x -= 5 * scale;
-	y += 2 * scale;
+	y += 1 * scale;
 	Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
 
 	SelectClipRgn(hdc, 0);
