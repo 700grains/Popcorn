@@ -568,7 +568,7 @@ void AsPlatform::Act_For_Rolling_State()
 
 		if (X_Pos <= Roll_In_Platform_End_X_Pos)
 		{
-			X_Pos += Rolling_Platform_Speed;
+			X_Pos = Roll_In_Platform_End_X_Pos;
 			Platform_State.RollIng = EPlatform_Substate_RollIng::Expand_Roll_In;
 			Inner_Width = 1;
 		}
