@@ -1098,7 +1098,8 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	int Height;
 
 	// 1. Left wing
-	Platform_Circle_Color.Select(hdc);
+AsConfig::BG_Color.Select(hdc);
+	Platform_Circle_Color.Select_Pen(hdc);
 
 	if (is_left)
 	{
@@ -1109,10 +1110,10 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 		Height = (7.0 + 5.0 * ratio) * d_scale;
 		Ellipse(hdc, x, y, x + 7 * scale - 1, y + Height - 1);
 
-		//// 1.1. Left bridge
-		//x += 5 * scale;
-		//y += 1 * scale;
-		//Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
+		// 1.1. Left bridge
+		x += 5 * scale;
+		y += 1 * scale;
+		Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
 
 		//// 1.2 Left gun
 		//Gun_Color.Select(hdc);
@@ -1127,16 +1128,16 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	}
 	else
 	{
-		Platform_Circle_Color.Select(hdc);
+		Platform_Circle_Color.Select_Pen(hdc);
 
 		x = (int)(X_Pos * d_scale) + Normal_Width * scale - 1;
 		y = (AsConfig::Platform_Y_Pos + 1) * scale;
 		Ellipse(hdc, x, y, x - (7 * scale - 1), y + 12 * scale - 1);
 
-		//// 2.1. Right bridge
-		//x -= 5 * scale;
-		//y += 1 * scale;
-		//Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
+		// 2.1. Right bridge
+		x -= 5 * scale;
+		y += 1 * scale;
+		Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
 
 		//// 2.2 Right gun
 		//Gun_Color.Select(hdc);

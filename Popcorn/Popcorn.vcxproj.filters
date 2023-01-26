@@ -63,9 +63,6 @@
     <ClInclude Include="Level.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="Config.h">
-      <Filter>Config</Filter>
-    </ClInclude>
     <ClInclude Include="Ball.h">
       <Filter>Ball</Filter>
     </ClInclude>
@@ -83,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="Ball_Set.h">
       <Filter>Ball_Set</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
