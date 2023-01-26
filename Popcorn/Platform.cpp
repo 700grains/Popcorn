@@ -1094,6 +1094,7 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	const int scale = AsConfig::Global_Scale;
 	int x, y;
 	int x_offset;
+	double ratio = (double)Laser_Transofrmation_Step / (double)Max_Laser_Transofrmation_Step;
 
 	// 1. Left wing
 	Platform_Circle_Color.Select(hdc);
