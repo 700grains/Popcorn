@@ -1098,6 +1098,22 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	y += 1 * scale;
 	Rectangle(hdc, x, y, x - (6 * scale - 1), y + 5 * scale - 1);
 
+	// 3. Middle part
+	// 3.1 Left leg
+	Platform_Inner_Color.Select_Pen(hdc);
+
+	x = (int)((X_Pos + 6.0) * d_scale);
+	y = (AsConfig::Platform_Y_Pos + 3) * scale;
+
+	Rectangle(hdc, x, y, x + 2 * scale - 1, y + 4 * scale - 1);
+
+	// 3.2 Right leg
+	x = (int)((X_Pos * d_scale) + (Normal_Width - 6) * scale - 1);
+	y = (AsConfig::Platform_Y_Pos + 3) * scale;
+
+	Rectangle(hdc, x, y, x - (2 * scale - 1), y + 4 * scale - 1);
+
+
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
 
