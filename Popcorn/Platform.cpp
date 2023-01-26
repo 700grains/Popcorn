@@ -1115,7 +1115,17 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	// 3.2 Right leg
 	x = (int)((X_Pos * d_scale) + (Normal_Width - 6) * scale - 1);
 	y = (AsConfig::Platform_Y_Pos + 3) * scale;
-	Rectangle(hdc, x, y, x - (2 * scale - 1), y + 4 * scale - 1);
+	// Rectangle(hdc, x, y, x - (2 * scale - 1), y + 4 * scale - 1);
+
+	POINT right_leg_points[7] =
+	{
+		{x, y}, {x - 2 * scale, y - 2 * scale}, {x - 4 * scale, y - 2 * scale}, {x - 4 * scale, y},
+		{x - 2 * scale, y + 2 * scale}, {x - 2 * scale, y + 4 * scale}, {x, y + 4 * scale}
+	};
+
+	Polygon(hdc, right_leg_points, 7);
+
+
 
 	// 3.3 Cabin
 	// 3.3.1 outer part
