@@ -1062,10 +1062,22 @@ void AsPlatform::Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 {// Draw laser platform
+	const double d_scale = AsConfig::D_Global_Scale;
+	const int scale = AsConfig::Global_Scale;
+	int x, y;
+
 	HRGN region;
 
 	region = CreateRectRgnIndirect(&Platform_Rect);
 	SelectClipRgn(hdc, region);
+
+	// 1. Left wing
+	x = (int)(X_Pos * d_scale);
+	y = AsConfig::Platform_Y_Pos * scale;
+
+	Platform_Circle_Color.Select(hdc);
+
+	Ellipse(hdc, x, y, x + 7 * scale - 1, y + 12 * scale - 1);
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
