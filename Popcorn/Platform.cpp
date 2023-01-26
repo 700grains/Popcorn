@@ -1079,10 +1079,24 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 
 	Ellipse(hdc, x, y, x + 7 * scale - 1, y + 12 * scale - 1);
 
-	// 1.1. Bridge
+	// 1.1. Left bridge
 	x += 5 * scale;
 	y += 2 * scale;
-	Rectangle(hdc, x, y, x + 8 * scale - 1, y + 5 * scale - 1);
+	Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
+
+
+	// 2. Right wing
+	x = (int)(X_Pos * d_scale) + (Normal_Width - 7) * scale;
+	y = AsConfig::Platform_Y_Pos * scale;
+
+	Platform_Circle_Color.Select_Pen(hdc);
+
+	Ellipse(hdc, x, y, x + 7 * scale - 1, y + 12 * scale - 1);
+
+	// 2.1. Right bridge
+	x -= 4 * scale;
+	y += 2 * scale;
+	Rectangle(hdc, x, y, x + 6 * scale - 1, y + 5 * scale - 1);
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
