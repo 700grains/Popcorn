@@ -337,52 +337,70 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 
 	case EPlatform_State::Glue:
-		if (Platform_State != EPlatform_State::Regular)
-		{
-			Platform_State.Set_Next_State(new_state);
-			return;
-		}
-
-		if (Platform_State.Glue == EPlatform_Substate_Glue::Finalize)
+		if (Set_Transformation_State(new_state, Platform_State.Glue))
 			return;
 		else
-		{
-			Platform_State.Glue = EPlatform_Substate_Glue::Init;
-
 			Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
-		}
+
+		//if (Platform_State != EPlatform_State::Regular)
+		//{
+		//	Platform_State.Set_Next_State(new_state);
+		//	return;
+		//}
+
+		//if (Platform_State.Glue == EPlatform_Transformation::Finalize)
+		//	return;
+		//else
+		//{
+		//	Platform_State.Glue = EPlatform_Transformation::Init;
+
+		//	Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
+		//}
 		break;
 
 	case EPlatform_State::Expanding:
-		if (Platform_State != EPlatform_State::Regular)
-		{
-			Platform_State.Set_Next_State(new_state);
-			return;
-		}
-
-		if (Platform_State.Expanding == EPlatform_Substate_Expanding::Finalize)
+		if (Set_Transformation_State(new_state, Platform_State.Expanding))
 			return;
 		else
-		{
-			Platform_State.Expanding = EPlatform_Substate_Expanding::Init;
 			Expanding_Platform_Width = Min_Expanding_Platform_Width;
-		}
+
+
+		//if (Platform_State != EPlatform_State::Regular)
+		//{
+		//	Platform_State.Set_Next_State(new_state);
+		//	return;
+		//}
+
+		//if (Platform_State.Expanding == EPlatform_Transformation::Finalize)
+		//	return;
+		//else
+		//{
+		//	Platform_State.Expanding = EPlatform_Transformation::Init;
+		//	Expanding_Platform_Width = Min_Expanding_Platform_Width;
+		//}
 		break;
 
 	case EPlatform_State::Laser:
-		if (Platform_State != EPlatform_State::Regular)
-		{
-			Platform_State.Set_Next_State(new_state);
-			return;
-		}
-
-		if (Platform_State.Laser == EPlatform_Substate_Laser::Finalize)
+		if (Set_Transformation_State(new_state, Platform_State.Laser))
 			return;
 		else
-		{
-			Platform_State.Laser = EPlatform_Substate_Laser::Init;
 			Laser_Transformation_Step = 0;
-		}
+
+
+
+		//if (Platform_State != EPlatform_State::Regular)
+		//{
+		//	Platform_State.Set_Next_State(new_state);
+		//	return;
+		//}
+
+		//if (Platform_State.Laser == EPlatform_Transformation::Finalize)
+		//	return;
+		//else
+		//{
+		//	Platform_State.Laser = EPlatform_Transformation::Init;
+		//	Laser_Transformation_Step = 0;
+		//}
 
 		break;
 	}
@@ -538,6 +556,23 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 double AsPlatform::Get_Middle_Pos()
 {
 	return X_Pos + Get_Current_Width() / 2.0;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsPlatform::Set_Transformation_State(EPlatform_State new_state, EPlatform_Transformation& transformation_state)
+{
+	if (Platform_State != EPlatform_State::Regular)
+	{
+		Platform_State.Set_Next_State(new_state);
+		return true;
+	}
+
+	if (transformation_state == EPlatform_Transformation::Finalize)
+		return true;
+	else
+	{
+		transformation_state = EPlatform_Transformation::Init;
+		return false;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Meltdown_State()
