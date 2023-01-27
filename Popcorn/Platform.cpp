@@ -66,14 +66,14 @@ EPlatform_State AsPlatform_State::Get_Next_State()
 	return Next_State;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_State::Set_State(EPlatform_Substate_Regular new_regular_state)
+EPlatform_State AsPlatform_State::Set_State(EPlatform_Substate_Regular new_regular_state)
 {
-	EPlatform_State next_state;
+	//EPlatform_State next_state;
 
 	EPlatform_Transformation* transformation_state = nullptr;
 
 	if (Current_State == EPlatform_State::Regular && Regular == new_regular_state)
-		return;
+		return EPlatform_State::Unknown;
 
 	if (new_regular_state == EPlatform_Substate_Regular::Normal)
 	{
@@ -97,19 +97,22 @@ void AsPlatform_State::Set_State(EPlatform_Substate_Regular new_regular_state)
 			if (*transformation_state == EPlatform_Transformation::Unknown)
 			{ // State finalization finished
 
-				next_state = Set_Next_Or_Regular_State(new_regular_state);
-				if (next_state != EPlatform_State::Unknown)
-					Set_State(next_state);
+				return Set_Next_Or_Regular_State(new_regular_state);
+
+				//if (next_state != EPlatform_State::Unknown)
+				//	
 			}
 			else
 				*transformation_state = EPlatform_Transformation::Finalize; // We start the finalization of the state
 
-			return;
+			return EPlatform_State::Unknown;
 		}
 	}
 
 	Current_State = EPlatform_State::Regular;
 	Regular = new_regular_state;
+
+	return EPlatform_State::Unknown;
 }
 //------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform_State::Set_Next_Or_Regular_State(EPlatform_Substate_Regular new_regular_state)
@@ -526,6 +529,16 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		break;
 	}
 		Platform_State = new_state;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
+{
+	EPlatform_State next_state;
+	
+	next_state = Platform_State.Set_State(new_regular_state);
+
+	if (next_state != EPlatform_State::Unknown)
+		Set_State(next_state);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Has_State(EPlatform_Substate_Regular regular_state)
