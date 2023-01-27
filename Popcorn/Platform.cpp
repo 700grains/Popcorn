@@ -431,13 +431,15 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 			break;
 		}
 
-		if (*transformation_state == EPlatform_Transformation::Unknown)
-			Set_Next_Or_Regular_State(new_regular_state); // State finalization finished
-		else
-			*transformation_state = EPlatform_Transformation::Finalize; // We start the finalization of the state
+		if (transformation_state != nullptr)
+		{
+			if (*transformation_state == EPlatform_Transformation::Unknown)
+				Set_Next_Or_Regular_State(new_regular_state); // State finalization finished
+			else
+				*transformation_state = EPlatform_Transformation::Finalize; // We start the finalization of the state
 
-		return;
-
+			return;
+		}
 		//	switch (Platform_State)
 		//	{
 		//	case EPlatform_State::Glue:
@@ -1134,7 +1136,7 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	Draw_Laser_Wing(hdc, true);
 	
 	// 2. Right wing
-	//Draw_Laser_Wing(hdc, false);
+	Draw_Laser_Wing(hdc, false);
 
 	
 
