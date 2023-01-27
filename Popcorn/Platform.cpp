@@ -136,8 +136,8 @@ EPlatform_State AsPlatform_State::Set_Next_Or_Regular_State(EPlatform_Substate_R
 
 // AsPlatform_Glue
 //------------------------------------------------------------------------------------------------------------
-AsPlatform_Glue::AsPlatform_Glue()
-	: Glue_Spot_Height_Ratio(0.0)
+AsPlatform_Glue::AsPlatform_Glue(AsPlatform_State& platform_state)
+	: Glue_Spot_Height_Ratio(0.0), Platform_State(&platform_state)
 {
 
 }
@@ -171,7 +171,7 @@ bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state, A
 		else
 		{
 			glue_state = EPlatform_Transformation::Unknown;
-			Set_State(EPlatform_Substate_Regular::Normal);
+			Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
 		//Redraw_Platform();
