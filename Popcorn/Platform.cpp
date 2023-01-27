@@ -78,7 +78,7 @@ AsPlatform_Glue::AsPlatform_Glue()
 
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state)
+bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state)
 {
 	switch (glue_state)
 	{
@@ -88,8 +88,9 @@ void AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state)
 		else
 			glue_state = EPlatform_Transformation::Active;
 
-		Redraw_Platform();
-		break;
+		//Redraw_Platform();
+		//break;
+		return true;
 
 	case EPlatform_Transformation::Active:
 		break;
@@ -109,12 +110,15 @@ void AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state)
 			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
-		Redraw_Platform();
-		break;
+		//Redraw_Platform();
+		//break;
+		return true;
 
 	default:
 		AsConfig::Throw();
 	}
+
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -303,7 +307,8 @@ void AsPlatform::Act()
 		break;
 
 	case EPlatform_State::Glue:
-		Platform_Glue.Act_For_Glue_State(Platform_State.Glue);
+		if (Platform_Glue.Act_For_Glue_State(Platform_State.Glue) )
+			Redraw_Platform();
 		break;
 
 	case EPlatform_State::Expanding:
