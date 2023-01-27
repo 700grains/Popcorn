@@ -90,9 +90,7 @@ void AActive_Brick_Red_Blue::Draw(HDC hdc, RECT& paint_area)
 	}
 
 	if (color != 0)
-	{
 		color->Select(hdc);
-	}
 
 	AsConfig::Round_Rect(hdc, Brick_Rect);
 }
@@ -194,7 +192,7 @@ void AActive_Brick_Unbreakable::Draw(HDC hdc, RECT& paint_area)
 	const int scale = AsConfig::Global_Scale;
 
 	Draw_In_Level(hdc, Brick_Rect);
-		
+
 	SelectClipRgn(hdc, Region);
 
 	offset = 2 * Animation_Step * scale - AsConfig::Brick_Width * scale;
@@ -236,7 +234,7 @@ AActive_Brick_Multihit::~AActive_Brick_Multihit()
 }
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Multihit::AActive_Brick_Multihit(int level_x, int level_y)
-	: AActive_Brick(EBT_Multihit_1, level_x, level_y), Rotation_Step(0)
+: AActive_Brick(EBT_Multihit_1, level_x, level_y), Rotation_Step(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -262,14 +260,14 @@ void AActive_Brick_Multihit::Draw(HDC hdc, RECT& paint_area)
 
 	// 2. Drawing matrix of the turn
 	step = Rotation_Step % Steps_Per_Turn;
-	rotation_angle = M_PI_4 / 2 * (double)step;
+	rotation_angle = M_PI_4 / 2.0 * (double)step;
 	x_ratio = cos(rotation_angle);
 
 	xform.eM11 = x_ratio;
 	xform.eM12 = 0.0f;
 	xform.eM21 = 0.0f;
 	xform.eM22 = 1.0f;
-	xform.eDx = (float)Brick_Rect.left + (1.0 - x_ratio) * (float)(AsConfig::Brick_Width * AsConfig::Global_Scale) / 2.0;
+	xform.eDx = (float)Brick_Rect.left + (float)(1.0 - x_ratio) * (float)(AsConfig::Brick_Width * AsConfig::Global_Scale) / 2.0f;
 	xform.eDy = (float)Brick_Rect.top;
 	GetWorldTransform(hdc, &old_xform);
 	SetWorldTransform(hdc, &xform);
@@ -580,14 +578,14 @@ void AAdvertisement::Act()
 			}
 	// 2. Move the ball.
 	Falling_Speed += Acceleration_Step;
-	Ball_Y_Offset = High_Ball_Treshold - (int)(Falling_Speed * Falling_Speed);
+	Ball_Y_Offset = High_Ball_Threshold - (int)(Falling_Speed * Falling_Speed);
 
-	if (Ball_Y_Offset <= Low_Ball_Treshold + Deformation_Height)
-		Deformation_Ratio = (double) (Ball_Y_Offset - Low_Ball_Treshold) / (double) Deformation_Height;
+	if (Ball_Y_Offset <= Low_Ball_Threshold + Deformation_Height)
+		Deformation_Ratio = (double) (Ball_Y_Offset - Low_Ball_Threshold) / (double) Deformation_Height;
 	else
 		Deformation_Ratio = 1.0;
 
-	if (Ball_Y_Offset > High_Ball_Treshold || Ball_Y_Offset < Low_Ball_Treshold)
+	if (Ball_Y_Offset > High_Ball_Threshold || Ball_Y_Offset < Low_Ball_Threshold)
 		Acceleration_Step = -Acceleration_Step;
 }
 //------------------------------------------------------------------------------------------------------------

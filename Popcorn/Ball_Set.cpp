@@ -107,13 +107,13 @@ bool AsBall_Set::Release_Next_Ball()
 void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 {
 	int i;
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < 1; i++)
 	{
 		Balls[i].Set_State(EBS_Normal);
 		Balls[i].Set_State(EBS_On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 	}
 
-	for (i = 1; i < AsConfig::Max_Balls_Count; i++)
+	for (; i < AsConfig::Max_Balls_Count; i++)
 		Balls[i].Set_State(EBS_Disabled);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ void AsBall_Set::Set_For_Test()
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::Is_Test_Finished()
 {
-	return (Balls[0].Is_Test_Finished()); // only ball number 0 used for tests
+	return Balls[0].Is_Test_Finished(); // only ball number 0 used for tests
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Triple_Balls()

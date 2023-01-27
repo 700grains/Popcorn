@@ -78,7 +78,7 @@ void ABall::Finish_Movement()
 		Previous_Parachute_Rect = Parachute_Rect;
 
 		Parachute_Rect.bottom = Ball_Rect.bottom;
-		Parachute_Rect.top = Ball_Rect.bottom - Parachute_Size * AsConfig::Global_Scale;
+		Parachute_Rect.top = Parachute_Rect.bottom - Parachute_Size * AsConfig::Global_Scale;
 
 		Redraw_Parachute();
 	}
@@ -230,9 +230,9 @@ void ABall::Draw_Teleporting(HDC hdc, int step)
 void ABall::Set_For_Test()
 {
 	Testing_Is_Active = true;
-	Rest_Test_Distance = 150.0;
+	Rest_Test_Distance = 50.0;
 
-	Set_State(EBS_Normal, 100 + Test_Iteration, 100);
+	Set_State(EBS_Normal, 130 + Test_Iteration, 90);
 	Ball_Direction = M_PI_4;
 	Ball_Speed = AsConfig::Normal_Ball_Speed;
 
@@ -409,8 +409,8 @@ bool ABall::Is_Moving_Left()
 void ABall::Set_On_Parachute(int brick_x, int brick_y)
 {
 	int scale = AsConfig::Global_Scale;
-	double cell_x = AsConfig::Level_X_Offset + brick_x * AsConfig::Cell_Width;
-	double cell_y = AsConfig::Level_Y_Offset + brick_y * AsConfig::Cell_Height;
+	int cell_x = AsConfig::Level_X_Offset + brick_x * AsConfig::Cell_Width;
+	int cell_y = AsConfig::Level_Y_Offset + brick_y * AsConfig::Cell_Height;
 
 	Ball_Direction = M_PI + M_PI_2;
 	Ball_Speed = 1.0;
@@ -423,8 +423,8 @@ void ABall::Set_On_Parachute(int brick_x, int brick_y)
 
 	Previous_Parachute_Rect = Parachute_Rect;
 
-	Center_X_Pos = (double)(cell_x + AsConfig::Cell_Width / 2) - 1.0 / (double)scale;
-	Center_Y_Pos = (double)(cell_y + Parachute_Size) - ABall::Radius * 2;
+	Center_X_Pos = (double)(cell_x + AsConfig::Cell_Width / 2) - 1.0 / AsConfig::D_Global_Scale;
+	Center_Y_Pos = (double)(cell_y + Parachute_Size) - ABall::Radius * 2.0;
 
 	Redraw_Parachute();
 }
@@ -460,7 +460,7 @@ void ABall::Release()
 //------------------------------------------------------------------------------------------------------------
 void ABall::Add_Hit_Checker(AHit_Checker * hit_checker)
 {
-	if (Hit_Checkers_Count >= sizeof(Hit_Checkers)/sizeof(Hit_Checkers[0]) )
+	if (Hit_Checkers_Count >= sizeof(Hit_Checkers) / sizeof(Hit_Checkers[0]) )
 		return;
 
 	Hit_Checkers[Hit_Checkers_Count++] = hit_checker;
@@ -469,7 +469,7 @@ void ABall::Add_Hit_Checker(AHit_Checker * hit_checker)
 void ABall::Redraw_Ball()
 {
 	Ball_Rect.left = (int)((Center_X_Pos - Radius) * AsConfig::D_Global_Scale);
-	Ball_Rect.top = (int)((Center_Y_Pos - Radius)* AsConfig::D_Global_Scale);
+	Ball_Rect.top = (int)((Center_Y_Pos - Radius) * AsConfig::D_Global_Scale);
 	Ball_Rect.right = (int)((Center_X_Pos + Radius) * AsConfig::D_Global_Scale);
 	Ball_Rect.bottom = (int)((Center_Y_Pos + Radius) * AsConfig::D_Global_Scale);
 
@@ -486,11 +486,12 @@ void ABall::Redraw_Parachute()
 //------------------------------------------------------------------------------------------------------------
 void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 {
-	int scale = AsConfig::Global_Scale;
+	const int scale = AsConfig::Global_Scale;
 	int dome_height = (Parachute_Rect.bottom - Parachute_Rect.top) / 2;
 	int arc_height = 4 * scale;
 	int arc_x;
-	int line_y, ball_center_x, ball_center_y;
+	int line_y;
+	int ball_center_x, ball_center_y;
 	RECT intersection_rect, sub_arc, other_arc;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Parachute_Rect))
@@ -526,8 +527,9 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 	Ellipse(hdc, other_arc.left, other_arc.top, other_arc.right - 1, other_arc.bottom - 1);
 
 	// 2.3 Right
-	sub_arc.left = arc_x + 11 * scale + 1;
-	sub_arc.right = arc_x + 14 * scale + 1;
+	other_arc = sub_arc;
+	other_arc.left = arc_x + 11 * scale + 1;
+	other_arc.right = arc_x + 14 * scale + 1;
 
 	Ellipse(hdc, sub_arc.left, sub_arc.top, sub_arc.right - 1, sub_arc.bottom - 1);
 
@@ -544,10 +546,10 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 	MoveToEx(hdc, Parachute_Rect.left + 3 * scale + 1, line_y, 0);
 	LineTo(hdc, ball_center_x, ball_center_y);
 
-	MoveToEx(hdc, Parachute_Rect.left + 11 * scale + 1, line_y, 0);
+	MoveToEx(hdc, Parachute_Rect.right - 4 * scale + 1, line_y, 0);
 	LineTo(hdc, ball_center_x, ball_center_y);
 
-	MoveToEx(hdc, Parachute_Rect.left + 15 * scale - 1, line_y, 0);
+	MoveToEx(hdc, Parachute_Rect.right, line_y - 1, 0);
 	LineTo(hdc, ball_center_x, ball_center_y);
 
 

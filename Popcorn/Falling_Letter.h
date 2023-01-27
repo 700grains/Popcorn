@@ -42,7 +42,7 @@ public:
 	void Finalize();
 	void Test_Draw_All_Steps(HDC hdc);
 
-	static void init();
+	static void Init();
 	static ELetter_Type Get_Random_Letter_Type();
 
 	const EBrick_Type Brick_Type;

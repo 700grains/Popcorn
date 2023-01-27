@@ -27,7 +27,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Level.Init();
 	Platform.Init(&Ball_Set);
 
-	AFalling_Letter::init();
+	AFalling_Letter::Init();
 
 	ABall::Add_Hit_Checker(&Border);
 	ABall::Add_Hit_Checker(&Level);
@@ -62,20 +62,14 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 	int i;
 
 	SetGraphicsMode(hdc, GM_ADVANCED);
+
 	for (i = 0; i < AsConfig::Max_Modules_Count; i++)
-	{
 		if (Modules[i] != 0)
-		{
 			Modules[i]->Clear(hdc, paint_area);
-		}
-	}
+
 	for (i = 0; i < AsConfig::Max_Modules_Count; i++)
-	{
 		if (Modules[i] != 0)
-		{
 			Modules[i]->Draw(hdc, paint_area);
-		}
-	}
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key(EKey_Type key_type, bool key_down)
@@ -93,7 +87,6 @@ int AsEngine::On_Key(EKey_Type key_type, bool key_down)
 
 
 	case EKT_Space:
-		Platform.Set_State(EPlatform_State::Laser); // !!! To remove
 		Platform.On_Space_Key(key_down);
 		break;
 	}
@@ -144,9 +137,6 @@ int AsEngine::On_Timer()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
 {
-	int  active_balls_count = 0;
-	int  lost_balls_count = 0;
-	//double ball_x, ball_y;
 
 	Advance_Movers();
 	
@@ -165,7 +155,7 @@ void AsEngine::Play_Level()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()
 {
-	int  i = 0;
+	int  i;
 	double current_speed, max_speed = 0.0;
 
 	// 1. Getting maximum speed of moving objects
@@ -192,7 +182,18 @@ void AsEngine::Advance_Movers()
 		//Platform.Advance(max_speed);
 		Rest_Distance -= AsConfig::Moving_Step_Size;
 	}
-	// 3. Finishiing all moves on the frame
+
+
+	//for (i = 0; i < AsConfig::Max_Movers_Count; i++)
+	//{
+	//	Ball_Set.Balls[i].Get_Center(ball_x, ball_y);
+
+	//	if (ball_x >= Platform.X_Pos + 1 && ball_x <= Platform.X_Pos + Platform.Width - 1)
+	//		if (ball_y >= AsConfig::Platform_Y_Pos + 1 && ball_y <= AsConfig::Platform_Y_Pos + 5)
+	//			int yy = 0;
+	//}
+
+	// 3. Заканчиваем все движения на этом кадре
 	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
 		if (Movers[i] != 0)
 			Movers[i]->Finish_Movement();
@@ -239,7 +240,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 
 	case ELT_G: // "Life"
 		if (Life_Count < AsConfig::Max_Life_Count)
-			++Life_Count; /// !!! should be displayed on the indicator
+			++Life_Count; // !!! should be displayed on the indicator
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 

@@ -108,7 +108,7 @@ void AFalling_Letter::Test_Draw_All_Steps(HDC hdc)
 	}
 }
 //------------------------------------------------------------------------------------------------------------ 
-void AFalling_Letter::init()
+void AFalling_Letter::Init()
 {
 	int i;
 	All_Letters_Popularity = 0;
@@ -275,9 +275,9 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 
 			case  ELT_W: // "Wider"
 				Draw_Line(hdc, 4, 1, 4, 6);
+				Draw_Line_To(hdc, 10, 6);
+				Draw_Line_To(hdc, 10, 1);
 				Draw_Line(hdc, 7, 1, 7, 6);
-				Draw_Line(hdc, 10, 1, 10, 6);
-				Draw_Line(hdc, 4, 6, 10, 6);
 				break;
 
 			case ELT_P: // "Floor"

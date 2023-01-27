@@ -152,7 +152,7 @@ void AsBorder::Draw_Floor(HDC hdc, RECT& paint_area)
 		return;
 	
 	strokes_count = (Floor_Rect.right - Floor_Rect.left + AsConfig::Global_Scale) / stroke_len;
-	x_pos = Floor_Rect.left + 6;
+	x_pos = Floor_Rect.left + 1;
 	y_pos = Floor_Rect.top + (Floor_Rect.bottom - Floor_Rect.top) / 2;
 	AsConfig::Letter_Color.Select(hdc);
 

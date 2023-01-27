@@ -234,8 +234,8 @@ V Bricks
 V 1. Ordinary bricks (blue or red)
 V 1.1. Can be with or without letter
 V 1.2. When hitting a brick, it disappears from the level immediately, and if the brick was:
-v 1.2.1. Without a letter - an active brick is created
-v 1.2.2. With a letter - a falling letter is created
+V 1.2.1. Without a letter - an active brick is created
+V 1.2.2. With a letter - a falling letter is created
 
 V 2. Indestructible brick
 V 2.1. On-hit animation
@@ -266,7 +266,7 @@ Actions of letters
 V 1.2. I ("Invert")
 V 1.3. S ("Speed")
 1.4. M ("Monsters")
-1.5. F ("Life")
+V 1.5. F ("Life")
 
 
 2. Complex:

@@ -70,14 +70,14 @@ const AColor AsConfig::Letter_Color(AsConfig::White_Color, AsConfig::Global_Scal
 const AColor AsConfig::Unbreakable_Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
 const AColor AsConfig::Unbreakable_Red_Highlight(AsConfig::Red_Color, 3 * AsConfig::Global_Scale);
 const AColor AsConfig::Teleport_Portal_Color(AsConfig::Blue_Color, AsConfig::BG_Color, AsConfig::Global_Scale);
-const AColor AsConfig::Advertisement_Blue_Table(0, 160, 160, AsConfig::Global_Scale);
+const AColor AsConfig::Advertisement_Blue_Table(0, 159, 159, AsConfig::Global_Scale);
 const AColor AsConfig::Advertisement_Red_Table(AsConfig::Red_Color, 2 * AsConfig::Global_Scale);
 
 HWND AsConfig::Hwnd;
 
 const double AsConfig::D_Global_Scale = (double)Global_Scale;
 const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;
-const double AsConfig::Start_Ball_Y_Pos = 184.3;
+const double AsConfig::Start_Ball_Y_Pos = 184.0;
 const double AsConfig::Ball_Acceleration = 1.001;
 const double AsConfig::Normal_Ball_Speed = 3.0;
 const double AsConfig::Min_Ball_Angle = M_PI / 8.0;
