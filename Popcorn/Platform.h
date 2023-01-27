@@ -91,6 +91,22 @@ private:
 	EPlatform_State Next_State; // We enter this state from AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 };
 //------------------------------------------------------------------------------------------------------------
+class AsPlatform_Glue
+{
+public:
+	AsPlatform_Glue();
+	void Act_For_Glue_State(EPlatform_Transformation &glue_state);
+
+	void Draw_Glue_State(HDC hdc, RECT& paint_area);
+	void Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height);
+
+private:
+	double Glue_Spot_Height_Ratio;
+
+	static const double Max_Glue_Spot_Height_Ratio, Min_Glue_Spot_Height_Ratio, Glue_Spot_Height_Ratio_Step;
+
+};
+//------------------------------------------------------------------------------------------------------------
 class AsPlatform : public AHit_Checker, public AMover, public AGraphics_Object
 {
 public:
@@ -126,7 +142,7 @@ private:
 	bool Set_Transformation_State(EPlatform_State new_state, EPlatform_Transformation& transformation_state);
 	void Act_For_Meltdown_State();
 	void Act_For_Rolling_State();
-	void Act_For_Glue_State();
+	//void Act_For_Glue_State();
 	void Act_For_Expanding_State();
 	void Act_For_Laser_State();
 
@@ -135,8 +151,8 @@ private:
 	void Draw_Meltdown_State(HDC hdc, RECT &paint_area);
 	void Draw_Rolling_State(HDC hdc, RECT& paint_area);
 	void Draw_Roll_In_State(HDC hdc, RECT& paint_area);
-	void Draw_Glue_State(HDC hdc, RECT& paint_area);
-	void Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height);
+	//void Draw_Glue_State(HDC hdc, RECT& paint_area);
+	//void Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height);
 	void Draw_Expanding_State(HDC hdc, RECT& paint_area);
 	void Draw_Expanding_Platform_Ball(HDC hdc, bool is_left);
 	void Draw_Expanding_Truss(HDC hdc, RECT & inner_rect, bool is_left);
@@ -162,9 +178,10 @@ private:
 	int Laser_Transformation_Step;
 	int Last_Redraw_Timer_Tick;
 	double Speed;
-	double Glue_Spot_Height_Ratio;
+	//double glue_spot_height_ratio;
 	double Expanding_Platform_Width;
 	AsBall_Set* Ball_Set;
+	AsPlatform_Glue Platform_Glue;
 
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
 	int* Normal_Platform_Image; // Platform image pixels on window background
@@ -177,7 +194,7 @@ private:
 
 	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color, Truss_Color, Gun_Color;
 
-	static const double Max_Glue_Spot_Height_Ratio, Min_Glue_Spot_Height_Ratio, Glue_Spot_Height_Ratio_Step;
+	//static const double Max_Glue_Spot_Height_Ratio, Min_Glue_Spot_Height_Ratio, Glue_Spot_Height_Ratio_Step;
 	static const double Min_Expanding_Platform_Width, Max_Expanding_Platform_Width, Expanding_Platform_Width_Step;
 	static const int Max_Laser_Transformation_Step = 20;
 	static const int Height = 7;

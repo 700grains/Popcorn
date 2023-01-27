@@ -70,6 +70,105 @@ EPlatform_State AsPlatform_State::Get_Next_State()
 
 
 
+// AsPlatform_Glue
+//------------------------------------------------------------------------------------------------------------
+AsPlatform_Glue::AsPlatform_Glue()
+	: Glue_Spot_Height_Ratio(0.0)
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state)
+{
+	switch (glue_state)
+	{
+	case EPlatform_Transformation::Init:
+		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
+			Glue_Spot_Height_Ratio += Glue_Spot_Height_Ratio_Step;
+		else
+			glue_state = EPlatform_Transformation::Active;
+
+		Redraw_Platform();
+		break;
+
+	case EPlatform_Transformation::Active:
+		break;
+
+	case EPlatform_Transformation::Finalize:
+		if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
+		{
+			Glue_Spot_Height_Ratio -= Glue_Spot_Height_Ratio_Step;
+
+			while (Ball_Set->Release_Next_Ball()) // Can be moved to the "else" so that the balls are released when the glue is completely gone
+			{
+			}
+		}
+		else
+		{
+			glue_state = EPlatform_Transformation::Unknown;
+			Set_State(EPlatform_Substate_Regular::Normal);
+		}
+
+		Redraw_Platform();
+		break;
+
+	default:
+		AsConfig::Throw();
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+
+void AsPlatform_Glue::Draw_Glue_State(HDC hdc, RECT& paint_area)
+{// draw a platform with spreading glue
+
+	HRGN region;
+	RECT glue_rect;
+
+	Draw_Normal_State(hdc, paint_area);
+
+	glue_rect.left = (int)((X_Pos + 5.0) * AsConfig::D_Global_Scale);
+	glue_rect.top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
+	glue_rect.right = glue_rect.left + Normal_Platform_Inner_Width * AsConfig::Global_Scale;
+	glue_rect.bottom = (long)((glue_rect.top + (Height - 2) * AsConfig::D_Global_Scale));
+
+	region = CreateRectRgnIndirect(&glue_rect);
+	SelectClipRgn(hdc, region);
+
+	AsConfig::BG_Color.Select(hdc);
+	Draw_Glue_Spot(hdc, 0, 9, 5);
+	Draw_Glue_Spot(hdc, 6, 6, 5);
+	Draw_Glue_Spot(hdc, 9, 9, 6);
+
+	AsConfig::White_Color.Select(hdc);
+	Draw_Glue_Spot(hdc, 0, 9, 4);
+	Draw_Glue_Spot(hdc, 6, 6, 4);
+	Draw_Glue_Spot(hdc, 9, 9, 5);
+
+	SelectClipRgn(hdc, 0);
+	DeleteObject(region);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform_Glue::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
+{// draw a spot of glue on the platform
+
+	RECT spot_rect;
+	int platform_top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
+	int spot_height = (int)((double)height * AsConfig::D_Global_Scale * Glue_Spot_Height_Ratio);
+
+	// draw a spot of glue
+	spot_rect.left = (int)((X_Pos + 5.0 + (double)x_offset) * AsConfig::D_Global_Scale);
+	spot_rect.top = platform_top - spot_height;
+	spot_rect.right = spot_rect.left + width * AsConfig::Global_Scale;
+	spot_rect.bottom = platform_top + spot_height - AsConfig::Global_Scale;
+
+	Chord(hdc, spot_rect.left, spot_rect.top, spot_rect.right - 1, spot_rect.bottom - 1, spot_rect.left, platform_top - 1, spot_rect.right - 1, platform_top - 1);
+
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AsPlatform
 const double AsPlatform::Max_Glue_Spot_Height_Ratio = 1.0;
 const double AsPlatform::Min_Glue_Spot_Height_Ratio = 0.4;
@@ -204,7 +303,7 @@ void AsPlatform::Act()
 		break;
 
 	case EPlatform_State::Glue:
-		Act_For_Glue_State();
+		Platform_Glue.Act_For_Glue_State(Platform_State.Glue);
 		break;
 
 	case EPlatform_State::Expanding:
@@ -574,45 +673,6 @@ void AsPlatform::Act_For_Rolling_State()
 	Redraw_Platform();
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Act_For_Glue_State()
-{
-	switch (Platform_State.Glue)
-	{
-	case EPlatform_Transformation::Init:
-		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
-			Glue_Spot_Height_Ratio += Glue_Spot_Height_Ratio_Step;
-		else
-			Platform_State.Glue = EPlatform_Transformation::Active;
-
-		Redraw_Platform();
-		break;
-
-	case EPlatform_Transformation::Active:
-		break;
-
-	case EPlatform_Transformation::Finalize:
-		if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
-		{
-			Glue_Spot_Height_Ratio -= Glue_Spot_Height_Ratio_Step;
-
-			while (Ball_Set->Release_Next_Ball()) // Can be moved to the "else" so that the balls are released when the glue is completely gone
-			{
-			}
-		}
-		else
-		{
-			Platform_State.Glue = EPlatform_Transformation::Unknown;
-			Set_State(EPlatform_Substate_Regular::Normal);
-		}
-
-		Redraw_Platform();
-		break;
-
-	default:
-		AsConfig::Throw();
-	}
-}
-//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act_For_Expanding_State()
 {
 	switch (Platform_State.Expanding)
@@ -840,53 +900,6 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 
 	// 3. Highlight
 	Draw_Circle_Highlight(hdc, x, y);
-
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
-{// draw a platform with spreading glue
-
-	HRGN region;
-	RECT glue_rect;
-
-	Draw_Normal_State(hdc, paint_area);
-
-	glue_rect.left = (int)((X_Pos + 5.0) * AsConfig::D_Global_Scale);
-	glue_rect.top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
-	glue_rect.right = glue_rect.left + Normal_Platform_Inner_Width * AsConfig::Global_Scale;
-	glue_rect.bottom = (long)((glue_rect.top + (Height - 2) * AsConfig::D_Global_Scale));
-
-	region = CreateRectRgnIndirect(&glue_rect);
-	SelectClipRgn(hdc, region);
-
-	AsConfig::BG_Color.Select(hdc);
-	Draw_Glue_Spot(hdc, 0, 9, 5);
-	Draw_Glue_Spot(hdc, 6, 6, 5);
-	Draw_Glue_Spot(hdc, 9, 9, 6);
-
-	AsConfig::White_Color.Select(hdc);
-	Draw_Glue_Spot(hdc, 0, 9, 4);
-	Draw_Glue_Spot(hdc, 6, 6, 4);
-	Draw_Glue_Spot(hdc, 9, 9, 5);
-
-	SelectClipRgn(hdc, 0);
-	DeleteObject(region);
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height)
-{// draw a spot of glue on the platform
-
-	RECT spot_rect;
-	int platform_top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
-	int spot_height = (int) ((double) height * AsConfig::D_Global_Scale * Glue_Spot_Height_Ratio);
-
-	// draw a spot of glue
-	spot_rect.left = (int)((X_Pos + 5.0 + (double) x_offset) * AsConfig::D_Global_Scale);
-	spot_rect.top = platform_top - spot_height;
-	spot_rect.right = spot_rect.left + width * AsConfig::Global_Scale;
-	spot_rect.bottom = platform_top + spot_height - AsConfig::Global_Scale;
-
-	Chord(hdc, spot_rect.left, spot_rect.top, spot_rect.right - 1, spot_rect.bottom - 1, spot_rect.left, platform_top - 1, spot_rect.right - 1, platform_top - 1);
 
 }
 //------------------------------------------------------------------------------------------------------------
