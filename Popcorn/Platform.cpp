@@ -78,7 +78,7 @@ AsPlatform_Glue::AsPlatform_Glue()
 
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state)
+bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state, AsBall_Set* ball_set)
 {
 	switch (glue_state)
 	{
@@ -100,7 +100,7 @@ bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state)
 		{
 			Glue_Spot_Height_Ratio -= Glue_Spot_Height_Ratio_Step;
 
-			while (Ball_Set->Release_Next_Ball()) // Can be moved to the "else" so that the balls are released when the glue is completely gone
+			while (ball_set->Release_Next_Ball()) // Can be moved to the "else" so that the balls are released when the glue is completely gone
 			{
 			}
 		}
