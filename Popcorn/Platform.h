@@ -76,6 +76,8 @@ public:
 
 	void Set_Next_State(EPlatform_State next_state);
 	EPlatform_State Get_Next_State();
+	EPlatform_State Set_Next_Or_Regular_State(EPlatform_Substate_Regular new_regular_state);
+
 
 	EPlatform_Substate_Regular Regular;
 	EPlatform_Substate_Meltdown Meltdown;
@@ -168,8 +170,7 @@ private:
 	void Get_Normal_Platform_Image(HDC hdc);
 	double Get_Current_Width();
 	bool Correct_Platform_Pos();
-	void Set_Next_Or_Regular_State(EPlatform_Substate_Regular new_regular_state);
-
+	//EPlatform_State Set_Next_Or_Regular_State(EPlatform_Substate_Regular new_regular_state);
 
 	AsPlatform_State Platform_State;
 	bool Right_Key_Down, Left_Key_Down;

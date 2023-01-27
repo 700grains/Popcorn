@@ -66,6 +66,21 @@ EPlatform_State AsPlatform_State::Get_Next_State()
 	return Next_State;
 }
 //------------------------------------------------------------------------------------------------------------
+EPlatform_State AsPlatform_State::Set_Next_Or_Regular_State(EPlatform_Substate_Regular new_regular_state)
+{// if returned state != Unknown, we have to set this new state
+	EPlatform_State next_state;
+
+	Current_State = EPlatform_State::Regular;
+
+	// If there is a deferred state, then we translate into it, and not into the "Regular"
+	next_state = Get_Next_State();
+
+	if (next_state != EPlatform_State::Unknown)
+		Regular = new_regular_state;
+
+	return next_state;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -307,7 +322,7 @@ void AsPlatform::Act()
 		break;
 
 	case EPlatform_State::Glue:
-		if (Platform_Glue.Act_For_Glue_State(Platform_State.Glue) )
+		if (Platform_Glue.Act_For_Glue_State(Platform_State.Glue, Ball_Set) )
 			Redraw_Platform();
 		break;
 
@@ -469,6 +484,8 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 {
+	EPlatform_State next_state;
+	
 	EPlatform_Transformation* transformation_state = nullptr;
 
 	if (Platform_State == EPlatform_State::Regular && Platform_State.Regular == new_regular_state)
@@ -494,7 +511,12 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 		if (transformation_state != nullptr)
 		{
 			if (*transformation_state == EPlatform_Transformation::Unknown)
-				Set_Next_Or_Regular_State(new_regular_state); // State finalization finished
+			{ // State finalization finished
+
+				next_state = Platform_State.Set_Next_Or_Regular_State(new_regular_state);
+				if (next_state != EPlatform_State::Unknown)
+					Set_State(next_state);
+			}
 			else
 				*transformation_state = EPlatform_Transformation::Finalize; // We start the finalization of the state
 
@@ -1393,20 +1415,5 @@ bool AsPlatform::Correct_Platform_Pos()
 		got_corrected = true;
 	}
 	return got_corrected;
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Set_Next_Or_Regular_State(EPlatform_Substate_Regular new_regular_state)
-{
-	EPlatform_State next_state;
-
-	Platform_State = EPlatform_State::Regular;
-
-	// If there is a deferred state, then we translate into it, and not into the "Regular"
-	next_state = Platform_State.Get_Next_State();
-
-	if (next_state != EPlatform_State::Unknown)
-		Set_State(next_state);
-	else
-		Platform_State.Regular = new_regular_state;
 }
 //------------------------------------------------------------------------------------------------------------
