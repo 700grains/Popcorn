@@ -342,20 +342,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		else
 			Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
 
-		//if (Platform_State != EPlatform_State::Regular)
-		//{
-		//	Platform_State.Set_Next_State(new_state);
-		//	return;
-		//}
-
-		//if (Platform_State.Glue == EPlatform_Transformation::Finalize)
-		//	return;
-		//else
-		//{
-		//	Platform_State.Glue = EPlatform_Transformation::Init;
-
-		//	Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
-		//}
 		break;
 
 	case EPlatform_State::Expanding:
@@ -364,20 +350,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		else
 			Expanding_Platform_Width = Min_Expanding_Platform_Width;
 
-
-		//if (Platform_State != EPlatform_State::Regular)
-		//{
-		//	Platform_State.Set_Next_State(new_state);
-		//	return;
-		//}
-
-		//if (Platform_State.Expanding == EPlatform_Transformation::Finalize)
-		//	return;
-		//else
-		//{
-		//	Platform_State.Expanding = EPlatform_Transformation::Init;
-		//	Expanding_Platform_Width = Min_Expanding_Platform_Width;
-		//}
 		break;
 
 	case EPlatform_State::Laser:
@@ -385,22 +357,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			return;
 		else
 			Laser_Transformation_Step = 0;
-
-
-
-		//if (Platform_State != EPlatform_State::Regular)
-		//{
-		//	Platform_State.Set_Next_State(new_state);
-		//	return;
-		//}
-
-		//if (Platform_State.Laser == EPlatform_Transformation::Finalize)
-		//	return;
-		//else
-		//{
-		//	Platform_State.Laser = EPlatform_Transformation::Init;
-		//	Laser_Transformation_Step = 0;
-		//}
 
 		break;
 	}
@@ -440,41 +396,6 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 
 			return;
 		}
-		//	switch (Platform_State)
-		//	{
-		//	case EPlatform_State::Glue:
-		//		if (Platform_State.Glue == EPlatform_Transformation::Unknown)
-		//	{ // State finalization finished
-		//		Set_Next_Or_Regular_State(new_regular_state);
-		//	}
-		//	else
-		//	{ // We start the finalization of the state
-		//		Platform_State.Glue = EPlatform_Transformation::Finalize;
-		//	}
-		//	return;		
-		//
-		//case EPlatform_State::Expanding:
-		//	if (Platform_State.Expanding == EPlatform_Transformation::Unknown)
-		//	{ // State finalization finished
-		//		Set_Next_Or_Regular_State(new_regular_state);
-		//	}
-		//	else
-		//	{// We start the finalization of the state
-		//		Platform_State.Expanding = EPlatform_Transformation::Finalize;
-		//	}
-		//	return;
-
-		//case EPlatform_State::Laser:
-		//	if (Platform_State.Laser == EPlatform_Transformation::Unknown)
-		//	{ // State finalization finished
-		//		Set_Next_Or_Regular_State(new_regular_state);
-		//	}
-		//	else
-		//	{// We start the finalization of the state
-		//		Platform_State.Laser = EPlatform_Transformation::Finalize;
-		//	}
-		//	return;
-		//}
 	}
 
 	Platform_State = EPlatform_State::Regular;
@@ -997,16 +918,6 @@ void AsPlatform::Draw_Expanding_State(HDC hdc, RECT & paint_area)
 	// 2.2 Truss
 	Draw_Expanding_Truss(hdc, inner_rect, false);
 
-
-	//// 2 right side
-	//rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
-	//rect.top = y * scale;
-	//rect.right = rect.left + Circle_Size * scale;
-	//rect.bottom = (y + Circle_Size) * scale;
-
-	//Platform_Circle_Color.Select(hdc);
-	//Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
-
 	// 3. Draw the middle part
 	Platform_Inner_Color.Select(hdc);
 
@@ -1138,8 +1049,6 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 	// 2. Right wing
 	Draw_Laser_Wing(hdc, false);
 
-	
-
 	// 3. Central part
 	// 3.0. Normal central part
 	Draw_Laser_Inner_Part(hdc);
@@ -1175,15 +1084,13 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	if (! is_left)
 		x += Normal_Width - Circle_Size;
 
-	// 1. Само крыло
+	// 1. The wing
 //AsConfig::BG_Color.Select(hdc);
 	Platform_Circle_Color.Select(hdc);
 
 	Draw_Expanding_Figure(hdc, EFigure_Type::Ellipse, x, y, 7, 7, ratio, x, y + 1, 7, 12);
 
-	// 2. Перемычка
-	// Позиция: (3 : 6) -> (5 : 2)
-	// Размер: 1 x 1 -> 6 x 5
+	// 2. the bridge
 	if (is_left)
 		x_offset = 5;
 	else
@@ -1192,7 +1099,7 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 	Draw_Expanding_Figure(hdc, EFigure_Type::Rectangle, x + 3, y + 6, 1, 1, ratio, x + x_offset, y + 2, 6, 5);
 
 
-	// 3. Пушка
+	// 3. the gun
 	if (Laser_Transformation_Step >= half_max_step)
 	{
 		ratio = (double)(Laser_Transformation_Step - half_max_step) / (double)half_max_step;
@@ -1209,7 +1116,7 @@ void AsPlatform::Draw_Laser_Wing(HDC hdc, bool is_left)
 		MoveToEx(hdc, (int)(x * d_scale + 1.0), (int)(y * d_scale + 3.0 * d_scale + 1.0), 0);
 		LineTo(hdc, (int)(x * d_scale + 1.0), (int)(y * d_scale + height + 1.0) );
 
-		// 4. Хвост
+		// 4. the tail
 		Draw_Expanding_Figure(hdc, EFigure_Type::Ellipse, x + 1, y + 5, 0, 0, ratio, x - 1, y + 5 + 1.0 / d_scale, 3, 6);
 	}
 }
@@ -1233,7 +1140,6 @@ void AsPlatform::Draw_Laser_Leg(HDC hdc, bool is_left)
 
 	double x, y;
 	double x_scale;
-	//const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	double ratio = (double)Laser_Transformation_Step / (double)Max_Laser_Transformation_Step;
 
