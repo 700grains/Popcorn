@@ -854,7 +854,7 @@ void AsPlatform::Draw_Glue_State(HDC hdc, RECT& paint_area)
 	glue_rect.left = (int)((X_Pos + 5.0) * AsConfig::D_Global_Scale);
 	glue_rect.top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
 	glue_rect.right = glue_rect.left + Normal_Platform_Inner_Width * AsConfig::Global_Scale;
-	glue_rect.bottom = (glue_rect.top + (Height - 2) * AsConfig::D_Global_Scale);
+	glue_rect.bottom = (long)((glue_rect.top + (Height - 2) * AsConfig::D_Global_Scale));
 
 	region = CreateRectRgnIndirect(&glue_rect);
 	SelectClipRgn(hdc, region);
@@ -1036,7 +1036,6 @@ void AsPlatform::Draw_Laser_State(HDC hdc, RECT& paint_area)
 {// Draw laser platform
 	const double d_scale = AsConfig::D_Global_Scale;
 	const int scale = AsConfig::Global_Scale;
-	int x, y;
 
 	HRGN region;
 
