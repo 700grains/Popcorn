@@ -188,18 +188,16 @@ bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state, A
 }
 //------------------------------------------------------------------------------------------------------------
 
-void AsPlatform_Glue::Draw_Glue_State(HDC hdc, RECT& paint_area)
+void AsPlatform_Glue::Draw_Glue_State(HDC hdc, double x_pos)
 {// draw a platform with spreading glue
 
 	HRGN region;
 	RECT glue_rect;
 
-	Draw_Normal_State(hdc, paint_area);
-
-	glue_rect.left = (int)((X_Pos + 5.0) * AsConfig::D_Global_Scale);
+	glue_rect.left = (int)((x_pos + 5.0) * AsConfig::D_Global_Scale);
 	glue_rect.top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
-	glue_rect.right = glue_rect.left + Normal_Platform_Inner_Width * AsConfig::Global_Scale;
-	glue_rect.bottom = (long)((glue_rect.top + (Height - 2) * AsConfig::D_Global_Scale));
+	glue_rect.right = glue_rect.left + AsPlatform::Normal_Platform_Inner_Width * AsConfig::Global_Scale;
+	glue_rect.bottom = (long)((glue_rect.top + (AsPlatform::Height - 2) * AsConfig::D_Global_Scale));
 
 	region = CreateRectRgnIndirect(&glue_rect);
 	SelectClipRgn(hdc, region);
@@ -447,7 +445,8 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPlatform_State::Glue:
-		Draw_Glue_State(hdc, paint_area);
+		Draw_Normal_State(hdc, paint_area);
+		Platform_Glue.Draw_Glue_State(hdc);
 		break;
 
 	case EPlatform_State::Expanding:
