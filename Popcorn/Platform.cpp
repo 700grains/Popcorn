@@ -6,7 +6,7 @@
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::AsPlatform_State()
 : Current_State(EPlatform_State::Regular), Next_State (EPlatform_State::Unknown), Regular(EPlatform_Substate_Regular::Missing), Meltdown(EPlatform_Substate_Meltdown::Unknown),
-  Rolling(EPlatform_Substate_Rolling::Unknown), Glue(EPlatform_Substate_Glue::Unknown), Expanding (EPlatform_Substate_Expanding::Unknown), Laser(EPlatform_Substate_Laser::Unknown),
+  Rolling(EPlatform_Substate_Rolling::Unknown), Glue(EPlatform_Transformation::Unknown), Expanding (EPlatform_Transformation::Unknown), Laser(EPlatform_Transformation::Unknown),
 	Moving(EPlatform_Moving_State::Stop)
 {
 
@@ -41,15 +41,15 @@ void AsPlatform_State::Set_Next_State(EPlatform_State next_state)
 		break;
 
 	case EPlatform_State::Glue:
-		Glue = EPlatform_Substate_Glue::Finalize;
+		Glue = EPlatform_Transformation::Finalize;
 		break;	
 	
 	case EPlatform_State::Expanding:
-		Expanding = EPlatform_Substate_Expanding::Finalize;
+		Expanding = EPlatform_Transformation::Finalize;
 		break;
 
 	case EPlatform_State::Laser:
-		Laser = EPlatform_Substate_Laser::Finalize;
+		Laser = EPlatform_Transformation::Finalize;
 		break;
 
 	default:
@@ -134,7 +134,7 @@ _on_hit:
 	if (ball->Get_State() == EBS_On_Parachute)
 		ball->Set_State(EBS_Off_Parachute);
 
-	if (Platform_State == EPlatform_State::Glue && Platform_State.Glue == EPlatform_Substate_Glue::Active)
+	if (Platform_State == EPlatform_State::Glue && Platform_State.Glue == EPlatform_Transformation::Active)
 	{
 		ball->Get_Center(ball_x, ball_y);
 		ball->Set_State(EBS_On_Platform, ball_x, ball_y);
@@ -176,7 +176,7 @@ void AsPlatform::Advance(double max_speed)
 
 	// move glued balls
 	if ( (Platform_State == EPlatform_State::Regular && Platform_State.Regular == EPlatform_Substate_Regular::Ready)
-		|| Platform_State == EPlatform_State::Glue && Platform_State.Glue == EPlatform_Substate_Glue::Active)
+		|| Platform_State == EPlatform_State::Glue && Platform_State.Glue == EPlatform_Transformation::Active)
 	{
 		if (Platform_State.Moving == EPlatform_Moving_State::Moving_Left)
 			Ball_Set->On_Platform_Advance(M_PI, fabs(Speed), max_speed);
