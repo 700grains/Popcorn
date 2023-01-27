@@ -142,9 +142,11 @@ AsPlatform_Glue::AsPlatform_Glue(AsPlatform_State& platform_state)
 
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state, AsBall_Set* ball_set)
+bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state, AsBall_Set* ball_set, EPlatform_State& next_state)
 {
-	switch (glue_state)
+	next_state = EPlatform_State::Unknown;
+
+		switch (glue_state)
 	{
 	case EPlatform_Transformation::Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
@@ -171,7 +173,7 @@ bool AsPlatform_Glue::Act_For_Glue_State(EPlatform_Transformation& glue_state, A
 		else
 		{
 			glue_state = EPlatform_Transformation::Unknown;
-			Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
+			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
 		//Redraw_Platform();
@@ -360,6 +362,8 @@ double AsPlatform::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act()
 {
+	EPlatform_State next_state;
+
 	switch (Platform_State)
 	{
 	case EPlatform_State::Meltdown:
@@ -371,8 +375,11 @@ void AsPlatform::Act()
 		break;
 
 	case EPlatform_State::Glue:
-		if (Platform_Glue.Act_For_Glue_State(Platform_State.Glue, Ball_Set) )
+		if (Platform_Glue.Act_For_Glue_State(Platform_State.Glue, Ball_Set, next_state) )
 			Redraw_Platform();
+
+		if (next_state != EPlatform_State::Unknown)
+			Set_State(next_state);
 		break;
 
 	case EPlatform_State::Expanding:

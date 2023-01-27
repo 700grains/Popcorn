@@ -99,7 +99,7 @@ class AsPlatform_Glue
 public:
 	AsPlatform_Glue(AsPlatform_State &platform_state);
 
-	bool Act_For_Glue_State(EPlatform_Transformation &glue_state, AsBall_Set* ball_set);
+	bool Act_For_Glue_State(EPlatform_Transformation &glue_state, AsBall_Set* ball_set, EPlatform_State& next_state);
 	void Draw_Glue_State(HDC hdc, RECT& paint_area);
 	void Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height);
 
