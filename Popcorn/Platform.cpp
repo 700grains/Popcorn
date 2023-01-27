@@ -409,6 +409,8 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 {
+	EPlatform_Transformation* transformation_state = nullptr;
+
 	if (Platform_State == EPlatform_State::Regular && Platform_State.Regular == new_regular_state)
 		return;
 
@@ -417,38 +419,60 @@ void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
 		switch (Platform_State)
 		{
 		case EPlatform_State::Glue:
-			if (Platform_State.Glue == EPlatform_Substate_Glue::Unknown)
-			{ // State finalization finished
-				Set_Next_Or_Regular_State(new_regular_state);
-			}
-			else
-			{ // We start the finalization of the state
-				Platform_State.Glue = EPlatform_Substate_Glue::Finalize;
-			}
-			return;		
-		
+			transformation_state = &Platform_State.Glue;
+			break;
+
 		case EPlatform_State::Expanding:
-			if (Platform_State.Expanding == EPlatform_Substate_Expanding::Unknown)
-			{ // State finalization finished
-				Set_Next_Or_Regular_State(new_regular_state);
-			}
-			else
-			{// We start the finalization of the state
-				Platform_State.Expanding = EPlatform_Substate_Expanding::Finalize;
-			}
-			return;
+			transformation_state = &Platform_State.Expanding;
+			break;
 
 		case EPlatform_State::Laser:
-			if (Platform_State.Laser == EPlatform_Substate_Laser::Unknown)
-			{ // State finalization finished
-				Set_Next_Or_Regular_State(new_regular_state);
-			}
-			else
-			{// We start the finalization of the state
-				Platform_State.Laser = EPlatform_Substate_Laser::Finalize;
-			}
-			return;
+			transformation_state = &Platform_State.Laser;
+			break;
 		}
+
+		if (*transformation_state == EPlatform_Transformation::Unknown)
+			Set_Next_Or_Regular_State(new_regular_state); // State finalization finished
+		else
+			*transformation_state = EPlatform_Transformation::Finalize; // We start the finalization of the state
+
+		return;
+
+		//	switch (Platform_State)
+		//	{
+		//	case EPlatform_State::Glue:
+		//		if (Platform_State.Glue == EPlatform_Transformation::Unknown)
+		//	{ // State finalization finished
+		//		Set_Next_Or_Regular_State(new_regular_state);
+		//	}
+		//	else
+		//	{ // We start the finalization of the state
+		//		Platform_State.Glue = EPlatform_Transformation::Finalize;
+		//	}
+		//	return;		
+		//
+		//case EPlatform_State::Expanding:
+		//	if (Platform_State.Expanding == EPlatform_Transformation::Unknown)
+		//	{ // State finalization finished
+		//		Set_Next_Or_Regular_State(new_regular_state);
+		//	}
+		//	else
+		//	{// We start the finalization of the state
+		//		Platform_State.Expanding = EPlatform_Transformation::Finalize;
+		//	}
+		//	return;
+
+		//case EPlatform_State::Laser:
+		//	if (Platform_State.Laser == EPlatform_Transformation::Unknown)
+		//	{ // State finalization finished
+		//		Set_Next_Or_Regular_State(new_regular_state);
+		//	}
+		//	else
+		//	{// We start the finalization of the state
+		//		Platform_State.Laser = EPlatform_Transformation::Finalize;
+		//	}
+		//	return;
+		//}
 	}
 
 	Platform_State = EPlatform_State::Regular;
@@ -631,19 +655,19 @@ void AsPlatform::Act_For_Glue_State()
 {
 	switch (Platform_State.Glue)
 	{
-	case EPlatform_Substate_Glue::Init:
+	case EPlatform_Transformation::Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
 			Glue_Spot_Height_Ratio += Glue_Spot_Height_Ratio_Step;
 		else
-			Platform_State.Glue = EPlatform_Substate_Glue::Active;
+			Platform_State.Glue = EPlatform_Transformation::Active;
 
 		Redraw_Platform();
 		break;
 
-	case EPlatform_Substate_Glue::Active:
+	case EPlatform_Transformation::Active:
 		break;
 
-	case EPlatform_Substate_Glue::Finalize:
+	case EPlatform_Transformation::Finalize:
 		if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
 		{
 			Glue_Spot_Height_Ratio -= Glue_Spot_Height_Ratio_Step;
@@ -654,7 +678,7 @@ void AsPlatform::Act_For_Glue_State()
 		}
 		else
 		{
-			Platform_State.Glue = EPlatform_Substate_Glue::Unknown;
+			Platform_State.Glue = EPlatform_Transformation::Unknown;
 			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
@@ -670,7 +694,7 @@ void AsPlatform::Act_For_Expanding_State()
 {
 	switch (Platform_State.Expanding)
 	{
-	case EPlatform_Substate_Expanding::Init:
+	case EPlatform_Transformation::Init:
 		if (Expanding_Platform_Width < Max_Expanding_Platform_Width)
 		{
 			Expanding_Platform_Width += Expanding_Platform_Width_Step;
@@ -678,15 +702,15 @@ void AsPlatform::Act_For_Expanding_State()
 			Correct_Platform_Pos();
 		}
 		else
-			Platform_State.Expanding = EPlatform_Substate_Expanding::Active;
+			Platform_State.Expanding = EPlatform_Transformation::Active;
 
 		Redraw_Platform();
 		break;
 
-	case EPlatform_Substate_Expanding::Active:
+	case EPlatform_Transformation::Active:
 		break;
 
-	case EPlatform_Substate_Expanding::Finalize:
+	case EPlatform_Transformation::Finalize:
 		if (Expanding_Platform_Width > Min_Expanding_Platform_Width)
 		{
 			Expanding_Platform_Width -= Expanding_Platform_Width_Step;
@@ -695,7 +719,7 @@ void AsPlatform::Act_For_Expanding_State()
 		}
 		else
 		{
-			Platform_State.Expanding = EPlatform_Substate_Expanding::Unknown;
+			Platform_State.Expanding = EPlatform_Transformation::Unknown;
 			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
@@ -711,24 +735,24 @@ void AsPlatform::Act_For_Laser_State()
 {
 	switch (Platform_State.Laser)
 	{
-	case EPlatform_Substate_Laser::Init:
+	case EPlatform_Transformation::Init:
 		if (Laser_Transformation_Step < Max_Laser_Transformation_Step)
 			++Laser_Transformation_Step;
 		else
-			Platform_State.Laser = EPlatform_Substate_Laser::Active;
+			Platform_State.Laser = EPlatform_Transformation::Active;
 
 		Redraw_Platform();
 		break;
 
-	case EPlatform_Substate_Laser::Active:
+	case EPlatform_Transformation::Active:
 		break;
 
-	case EPlatform_Substate_Laser::Finalize:
+	case EPlatform_Transformation::Finalize:
 		if (Laser_Transformation_Step > 0)
 			--Laser_Transformation_Step;
 		else
 		{
-			Platform_State.Laser = EPlatform_Substate_Laser::Unknown;
+			Platform_State.Laser = EPlatform_Transformation::Unknown;
 			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
