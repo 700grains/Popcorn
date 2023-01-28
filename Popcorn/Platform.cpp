@@ -489,12 +489,12 @@ void ALaser_Beam::Advance(double max_speed)
 //------------------------------------------------------------------------------------------------------------
 double ALaser_Beam::Get_Speed()
 {
-	return 0.0; //!!! Gotta do
+	return Speed;
 }
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Act()
 {
-	//!!! Gotta do
+	// This method is muted
 }
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Clear(HDC hdc, RECT& paint_area)
@@ -529,7 +529,7 @@ void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool ALaser_Beam::Is_Finished()
 {
-	return false; //!!! Gotta do
+	return false; 	// This method is muted
 }
 //-----------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Set_At(double x_pos, double y_pos)
