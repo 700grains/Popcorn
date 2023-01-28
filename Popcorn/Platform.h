@@ -158,6 +158,7 @@ public:
 
 private:
 	double X_Pos, Y_Pos;
+	double Speed;
 	RECT Beam_Rect;
 
 	static const int Width = 1;

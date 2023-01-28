@@ -459,7 +459,7 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 // ALaser_Beam
 //------------------------------------------------------------------------------------------------------------
 ALaser_Beam::ALaser_Beam()
-	: Is_Active(false), X_Pos(0.0), Y_Pos(0.0), Beam_Rect{}
+	: Is_Active(false), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Beam_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -528,6 +528,9 @@ void ALaser_Beam::Set_At(double x_pos, double y_pos)
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
+
+	Is_Active = true;
+	Speed = 3.0;
 
 	Beam_Rect.left = (int)((X_Pos - (double)Width / 2.0) * d_scale);
 	Beam_Rect.top = (int)(Y_Pos * d_scale);
