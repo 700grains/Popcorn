@@ -471,7 +471,8 @@ void ALaser_Beam::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Finish_Movement()
 {
-	//!!! Gotta do
+	if (Is_Active)
+		Redraw_Beam();
 }
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Advance(double max_speed)
@@ -504,8 +505,11 @@ void ALaser_Beam::Clear(HDC hdc, RECT& paint_area)
 void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 {
 	int x_pos, y_pos;
-
 	RECT intersection_rect;
+
+	if (!Is_Active)
+		return;
+
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Beam_Rect))
 		return;
@@ -530,14 +534,22 @@ bool ALaser_Beam::Is_Finished()
 //-----------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Set_At(double x_pos, double y_pos)
 {
-	double d_scale = AsConfig::D_Global_Scale;
-	int scale = AsConfig::Global_Scale;
-
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
 
 	Is_Active = true;
 	Speed = 3.0;
+
+	Redraw_Beam();
+}
+//-----------------------------------------------------------------------------------------------------------
+void ALaser_Beam::Redraw_Beam()
+{
+	double d_scale = AsConfig::D_Global_Scale;
+	int scale = AsConfig::Global_Scale;
+
+	Previous_Beam_Rect = Beam_Rect;
+
 
 	Beam_Rect.left = (int)((X_Pos - (double)Width / 2.0) * d_scale);
 	Beam_Rect.top = (int)(Y_Pos * d_scale);
@@ -545,6 +557,7 @@ void ALaser_Beam::Set_At(double x_pos, double y_pos)
 	Beam_Rect.bottom = Beam_Rect.top + Height * scale;
 
 	AsConfig::Invalidate_Rect(Beam_Rect);
+	AsConfig::Invalidate_Rect(Previous_Beam_Rect);
 }
 //-----------------------------------------------------------------------------------------------------------
 

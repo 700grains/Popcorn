@@ -157,9 +157,10 @@ public:
 	bool Is_Active;
 
 private:
+	void Redraw_Beam();
 	double X_Pos, Y_Pos;
 	double Speed;
-	RECT Beam_Rect;
+	RECT Beam_Rect, Previous_Beam_Rect;
 
 	static const int Width = 1;
 	static const int Height = 3;
