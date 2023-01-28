@@ -241,7 +241,7 @@ AsPlatform_Expanding::~AsPlatform_Expanding()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
-: Expanding_Platform_Width(0.0), Platform_State(& platform_state), Inner_Color(nullptr), Circle_Color(nullptr), Truss_Color(nullptr)
+: Expanding_Platform_Width(0.0), Platform_State(& platform_state), Inner_Color(nullptr), Highlight_Color(nullptr), Circle_Color(nullptr), Truss_Color(nullptr)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -464,7 +464,7 @@ AsPlatform_Laser::~AsPlatform_Laser()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
-	: Platform_State(&platform_state), Circle_Color(0), Inner_Color(0), Gun_Color(0)
+	: Laser_Transformation_Step(0), Platform_State(&platform_state), Circle_Color(0), Inner_Color(0), Gun_Color(0)
 {
 
 }
@@ -476,7 +476,7 @@ void AsPlatform_Laser::Init(AColor& highlight_color, AColor& circle_color, AColo
 	Inner_Color = &inner_color;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State & next_state)
+bool AsPlatform_Laser::Act(EPlatform_State & next_state)
 {
 	next_state = EPlatform_State::Unknown;
 
@@ -487,9 +487,6 @@ bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State & next_state)
 			++Laser_Transformation_Step;
 		else
 			Platform_State->Laser = EPlatform_Transformation::Active;
-
-		//Redraw_Platform();
-		//break;
 		return true;
 
 	case EPlatform_Transformation::Active:
@@ -503,9 +500,6 @@ bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State & next_state)
 			Platform_State->Laser = EPlatform_Transformation::Unknown;
 			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
-
-		/*redraw_platform();
-		break;*/
 		return true;
 
 	default:
@@ -514,7 +508,7 @@ bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State & next_state)
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Draw_Laser_State(HDC hdc, double x_pos, RECT& platform_rect)
+void AsPlatform_Laser::Draw_State(HDC hdc, double x_pos, RECT& platform_rect)
 {// Draw laser platform
 	const double d_scale = AsConfig::D_Global_Scale;
 	const int scale = AsConfig::Global_Scale;
@@ -883,7 +877,7 @@ void AsPlatform::Act()
 
 
 	case EPlatform_State::Laser:
-		if (Platform_Laser.Act_For_Laser_State(next_state) )
+		if (Platform_Laser.Act(next_state) )
 			Redraw_Platform();
 
 		if (next_state != EPlatform_State::Unknown)
@@ -957,7 +951,7 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPlatform_State::Laser:
-		Platform_Laser.Draw_Laser_State(hdc, X_Pos, Platform_Rect);
+		Platform_Laser.Draw_State(hdc, X_Pos, Platform_Rect);
 		break;
 	}
 }
@@ -971,6 +965,7 @@ void AsPlatform::Init(AsBall_Set* ball_set)
 {
 	Ball_Set = ball_set;
 	Platform_Expanding.Init(Highlight_Color, Platform_Circle_Color, Platform_Inner_Color);
+	Platform_Laser.Init(Highlight_Color, Platform_Circle_Color, Platform_Inner_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform::Get_State()
