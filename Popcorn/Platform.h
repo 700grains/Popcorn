@@ -140,8 +140,10 @@ private:
 class AsPlatform_Laser
 {
 public:
+	~AsPlatform_Laser();
 	AsPlatform_Laser(AsPlatform_State &platform_state);
 
+	void Init(AColor& highlight_color, AColor& circle_color, AColor& inner_color);
 	bool Act_For_Laser_State(EPlatform_State& next_state);
 	void Draw_Laser_State(HDC hdc, double x_pos, RECT& platform_rect);
 
@@ -152,7 +154,8 @@ private:
 	void Draw_Laser_Cabin(HDC hdc);
 
 	AsPlatform_State* Platform_State;
-	AColor* Circle_Color; // UNO, Use, Not Own!
+	AColor* Inner_Color, * Circle_Color; // UNO, Use, Not Own!
+	AColor* Gun_Color;
 
 	int Laser_Transformation_Step;
 
@@ -241,7 +244,7 @@ private:
 
 	RECT Platform_Rect, Prev_Platform_Rect;
 
-	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color, Gun_Color;
+	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color;
 
 	//static const int Max_Laser_Transformation_Step = 20;
 	static const int Meltdown_Speed = 3;

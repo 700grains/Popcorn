@@ -458,13 +458,25 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 
 //AsPlatform_Laser
 //------------------------------------------------------------------------------------------------------------
+AsPlatform_Laser::~AsPlatform_Laser()
+{
+	delete Gun_Color;
+}
+//------------------------------------------------------------------------------------------------------------
 AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
-	: Platform_State(&platform_state)
+	: Platform_State(&platform_state), Circle_Color(0), Inner_Color(0), Gun_Color(0)
 {
 
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State& next_state)
+void AsPlatform_Laser::Init(AColor& highlight_color, AColor& circle_color, AColor& inner_color)
+{
+	Gun_Color = new AColor(highlight_color, AsConfig::Global_Scale);
+	Circle_Color = &circle_color;
+	Inner_Color = &inner_color;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State & next_state)
 {
 	next_state = EPlatform_State::Unknown;
 
@@ -554,7 +566,7 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 		x += AsPlatform::Normal_Width - AsPlatform::Circle_Size;
 
 	// 1. The wing
-	Platform_Circle_Color.Select(hdc);
+	Circle_Color->Select(hdc);
 
 	Draw_Expanding_Figure(hdc, EFigure_Type::Ellipse, x, y, 7, 7, ratio, x, y + 1, 7, 12);
 
@@ -572,7 +584,7 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 	{
 		ratio = (double)(Laser_Transformation_Step - half_max_step) / (double)half_max_step;
 
-		Gun_Color.Select(hdc);
+		Gun_Color->Select(hdc);
 
 		if (is_left)
 			x = x_pos + 3.0;
@@ -599,7 +611,7 @@ void AsPlatform_Laser::Draw_Laser_Inner_Part(HDC hdc)
 	x = X_Pos;
 	y = AsConfig::Platform_Y_Pos;
 
-	Platform_Inner_Color.Select(hdc);
+	Inner_Color->Select(hdc);
 	Draw_Expanding_Figure(hdc, EFigure_Type::Round_Rect_3x, x + 4, y + 1, 20, 5, ratio, x + 10, y + 3, 8, 1);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -611,7 +623,7 @@ void AsPlatform_Laser::Draw_Laser_Leg(HDC hdc, bool is_left)
 	const double d_scale = AsConfig::D_Global_Scale;
 	double ratio = (double)Laser_Transformation_Step / (double)Max_Laser_Transformation_Step;
 
-	Platform_Inner_Color.Select(hdc);
+	Inner_Color->Select(hdc);
 
 	if (is_left)
 	{
@@ -650,7 +662,7 @@ void AsPlatform_Laser::Draw_Laser_Cabin(HDC hdc)
 
 	// 1. outer part
 	// Size: 2 x 1 --> 10 x 8
-	Platform_Inner_Color.Select(hdc);
+	Inner_Color->Select(hdc);
 	Draw_Expanding_Figure(hdc, EFigure_Type::Ellipse, x + 13, y + 1, 2, 1, ratio, x + 9, y - 1, 10, 8 - one_pixel);
 
 	// 2. Inner ring
@@ -679,8 +691,7 @@ AsPlatform::~AsPlatform()
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Laser_Transformation_Step (0), 
 Last_Redraw_Timer_Tick (0), Speed (0.0), Ball_Set(0), Platform_Glue(Platform_State), Platform_Expanding(Platform_State),Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
-Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
-Gun_Color (Highlight_Color, AsConfig::Global_Scale)
+Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Normal_Width) / 2;
 }
