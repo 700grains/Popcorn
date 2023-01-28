@@ -238,13 +238,15 @@ AsPlatform_Expanding::~AsPlatform_Expanding()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
-: Expanding_Platform_Width(0.0), Platform_State(& platform_state), Truss_Color(nullptr)
+: Expanding_Platform_Width(0.0), Platform_State(& platform_state), Inner_Color(nullptr), Circle_Color(nullptr), Truss_Color(nullptr)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Expanding::Init(AColor& platform_inner_color)
+void AsPlatform_Expanding::Init(AColor& circle_color, AColor& inner_color)
 {
-	Truss_Color = new AColor(platform_inner_color, AsConfig::Global_Scale);
+	Circle_Color = &circle_color;
+	Inner_Color = &inner_color;
+	Truss_Color = new AColor(inner_color, AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool &correct_pos)
@@ -296,7 +298,7 @@ bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_Stat
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x, AColor & platform_inner_color)
+void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x)
 {// Draw expanding platform
 
 	int y = AsConfig::Platform_Y_Pos;
@@ -324,7 +326,7 @@ void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x, AColor & pla
 	Draw_Expanding_Truss(hdc, inner_rect, false);
 
 	// 3. Draw the middle part
-	platform_inner_color.Select(hdc);
+	Inner_Color->Select(hdc);
 
 	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right - 1, inner_rect.bottom - 1);
 
@@ -351,7 +353,7 @@ void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, double x, bool 
 	rect.right = rect.left + AsPlatform::Circle_Size * scale;
 	rect.bottom = (y + AsPlatform::Circle_Size) * scale;
 
-	Platform_Circle_Color.Select(hdc);
+	Circle_Color->Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
 
 	// 1.2 Truss adapter
@@ -678,7 +680,7 @@ bool AsPlatform::Is_Finished()
 void AsPlatform::Init(AsBall_Set* ball_set)
 {
 	Ball_Set = ball_set;
-	Platform_Expanding.Init(Platform_Inner_Color);
+	Platform_Expanding.Init(Platform_Circle_Color, Platform_Inner_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform::Get_State()

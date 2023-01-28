@@ -119,9 +119,9 @@ public:
 	~AsPlatform_Expanding();
 	AsPlatform_Expanding(AsPlatform_State& platform_state);
 
-	void Init(AColor& platform_inner_color);
+	void Init(AColor& circle_color, AColor& inner_color);
 	bool Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool& correct_pos);
-	void Draw_Expanding_State(HDC hdc, double& x, AColor& platform_inner_color);
+	void Draw_Expanding_State(HDC hdc, double& x);
 
 
 
@@ -132,6 +132,8 @@ private:
 	double Expanding_Platform_Width;
 
 	AsPlatform_State* Platform_State;
+	AColor* Inner_Color; // UNO, Use, Not Own!
+	AColor* Circle_Color; // UNO, Use, Not Own!
 	AColor *Truss_Color;
 
 	static const double Min_Expanding_Platform_Width, Max_Expanding_Platform_Width, Expanding_Platform_Width_Step;
