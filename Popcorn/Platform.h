@@ -177,7 +177,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Fire(bool fire_on, double x_pos);
+	void Fire(bool fire_on, double left_gun_x_pos, double right_gun_x_pos);
 
 private:
 	static const int Max_Laser_Beam_Count = 10;

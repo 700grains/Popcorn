@@ -605,7 +605,7 @@ bool AsLaser_Beam_Set::Is_Finished()
 	return false; // Stub. This method is not used.
 }
 //-----------------------------------------------------------------------------------------------------------
-void AsLaser_Beam_Set::Fire(bool fire_on, double x_pos)
+void AsLaser_Beam_Set::Fire(bool fire_on, double left_gun_x_pos, double right_gun_x_pos)
 {
 	int i;
 	ALaser_Beam* left_beam = nullptr, * right_beam = nullptr;
@@ -628,8 +628,8 @@ void AsLaser_Beam_Set::Fire(bool fire_on, double x_pos)
 	if (left_beam == nullptr || right_beam == nullptr)
 		AsConfig::Throw(); // Not enough free laser beams in the array
 
-	left_beam->Set_At(x_pos + 3.0, AsConfig::Platform_Y_Pos);
-	right_beam->Set_At(x_pos + (AsPlatform::Normal_Width - 4), AsConfig::Platform_Y_Pos);
+	left_beam->Set_At(left_gun_x_pos, AsConfig::Platform_Y_Pos);
+	right_beam->Set_At(right_gun_x_pos, AsConfig::Platform_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -730,13 +730,17 @@ void AsPlatform_Laser::Reset()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Fire(bool fire_on, double x_pos)
 {
+	double left_gun_x_pos, right_gun_x_pos;
+
 	if (Platform_State->Laser != EPlatform_Transformation::Active)
 		return; // We ignore fire untill the platform is fully transformed
 
 	if (!fire_on)
 		return;
+	left_gun_x_pos = Get_Gun_Pos(x_pos, true);
+	right_gun_x_pos = Get_Gun_Pos(x_pos, false);
 
-	Laser_Beam_Set->Fire(fire_on, x_pos);
+	Laser_Beam_Set->Fire(fire_on, left_gun_x_pos, right_gun_x_pos);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
