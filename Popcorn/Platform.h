@@ -116,6 +116,8 @@ private:
 class AsPlatform_Expanding
 {
 public:
+	AsPlatform_Expanding(AsPlatform_State& platform_state);
+
 	void Act_For_Expanding_State();
 	void Draw_Expanding_State(HDC hdc, RECT& paint_area);
 
@@ -126,6 +128,8 @@ private:
 	void Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool is_left);
 	
 	double Expanding_Platform_Width;
+
+	AsPlatform_State* Platform_State;
 
 	static const double Min_Expanding_Platform_Width, Max_Expanding_Platform_Width, Expanding_Platform_Width_Step;
 };

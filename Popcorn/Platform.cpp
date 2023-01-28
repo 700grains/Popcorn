@@ -234,15 +234,15 @@ void AsPlatform_Glue::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int heigh
 
 
 //AsPlatform_Expanding
-
 //------------------------------------------------------------------------------------------------------------
-class AsPlatform_Expanding
+AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
+: Expanding_Platform_Width(0.0), Platform_State(& platform_state)
 {
-};
+}
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Expanding::Act_For_Expanding_State()
 {
-	switch (Platform_State.Expanding)
+	switch (Platform_State->Expanding)
 	{
 	case EPlatform_Transformation::Init:
 		if (Expanding_Platform_Width < Max_Expanding_Platform_Width)
@@ -252,7 +252,7 @@ void AsPlatform_Expanding::Act_For_Expanding_State()
 			Correct_Platform_Pos();
 		}
 		else
-			Platform_State.Expanding = EPlatform_Transformation::Active;
+			Platform_State->Expanding = EPlatform_Transformation::Active;
 
 		Redraw_Platform();
 		break;
@@ -269,7 +269,7 @@ void AsPlatform_Expanding::Act_For_Expanding_State()
 		}
 		else
 		{
-			Platform_State.Expanding = EPlatform_Transformation::Unknown;
+			Platform_State->Expanding = EPlatform_Transformation::Unknown;
 			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
