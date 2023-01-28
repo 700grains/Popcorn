@@ -166,9 +166,6 @@ bool AsPlatform_Glue::Act(AsBall_Set* ball_set, EPlatform_State& next_state)
 			Platform_State->Glue = EPlatform_Transformation::Unknown;
 			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
-
-		//Redraw_Platform();
-		//break;
 		return true;
 
 	default:
@@ -240,16 +237,20 @@ AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Expanding::Act_For_Expanding_State()
+bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool &correct_pos)
 {
+	next_state = EPlatform_State::Unknown;
+	correct_pos = false;
+
 	switch (Platform_State->Expanding)
 	{
 	case EPlatform_Transformation::Init:
 		if (Expanding_Platform_Width < Max_Expanding_Platform_Width)
 		{
 			Expanding_Platform_Width += Expanding_Platform_Width_Step;
-			X_Pos -= Expanding_Platform_Width_Step / 2.0;
-			Correct_Platform_Pos();
+			x_pos -= Expanding_Platform_Width_Step / 2.0;
+			//Correct_Platform_Pos();
+			correct_pos = true;
 		}
 		else
 			Platform_State->Expanding = EPlatform_Transformation::Active;
@@ -265,13 +266,14 @@ bool AsPlatform_Expanding::Act_For_Expanding_State()
 		if (Expanding_Platform_Width > Min_Expanding_Platform_Width)
 		{
 			Expanding_Platform_Width -= Expanding_Platform_Width_Step;
-			X_Pos += Expanding_Platform_Width_Step / 2.0;
-			Correct_Platform_Pos();
+			x_pos += Expanding_Platform_Width_Step / 2.0;
+			//Correct_Platform_Pos();
+			correct_pos = true;
 		}
 		else
 		{
 			Platform_State->Expanding = EPlatform_Transformation::Unknown;
-			Set_State(EPlatform_Substate_Regular::Normal);
+			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
 		//Redraw_Platform();
@@ -550,6 +552,8 @@ double AsPlatform::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act()
 {
+	bool correct_pos;
+
 	EPlatform_State next_state;
 
 	switch (Platform_State)
@@ -563,7 +567,7 @@ void AsPlatform::Act()
 		break;
 
 	case EPlatform_State::Glue:
-		if (Platform_Glue.Act(Platform_State.Glue, Ball_Set, next_state) )
+		if (Platform_Glue.Act(Ball_Set, next_state) )
 			Redraw_Platform();
 
 		if (next_state != EPlatform_State::Unknown)
@@ -571,7 +575,15 @@ void AsPlatform::Act()
 		break;
 
 	case EPlatform_State::Expanding:
-		Act_For_Expanding_State();
+		if (Platform_Expanding.Act_For_Expanding_State(X_Pos, next_state, correct_pos) )
+			Redraw_Platform();
+
+		if (correct_pos)
+			Correct_Platform_Pos();
+
+		if (next_state != EPlatform_State::Unknown)
+			Set_State(next_state);
+
 		break;
 
 	case EPlatform_State::Laser:

@@ -118,7 +118,7 @@ class AsPlatform_Expanding
 public:
 	AsPlatform_Expanding(AsPlatform_State& platform_state);
 
-	bool Act_For_Expanding_State();
+	bool Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool& correct_pos);
 	void Draw_Expanding_State(HDC hdc, RECT& paint_area);
 
 
@@ -203,6 +203,7 @@ private:
 	double Speed;
 	AsBall_Set* Ball_Set;
 	AsPlatform_Glue Platform_Glue;
+	AsPlatform_Expanding Platform_Expanding;
 
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
 	int* Normal_Platform_Image; // Platform image pixels on window background
