@@ -502,14 +502,14 @@ bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State& next_state, )
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Draw_Laser_State(HDC hdc, RECT& paint_area)
+void AsPlatform_Laser::Draw_Laser_State(HDC hdc, RECT& platform_rect)
 {// Draw laser platform
 	const double d_scale = AsConfig::D_Global_Scale;
 	const int scale = AsConfig::Global_Scale;
 
 	HRGN region;
 
-	region = CreateRectRgnIndirect(&Platform_Rect);
+	region = CreateRectRgnIndirect(&platform_rect);
 	SelectClipRgn(hdc, region);
 
 	// 1. Left wing
@@ -889,7 +889,7 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPlatform_State::Laser:
-		Draw_Laser_State(hdc, paint_area);
+		Platform_Laser.Draw_Laser_State(hdc, Platform_Rect);
 		break;
 	}
 }

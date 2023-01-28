@@ -142,8 +142,8 @@ class AsPlatform_Laser
 public:
 	AsPlatform_Laser(AsPlatform_State &platform_state);
 
-	bool Act_For_Laser_State(EPlatform_State& next_state, );
-	void Draw_Laser_State(HDC hdc, RECT& paint_area);
+	bool Act_For_Laser_State(EPlatform_State& next_state);
+	void Draw_Laser_State(HDC hdc, RECT& platform_rect);
 
 private:
 	void Draw_Laser_Wing(HDC hdc, bool is_left);
