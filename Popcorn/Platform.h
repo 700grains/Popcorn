@@ -146,6 +146,7 @@ public:
 	void Init(AColor& highlight_color, AColor& circle_color, AColor& inner_color);
 	bool Act_For_Laser_State(EPlatform_State& next_state);
 	void Draw_Laser_State(HDC hdc, double x_pos, RECT& platform_rect);
+	void Reset();
 
 private:
 	void Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left);

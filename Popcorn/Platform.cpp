@@ -548,6 +548,11 @@ void AsPlatform_Laser::Draw_Laser_State(HDC hdc, double x_pos, RECT& platform_re
 	DeleteObject(region);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsPlatform_Laser::Reset()
+{
+	Laser_Transformation_Step = 0;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 {// Draw the wing of the laser platform
 
@@ -1014,7 +1019,6 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 			return;
 		else
 			Platform_Glue.Reset();
-
 		break;
 
 	case EPlatform_State::Expanding:
@@ -1028,7 +1032,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		if (Set_Transformation_State(new_state, Platform_State.Laser))
 			return;
 		else
-			Laser_Transformation_Step = 0;
+			Platform_Laser.Reset();
 
 		break;
 	}
