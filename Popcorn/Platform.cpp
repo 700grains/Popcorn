@@ -466,7 +466,7 @@ ALaser_Beam::ALaser_Beam()
 
 void ALaser_Beam::Begin_Movement()
 {
-	//!!! Gotta do
+	// This method is muted
 }
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Finish_Movement()
