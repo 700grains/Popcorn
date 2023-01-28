@@ -346,7 +346,11 @@ void AsPlatform_Expanding::Draw_Circle_Highlight(HDC hdc, int x, int y)
 	Highlight_Color->Select_Pen(hdc);
 
 	Arc(hdc, x + scale, y + scale, x + size, y + size, x + 2 * scale, y + scale, x + scale, y + 3 * scale);
-
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform_Expanding::Reset()
+{
+	Expanding_Platform_Width = Min_Expanding_Platform_Width;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, double x, bool is_left)
@@ -749,8 +753,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 		if (Set_Transformation_State(new_state, Platform_State.Expanding))
 			return;
 		else
-			Expanding_Platform_Width = Min_Expanding_Platform_Width;
-
+			Platform_Expanding.Reset();
 		break;
 
 	case EPlatform_State::Laser:
@@ -1006,7 +1009,7 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
 
 	// 2. Draw the highlight
-	Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
+	Platform_Expanding.Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
 	
 	// 3. Draw the middle part
 	Platform_Inner_Color.Select(hdc);
@@ -1122,7 +1125,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 	SetWorldTransform(hdc, &old_xform);
 
 	// 3. Highlight
-	Draw_Circle_Highlight(hdc, x, y);
+	Platform_Expanding.Draw_Circle_Highlight(hdc, x, y);
 
 }
 //------------------------------------------------------------------------------------------------------------
@@ -1446,7 +1449,7 @@ double AsPlatform::Get_Current_Width()
 	if (Platform_State == EPlatform_State::Rolling && Platform_State.Rolling == EPlatform_Substate_Rolling::Roll_In)
 		return (double)Circle_Size;
 	else if (Platform_State == EPlatform_State::Expanding)
-		return Expanding_Platform_Width;
+		return Platform_Expanding.Expanding_Platform_Width;
 	else
 		return (double)Normal_Width;
 }

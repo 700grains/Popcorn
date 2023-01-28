@@ -123,14 +123,13 @@ public:
 	bool Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool& correct_pos);
 	void Draw_Expanding_State(HDC hdc, double& x);
 	void Draw_Circle_Highlight(HDC hdc, int x, int y);
+	void Reset();
 
-
+	double Expanding_Platform_Width;
 private:
 	void Draw_Expanding_Platform_Ball(HDC hdc, double x, bool is_left);
 	void Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool is_left);
 	
-	double Expanding_Platform_Width;
-
 	AsPlatform_State* Platform_State;
 	AColor* Inner_Color, * Highlight_Color, * Circle_Color; // UNO, Use, Not Own!
 	AColor *Truss_Color;
