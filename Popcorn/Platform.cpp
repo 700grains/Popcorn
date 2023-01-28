@@ -777,10 +777,12 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 
 		Gun_Color->Select(hdc);
 
-		if (is_left)
-			x = x_pos + 3.0;
-		else
-			x = x_pos + (AsPlatform::Normal_Width - 4);
+		//if (is_left)
+		//	x = x_pos + 3.0;
+		//else
+		//	x = x_pos + (AsPlatform::Normal_Width - 4);
+
+		x = Get_Gun_Pos(x_pos, is_left);
 
 		height = 3.0 * (1.0 - ratio) * d_scale;
 
@@ -910,6 +912,19 @@ int AsPlatform_Laser::Get_Expanding_Value(double start, double end, double ratio
 	value = (int)((start + delta * ratio) * AsConfig::D_Global_Scale);
 
 	return value;
+}
+//------------------------------------------------------------------------------------------------------------
+double AsPlatform_Laser::Get_Gun_Pos(double platform_x_pos, bool is_left)
+{
+	double gun_x_pos;
+
+	if (is_left)
+		gun_x_pos = platform_x_pos + 3.0;
+	else
+		gun_x_pos = platform_x_pos + (AsPlatform::Normal_Width - 4);
+
+	return gun_x_pos;
+
 }
 //------------------------------------------------------------------------------------------------------------
 

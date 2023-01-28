@@ -205,6 +205,7 @@ private:
 
 	void Draw_Expanding_Figure(HDC hdc, EFigure_Type figure_type, double start_x, double start_y, double start_width, double start_height, double ratio, double end_x, double end_y, double end_width, double end_height);
 	int Get_Expanding_Value(double start, double end, double ratio);
+	double Get_Gun_Pos(double platform_x_pos, bool is_left);
 
 
 	AsPlatform_State* Platform_State;
