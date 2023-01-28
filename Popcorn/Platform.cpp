@@ -286,18 +286,17 @@ bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_Stat
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, RECT& paint_area)
+void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x, AColor & platform_inner_color)
 {// Draw expanding platform
 
-	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect;
 
-	inner_rect.left = (int)((x + (Expanding_Platform_Width - (double)Expanding_Platform_Inner_Width) / 2.0) * d_scale);
+	inner_rect.left = (int)((x + (Expanding_Platform_Width - (double)AsPlatform::Expanding_Platform_Inner_Width) / 2.0) * d_scale);
 	inner_rect.top = (y + 1) * scale;
-	inner_rect.right = inner_rect.left + Expanding_Platform_Inner_Width * scale;
+	inner_rect.right = inner_rect.left + AsPlatform::Expanding_Platform_Inner_Width * scale;
 	inner_rect.bottom = (y + 1 + 5) * scale;
 
 	// 1. Draw left side
@@ -315,7 +314,7 @@ void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, RECT& paint_area)
 	Draw_Expanding_Truss(hdc, inner_rect, false);
 
 	// 3. Draw the middle part
-	Platform_Inner_Color.Select(hdc);
+	platform_inner_color.Select(hdc);
 
 	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right - 1, inner_rect.bottom - 1);
 
@@ -337,11 +336,11 @@ void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, bool is_left)
 	if (is_left)
 		rect.left = (int)(x * d_scale);
 	else
-		rect.left = (int)((x + Expanding_Platform_Width - (double)Circle_Size) * d_scale);
+		rect.left = (int)((x + Expanding_Platform_Width - (double)AsPlatform::Circle_Size) * d_scale);
 
 	rect.top = y * scale;
-	rect.right = rect.left + Circle_Size * scale;
-	rect.bottom = (y + Circle_Size) * scale;
+	rect.right = rect.left + AsPlatform::Circle_Size * scale;
+	rect.bottom = (y + AsPlatform::Circle_Size) * scale;
 
 	Platform_Circle_Color.Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
@@ -372,7 +371,7 @@ void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, bool is_left)
 	}
 	else
 	{
-		arc_right_offset = (Circle_Size - 2) * scale + 1;
+		arc_right_offset = (AsPlatform::Circle_Size - 2) * scale + 1;
 
 		arc_start_y = arc_rect.bottom;
 		arc_finish_y = arc_rect.top;
@@ -652,7 +651,7 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPlatform_State::Expanding:
-		Draw_Expanding_State(hdc, paint_area);
+		Platform_Expanding.Draw_Expanding_State(hdc, X_Pos);
 		break;
 
 	case EPlatform_State::Laser:

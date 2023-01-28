@@ -119,7 +119,7 @@ public:
 	AsPlatform_Expanding(AsPlatform_State& platform_state);
 
 	bool Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool& correct_pos);
-	void Draw_Expanding_State(HDC hdc, RECT& paint_area);
+	void Draw_Expanding_State(HDC hdc, double& x, AColor& platform_inner_color);
 
 
 
@@ -169,6 +169,8 @@ public:
 	static const int Circle_Size = 7;
 	static const int Normal_Width = 28;
 	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size;
+	static const int Expanding_Platform_Inner_Width = 12;
+
 
 private:
 	bool Set_Transformation_State(EPlatform_State new_state, EPlatform_Transformation& transformation_state);
@@ -215,7 +217,6 @@ private:
 	AColor Highlight_Color, Platform_Circle_Color, Platform_Inner_Color, Truss_Color, Gun_Color;
 
 	static const int Max_Laser_Transformation_Step = 20;
-	static const int Expanding_Platform_Inner_Width = 12;
 	static const int Meltdown_Speed = 3;
 	static const int Max_Rolling_Step = 16;
 	static const int Roll_In_Platform_End_X_Pos = 99;
