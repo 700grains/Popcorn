@@ -459,8 +459,8 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 // ALaser_Beam
 //------------------------------------------------------------------------------------------------------------
 ALaser_Beam::ALaser_Beam()
+	: Is_Active(false), X_Pos(0.0), Y_Pos(0.0)
 {
-	//!!! Gotta do
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -502,6 +502,12 @@ void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 bool ALaser_Beam::Is_Finished()
 {
 	return false; //!!! Gotta do
+}
+//-----------------------------------------------------------------------------------------------------------
+void ALaser_Beam::Set_At(double x_pos, double y_pos)
+{
+	X_Pos = x_pos;
+	Y_Pos = y_pos;
 }
 //-----------------------------------------------------------------------------------------------------------
 
@@ -1262,7 +1268,7 @@ void AsPlatform::On_Space_Key(bool key_down)
 		if (Platform_State == EPlatform_State::Glue)
 			Ball_Set->Release_Next_Ball();
 		else if (Platform_State == EPlatform_State::Laser)
-			Platform_Laser.Fire(key_down);
+			Platform_Laser.Fire(key_down, X_Pos);
 
 }
 //------------------------------------------------------------------------------------------------------------

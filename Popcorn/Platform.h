@@ -151,6 +151,13 @@ public:
 	virtual void Clear(HDC hdc, RECT& paint_area);
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
+
+	void Set_At(double x_pos, double y_pos);
+
+	bool Is_Active;
+
+private:
+	double X_Pos, Y_Pos;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLaser_Beam_Set : public AMover, public AGraphics_Object
