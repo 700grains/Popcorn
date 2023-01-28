@@ -505,8 +505,12 @@ void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 
 	AsConfig::Laser_Color.Select(hdc);
 
-	x_pos = (int)(X_Pos * AsConfig::D_Global_Scale);
-	y_pos = (int)(Y_Pos * AsConfig::D_Global_Scale);
+	//x_pos = (int)(X_Pos * AsConfig::D_Global_Scale);
+	//y_pos = (int)(Y_Pos * AsConfig::D_Global_Scale);
+
+
+	x_pos = Beam_Rect.left + (Beam_Rect.right - Beam_Rect.left) / 2;
+	y_pos = Beam_Rect.top;
 
 	MoveToEx(hdc, x_pos, y_pos + 1, 0);
 	LineTo(hdc, x_pos, y_pos + Height * AsConfig::Global_Scale - 1);
@@ -628,8 +632,8 @@ void AsLaser_Beam_Set::Fire(bool fire_on, double left_gun_x_pos, double right_gu
 	if (left_beam == nullptr || right_beam == nullptr)
 		AsConfig::Throw(); // Not enough free laser beams in the array
 
-	left_beam->Set_At(left_gun_x_pos, AsConfig::Platform_Y_Pos);
-	right_beam->Set_At(right_gun_x_pos, AsConfig::Platform_Y_Pos);
+	left_beam->Set_At(left_gun_x_pos, AsConfig::Platform_Y_Pos - 1);
+	right_beam->Set_At(right_gun_x_pos, AsConfig::Platform_Y_Pos - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -737,8 +741,8 @@ void AsPlatform_Laser::Fire(bool fire_on, double x_pos)
 
 	if (!fire_on)
 		return;
-	left_gun_x_pos = Get_Gun_Pos(x_pos, true);
-	right_gun_x_pos = Get_Gun_Pos(x_pos, false);
+	left_gun_x_pos = Get_Gun_Pos(x_pos, true) + 0.5;
+	right_gun_x_pos = Get_Gun_Pos(x_pos, false) + 0.5;
 
 	Laser_Beam_Set->Fire(fire_on, left_gun_x_pos, right_gun_x_pos);
 }
