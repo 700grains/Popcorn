@@ -142,7 +142,7 @@ class AsPlatform_Laser
 public:
 	AsPlatform_Laser(AsPlatform_State &platform_state);
 
-	void Act_For_Laser_State();
+	bool Act_For_Laser_State(EPlatform_State& next_state, );
 	void Draw_Laser_State(HDC hdc, RECT& paint_area);
 
 private:

@@ -464,8 +464,10 @@ AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
 
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Act_For_Laser_State()
+bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State& next_state, )
 {
+	next_state = EPlatform_State::Unknown;
+
 	switch (Platform_State->Laser)
 	{
 	case EPlatform_Transformation::Init:
@@ -474,8 +476,9 @@ void AsPlatform_Laser::Act_For_Laser_State()
 		else
 			Platform_State->Laser = EPlatform_Transformation::Active;
 
-		Redraw_Platform();
-		break;
+		//Redraw_Platform();
+		//break;
+		return true;
 
 	case EPlatform_Transformation::Active:
 		break;
@@ -486,15 +489,17 @@ void AsPlatform_Laser::Act_For_Laser_State()
 		else
 		{
 			Platform_State->Laser = EPlatform_Transformation::Unknown;
-			Set_State(EPlatform_Substate_Regular::Normal);
+			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
-		Redraw_Platform();
-		break;
+		/*redraw_platform();
+		break;*/
+		return true;
 
 	default:
 		AsConfig::Throw();
 	}
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_State(HDC hdc, RECT& paint_area)
