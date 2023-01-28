@@ -254,7 +254,7 @@ void AsPlatform_Expanding::Init(AColor& highlight_color, AColor& circle_color, A
 	Truss_Color = new AColor(inner_color, AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool &correct_pos)
+bool AsPlatform_Expanding::Act(double &x_pos, EPlatform_State& next_state, bool &correct_pos)
 {
 	next_state = EPlatform_State::Unknown;
 	correct_pos = false;
@@ -266,14 +266,10 @@ bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_Stat
 		{
 			Expanding_Platform_Width += Expanding_Platform_Width_Step;
 			x_pos -= Expanding_Platform_Width_Step / 2.0;
-			//Correct_Platform_Pos();
 			correct_pos = true;
 		}
 		else
 			Platform_State->Expanding = EPlatform_Transformation::Active;
-
-		//Redraw_Platform();
-		//break;
 		return true;
 
 	case EPlatform_Transformation::Active:
@@ -284,7 +280,6 @@ bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_Stat
 		{
 			Expanding_Platform_Width -= Expanding_Platform_Width_Step;
 			x_pos += Expanding_Platform_Width_Step / 2.0;
-			//Correct_Platform_Pos();
 			correct_pos = true;
 		}
 		else
@@ -292,9 +287,6 @@ bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_Stat
 			Platform_State->Expanding = EPlatform_Transformation::Unknown;
 			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
-
-		//Redraw_Platform();
-		//break;
 		return true;
 
 	default:
@@ -303,7 +295,7 @@ bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_Stat
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x)
+void AsPlatform_Expanding::Draw_State(HDC hdc, double& x)
 {// Draw expanding platform
 
 	int y = AsConfig::Platform_Y_Pos;
@@ -603,7 +595,7 @@ void AsPlatform::Act()
 		break;
 
 	case EPlatform_State::Expanding:
-		if (Platform_Expanding.Act_For_Expanding_State(X_Pos, next_state, correct_pos) )
+		if (Platform_Expanding.Act(X_Pos, next_state, correct_pos) )
 			Redraw_Platform();
 
 		if (correct_pos)
@@ -680,7 +672,7 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPlatform_State::Expanding:
-		Platform_Expanding.Draw_Expanding_State(hdc, X_Pos);
+		Platform_Expanding.Draw_State(hdc, X_Pos);
 		break;
 
 	case EPlatform_State::Laser:

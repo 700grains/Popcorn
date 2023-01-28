@@ -120,8 +120,8 @@ public:
 	AsPlatform_Expanding(AsPlatform_State& platform_state);
 
 	void Init(AColor& highlight_color, AColor& circle_color, AColor& inner_color);
-	bool Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool& correct_pos);
-	void Draw_Expanding_State(HDC hdc, double& x);
+	bool Act(double &x_pos, EPlatform_State& next_state, bool& correct_pos);
+	void Draw_State(HDC hdc, double& x);
 	void Draw_Circle_Highlight(HDC hdc, int x, int y);
 	void Reset();
 
