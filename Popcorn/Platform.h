@@ -163,10 +163,13 @@ private:
 	AColor* Inner_Color, * Circle_Color; // UNO, Use, Not Own!
 	AColor* Gun_Color;
 
+	static const int Max_Laser_Beam_Count = 10;
+
+	ALaser_Beam Laser_Beams[Max_Laser_Beam_Count];
+
 	int Laser_Transformation_Step;
 
 	static const int Max_Laser_Transformation_Step = 20;
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform : public AHit_Checker, public AMover, public AGraphics_Object
