@@ -147,7 +147,7 @@ public:
 	bool Act(EPlatform_State& next_state);
 	void Draw_State(HDC hdc, double x_pos, RECT& platform_rect);
 	void Reset();
-	void Fire(bool key_down);
+	void Fire(bool fire_on);
 
 private:
 	void Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left);

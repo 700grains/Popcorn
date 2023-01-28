@@ -547,10 +547,34 @@ void AsPlatform_Laser::Reset()
 	Laser_Transformation_Step = 0;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Fire(bool key_down)
+void AsPlatform_Laser::Fire(bool fire_on)
 {
+	int i;
+	ALaser_Beam* left_beam = nullptr, * right_beam = nullptr;
+
 	if (Platform_State->Laser != EPlatform_Transformation::Active)
 		return; // We ignore the shot until the platform is formed
+
+	if (!fire_on)
+		return;
+
+	for (i = 0; i < Max_Laser_Beam_Count; ++i)
+	{
+		if (Laser_Beams[i].Is_Active)
+			continue;
+
+		if (left_beam == nullptr)
+			left_beam = &Laser_Beams[i];
+		else
+			if (right_beam == nullptr)
+			{
+				right_beam = &Laser_Beams[i];
+				break;
+			}
+	}
+
+	if (left_beam == nullptr || right_beam == nullptr)
+		AsConfig::Throw(); // Not enough free laser beams in the array
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
