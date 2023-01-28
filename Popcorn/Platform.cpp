@@ -242,10 +242,12 @@ AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Expanding::Init(AColor& circle_color, AColor& inner_color)
+void AsPlatform_Expanding::Init(AColor& highlight_color, AColor& circle_color, AColor& inner_color)
 {
+	Highlight_Color = &highlight_color;
 	Circle_Color = &circle_color;
 	Inner_Color = &inner_color;
+
 	Truss_Color = new AColor(inner_color, AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -329,6 +331,18 @@ void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x)
 	Inner_Color->Select(hdc);
 
 	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right - 1, inner_rect.bottom - 1);
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform_Expanding::Draw_Circle_Highlight(HDC hdc, int x, int y)
+{// Drawing hightlight on the ball
+
+	const int scale = AsConfig::Global_Scale;
+	int size = (AsPlatform::Circle_Size - 1) * scale - 1;
+
+	Highlight_Color->Select_Pen(hdc);
+
+	Arc(hdc, x + scale, y + scale, x + size, y + size, x + 2 * scale, y + scale, x + scale, y + 3 * scale);
 
 }
 //------------------------------------------------------------------------------------------------------------
@@ -680,7 +694,7 @@ bool AsPlatform::Is_Finished()
 void AsPlatform::Init(AsBall_Set* ball_set)
 {
 	Ball_Set = ball_set;
-	Platform_Expanding.Init(Platform_Circle_Color, Platform_Inner_Color);
+	Platform_Expanding.Init(Highlight_Color, Platform_Circle_Color, Platform_Inner_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform::Get_State()
@@ -964,15 +978,6 @@ void AsPlatform::Act_For_Laser_State()
 	default:
 		AsConfig::Throw();
 	}
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
-{// Drawing hightlight on the ball
-	Highlight_Color.Select_Pen(hdc);
-
-	Arc(hdc, x + AsConfig::Global_Scale, y + AsConfig::Global_Scale, x + (Circle_Size - 1) * AsConfig::Global_Scale - 1, y + (Circle_Size - 1) * AsConfig::Global_Scale - 1,
-		x + 2 * AsConfig::Global_Scale, y + AsConfig::Global_Scale, x + AsConfig::Global_Scale, y + 3 * AsConfig::Global_Scale);
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
