@@ -508,8 +508,8 @@ void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 	x_pos = (int)(X_Pos * AsConfig::D_Global_Scale);
 	y_pos = (int)(Y_Pos * AsConfig::D_Global_Scale);
 
-	MoveToEx(hdc, x_pos, y_pos, 0);
-	LineTo(hdc, x_pos, y_pos + Height * AsConfig::Global_Scale);
+	MoveToEx(hdc, x_pos, y_pos + 1, 0);
+	LineTo(hdc, x_pos, y_pos + Height * AsConfig::Global_Scale - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALaser_Beam::Is_Finished()
@@ -528,7 +528,7 @@ void ALaser_Beam::Set_At(double x_pos, double y_pos)
 	Beam_Rect.left = (int)((X_Pos - (double)Width / 2.0) * d_scale);
 	Beam_Rect.top = (int)(Y_Pos * d_scale);
 	Beam_Rect.right = Beam_Rect.left + Width * scale;
-	Beam_Rect.bottom = Beam_Rect.top - Height * scale;
+	Beam_Rect.bottom = Beam_Rect.top + Height * scale;
 
 	AsConfig::Invalidate_Rect(Beam_Rect);
 }
@@ -629,7 +629,7 @@ void AsLaser_Beam_Set::Fire(bool fire_on, double x_pos)
 		AsConfig::Throw(); // Not enough free laser beams in the array
 
 	left_beam->Set_At(x_pos + 3.0, AsConfig::Platform_Y_Pos);
-	left_beam->Set_At(x_pos + (AsPlatform::Normal_Width - 4), AsConfig::Platform_Y_Pos);
+	right_beam->Set_At(x_pos + (AsPlatform::Normal_Width - 4), AsConfig::Platform_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
 
