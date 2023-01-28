@@ -547,6 +547,12 @@ void AsPlatform_Laser::Reset()
 	Laser_Transformation_Step = 0;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsPlatform_Laser::Fire(bool key_down)
+{
+	if (Platform_State->Laser != EPlatform_Transformation::Active)
+		return; // We ignore the shot until the platform is formed
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 {// Draw the wing of the laser platform
 
@@ -1125,7 +1131,7 @@ void AsPlatform::On_Space_Key(bool key_down)
 		if (Platform_State == EPlatform_State::Glue)
 			Ball_Set->Release_Next_Ball();
 		else if (Platform_State == EPlatform_State::Laser)
-			AsConfig::Throw(); // TODO
+			Platform_Laser.Fire(key_down);
 
 }
 //------------------------------------------------------------------------------------------------------------
