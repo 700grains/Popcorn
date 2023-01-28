@@ -178,7 +178,7 @@ public:
 	~AsPlatform_Laser();
 	AsPlatform_Laser(AsPlatform_State &platform_state);
 
-	void Init(AColor& highlight_color, AColor& circle_color, AColor& inner_color);
+	void Init(AsLaser_Beam_Set *laser_beam_set, AColor &highlight_color, AColor& circle_color, AColor& inner_color);
 	bool Act(EPlatform_State& next_state);
 	void Draw_State(HDC hdc, double x_pos, RECT& platform_rect);
 	void Reset();
@@ -197,7 +197,8 @@ private:
 	AsPlatform_State* Platform_State;
 	AColor* Inner_Color, * Circle_Color; // UNO, Use, Not Own!
 	AColor* Gun_Color;
-	AsLaser_Beam_Set Laser_Beam_Set;
+
+	AsLaser_Beam_Set *Laser_Beam_Set; // UNO
 
 	int Laser_Transformation_Step;
 
@@ -222,7 +223,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Init(AsBall_Set *ball_set);
+	void Init(AsBall_Set *ball_set, AsLaser_Beam_Set *laser_beam_set);
 	EPlatform_State Get_State();
 	void Set_State(EPlatform_State new_state);
 	void Set_State(EPlatform_Substate_Regular new_regular_state);

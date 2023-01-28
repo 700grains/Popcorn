@@ -464,13 +464,14 @@ AsPlatform_Laser::~AsPlatform_Laser()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
-	: Laser_Transformation_Step(0), Platform_State(&platform_state), Circle_Color(0), Inner_Color(0), Gun_Color(0)
+	: Laser_Transformation_Step(0), Platform_State(&platform_state), Laser_Beam_Set(0), Circle_Color(0), Inner_Color(0), Gun_Color(0)
 {
 
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Init(AColor& highlight_color, AColor& circle_color, AColor& inner_color)
+void AsPlatform_Laser::Init(AsLaser_Beam_Set *laser_beam_set, AColor& highlight_color, AColor& circle_color, AColor& inner_color)
 {
+	Laser_Beam_Set = laser_beam_set;
 	Gun_Color = new AColor(highlight_color, AsConfig::Global_Scale);
 	Circle_Color = &circle_color;
 	Inner_Color = &inner_color;
@@ -994,11 +995,11 @@ bool AsPlatform::Is_Finished()
 	return false; // Not used
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Init(AsBall_Set* ball_set)
+void AsPlatform::Init(AsBall_Set* ball_set, AsLaser_Beam_Set* laser_beam_set)
 {
 	Ball_Set = ball_set;
 	Platform_Expanding.Init(Highlight_Color, Platform_Circle_Color, Platform_Inner_Color);
-	Platform_Laser.Init(Highlight_Color, Platform_Circle_Color, Platform_Inner_Color);
+	Platform_Laser.Init(laser_beam_set, Highlight_Color, Platform_Circle_Color, Platform_Inner_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform::Get_State()

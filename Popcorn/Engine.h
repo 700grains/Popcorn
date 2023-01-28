@@ -49,7 +49,8 @@ private:
 	AsLevel Level;
 	AsPlatform Platform;
 	AsBorder Border;
-	AsBall_Set Ball_Set;
+	AsBall_Set Ball_Set; 
+	AsLaser_Beam_Set Laser_Beam_Set;
 
 	AMover* Movers[AsConfig::Max_Movers_Count]; // UNO; currently moving objects
 	AGraphics_Object *Modules[AsConfig::Max_Modules_Count]; // UNO; main graphic modules
