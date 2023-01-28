@@ -547,7 +547,7 @@ void AsPlatform_Laser::Reset()
 	Laser_Transformation_Step = 0;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Fire(bool fire_on)
+void AsPlatform_Laser::Fire(bool fire_on, double x_pos)
 {
 	int i;
 	ALaser_Beam* left_beam = nullptr, * right_beam = nullptr;
@@ -575,6 +575,9 @@ void AsPlatform_Laser::Fire(bool fire_on)
 
 	if (left_beam == nullptr || right_beam == nullptr)
 		AsConfig::Throw(); // Not enough free laser beams in the array
+
+	left_beam->Set_At(x_pos + 3.0, AsConfig::Platform_Y_Pos);
+	left_beam->Set_At(x_pos + (AsPlatform::Normal_Width - 4), AsConfig::Platform_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
