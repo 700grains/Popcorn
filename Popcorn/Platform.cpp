@@ -508,7 +508,7 @@ void ALaser_Beam::Clear(HDC hdc, RECT& paint_area)
 		return;
 
 	AsConfig::BG_Color.Select(hdc);
-	Rectangle(hdc, Previous_Beam_Rect.left, Previous_Beam_Rect.top, Previous_Beam_Rect.right - 1, Previous_Beam_Rect.bottom - 1);
+	Rectangle(hdc, Previous_Beam_Rect.left, Previous_Beam_Rect.top, Previous_Beam_Rect.right - 1, Previous_Beam_Rect.bottom);
 }
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
@@ -525,15 +525,11 @@ void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 
 	AsConfig::Laser_Color.Select(hdc);
 
-	//x_pos = (int)(X_Pos * AsConfig::D_Global_Scale);
-	//y_pos = (int)(Y_Pos * AsConfig::D_Global_Scale);
-
-
 	x_pos = Beam_Rect.left + (Beam_Rect.right - Beam_Rect.left) / 2;
 	y_pos = Beam_Rect.top;
 
 	MoveToEx(hdc, x_pos, y_pos + 1, 0);
-	LineTo(hdc, x_pos, y_pos + Height * AsConfig::Global_Scale - 1);
+	LineTo(hdc, x_pos, y_pos + Height * AsConfig::Global_Scale - AsConfig::Global_Scale  / 2 - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALaser_Beam::Is_Finished()
