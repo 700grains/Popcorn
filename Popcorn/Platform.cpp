@@ -476,7 +476,14 @@ void ALaser_Beam::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Advance(double max_speed)
 {
-	//!!! Gotta do
+	double next_step;
+
+	if (!Is_Active)
+		return;
+
+	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
+
+	Y_Pos -= next_step;
 }
 //------------------------------------------------------------------------------------------------------------
 double ALaser_Beam::Get_Speed()
