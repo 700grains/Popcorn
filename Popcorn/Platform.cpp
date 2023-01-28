@@ -496,11 +496,20 @@ void ALaser_Beam::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 {
+	int x_pos, y_pos;
+
 	RECT intersection_rect;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Beam_Rect))
 		return;
 
+	AsConfig::Laser_Color.Select(hdc);
+
+	x_pos = (int)(X_Pos * AsConfig::D_Global_Scale);
+	y_pos = (int)(Y_Pos * AsConfig::D_Global_Scale);
+
+	MoveToEx(hdc, x_pos, y_pos, 0);
+	LineTo(hdc, x_pos, y_pos + Height * AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALaser_Beam::Is_Finished()
