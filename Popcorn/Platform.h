@@ -149,9 +149,9 @@ public:
 
 private:
 	void Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left);
-	void Draw_Laser_Inner_Part(HDC hdc);
-	void Draw_Laser_Leg(HDC hdc, bool is_left);
-	void Draw_Laser_Cabin(HDC hdc);
+	void Draw_Laser_Inner_Part(HDC hdc, double x);
+	void Draw_Laser_Leg(HDC hdc, , double x_pos, bool is_left);
+	void Draw_Laser_Cabin(HDC hdc, double x);
 
 	AsPlatform_State* Platform_State;
 	AColor* Inner_Color, * Circle_Color; // UNO, Use, Not Own!

@@ -601,21 +601,20 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Draw_Laser_Inner_Part(HDC hdc)
+void AsPlatform_Laser::Draw_Laser_Inner_Part(HDC hdc, double x)
 {// Draw a shrinking part of a regular platform
 
-	double x, y;
+	double y;
 	double ratio = (double)Laser_Transformation_Step / (double)Max_Laser_Transformation_Step;
 
 	// Size: 20 x 5 --> 8 x 1
-	x = X_Pos;
 	y = AsConfig::Platform_Y_Pos;
 
 	Inner_Color->Select(hdc);
 	Draw_Expanding_Figure(hdc, EFigure_Type::Round_Rect_3x, x + 4, y + 1, 20, 5, ratio, x + 10, y + 3, 8, 1);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Draw_Laser_Leg(HDC hdc, bool is_left)
+void AsPlatform_Laser::Draw_Laser_Leg(HDC hdc, double x_pos, bool is_left)
 {// Draw the "leg" of the laser platform
 
 	double x, y;
@@ -627,12 +626,12 @@ void AsPlatform_Laser::Draw_Laser_Leg(HDC hdc, bool is_left)
 
 	if (is_left)
 	{
-		x = (X_Pos + 6.0) * d_scale;
+		x = (x_pos + 6.0) * d_scale;
 		x_scale = d_scale;
 	}
 	else
 	{
-		x = X_Pos * d_scale + (AsPlatform::Normal_Width - 6) * d_scale - 1.0;
+		x = x_pos * d_scale + (AsPlatform::Normal_Width - 6) * d_scale - 1.0;
 		x_scale = -d_scale;
 	}
 
@@ -649,15 +648,14 @@ void AsPlatform_Laser::Draw_Laser_Leg(HDC hdc, bool is_left)
 	Polygon(hdc, left_leg_points, 7);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Draw_Laser_Cabin(HDC hdc)
+void AsPlatform_Laser::Draw_Laser_Cabin(HDC hdc, double x)
 {// Draw the cockpit of the laser platform
 
-	double x, y;
+	double y;
 	const int scale = AsConfig::Global_Scale;
 	double one_pixel = 1.0 / AsConfig::D_Global_Scale;
 	double ratio = (double)Laser_Transformation_Step / (double)Max_Laser_Transformation_Step;
 
-	x = X_Pos;
 	y = AsConfig::Platform_Y_Pos;
 
 	// 1. outer part
