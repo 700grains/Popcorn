@@ -232,9 +232,19 @@ void AsPlatform_Glue::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int heigh
 
 //AsPlatform_Expanding
 //------------------------------------------------------------------------------------------------------------
-AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
-: Expanding_Platform_Width(0.0), Platform_State(& platform_state)
+AsPlatform_Expanding::~AsPlatform_Expanding()
 {
+	delete Truss_Color;
+}
+//------------------------------------------------------------------------------------------------------------
+AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
+: Expanding_Platform_Width(0.0), Platform_State(& platform_state), Truss_Color(nullptr)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform_Expanding::Init(AColor& platform_inner_color)
+{
+	Truss_Color = new AColor(platform_inner_color, AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform_Expanding::Act_For_Expanding_State(double &x_pos, EPlatform_State& next_state, bool &correct_pos)
@@ -301,14 +311,14 @@ void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x, AColor & pla
 
 	// 1. Draw left side
 	// 1.1 the ball
-	Draw_Expanding_Platform_Ball(hdc, true);
+	Draw_Expanding_Platform_Ball(hdc, x, true);
 
 	// 1.2 Truss
 	Draw_Expanding_Truss(hdc, inner_rect, true);
 
 	// 2. Draw right side
 	// 2.1 the ball
-	Draw_Expanding_Platform_Ball(hdc, false);
+	Draw_Expanding_Platform_Ball(hdc, x, false);
 
 	// 2.2 Truss
 	Draw_Expanding_Truss(hdc, inner_rect, false);
@@ -320,9 +330,8 @@ void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, double& x, AColor & pla
 
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, bool is_left)
+void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, double x, bool is_left)
 {// Draw expanding platforms side ball
-	double x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
@@ -386,7 +395,7 @@ void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, bool is_left)
 	Ellipse(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1);
 
 	// 1.4.2 The arc itself
-	Truss_Color.Select(hdc);
+	Truss_Color->Select(hdc);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_start_y, arc_mid_x, arc_finish_y);
 
 
@@ -416,6 +425,7 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 	truss_top_y = inner_rect.top + 1;
 	truss_bot_y = inner_rect.bottom - scale + 1;
 
+	Truss_Color->Select(hdc);
 	MoveToEx(hdc, truss_x, truss_top_y, 0);
 	LineTo(hdc, truss_x - 4 * scale - 1, truss_bot_y);
 	LineTo(hdc, truss_x - 8 * scale, truss_top_y);
@@ -444,7 +454,7 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Laser_Transformation_Step (0), 
-Last_Redraw_Timer_Tick (0), Speed (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Platform_Glue(Platform_State), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
+Last_Redraw_Timer_Tick (0), Speed (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Platform_Glue(Platform_State), Platform_Expanding(Platform_State),Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
 Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
 Truss_Color(Platform_Inner_Color, AsConfig::Global_Scale), Gun_Color (Highlight_Color, AsConfig::Global_Scale)
 {
@@ -668,6 +678,7 @@ bool AsPlatform::Is_Finished()
 void AsPlatform::Init(AsBall_Set* ball_set)
 {
 	Ball_Set = ball_set;
+	Platform_Expanding.Init(Platform_Inner_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform::Get_State()
