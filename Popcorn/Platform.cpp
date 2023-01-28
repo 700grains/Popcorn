@@ -532,17 +532,17 @@ void AsPlatform_Laser::Draw_Laser_State(HDC hdc, double x_pos, RECT& platform_re
 
 	// 3. Central part
 	// 3.0. Normal central part
-	Draw_Laser_Inner_Part(hdc);
+	Draw_Laser_Inner_Part(hdc, x_pos);
 
 	// 3.1. Left leg
-	Draw_Laser_Leg(hdc, true);
+	Draw_Laser_Leg(hdc, x_pos, true);
 
 	// 3.2. Right leg
-	Draw_Laser_Leg(hdc, false);
+	Draw_Laser_Leg(hdc, x_pos, false);
 
 
 	// 3.3. Cabin
-	Draw_Laser_Cabin(hdc);
+	Draw_Laser_Cabin(hdc, x_pos);
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
@@ -673,6 +673,52 @@ void AsPlatform_Laser::Draw_Laser_Cabin(HDC hdc, double x)
 	// Size: 2 x 1 --> 6 x 4
 	AsConfig::White_Color.Select(hdc);
 	Draw_Expanding_Figure(hdc, EFigure_Type::Ellipse, x + 13, y + 1, 2, 1, ratio, x + 11, y, 6, 4 - one_pixel);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform_Laser::Draw_Expanding_Figure(HDC hdc, EFigure_Type figure_type, double start_x, double start_y, double start_width, double start_height, double ratio, double end_x, double end_y, double end_width, double end_height)
+{
+	int x, y;
+	int width, height;
+	RECT rect;
+
+	x = Get_Expanding_Value(start_x, end_x, ratio);
+	y = Get_Expanding_Value(start_y, end_y, ratio);
+	width = Get_Expanding_Value(start_width, end_width, ratio);
+	height = Get_Expanding_Value(start_height, end_height, ratio);
+
+	switch (figure_type)
+	{
+	case EFigure_Type::Ellipse:
+		Ellipse(hdc, x, y, x + width - 1, y + height);
+		break;
+
+	case EFigure_Type::Rectangle:
+		Rectangle(hdc, x, y, x + width - 1, y + height);
+		break;
+
+	case EFigure_Type::Round_Rect_3x:
+		rect.left = x;
+		rect.top = y;
+		rect.right = x + width;
+		rect.bottom = y + height + 1;
+
+		AsConfig::Round_Rect(hdc, rect, 3);
+		break;
+
+	default:
+		AsConfig::Throw();
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+int AsPlatform_Laser::Get_Expanding_Value(double start, double end, double ratio)
+{
+	int value;
+	double delta;
+
+	delta = end - start;
+	value = (int)((start + delta * ratio) * AsConfig::D_Global_Scale);
+
+	return value;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -1308,52 +1354,6 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 	// 3. Highlight
 	Platform_Expanding.Draw_Circle_Highlight(hdc, x, y);
 
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Expanding_Figure(HDC hdc, EFigure_Type figure_type, double start_x, double start_y, double start_width, double start_height, double ratio, double end_x, double end_y, double end_width, double end_height)
-{
-	int x, y;
-	int width, height;
-	RECT rect;
-
-	x = Get_Expanding_Value(start_x, end_x, ratio);
-	y = Get_Expanding_Value(start_y, end_y, ratio);
-	width = Get_Expanding_Value(start_width, end_width, ratio);
-	height = Get_Expanding_Value(start_height, end_height, ratio);
-
-	switch (figure_type)
-	{
-	case EFigure_Type::Ellipse:
-		Ellipse(hdc, x, y, x + width - 1, y + height);
-		break;
-
-	case EFigure_Type::Rectangle:
-		Rectangle(hdc, x, y, x + width - 1, y + height);
-		break;
-
-	case EFigure_Type::Round_Rect_3x:
-		rect.left = x;
-		rect.top = y;
-		rect.right = x + width;
-		rect.bottom = y + height + 1;
-
-		AsConfig::Round_Rect(hdc, rect, 3);
-		break;
-
-	default:
-		AsConfig::Throw();
-	}
-}
-//------------------------------------------------------------------------------------------------------------
-int AsPlatform::Get_Expanding_Value(double start, double end, double ratio)
-{
-	int value;
-	double delta;
-
-	delta = end - start;
-	value = (int)( (start + delta * ratio) * AsConfig::D_Global_Scale);
-
-	return value;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall *ball)
