@@ -231,6 +231,9 @@ void AsPlatform_Glue::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int heigh
 
 
 //AsPlatform_Expanding
+const double AsPlatform_Expanding::Min_Expanding_Platform_Width = (double)AsPlatform::Normal_Width;
+const double AsPlatform_Expanding::Max_Expanding_Platform_Width = 40.0;
+const double AsPlatform_Expanding::Expanding_Platform_Width_Step = 1.0;
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_Expanding::~AsPlatform_Expanding()
 {
@@ -434,7 +437,7 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 		truss_x += truss_x_offset;
 	else
 	{
-		truss_x += (Expanding_Platform_Inner_Width + 8 - 1) * scale + 1;
+		truss_x += (AsPlatform::Expanding_Platform_Inner_Width + 8 - 1) * scale + 1;
 		truss_x -= truss_x_offset;
 	}
 
@@ -458,10 +461,6 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 
 
 // AsPlatform
-const double AsPlatform::Min_Expanding_Platform_Width = (double) Normal_Width;
-const double AsPlatform::Max_Expanding_Platform_Width = 40.0;
-const double AsPlatform::Expanding_Platform_Width_Step = 1.0;
-
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::~AsPlatform()
 {
@@ -470,9 +469,9 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0), Laser_Transformation_Step (0), 
-Last_Redraw_Timer_Tick (0), Speed (0.0), Expanding_Platform_Width(0.0), Ball_Set(0), Platform_Glue(Platform_State), Platform_Expanding(Platform_State),Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
+Last_Redraw_Timer_Tick (0), Speed (0.0), Ball_Set(0), Platform_Glue(Platform_State), Platform_Expanding(Platform_State),Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
 Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192), 
-Truss_Color(Platform_Inner_Color, AsConfig::Global_Scale), Gun_Color (Highlight_Color, AsConfig::Global_Scale)
+Gun_Color (Highlight_Color, AsConfig::Global_Scale)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Normal_Width) / 2;
 }
