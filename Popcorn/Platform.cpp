@@ -518,42 +518,68 @@ void ALaser_Beam::Set_At(double x_pos, double y_pos)
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Begin_Movement()
 {
-	//!!! Gotta do
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Laser_Beams[i].Begin_Movement();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Finish_Movement()
 {
-	//!!! Gotta do
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Laser_Beams[i].Finish_Movement();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Advance(double max_speed)
 {
-	//!!! Gotta do
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Laser_Beams[i].Advance(max_speed);
 }
 //------------------------------------------------------------------------------------------------------------
 double AsLaser_Beam_Set::Get_Speed()
 {
-	return 0.0; //!!! Gotta do
+	int i;
+	double max_speed = 0.0, current_speed;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	{
+		current_speed = Laser_Beams[i].Get_Speed();
+
+		if (current_speed > max_speed)
+			max_speed = current_speed;
+	}
+
+	return max_speed;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Act()
 {
-	//!!! Gotta do
+// Stub. Not used, because the laser beam itself does nothing (no animation).
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! Gotta do
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Laser_Beams[i].Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! Gotta do
+	int i;
+
+	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+		Laser_Beams[i].Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLaser_Beam_Set::Is_Finished()
 {
-	return false; //!!! Gotta do
+	return false; // Stub. This method is not used.
 }
 //-----------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Fire(bool fire_on, double x_pos)
