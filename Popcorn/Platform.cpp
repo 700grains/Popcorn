@@ -459,7 +459,7 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 // ALaser_Beam
 //------------------------------------------------------------------------------------------------------------
 ALaser_Beam::ALaser_Beam()
-	: Is_Active(false), X_Pos(0.0), Y_Pos(0.0)
+	: Is_Active(false), X_Pos(0.0), Y_Pos(0.0), Beam_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -496,7 +496,11 @@ void ALaser_Beam::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! Gotta do
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Beam_Rect))
+		return;
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALaser_Beam::Is_Finished()
@@ -506,8 +510,18 @@ bool ALaser_Beam::Is_Finished()
 //-----------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Set_At(double x_pos, double y_pos)
 {
+	double d_scale = AsConfig::D_Global_Scale;
+	int scale = AsConfig::Global_Scale;
+
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
+
+	Beam_Rect.left = (int)((X_Pos - (double)Width / 2.0) * d_scale);
+	Beam_Rect.top = (int)(Y_Pos * d_scale);
+	Beam_Rect.right = Beam_Rect.left + Width * scale;
+	Beam_Rect.bottom = Beam_Rect.top - Height * scale;
+
+	AsConfig::Invalidate_Rect(Beam_Rect);
 }
 //-----------------------------------------------------------------------------------------------------------
 

@@ -157,7 +157,6 @@ void ABall::Clear(HDC hdc, RECT& paint_area)
 	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect))
 	{
 		AsConfig::BG_Color.Select(hdc);
-
 		Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
 	}
 }
