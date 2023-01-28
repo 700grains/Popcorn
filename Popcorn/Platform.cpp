@@ -850,9 +850,11 @@ void AsPlatform::Act()
 		Act_For_Meltdown_State();
 		break;
 
+
 	case EPlatform_State::Rolling:
 		Act_For_Rolling_State();
 		break;
+
 
 	case EPlatform_State::Glue:
 		if (Platform_Glue.Act(Ball_Set, next_state) )
@@ -861,6 +863,7 @@ void AsPlatform::Act()
 		if (next_state != EPlatform_State::Unknown)
 			Set_State(next_state);
 		break;
+
 
 	case EPlatform_State::Expanding:
 		if (Platform_Expanding.Act(X_Pos, next_state, correct_pos) )
@@ -871,12 +874,17 @@ void AsPlatform::Act()
 
 		if (next_state != EPlatform_State::Unknown)
 			Set_State(next_state);
-
 		break;
+
 
 	case EPlatform_State::Laser:
-		Act_For_Laser_State();
+		if (Platform_Laser.Act_For_Laser_State(next_state) )
+			Redraw_Platform();
+
+		if (next_state != EPlatform_State::Unknown)
+			Set_State(next_state);
 		break;
+
 
 	default:
 		break;
