@@ -550,6 +550,33 @@ bool AsLaser_Beam_Set::Is_Finished()
 	return false; //!!! Gotta do
 }
 //-----------------------------------------------------------------------------------------------------------
+void AsLaser_Beam_Set::Fire(bool fire_on, double x_pos)
+{
+	int i;
+	ALaser_Beam* left_beam = nullptr, * right_beam = nullptr;
+
+	for (i = 0; i < Max_Laser_Beam_Count; ++i)
+	{
+		if (Laser_Beams[i].Is_Active)
+			continue;
+
+		if (left_beam == nullptr)
+			left_beam = &Laser_Beams[i];
+		else
+			if (right_beam == nullptr)
+			{
+				right_beam = &Laser_Beams[i];
+				break;
+			}
+	}
+
+	if (left_beam == nullptr || right_beam == nullptr)
+		AsConfig::Throw(); // Not enough free laser beams in the array
+
+	left_beam->Set_At(x_pos + 3.0, AsConfig::Platform_Y_Pos);
+	left_beam->Set_At(x_pos + (AsPlatform::Normal_Width - 4), AsConfig::Platform_Y_Pos);
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -648,35 +675,13 @@ void AsPlatform_Laser::Reset()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Fire(bool fire_on, double x_pos)
 {
-	int i;
-	ALaser_Beam* left_beam = nullptr, * right_beam = nullptr;
-
 	if (Platform_State->Laser != EPlatform_Transformation::Active)
-		return; // We ignore the shot until the platform is formed
+		return; // We ignore fire untill the platform is fully transformed
 
 	if (!fire_on)
 		return;
 
-	for (i = 0; i < Max_Laser_Beam_Count; ++i)
-	{
-		if (Laser_Beams[i].Is_Active)
-			continue;
-
-		if (left_beam == nullptr)
-			left_beam = &Laser_Beams[i];
-		else
-			if (right_beam == nullptr)
-			{
-				right_beam = &Laser_Beams[i];
-				break;
-			}
-	}
-
-	if (left_beam == nullptr || right_beam == nullptr)
-		AsConfig::Throw(); // Not enough free laser beams in the array
-
-	left_beam->Set_At(x_pos + 3.0, AsConfig::Platform_Y_Pos);
-	left_beam->Set_At(x_pos + (AsPlatform::Normal_Width - 4), AsConfig::Platform_Y_Pos);
+	Laser_Beam_Set->Fire(fire_on, x_pos);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
