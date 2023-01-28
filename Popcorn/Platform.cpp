@@ -136,17 +136,17 @@ AsPlatform_Glue::AsPlatform_Glue(AsPlatform_State& platform_state)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Glue::Act(EPlatform_Transformation& glue_state, AsBall_Set* ball_set, EPlatform_State& next_state)
+bool AsPlatform_Glue::Act(AsBall_Set* ball_set, EPlatform_State& next_state)
 {
 	next_state = EPlatform_State::Unknown;
 
-		switch (glue_state)
+		switch (Platform_State->Glue)
 	{
 	case EPlatform_Transformation::Init:
 		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
 			Glue_Spot_Height_Ratio += Glue_Spot_Height_Ratio_Step;
 		else
-			glue_state = EPlatform_Transformation::Active;
+			Platform_State->Glue = EPlatform_Transformation::Active;
 		return true;
 
 	case EPlatform_Transformation::Active:
@@ -163,7 +163,7 @@ bool AsPlatform_Glue::Act(EPlatform_Transformation& glue_state, AsBall_Set* ball
 		}
 		else
 		{
-			glue_state = EPlatform_Transformation::Unknown;
+			Platform_State->Glue = EPlatform_Transformation::Unknown;
 			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
@@ -240,7 +240,7 @@ AsPlatform_Expanding::AsPlatform_Expanding(AsPlatform_State& platform_state)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Expanding::Act_For_Expanding_State()
+bool AsPlatform_Expanding::Act_For_Expanding_State()
 {
 	switch (Platform_State->Expanding)
 	{
@@ -254,8 +254,9 @@ void AsPlatform_Expanding::Act_For_Expanding_State()
 		else
 			Platform_State->Expanding = EPlatform_Transformation::Active;
 
-		Redraw_Platform();
-		break;
+		//Redraw_Platform();
+		//break;
+		return true;
 
 	case EPlatform_Transformation::Active:
 		break;
@@ -273,12 +274,14 @@ void AsPlatform_Expanding::Act_For_Expanding_State()
 			Set_State(EPlatform_Substate_Regular::Normal);
 		}
 
-		Redraw_Platform();
-		break;
+		//Redraw_Platform();
+		//break;
+		return true;
 
 	default:
 		AsConfig::Throw();
 	}
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Expanding::Draw_Expanding_State(HDC hdc, RECT& paint_area)

@@ -99,7 +99,7 @@ class AsPlatform_Glue
 public:
 	AsPlatform_Glue(AsPlatform_State &platform_state);
 
-	bool Act(EPlatform_Transformation &glue_state, AsBall_Set* ball_set, EPlatform_State& next_state);
+	bool Act(AsBall_Set* ball_set, EPlatform_State& next_state);
 	void Draw(HDC hdc, double x_pos);
 	void Reset();
 
@@ -118,7 +118,7 @@ class AsPlatform_Expanding
 public:
 	AsPlatform_Expanding(AsPlatform_State& platform_state);
 
-	void Act_For_Expanding_State();
+	bool Act_For_Expanding_State();
 	void Draw_Expanding_State(HDC hdc, RECT& paint_area);
 
 
