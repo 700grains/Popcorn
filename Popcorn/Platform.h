@@ -143,10 +143,10 @@ public:
 	AsPlatform_Laser(AsPlatform_State &platform_state);
 
 	bool Act_For_Laser_State(EPlatform_State& next_state);
-	void Draw_Laser_State(HDC hdc, RECT& platform_rect);
+	void Draw_Laser_State(HDC hdc, double x_pos, RECT& platform_rect);
 
 private:
-	void Draw_Laser_Wing(HDC hdc, bool is_left);
+	void Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left);
 	void Draw_Laser_Inner_Part(HDC hdc);
 	void Draw_Laser_Leg(HDC hdc, bool is_left);
 	void Draw_Laser_Cabin(HDC hdc);

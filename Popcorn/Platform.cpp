@@ -464,7 +464,7 @@ AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
 
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State& next_state, )
+bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State& next_state)
 {
 	next_state = EPlatform_State::Unknown;
 
@@ -502,7 +502,7 @@ bool AsPlatform_Laser::Act_For_Laser_State(EPlatform_State& next_state, )
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Draw_Laser_State(HDC hdc, RECT& platform_rect)
+void AsPlatform_Laser::Draw_Laser_State(HDC hdc, double x_pos, RECT& platform_rect)
 {// Draw laser platform
 	const double d_scale = AsConfig::D_Global_Scale;
 	const int scale = AsConfig::Global_Scale;
@@ -513,10 +513,10 @@ void AsPlatform_Laser::Draw_Laser_State(HDC hdc, RECT& platform_rect)
 	SelectClipRgn(hdc, region);
 
 	// 1. Left wing
-	Draw_Laser_Wing(hdc, true);
+	Draw_Laser_Wing(hdc, x_pos, true);
 
 	// 2. Right wing
-	Draw_Laser_Wing(hdc, false);
+	Draw_Laser_Wing(hdc, x_pos, false);
 
 	// 3. Central part
 	// 3.0. Normal central part
@@ -536,7 +536,7 @@ void AsPlatform_Laser::Draw_Laser_State(HDC hdc, RECT& platform_rect)
 	DeleteObject(region);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, bool is_left)
+void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 {// Draw the wing of the laser platform
 
 	double x, y;
@@ -548,10 +548,10 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, bool is_left)
 	const double d_scale = AsConfig::D_Global_Scale;
 
 	y = AsConfig::Platform_Y_Pos;
-	x = X_Pos;
+	x = x_pos;
 
 	if (!is_left)
-		x += Normal_Width - Circle_Size;
+		x += AsPlatform::Normal_Width - AsPlatform::Circle_Size;
 
 	// 1. The wing
 	Platform_Circle_Color.Select(hdc);
@@ -575,9 +575,9 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, bool is_left)
 		Gun_Color.Select(hdc);
 
 		if (is_left)
-			x = X_Pos + 3.0;
+			x = x_pos + 3.0;
 		else
-			x = X_Pos + (Normal_Width - 4);
+			x = x_pos + (AsPlatform::Normal_Width - 4);
 
 		height = 3.0 * (1.0 - ratio) * d_scale;
 
@@ -620,7 +620,7 @@ void AsPlatform_Laser::Draw_Laser_Leg(HDC hdc, bool is_left)
 	}
 	else
 	{
-		x = X_Pos * d_scale + (Normal_Width - 6) * d_scale - 1.0;
+		x = X_Pos * d_scale + (AsPlatform::Normal_Width - 6) * d_scale - 1.0;
 		x_scale = -d_scale;
 	}
 
@@ -889,7 +889,7 @@ void AsPlatform::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EPlatform_State::Laser:
-		Platform_Laser.Draw_Laser_State(hdc, Platform_Rect);
+		Platform_Laser.Draw_Laser_State(hdc, X_Pos, Platform_Rect);
 		break;
 	}
 }
