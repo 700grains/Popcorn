@@ -43,6 +43,9 @@
     <Filter Include="Ball_Set">
       <UniqueIdentifier>{9aa80ab0-0cfe-4a81-adda-8763828014a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Laser_Beam">
+      <UniqueIdentifier>{37c17f8b-11bb-4627-82ce-3944c0f37466}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -83,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="Config.h">
       <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser_Beam.h">
+      <Filter>Laser_Beam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="Ball_Set.cpp">
       <Filter>Ball_Set</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser_Beam.cpp">
+      <Filter>Laser_Beam</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -28,7 +28,6 @@ public:
 	void Reset_Speed();
 	void On_Platform_Advance(double direction, double platform_speed, double max_speed);
 
-
 private:
 	ABall Balls[AsConfig::Max_Balls_Count];
 };

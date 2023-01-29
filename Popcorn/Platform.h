@@ -2,6 +2,8 @@
 
 #include "Falling_Letter.h"
 #include "Ball_Set.h"
+#include "Laser_Beam.h"
+
 
 //------------------------------------------------------------------------------------------------------------
 enum class EPlatform_State : unsigned char
@@ -135,51 +137,6 @@ private:
 	AColor *Truss_Color;
 
 	static const double Min_Expanding_Platform_Width, Max_Expanding_Platform_Width, Expanding_Platform_Width_Step;
-};
-//------------------------------------------------------------------------------------------------------------
-enum class ELaser_Beam_State : unsigned char
-{
-	Disabled,
-
-	Active,
-	Stopping,
-	Cleanup
-};
-//------------------------------------------------------------------------------------------------------------
-class ALaser_Beam : public AMover, public AGraphics_Object
-{
-public:
-	ALaser_Beam();
-
-	virtual void Begin_Movement();
-	virtual void Finish_Movement();
-	virtual void Advance(double max_speed);
-	virtual double Get_Speed();
-
-	virtual void Act();
-	virtual void Clear(HDC hdc, RECT& paint_area);
-	virtual void Draw(HDC hdc, RECT& paint_area);
-	virtual bool Is_Finished();
-
-	void Set_At(double x_pos, double y_pos);
-	bool Is_Active();
-	static void Add_Hit_Checker(AHit_Checker* hit_checker);
-
-private:
-	void Stopping();
-	void Redraw_Beam();
-
-	ELaser_Beam_State Laser_Beam_State;
-
-	double X_Pos, Y_Pos;
-	double Speed;
-	RECT Beam_Rect, Previous_Beam_Rect;
-
-	static const int Width = 1;
-	static const int Height = 3;	
-	static int Hit_Checkers_Count;
-	static AHit_Checker* Hit_Checkers[3];
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLaser_Beam_Set : public AMover, public AGraphics_Object
