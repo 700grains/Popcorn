@@ -1381,17 +1381,20 @@ void AsPlatform::Move(bool to_left, bool key_down)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::On_Space_Key(bool key_down)
 {
-	if (!key_down)
-		return;
-
 	if (Has_State(EPlatform_Substate_Regular::Ready))
 	{
-		Ball_Set->Release_From_The_Platform(Get_Middle_Pos());
-		Set_State(EPlatform_Substate_Regular::Normal);
+		if (!key_down)
+		{
+			Ball_Set->Release_From_The_Platform(Get_Middle_Pos());
+			Set_State(EPlatform_Substate_Regular::Normal);
+		}
 	}
 	else
 		if (Platform_State == EPlatform_State::Glue)
-			Ball_Set->Release_Next_Ball();
+		{
+			if (!key_down)
+				Ball_Set->Release_Next_Ball();
+		}
 		else if (Platform_State == EPlatform_State::Laser)
 			Platform_Laser.Fire(key_down);
 
