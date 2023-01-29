@@ -459,7 +459,7 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 // ALaser_Beam
 //------------------------------------------------------------------------------------------------------------
 ALaser_Beam::ALaser_Beam()
-	: Is_Active(false), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Beam_Rect{}
+	: Is_Active(false), Laser_Beam_State(ELaser_Beam_State::Disabled), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Beam_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -485,6 +485,9 @@ void ALaser_Beam::Advance(double max_speed)
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
 
 	Y_Pos -= next_step;
+
+	if (Y_Pos < AsConfig::Level_Y_Offset)
+		Is_Active = false;
 }
 //------------------------------------------------------------------------------------------------------------
 double ALaser_Beam::Get_Speed()
@@ -543,7 +546,7 @@ void ALaser_Beam::Set_At(double x_pos, double y_pos)
 	Y_Pos = y_pos;
 
 	Is_Active = true;
-	Speed = 3.0;
+	Speed = 10.0;
 
 	Redraw_Beam();
 }
