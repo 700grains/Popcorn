@@ -27,9 +27,9 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	AFalling_Letter::Init();
 
-	ABall::Add_Hit_Checker(&Border);
-	ABall::Add_Hit_Checker(&Level);
-	ABall::Add_Hit_Checker(&Platform);
+	ABall::Hit_Checker_List.Add_Hit_Checker(&Border);
+	ABall::Hit_Checker_List.Add_Hit_Checker(&Level);
+	ABall::Hit_Checker_List.Add_Hit_Checker(&Platform);
 
 	ALaser_Beam::Hit_Checker_List.Add_Hit_Checker(&Level);
 

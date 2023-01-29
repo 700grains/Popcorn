@@ -48,7 +48,7 @@ public:
 
 	int Release_Timer_Tick; // Time counter after which the glued ball is released from the platform
 
-	static void Add_Hit_Checker(AHit_Checker *hit_checker);
+	static AHit_Checker_List Hit_Checker_List;
 
 	static const double Radius;
 
@@ -74,7 +74,5 @@ private:
 
 	static const int Parachute_Size = 15;
 	static const int On_Platform_Timeout = 10 * AsConfig::FPS; // The time the ball is on the platform
-	static int Hit_Checkers_Count;
-	static AHit_Checker* Hit_Checkers[3];
 };
 //------------------------------------------------------------------------------------------------------------

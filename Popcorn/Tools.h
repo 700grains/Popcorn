@@ -22,6 +22,7 @@ public:
 	AHit_Checker_List();
 
 	bool Add_Hit_Checker(AHit_Checker* hit_checker);
+	bool Check_Hit(double x_pos, double y_pos, ABall* ball);
 	bool Check_Hit(double x_pos, double y_pos);
 
 private:	
