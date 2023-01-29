@@ -152,6 +152,9 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos)
 	if (level_y_index < 0 || level_y_index >= AsConfig::Level_Height)
 		return false;
 
+	if (Current_Level[level_y_index][level_x_index] == 0)
+		return false;
+
 	On_Hit(level_x_index, level_y_index, nullptr, false);
 
 	return true;
