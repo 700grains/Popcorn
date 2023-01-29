@@ -493,7 +493,7 @@ void ALaser_Beam::Advance(double max_speed)
 		Stopping();
 
 		for (i = 0; i < Hit_Checkers_Count; i++)
-			if (Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this))
+			if (Hit_Checkers[i]->Check_Hit(X_Pos, Y_Pos))
 			{
 				Stopping();
 				break;
