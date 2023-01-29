@@ -162,8 +162,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Set_At(double x_pos, double y_pos);
-
-	bool Is_Active;
+	bool Is_Active();
 
 private:
 	void Redraw_Beam();
