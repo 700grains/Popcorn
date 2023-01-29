@@ -61,6 +61,9 @@
     <Filter Include="Platform_Expanding">
       <UniqueIdentifier>{1e728150-aad3-4b86-b3bb-2b7dc9850f62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform_Laser">
+      <UniqueIdentifier>{82bc633e-6a6f-4f05-8f73-42509ef13c13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -119,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="Platform_Expanding.h">
       <Filter>Platform_Expanding</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform_Laser.h">
+      <Filter>Platform_Laser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="Platform_Expanding.cpp">
       <Filter>Platform_Expanding</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform_Laser.cpp">
+      <Filter>Platform_Laser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
