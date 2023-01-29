@@ -30,6 +30,8 @@ public:
 	void Set_At(double x_pos, double y_pos);
 	bool Is_Active();
 
+	static AHit_Checker_List Hit_Checker_List;
+
 private:
 	void Stopping();
 	void Redraw_Beam();
@@ -42,7 +44,5 @@ private:
 
 	static const int Width = 1;
 	static const int Height = 3;
-
-	static AHit_Checker_List Hit_Checker_List;
 };
 //------------------------------------------------------------------------------------------------------------

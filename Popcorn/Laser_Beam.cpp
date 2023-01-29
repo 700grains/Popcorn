@@ -1,6 +1,7 @@
 #include "Laser_Beam.h"
 
 // ALaser_Beam
+AHit_Checker_List ALaser_Beam::Hit_Checker_List;
 //------------------------------------------------------------------------------------------------------------
 ALaser_Beam::ALaser_Beam()
 	: Laser_Beam_State(ELaser_Beam_State::Disabled), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Beam_Rect{}
@@ -21,7 +22,6 @@ void ALaser_Beam::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Advance(double max_speed)
 {
-	int i;
 	double next_step;
 
 	if (Laser_Beam_State != ELaser_Beam_State::Active)
@@ -34,12 +34,8 @@ void ALaser_Beam::Advance(double max_speed)
 	if (Y_Pos < AsConfig::Level_Y_Offset)
 		Stopping();
 
-	for (i = 0; i < Hit_Checkers_Count; i++)
-		if (Hit_Checkers[i]->Check_Hit(X_Pos, Y_Pos))
-		{
-			Stopping();
-			break;
-		}
+	if (Hit_Checker_List.Check_Hit(X_Pos, Y_Pos) )
+		Stopping();
 }
 //------------------------------------------------------------------------------------------------------------
 double ALaser_Beam::Get_Speed()
