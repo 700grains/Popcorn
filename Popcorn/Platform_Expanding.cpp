@@ -225,7 +225,3 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 
 }
 //------------------------------------------------------------------------------------------------------------
-
-
-
-

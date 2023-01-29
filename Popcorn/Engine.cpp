@@ -185,16 +185,6 @@ void AsEngine::Advance_Movers()
 		Rest_Distance -= AsConfig::Moving_Step_Size;
 	}
 
-
-	//for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-	//{
-	//	Ball_Set.Balls[i].Get_Center(ball_x, ball_y);
-
-	//	if (ball_x >= Platform.X_Pos + 1 && ball_x <= Platform.X_Pos + Platform.Width - 1)
-	//		if (ball_y >= AsConfig::Platform_Y_Pos + 1 && ball_y <= AsConfig::Platform_Y_Pos + 5)
-	//			int yy = 0;
-	//}
-
 	// 3. Заканчиваем все движения на этом кадре
 	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
 		if (Movers[i] != 0)

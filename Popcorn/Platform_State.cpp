@@ -55,7 +55,6 @@ void AsPlatform_State::Set_Next_State(EPlatform_State next_state)
 		break;
 	}
 
-
 	Next_State = next_state;
 }
 //------------------------------------------------------------------------------------------------------------

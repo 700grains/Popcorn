@@ -213,6 +213,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		//Rest_Distance = 0.0;
 		break;
 
+
 	case	EBS_Normal:
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = y_pos;
@@ -246,6 +247,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Redraw_Ball();
 		break;
 
+
 	case	EBS_On_Parachute:
 		AsConfig::Throw(); // To put on a parachute, you need to call the special method Set_On_Parachute ()
 		break;
@@ -260,6 +262,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Redraw_Parachute();
 		break;
 
+
 	case EBS_Teleporting:
 		if (!(Ball_State == EBS_Normal || Ball_State == EBS_On_Parachute || Ball_State == EBS_Teleporting))
 			AsConfig::Throw(); // Only from these states you can enter the teleport!
@@ -272,8 +275,8 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 
 		if (Ball_State == EBS_On_Parachute)
 			Redraw_Parachute();
-
 		break;
+
 
 	default:
 		AsConfig::Throw();
@@ -281,7 +284,6 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 
 	Previous_Ball_State = Ball_State;
 	Ball_State = new_state;
-
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Get_Center(double& x_pos, double& y_pos)
@@ -329,7 +331,6 @@ void ABall::Set_Direction(double new_direction)
 		new_direction = M_PI + AsConfig::Min_Ball_Angle;
 
 	Ball_Direction = new_direction;
-
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Reflect(bool from_horizontal)
@@ -338,7 +339,6 @@ void ABall::Reflect(bool from_horizontal)
 		Set_Direction(-Ball_Direction);
 	else
 		Set_Direction(M_PI - Ball_Direction);
-
 }
 //------------------------------------------------------------------------------------------------------------
 bool ABall::Is_Moving_Up()
@@ -426,7 +426,6 @@ void ABall::Redraw_Ball()
 
 	AsConfig::Invalidate_Rect(Prev_Ball_Rect);
 	AsConfig::Invalidate_Rect(Ball_Rect);
-
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Redraw_Parachute()
@@ -502,8 +501,6 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 
 	MoveToEx(hdc, Parachute_Rect.right, line_y - 1, 0);
 	LineTo(hdc, ball_center_x, ball_center_y);
-
-
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Clear_Parachute(HDC hdc)

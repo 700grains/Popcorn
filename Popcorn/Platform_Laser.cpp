@@ -93,7 +93,6 @@ void AsPlatform_Laser::Draw_State(HDC hdc, double x_pos, RECT& platform_rect)
 	// 3.2. Right leg
 	Draw_Laser_Leg(hdc, x_pos, false);
 
-
 	// 3.3. Cabin
 	Draw_Laser_Cabin(hdc, x_pos);
 
@@ -143,7 +142,6 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 		x_offset = -4;
 
 	Draw_Expanding_Figure(hdc, EFigure_Type::Rectangle, x + 3, y + 6, 1, 1, ratio, x + x_offset, y + 2, 6, 5);
-
 
 	// 3. the gun
 	if (Laser_Transformation_Step >= half_max_step)
@@ -299,10 +297,5 @@ double AsPlatform_Laser::Get_Gun_Pos(double platform_x_pos, bool is_left)
 		gun_x_pos = platform_x_pos + (AsConfig::Platform_Normal_Width - 4);
 
 	return gun_x_pos;
-
 }
 //------------------------------------------------------------------------------------------------------------
-
-
-
-

@@ -413,11 +413,10 @@ bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
 
 	falling_letter->Get_Letter_Cell(falling_letter_rect);
 
-	if (IntersectRect(&intersection_rect, &falling_letter_rect, &Platform_Rect) )
+	if (IntersectRect(&intersection_rect, &falling_letter_rect, &Platform_Rect))
 		return true;
 	else
 		return false;
-
 }
 //------------------------------------------------------------------------------------------------------------
 double AsPlatform::Get_Middle_Pos()
@@ -490,7 +489,6 @@ void AsPlatform::Act_For_Rolling_State()
 		break;
 	}
 
-
 	Redraw_Platform();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -535,7 +533,6 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 
 	if (Normal_Platform_Image == 0 && Has_State(EPlatform_Substate_Regular::Ready) )
 		Get_Normal_Platform_Image(hdc);
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
@@ -638,7 +635,6 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 
 	// 3. Highlight
 	Platform_Expanding.Draw_Circle_Highlight(hdc, x, y);
-
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall *ball)

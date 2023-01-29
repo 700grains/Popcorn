@@ -95,7 +95,3 @@ void AsLaser_Beam_Set::Fire(double left_gun_x_pos, double right_gun_x_pos)
 	right_beam->Set_At(right_gun_x_pos, AsConfig::Platform_Y_Pos - 1);
 }
 //------------------------------------------------------------------------------------------------------------
-
-
-
-

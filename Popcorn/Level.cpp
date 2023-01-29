@@ -37,6 +37,9 @@ char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
+
+
+
 // AsLevel
 //------------------------------------------------------------------------------------------------------------
 AsLevel::~AsLevel()

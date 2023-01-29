@@ -49,7 +49,6 @@ double AActive_Brick::Get_Brick_Y_Pos(bool of_center)
 
 
 
-
 // AActive_Brick_Red_Blue
 AColor AActive_Brick_Red_Blue::Fading_Red_Brick_Colors[Max_Fade_Step];
 AColor AActive_Brick_Red_Blue::Fading_Blue_Brick_Colors[Max_Fade_Step];
@@ -183,7 +182,6 @@ void AActive_Brick_Unbreakable::Act()
 		++Animation_Step;
 		AsConfig::Invalidate_Rect(Brick_Rect);
 	}
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Unbreakable::Draw(HDC hdc, RECT& paint_area)
@@ -355,7 +353,6 @@ void AActive_Brick_Multihit::Draw_Stage(HDC hdc, RECT& brick_rect, int x, int wi
 
 	AsConfig::Blue_Color.Select(hdc);
 	Rectangle(hdc, stage_rect.left, stage_rect.top, stage_rect.right - 1, stage_rect.bottom - 1);
-
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -502,7 +499,6 @@ void AActive_Brick_Teleport::Set_Ball(ABall* ball)
 		ball->Set_State(EBS_Teleporting, ball_x, ball_y);
 
 	Ball = ball;
-
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -524,7 +520,6 @@ AAdvertisement::~AAdvertisement()
 			if (region != 0)
 				DeleteObject(region);
 		}
-
 	delete[] Brick_Regions;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -653,7 +648,6 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	Ellipse(hdc, x, y, x + ball_width, y + ball_height);
 
-
 	// 3.2 Going down when the ball going up
 	// 3.3 Enlarging when the ball flattened
 
@@ -667,14 +661,12 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 20 * scale);
 	LineTo(hdc, Ad_Rect.left + scale - 1, Ad_Rect.top + 15 * scale);
 
-
 	// 4.2 Red side 2 pixels thickness.
 	AsConfig::Advertisement_Red_Table.Select(hdc);
 
 	MoveToEx(hdc, Ad_Rect.left + scale, Ad_Rect.top + 16 * scale + 1, 0);
 	LineTo(hdc, Ad_Rect.left + 15 * scale + 1, Ad_Rect.top + 21 * scale + 1);
 	LineTo(hdc, Ad_Rect.left + 30 * scale - 1, Ad_Rect.top + 16 * scale);
-
 
 	// 5. Ball
 	// 5.1 Red ellipse 12x12
@@ -683,7 +675,6 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	x = Ball_X - ball_width / 2;
 	y = Ball_Y - ball_height / 2 - Ball_Y_Offset;
-
 
 	AsConfig::Red_Color.Select(hdc);
 	
