@@ -1,8 +1,5 @@
 ﻿#include "Ball.h"
 
-
-
-
 // ABall
 const double ABall::Radius = 2.0 - 0.5 / AsConfig::Global_Scale;
 int ABall::Hit_Checkers_Count = 0;

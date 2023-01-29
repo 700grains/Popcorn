@@ -3,6 +3,7 @@
 #include "Platform_State.h"
 #include "Laser_Beam_Set.h"
 
+//------------------------------------------------------------------------------------------------------------
 class AsPlatform_Laser
 {
 public:

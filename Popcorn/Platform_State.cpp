@@ -1,8 +1,5 @@
 #include "Platform_State.h"
 
-
-
-
 // AsPlatform_State
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::AsPlatform_State()

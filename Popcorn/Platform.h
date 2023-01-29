@@ -1,12 +1,10 @@
 ﻿#pragma once
 
 #include "Falling_Letter.h"
-#include "Laser_Beam_Set.h"
 #include "Platform_State.h"
 #include "Platform_Glue.h"
 #include "Platform_Expanding.h"
 #include "Platform_Laser.h"
-
 
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform : public AHit_Checker, public AMover, public AGraphics_Object
