@@ -1,29 +1,10 @@
 ﻿#pragma once
 
 #include "Falling_Letter.h"
-#include "Ball_Set.h"
 #include "Laser_Beam_Set.h"
 #include "Platform_State.h"
+#include "Platform_Glue.h"
 
-//------------------------------------------------------------------------------------------------------------
-class AsPlatform_Glue
-{
-public:
-	AsPlatform_Glue(AsPlatform_State &platform_state);
-
-	bool Act(AsBall_Set* ball_set, EPlatform_State& next_state);
-	void Draw(HDC hdc, double x_pos);
-	void Reset();
-
-private:
-	void Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height, double x_pos);
-
-	double Glue_Spot_Height_Ratio;
-	AsPlatform_State* Platform_State;
-
-	static const double Max_Glue_Spot_Height_Ratio, Min_Glue_Spot_Height_Ratio, Glue_Spot_Height_Ratio_Step;
-
-};
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform_Expanding
 {
@@ -115,13 +96,6 @@ public:
 
 	double X_Pos;
 
-	static const int Height = 7;
-	static const int Circle_Size = 7;
-	static const int Normal_Width = 28;
-	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size;
-	static const int Expanding_Platform_Inner_Width = 12;
-
-
 private:
 	bool Set_Transformation_State(EPlatform_State new_state, EPlatform_Transformation& transformation_state);
 	void Act_For_Meltdown_State();
@@ -154,7 +128,7 @@ private:
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
 	int* Normal_Platform_Image; // Platform image pixels on window background
 
-	int Meltdown_Platform_Y_Pos[Normal_Width * AsConfig::Global_Scale];
+	int Meltdown_Platform_Y_Pos[AsConfig::Platform_Normal_Width * AsConfig::Global_Scale];
 
 	RECT Platform_Rect, Prev_Platform_Rect;
 

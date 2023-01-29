@@ -55,6 +55,9 @@
     <Filter Include="Platform_State">
       <UniqueIdentifier>{2f745a76-606f-46c4-b0ac-880f27f21b8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform_Glue">
+      <UniqueIdentifier>{464f9c3d-5606-4b8e-9fc2-8bd0dfefda13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="Platform_State.h">
       <Filter>Platform_State</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform_Glue.h">
+      <Filter>Platform_Glue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="Platform_State.cpp">
       <Filter>Platform_State</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform_Glue.cpp">
+      <Filter>Platform_Glue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,112 +3,8 @@
 
 
 
-// AsPlatform_Glue
-const double AsPlatform_Glue::Max_Glue_Spot_Height_Ratio = 1.0;
-const double AsPlatform_Glue::Min_Glue_Spot_Height_Ratio = 0.4;
-const double AsPlatform_Glue::Glue_Spot_Height_Ratio_Step = 0.05;
-//------------------------------------------------------------------------------------------------------------
-AsPlatform_Glue::AsPlatform_Glue(AsPlatform_State& platform_state)
-	: Glue_Spot_Height_Ratio(0.0), Platform_State(&platform_state)
-{
-}
-//------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Glue::Act(AsBall_Set* ball_set, EPlatform_State& next_state)
-{
-	next_state = EPlatform_State::Unknown;
-
-		switch (Platform_State->Glue)
-	{
-	case EPlatform_Transformation::Init:
-		if (Glue_Spot_Height_Ratio < Max_Glue_Spot_Height_Ratio)
-			Glue_Spot_Height_Ratio += Glue_Spot_Height_Ratio_Step;
-		else
-			Platform_State->Glue = EPlatform_Transformation::Active;
-		return true;
-
-	case EPlatform_Transformation::Active:
-		break;
-
-	case EPlatform_Transformation::Finalize:
-		if (Glue_Spot_Height_Ratio > Min_Glue_Spot_Height_Ratio)
-		{
-			Glue_Spot_Height_Ratio -= Glue_Spot_Height_Ratio_Step;
-
-			while (ball_set->Release_Next_Ball()) // Can be moved to the "else" so that the balls are released when the glue is completely gone
-			{
-			}
-		}
-		else
-		{
-			Platform_State->Glue = EPlatform_Transformation::Unknown;
-			next_state = Platform_State->Set_State(EPlatform_Substate_Regular::Normal);
-		}
-		return true;
-
-	default:
-		AsConfig::Throw();
-	}
-
-	return false;
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform_Glue::Reset()
-{
-	Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
-
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform_Glue::Draw(HDC hdc, double x_pos)
-{// draw a platform with spreading glue
-
-	HRGN region;
-	RECT glue_rect;
-
-	glue_rect.left = (int)((x_pos + 5.0) * AsConfig::D_Global_Scale);
-	glue_rect.top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
-	glue_rect.right = glue_rect.left + AsPlatform::Normal_Platform_Inner_Width * AsConfig::Global_Scale;
-	glue_rect.bottom = (long)((glue_rect.top + (AsPlatform::Height - 2) * AsConfig::D_Global_Scale));
-
-	region = CreateRectRgnIndirect(&glue_rect);
-	SelectClipRgn(hdc, region);
-
-	AsConfig::BG_Color.Select(hdc);
-	Draw_Glue_Spot(hdc, 0, 9, 5, x_pos);
-	Draw_Glue_Spot(hdc, 6, 6, 5, x_pos);
-	Draw_Glue_Spot(hdc, 9, 9, 6, x_pos);
-
-	AsConfig::White_Color.Select(hdc);
-	Draw_Glue_Spot(hdc, 0, 9, 4, x_pos);
-	Draw_Glue_Spot(hdc, 6, 6, 4, x_pos);
-	Draw_Glue_Spot(hdc, 9, 9, 5, x_pos);
-
-	SelectClipRgn(hdc, 0);
-	DeleteObject(region);
-}
-//------------------------------------------------------------------------------------------------------------
-void AsPlatform_Glue::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int height, double x_pos)
-{// draw a spot of glue on the platform
-
-	RECT spot_rect;
-	int platform_top = (AsConfig::Platform_Y_Pos + 1) * AsConfig::Global_Scale;
-	int spot_height = (int)((double)height * AsConfig::D_Global_Scale * Glue_Spot_Height_Ratio);
-
-	// draw a spot of glue
-	spot_rect.left = (int)((x_pos + 5.0 + (double)x_offset) * AsConfig::D_Global_Scale);
-	spot_rect.top = platform_top - spot_height;
-	spot_rect.right = spot_rect.left + width * AsConfig::Global_Scale;
-	spot_rect.bottom = platform_top + spot_height - AsConfig::Global_Scale;
-
-	Chord(hdc, spot_rect.left, spot_rect.top, spot_rect.right - 1, spot_rect.bottom - 1, spot_rect.left, platform_top - 1, spot_rect.right - 1, platform_top - 1);
-
-}
-//------------------------------------------------------------------------------------------------------------
-
-
-
-
 //AsPlatform_Expanding
-const double AsPlatform_Expanding::Min_Expanding_Platform_Width = (double)AsPlatform::Normal_Width;
+const double AsPlatform_Expanding::Min_Expanding_Platform_Width = (double)AsConfig::Platform_Normal_Width;
 const double AsPlatform_Expanding::Max_Expanding_Platform_Width = 40.0;
 const double AsPlatform_Expanding::Expanding_Platform_Width_Step = 1.0;
 //------------------------------------------------------------------------------------------------------------
@@ -180,9 +76,9 @@ void AsPlatform_Expanding::Draw_State(HDC hdc, double& x)
 	const double d_scale = AsConfig::D_Global_Scale;
 	RECT inner_rect;
 
-	inner_rect.left = (int)((x + (Expanding_Platform_Width - (double)AsPlatform::Expanding_Platform_Inner_Width) / 2.0) * d_scale);
+	inner_rect.left = (int)((x + (Expanding_Platform_Width - (double)AsConfig::Platform_Expanding_Inner_Width) / 2.0) * d_scale);
 	inner_rect.top = (y + 1) * scale;
-	inner_rect.right = inner_rect.left + AsPlatform::Expanding_Platform_Inner_Width * scale;
+	inner_rect.right = inner_rect.left + AsConfig::Platform_Expanding_Inner_Width * scale;
 	inner_rect.bottom = (y + 1 + 5) * scale;
 
 	// 1. Draw left side
@@ -210,7 +106,7 @@ void AsPlatform_Expanding::Draw_Circle_Highlight(HDC hdc, int x, int y)
 {// Drawing hightlight on the ball
 
 	const int scale = AsConfig::Global_Scale;
-	int size = (AsPlatform::Circle_Size - 1) * scale - 1;
+	int size = (AsConfig::Platform_Circle_Size - 1) * scale - 1;
 
 	Highlight_Color->Select_Pen(hdc);
 
@@ -237,11 +133,11 @@ void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, double x, bool 
 	if (is_left)
 		rect.left = (int)(x * d_scale);
 	else
-		rect.left = (int)((x + Expanding_Platform_Width - (double)AsPlatform::Circle_Size) * d_scale);
+		rect.left = (int)((x + Expanding_Platform_Width - (double)AsConfig::Platform_Circle_Size) * d_scale);
 
 	rect.top = y * scale;
-	rect.right = rect.left + AsPlatform::Circle_Size * scale;
-	rect.bottom = (y + AsPlatform::Circle_Size) * scale;
+	rect.right = rect.left + AsConfig::Platform_Circle_Size * scale;
+	rect.bottom = (y + AsConfig::Platform_Circle_Size) * scale;
 
 	Circle_Color->Select(hdc);
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
@@ -272,7 +168,7 @@ void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, double x, bool 
 	}
 	else
 	{
-		arc_right_offset = (AsPlatform::Circle_Size - 2) * scale + 1;
+		arc_right_offset = (AsConfig::Platform_Circle_Size - 2) * scale + 1;
 
 		arc_start_y = arc_rect.bottom;
 		arc_finish_y = arc_rect.top;
@@ -310,7 +206,7 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 		truss_x += truss_x_offset;
 	else
 	{
-		truss_x += (AsPlatform::Expanding_Platform_Inner_Width + 8 - 1) * scale + 1;
+		truss_x += (AsConfig::Platform_Expanding_Inner_Width + 8 - 1) * scale + 1;
 		truss_x -= truss_x_offset;
 	}
 
@@ -462,7 +358,7 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 	x = x_pos;
 
 	if (!is_left)
-		x += AsPlatform::Normal_Width - AsPlatform::Circle_Size;
+		x += AsConfig::Platform_Normal_Width - AsConfig::Platform_Circle_Size;
 
 	// 1. The wing
 	Circle_Color->Select(hdc);
@@ -488,7 +384,7 @@ void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)
 		//if (is_left)
 		//	x = x_pos + 3.0;
 		//else
-		//	x = x_pos + (AsPlatform::Normal_Width - 4);
+		//	x = x_pos + (AsConfig::Platform_Normal_Width - 4);
 
 		x = Get_Gun_Pos(x_pos, is_left);
 
@@ -532,7 +428,7 @@ void AsPlatform_Laser::Draw_Laser_Leg(HDC hdc, double x_pos, bool is_left)
 	}
 	else
 	{
-		x = x_pos * d_scale + (AsPlatform::Normal_Width - 6) * d_scale - 1.0;
+		x = x_pos * d_scale + (AsConfig::Platform_Normal_Width - 6) * d_scale - 1.0;
 		x_scale = -d_scale;
 	}
 
@@ -629,7 +525,7 @@ double AsPlatform_Laser::Get_Gun_Pos(double platform_x_pos, bool is_left)
 	if (is_left)
 		gun_x_pos = platform_x_pos + 3.0;
 	else
-		gun_x_pos = platform_x_pos + (AsPlatform::Normal_Width - 4);
+		gun_x_pos = platform_x_pos + (AsConfig::Platform_Normal_Width - 4);
 
 	return gun_x_pos;
 
@@ -647,11 +543,11 @@ AsPlatform::~AsPlatform()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step (0),
+: X_Pos(AsConfig::Border_X_Offset), Right_Key_Down (false),Left_Key_Down (false), Inner_Width(AsConfig::Platform_Normal_Inner_Width), Rolling_Step (0),
 Last_Redraw_Timer_Tick (0), Speed (0.0), Ball_Set(0), Platform_Glue(Platform_State), Platform_Expanding(Platform_State), Platform_Laser(Platform_State), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0),
 Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color(255, 255, 255), Platform_Circle_Color(151, 0, 0), Platform_Inner_Color(0, 128, 192)
 {
-	X_Pos = (AsConfig::Max_X_Pos - Normal_Width) / 2;
+	X_Pos = (AsConfig::Max_X_Pos - AsConfig::Platform_Normal_Width) / 2;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
@@ -666,15 +562,15 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 		return false;
 
 	inner_top_y = (double)(AsConfig::Platform_Y_Pos + 1);
-	inner_low_y = (double)(AsConfig::Platform_Y_Pos + Height - 1);
-	iiner_left_x = (double)(X_Pos + Circle_Size - 1);
-	inner_right_x = (double)(X_Pos + Get_Current_Width() - (Circle_Size - 1) );
+	inner_low_y = (double)(AsConfig::Platform_Y_Pos + AsConfig::Platform_Height - 1);
+	iiner_left_x = (double)(X_Pos + AsConfig::Platform_Circle_Size - 1);
+	inner_right_x = (double)(X_Pos + Get_Current_Width() - (AsConfig::Platform_Circle_Size - 1) );
 
 	// 1. Checking the reflection from the side balls
 	if (Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball) )
 		goto _on_hit; // From the left ball
 
-	if (Reflect_On_Circle(next_x_pos, next_y_pos, Get_Current_Width() - Circle_Size, ball) )
+	if (Reflect_On_Circle(next_x_pos, next_y_pos, Get_Current_Width() -AsConfig::Platform_Circle_Size, ball) )
 		goto _on_hit; // From  the right ball
 
 
@@ -983,7 +879,7 @@ void AsPlatform::Redraw_Platform()
 	Platform_Rect.left = (int)(X_Pos * AsConfig::D_Global_Scale);
 	Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 	Platform_Rect.right = (int)( (X_Pos + Get_Current_Width() ) * AsConfig::D_Global_Scale);
-	Platform_Rect.bottom = Platform_Rect.top + Height * AsConfig::Global_Scale;
+	Platform_Rect.bottom = Platform_Rect.top + AsConfig::Platform_Height * AsConfig::Global_Scale;
 
 	if (Platform_State == EPlatform_State::Meltdown)
 		Prev_Platform_Rect.bottom = (AsConfig::Max_Y_Pos + 1) * AsConfig::Global_Scale;
@@ -1119,9 +1015,9 @@ void AsPlatform::Act_For_Rolling_State()
 		--X_Pos;
 		Inner_Width += 2;
 
-		if (Inner_Width >= Normal_Platform_Inner_Width)
+		if (Inner_Width >= AsConfig::Platform_Normal_Inner_Width)
 		{
-			Inner_Width = Normal_Platform_Inner_Width;
+			Inner_Width = AsConfig::Platform_Normal_Inner_Width;
 			Set_State(EPlatform_Substate_Regular::Ready);
 			Platform_State.Rolling = EPlatform_Substate_Rolling::Unknown;
 			Redraw_Platform();
@@ -1147,15 +1043,15 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 
 	rect.left = (int)(x * d_scale);
 	rect.top = y * scale;
-	rect.right = (int)((x + (double)Circle_Size) * d_scale);
-	rect.bottom = (y + Circle_Size) * scale;
+	rect.right = (int)((x + (double)AsConfig::Platform_Circle_Size) * d_scale);
+	rect.bottom = (y +AsConfig::Platform_Circle_Size) * scale;
 
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
 
 	rect.left = (int)((x + Inner_Width) * d_scale);
 	rect.top = y * scale;
-	rect.right = (int)((x + (double)Circle_Size + Inner_Width) * d_scale);
-	rect.bottom = (y + Circle_Size) * scale;
+	rect.right = (int)((x + (double)AsConfig::Platform_Circle_Size + Inner_Width) * d_scale);
+	rect.bottom = (y +AsConfig::Platform_Circle_Size) * scale;
 	
 	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
 
@@ -1248,7 +1144,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 
 	int x = (int)(X_Pos * AsConfig::D_Global_Scale);
 	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
-	int roller_size = Circle_Size * AsConfig::Global_Scale;
+	int roller_size =AsConfig::Platform_Circle_Size * AsConfig::Global_Scale;
 	double alpha;
 	XFORM xform, old_xform;
 
@@ -1289,7 +1185,7 @@ bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double 
 	double related_ball_direction;
 	const double pi_2 = 2.0 * M_PI;
 
-	platform_ball_radius = (double)Circle_Size / 2.0;
+	platform_ball_radius = (double)AsConfig::Platform_Circle_Size / 2.0;
 	platform_ball_x = (double)X_Pos + platform_ball_radius + platform_ball_x_offset;
 	platform_ball_y = (double)AsConfig::Platform_Y_Pos + platform_ball_radius;
 
@@ -1376,8 +1272,8 @@ void AsPlatform::Get_Normal_Platform_Image(HDC hdc)
 	int x = (int)(X_Pos * AsConfig::D_Global_Scale);
 	int y = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
 
-	Normal_Platform_Image_Width = Normal_Width * AsConfig::Global_Scale;
-	Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
+	Normal_Platform_Image_Width = AsConfig::Platform_Normal_Width * AsConfig::Global_Scale;
+	Normal_Platform_Image_Height = AsConfig::Platform_Height * AsConfig::Global_Scale;
 
 	Normal_Platform_Image = new int[Normal_Platform_Image_Width * Normal_Platform_Image_Height];
 
@@ -1389,11 +1285,11 @@ void AsPlatform::Get_Normal_Platform_Image(HDC hdc)
 double AsPlatform::Get_Current_Width()
 {
 	if (Platform_State == EPlatform_State::Rolling && Platform_State.Rolling == EPlatform_Substate_Rolling::Roll_In)
-		return (double)Circle_Size;
+		return (double)AsConfig::Platform_Circle_Size;
 	else if (Platform_State == EPlatform_State::Expanding)
 		return Platform_Expanding.Expanding_Platform_Width;
 	else
-		return (double)Normal_Width;
+		return (double)AsConfig::Platform_Normal_Width;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Correct_Platform_Pos()

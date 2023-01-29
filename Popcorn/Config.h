@@ -50,5 +50,12 @@ public:
 	static const int Initial_Life_Count = 5;
 	static const int Max_Life_Count = 12;
 	static const int Floor_Y_Pos = Max_Y_Pos - 1;
+	
+	static const int Platform_Height = 7;
+	static const int Platform_Circle_Size = 7;
+	static const int Platform_Normal_Width = 28;
+	static const int Platform_Normal_Inner_Width = Platform_Normal_Width - Platform_Circle_Size;
+	static const int Platform_Expanding_Inner_Width = 12;
+
 };
 //------------------------------------------------------------------------------------------------------------

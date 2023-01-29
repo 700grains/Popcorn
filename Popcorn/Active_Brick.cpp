@@ -516,7 +516,7 @@ AAdvertisement::~AAdvertisement()
 	int i, j;
 	HRGN region;
 
-	for (i = 0; i < Height; i++)
+	for (i = 0; i < AsConfig::Platform_Height; i++)
 		for (j = 0; j < Width; j++)
 		{
 			region = Brick_Regions[i * Width + j];
@@ -538,8 +538,8 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 
 	Empty_Region = CreateRectRgn(0, 0, 0, 0);
 
-	Brick_Regions = new HRGN [Width * Height];
-	memset(Brick_Regions, 0, sizeof(HRGN) * Width * Height);
+	Brick_Regions = new HRGN [Width * AsConfig::Platform_Height];
+	memset(Brick_Regions, 0, sizeof(HRGN) * Width * AsConfig::Platform_Height);
 
 	Ad_Rect.left = (AsConfig::Level_X_Offset + Level_X * AsConfig::Cell_Width) * scale;
 	Ad_Rect.top = (AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height) * scale;
@@ -549,7 +549,7 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 	Ball_X = Ad_Rect.left + 9 * scale + Ball_Width / 2 + 1;
 	Ball_Y = Ad_Rect.top + 2 * scale + Ball_Height / 2;
 
-	//for (i = 0; i < Height; i++) // enabling Ads. Remove the code later
+	//for (i = 0; i < AsConfig::Platform_Height; i++) // enabling Ads. Remove the code later
 	//	for (j = 0; j < Width; j++)
 	//		Show_Under_Brick(Level_X + j, Level_Y + i);
 }
@@ -565,7 +565,7 @@ void AAdvertisement::Act()
 	//	return;
 
 	// 1. We order a redrawing of the fragments over which the bricks disappeared.
-	for (i = 0; i < Height; i++)
+	for (i = 0; i < AsConfig::Platform_Height; i++)
 		for (j = 0; j < Width; j++)
 			if (Brick_Regions[i * Width + j] != 0)
 			{
@@ -616,7 +616,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 
 	SelectClipRgn(hdc, Empty_Region);
 
-	for (i = 0; i < Height; i++)
+	for (i = 0; i < AsConfig::Platform_Height; i++)
 		for (j = 0; j < Width; j++)
 		{
 			region = Brick_Regions[i * Width + j];
@@ -716,7 +716,7 @@ void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
 	if (x < 0 || x >= Width)
 		AsConfig::Throw();
 
-	if (y < 0 || y >= Height)
+	if (y < 0 || y >= AsConfig::Platform_Height)
 		AsConfig::Throw();
 
 	rect.left = Ad_Rect.left + x * cell_width;
@@ -730,7 +730,7 @@ void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
 bool AAdvertisement::Has_Brick_At(int level_x, int level_y)
 {
 	if (level_x >= Level_X && level_x <= Level_X + Width)
-		if (level_y >= Level_Y && level_y <= Level_Y + Height)
+		if (level_y >= Level_Y && level_y <= Level_Y + AsConfig::Platform_Height)
 			return true;
 
 	return false;
@@ -777,7 +777,7 @@ void AActive_Brick_Ad::Draw_In_Level(HDC hdc, RECT& brick_rect)
 	int x = brick_rect.left;
 	int y = brick_rect.top;
 	int i;
-	int size = (Circle_Size - 1) * scale - 1;
+	int size = (AsConfig::Platform_Circle_Size - 1) * scale - 1;
 
 	// 1. Clearing previous image
 	AsConfig::BG_Color.Select(hdc);
