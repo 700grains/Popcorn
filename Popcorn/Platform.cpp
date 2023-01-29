@@ -574,6 +574,14 @@ bool ALaser_Beam::Is_Active()
 		return false;
 }
 //-----------------------------------------------------------------------------------------------------------
+void ALaser_Beam::Add_Hit_Checker(AHit_Checker* hit_checker)
+{
+	if (Hit_Checkers_Count >= sizeof(Hit_Checkers) / sizeof(Hit_Checkers[0]))
+		return;
+
+	Hit_Checkers[Hit_Checkers_Count++] = hit_checker;
+}
+//------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Stopping()
 {
 	Laser_Beam_State = ELaser_Beam_State::Stopping;

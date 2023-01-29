@@ -163,6 +163,7 @@ public:
 
 	void Set_At(double x_pos, double y_pos);
 	bool Is_Active();
+	static void Add_Hit_Checker(AHit_Checker* hit_checker);
 
 private:
 	void Stopping();
