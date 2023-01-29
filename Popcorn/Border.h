@@ -2,7 +2,6 @@
 
 #include "Ball.h"
 
-
 //------------------------------------------------------------------------------------------------------------
 class AsBorder : public AHit_Checker, public AGraphics_Object
 {

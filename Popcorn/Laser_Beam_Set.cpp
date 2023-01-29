@@ -1,8 +1,5 @@
 #include "Laser_Beam_Set.h"
 
-
-
-
 // AsLaser_Beam_Set
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Begin_Movement()

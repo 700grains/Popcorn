@@ -1,8 +1,5 @@
 #include "Platform_State.h"
 
-
-
-
 // AsPlatform_State
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::AsPlatform_State()
@@ -57,7 +54,6 @@ void AsPlatform_State::Set_Next_State(EPlatform_State next_state)
 		AsConfig::Throw();
 		break;
 	}
-
 
 	Next_State = next_state;
 }

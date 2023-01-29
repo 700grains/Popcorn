@@ -1,7 +1,5 @@
 ﻿#include "Config.h"
 
-
-
 // AsConfig
 bool AsConfig::Level_Has_Floor = true;
 int AsConfig::Current_Timer_Tick = 0;
