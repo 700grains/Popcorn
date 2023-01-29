@@ -695,7 +695,7 @@ AsPlatform_Laser::~AsPlatform_Laser()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
-	: Enable_Laser_Firing(false), Laser_Transformation_Step(0), Platform_State(&platform_state), Laser_Beam_Set(0), Circle_Color(0), Inner_Color(0), Gun_Color(0)
+	: Enable_Laser_Firing(false), Laser_Transformation_Step(0), Last_Laser_Shot_Time(0), Platform_State(&platform_state), Laser_Beam_Set(0), Circle_Color(0), Inner_Color(0), Gun_Color(0)
 {
 
 }
@@ -725,10 +725,15 @@ bool AsPlatform_Laser::Act(EPlatform_State & next_state, double x_pos)
 	case EPlatform_Transformation::Active:
 		if (Enable_Laser_Firing)
 		{
-			left_gun_x_pos = Get_Gun_Pos(x_pos, true) + 0.5;
-			right_gun_x_pos = Get_Gun_Pos(x_pos, false) + 0.5;
+			if (Last_Laser_Shot_Time + Laser_Shot_Timeout <= AsConfig::Current_Timer_Tick)
+			{
+				Last_Laser_Shot_Time = AsConfig::Current_Timer_Tick + Laser_Shot_Timeout;
 
-			Laser_Beam_Set->Fire(left_gun_x_pos, right_gun_x_pos);
+				left_gun_x_pos = Get_Gun_Pos(x_pos, true) + 0.5;
+				right_gun_x_pos = Get_Gun_Pos(x_pos, false) + 0.5;
+
+				Laser_Beam_Set->Fire(left_gun_x_pos, right_gun_x_pos);
+			}
 		}
 		break;
 
@@ -1140,7 +1145,7 @@ void AsPlatform::Act()
 
 
 	case EPlatform_State::Laser:
-		if (Platform_Laser.Act(next_state) )
+		if (Platform_Laser.Act(next_state, X_Pos) )
 			Redraw_Platform();
 
 		if (next_state != EPlatform_State::Unknown)
@@ -1388,7 +1393,7 @@ void AsPlatform::On_Space_Key(bool key_down)
 		if (Platform_State == EPlatform_State::Glue)
 			Ball_Set->Release_Next_Ball();
 		else if (Platform_State == EPlatform_State::Laser)
-			Platform_Laser.Fire(key_down, X_Pos);
+			Platform_Laser.Fire(key_down);
 
 }
 //------------------------------------------------------------------------------------------------------------

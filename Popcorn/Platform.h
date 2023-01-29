@@ -226,10 +226,11 @@ private:
 	AColor* Gun_Color;
 
 	AsLaser_Beam_Set *Laser_Beam_Set; // UNO
-
+	int Last_Laser_Shot_Time;
 	int Laser_Transformation_Step;
 
 	static const int Max_Laser_Transformation_Step = 20;
+	static const int Laser_Shot_Timeout = AsConfig::FPS / 2; // currently 20 FPS, so laser can shoot each 0.5 seconds
 };
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform : public AHit_Checker, public AMover, public AGraphics_Object
