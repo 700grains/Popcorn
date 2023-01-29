@@ -1,8 +1,6 @@
 #include "Laser_Beam.h"
 
 // ALaser_Beam
-int ALaser_Beam::Hit_Checkers_Count = 0;
-AHit_Checker* ALaser_Beam::Hit_Checkers[] = {};
 //------------------------------------------------------------------------------------------------------------
 ALaser_Beam::ALaser_Beam()
 	: Laser_Beam_State(ELaser_Beam_State::Disabled), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Beam_Rect{}
@@ -116,14 +114,6 @@ bool ALaser_Beam::Is_Active()
 		return true;
 	else
 		return false;
-}
-//-----------------------------------------------------------------------------------------------------------
-void ALaser_Beam::Add_Hit_Checker(AHit_Checker* hit_checker)
-{
-	if (Hit_Checkers_Count >= sizeof(Hit_Checkers) / sizeof(Hit_Checkers[0]))
-		return;
-
-	Hit_Checkers[Hit_Checkers_Count++] = hit_checker;
 }
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Stopping()

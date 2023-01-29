@@ -33,6 +33,27 @@ bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x
 
 
 
+// AHit_Checker_List
+//------------------------------------------------------------------------------------------------------------
+AHit_Checker_List::AHit_Checker_List()
+	: Hit_Checkers_Count(0), Hit_Checkers{}
+{
+}
+//------------------------------------------------------------------------------------------------------------
+bool AHit_Checker_List::Add_Hit_Checker (AHit_Checker* hit_checker)
+{
+	if (Hit_Checkers_Count >= sizeof(Hit_Checkers) / sizeof(Hit_Checkers[0]))
+		return false;
+
+	Hit_Checkers[Hit_Checkers_Count++] = hit_checker;
+
+	return true;
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AMover
 //------------------------------------------------------------------------------------------------------------
 AMover::~AMover()
