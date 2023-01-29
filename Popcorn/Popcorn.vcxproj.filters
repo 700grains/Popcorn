@@ -49,6 +49,9 @@
     <Filter Include="Tools">
       <UniqueIdentifier>{c3208528-5d1a-493a-9b99-f9889cc91b07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Laser_Beam_Set">
+      <UniqueIdentifier>{aaf4dba5-14d3-4eb8-95a9-30846edf0212}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="Tools.h">
       <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser_Beam_Set.h">
+      <Filter>Laser_Beam_Set</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="Tools.cpp">
       <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser_Beam_Set.cpp">
+      <Filter>Laser_Beam_Set</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
