@@ -139,6 +139,24 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
+bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos)
+{// Return "true" if at given positions our laser beam hits a brick
+	int level_x_index, level_y_index;
+
+	level_x_index = (int)(next_x_pos - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width;
+	level_y_index = (int)(next_y_pos - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height;
+
+	if (level_x_index < 0 || level_x_index >= AsConfig::Level_Width)
+		return false;
+
+	if (level_y_index < 0 || level_y_index >= AsConfig::Level_Height)
+		return false;
+
+	On_Hit(level_x_index, level_y_index, nullptr, false);
+
+	return true;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsLevel::Act()
 {
 	Act_Objects((AGraphics_Object**)&Active_Bricks, Active_Bricks_Count, AsConfig::Max_Active_Bricks_Count);
