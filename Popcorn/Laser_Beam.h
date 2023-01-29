@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Ball.h"
+#include "Tools.h"
+#include "Config.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum class ELaser_Beam_State : unsigned char
