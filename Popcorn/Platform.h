@@ -165,6 +165,7 @@ public:
 	bool Is_Active();
 
 private:
+	void Stopping();
 	void Redraw_Beam();
 
 	ELaser_Beam_State Laser_Beam_State;
@@ -174,7 +175,10 @@ private:
 	RECT Beam_Rect, Previous_Beam_Rect;
 
 	static const int Width = 1;
-	static const int Height = 3;
+	static const int Height = 3;	
+	static int Hit_Checkers_Count;
+	static AHit_Checker* Hit_Checkers[3];
+
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLaser_Beam_Set : public AMover, public AGraphics_Object

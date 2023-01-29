@@ -457,6 +457,8 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 
 
 // ALaser_Beam
+int ALaser_Beam::Hit_Checkers_Count = 0;
+AHit_Checker* ALaser_Beam::Hit_Checkers[] = {};
 //------------------------------------------------------------------------------------------------------------
 ALaser_Beam::ALaser_Beam()
 	: Laser_Beam_State(ELaser_Beam_State::Disabled), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Beam_Rect{}
@@ -477,6 +479,7 @@ void ALaser_Beam::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Advance(double max_speed)
 {
+	int i;
 	double next_step;
 
 	if (Laser_Beam_State != ELaser_Beam_State::Active)
@@ -487,10 +490,14 @@ void ALaser_Beam::Advance(double max_speed)
 	Y_Pos -= next_step;
 
 	if (Y_Pos < AsConfig::Level_Y_Offset)
-	{
-		Laser_Beam_State = ELaser_Beam_State::Stopping;
-		Speed = 0.0;
-	}
+		Stopping();
+
+		for (i = 0; i < Hit_Checkers_Count; i++)
+			if (Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this))
+			{
+				Stopping();
+				break;
+			}
 }
 //------------------------------------------------------------------------------------------------------------
 double ALaser_Beam::Get_Speed()
@@ -567,6 +574,12 @@ bool ALaser_Beam::Is_Active()
 		return false;
 }
 //-----------------------------------------------------------------------------------------------------------
+void ALaser_Beam::Stopping()
+{
+	Laser_Beam_State = ELaser_Beam_State::Stopping;
+	Speed = 0.0;
+}
+//------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Redraw_Beam()
 {
 	double d_scale = AsConfig::D_Global_Scale;
@@ -1397,7 +1410,6 @@ void AsPlatform::On_Space_Key(bool key_down)
 		}
 		else if (Platform_State == EPlatform_State::Laser)
 			Platform_Laser.Fire(key_down);
-
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Hit_By(AFalling_Letter* falling_letter)
