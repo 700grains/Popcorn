@@ -656,7 +656,7 @@ bool AsLaser_Beam_Set::Is_Finished()
 	return false; // Stub. This method is not used.
 }
 //-----------------------------------------------------------------------------------------------------------
-void AsLaser_Beam_Set::Fire(bool fire_on, double left_gun_x_pos, double right_gun_x_pos)
+void AsLaser_Beam_Set::Fire(double left_gun_x_pos, double right_gun_x_pos)
 {
 	int i;
 	ALaser_Beam* left_beam = nullptr, * right_beam = nullptr;
@@ -695,7 +695,7 @@ AsPlatform_Laser::~AsPlatform_Laser()
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
-	: Laser_Transformation_Step(0), Platform_State(&platform_state), Laser_Beam_Set(0), Circle_Color(0), Inner_Color(0), Gun_Color(0)
+	: Enable_Laser_Firing(false), Laser_Transformation_Step(0), Platform_State(&platform_state), Laser_Beam_Set(0), Circle_Color(0), Inner_Color(0), Gun_Color(0)
 {
 
 }
@@ -708,8 +708,9 @@ void AsPlatform_Laser::Init(AsLaser_Beam_Set *laser_beam_set, AColor& highlight_
 	Inner_Color = &inner_color;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform_Laser::Act(EPlatform_State & next_state)
+bool AsPlatform_Laser::Act(EPlatform_State & next_state, double x_pos)
 {
+	double left_gun_x_pos, right_gun_x_pos;
 	next_state = EPlatform_State::Unknown;
 
 	switch (Platform_State->Laser)
@@ -722,6 +723,13 @@ bool AsPlatform_Laser::Act(EPlatform_State & next_state)
 		return true;
 
 	case EPlatform_Transformation::Active:
+		if (Enable_Laser_Firing)
+		{
+			left_gun_x_pos = Get_Gun_Pos(x_pos, true) + 0.5;
+			right_gun_x_pos = Get_Gun_Pos(x_pos, false) + 0.5;
+
+			Laser_Beam_Set->Fire(left_gun_x_pos, right_gun_x_pos);
+		}
 		break;
 
 	case EPlatform_Transformation::Finalize:
@@ -779,19 +787,12 @@ void AsPlatform_Laser::Reset()
 	Laser_Transformation_Step = 0;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform_Laser::Fire(bool fire_on, double x_pos)
+void AsPlatform_Laser::Fire(bool fire_on)
 {
-	double left_gun_x_pos, right_gun_x_pos;
-
 	if (Platform_State->Laser != EPlatform_Transformation::Active)
 		return; // We ignore fire untill the platform is fully transformed
 
-	if (!fire_on)
-		return;
-	left_gun_x_pos = Get_Gun_Pos(x_pos, true) + 0.5;
-	right_gun_x_pos = Get_Gun_Pos(x_pos, false) + 0.5;
-
-	Laser_Beam_Set->Fire(fire_on, left_gun_x_pos, right_gun_x_pos);
+	Enable_Laser_Firing = fire_on;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left)

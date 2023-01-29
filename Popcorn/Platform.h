@@ -190,7 +190,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Fire(bool fire_on, double left_gun_x_pos, double right_gun_x_pos);
+	void Fire(double left_gun_x_pos, double right_gun_x_pos);
 
 private:
 	static const int Max_Laser_Beam_Count = 10;
@@ -205,10 +205,10 @@ public:
 	AsPlatform_Laser(AsPlatform_State &platform_state);
 
 	void Init(AsLaser_Beam_Set *laser_beam_set, AColor &highlight_color, AColor& circle_color, AColor& inner_color);
-	bool Act(EPlatform_State& next_state);
+	bool Act(EPlatform_State& next_state, double x_pos);
 	void Draw_State(HDC hdc, double x_pos, RECT& platform_rect);
 	void Reset();
-	void Fire(bool fire_on, double x_pos);
+	void Fire(bool fire_on);
 
 private:
 	void Draw_Laser_Wing(HDC hdc, double x_pos, bool is_left);
@@ -220,7 +220,7 @@ private:
 	int Get_Expanding_Value(double start, double end, double ratio);
 	double Get_Gun_Pos(double platform_x_pos, bool is_left);
 
-
+	bool Enable_Laser_Firing;
 	AsPlatform_State* Platform_State;
 	AColor* Inner_Color, * Circle_Color; // UNO, Use, Not Own!
 	AColor* Gun_Color;
