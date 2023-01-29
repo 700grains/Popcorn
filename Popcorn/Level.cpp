@@ -312,13 +312,18 @@ bool AsLevel::On_Hit(int brick_x, int brick_y, ABall* ball, bool vertical_hit)
 
 	brick_type = (EBrick_Type)Current_Level[brick_y][brick_x];
 
+	if (ball == nullptr && brick_type == EBT_Parachute)
+	{
+		brick_type = EBT_Red;
+		Current_Level[brick_y][brick_x] = brick_type;
+	}
+
 	if (brick_type == EBT_Parachute)
 	{
 		ball->Set_On_Parachute(brick_x, brick_y);
 		Current_Level[brick_y][brick_x] = EBT_None;
 	}
-	else
-		if (Add_Falling_Letter(brick_x, brick_y, brick_type) )
+	else if (Add_Falling_Letter(brick_x, brick_y, brick_type) )
 		Current_Level[brick_y][brick_x] = EBT_None;
 	else
 		can_reflect = Create_Active_Brick(brick_x, brick_y, brick_type, ball, vertical_hit);
@@ -429,7 +434,8 @@ bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 		break;
 
 	case EBT_Teleport:
-		Add_Active_Brick_Teleport(brick_x, brick_y, ball, vertical_hit);
+		if (ball != nullptr)
+			Add_Active_Brick_Teleport(brick_x, brick_y, ball, vertical_hit);
 		return false;
 
 	case EBT_Ad:
