@@ -153,13 +153,34 @@ void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
 
 // AsBorder
 //------------------------------------------------------------------------------------------------------------
+AsBorder::~AsBorder()
+{
+	int i;
+
+	for (i = 0; i < AsConfig::Gates_Count; i++)
+		delete Gates[i]; // !!! is it correct?
+}
+//------------------------------------------------------------------------------------------------------------
 AsBorder::AsBorder()
-	: Gate(AsConfig::Max_X_Pos, 178)
+	: Floor_Rect{}, Gates {}
 {
 	Floor_Rect.left = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
 	Floor_Rect.right = (AsConfig::Max_X_Pos - 1) * AsConfig::Global_Scale;
 	Floor_Rect.top = AsConfig::Floor_Y_Pos * AsConfig::Global_Scale;
 	Floor_Rect.bottom = AsConfig::Max_Y_Pos * AsConfig::Global_Scale;
+
+	// Gates
+	Gates[0] = new AGate(1, 29);
+	Gates[1] = new AGate(AsConfig::Max_X_Pos, 29);
+
+	Gates[2] = new AGate(1, 77);
+	Gates[3] = new AGate(AsConfig::Max_X_Pos, 77);
+
+	Gates[4] = new AGate(1, 129);
+	Gates[5] = new AGate(AsConfig::Max_X_Pos, 129);
+
+	Gates[6] = new AGate(1, 178);
+	Gates[7] = new AGate(AsConfig::Max_X_Pos, 178);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Redraw_Floor()
@@ -248,7 +269,8 @@ void AsBorder::Draw(HDC hdc, RECT& paint_area)
 		Draw_Floor(hdc, paint_area);
 
 	// 5. Gates
-	Gate.Draw(hdc, paint_area);
+	for (i = 0; i < AsConfig::Gates_Count; ++i)
+		Gates[i]->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Is_Finished()

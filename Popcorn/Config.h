@@ -58,5 +58,6 @@ public:
 	static const int Platform_Normal_Width = 28;
 	static const int Platform_Normal_Inner_Width = Platform_Normal_Width - Platform_Circle_Size;
 	static const int Platform_Expanding_Inner_Width = 12;
+	static const int Gates_Count = 8;
 };
 //------------------------------------------------------------------------------------------------------------
