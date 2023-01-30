@@ -5,7 +5,12 @@
 AGate::AGate(int x_pos, int y_pos)
 	: X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5)
 {
-	//!!! Have to do
+	const int scale = AsConfig::Global_Scale;
+
+	Gate_Rect.left = X_Pos * scale;
+	Gate_Rect.top = Y_Pos * scale;
+	Gate_Rect.right = Gate_Rect.left + Width * scale;
+	Gate_Rect.bottom = Gate_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Act()
@@ -15,13 +20,24 @@ void AGate::Act()
 //------------------------------------------------------------------------------------------------------------
 void AGate::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! Have to do
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Gate_Rect))
+		return;
+
+	AsConfig::Rect(hdc, Gate_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw(HDC hdc, RECT& paint_area)
 {
-	Draw_Cup(hdc, true);
+	RECT intersection_rect;
 
+	if (!IntersectRect(&intersection_rect, &paint_area, &Gate_Rect))
+		return;
+
+	Clear(hdc, paint_area);
+
+	Draw_Cup(hdc, true);
 	Draw_Cup(hdc, false);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -256,9 +272,9 @@ void AsBorder::Draw(HDC hdc, RECT& paint_area)
 	for (i = 0; i < 50; i++)
 		Draw_Element(hdc, paint_area, 2, 1 + i * 4, false);
 
-	//// 2. Right line
-	//for (i = 0; i < 50; i++)
-	//	Draw_Element(hdc, paint_area, AsConfig::Max_X_Pos + 1, 1 + i * 4, false);
+	// 2. Right line
+	for (i = 0; i < 50; i++)
+		Draw_Element(hdc, paint_area, AsConfig::Max_X_Pos + 1, 1 + i * 4, false);
 
 	// 3. Top line
 	for (i = 0; i < 50; i++)
