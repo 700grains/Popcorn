@@ -20,6 +20,17 @@ void AGate::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw(HDC hdc, RECT& paint_area)
 {
+	Draw_Cup(hdc, true);
+	Draw_Cup(hdc, false);
+}
+//------------------------------------------------------------------------------------------------------------
+bool AGate::Is_Finished()
+{
+	return false; //!!! Have to do
+}
+//------------------------------------------------------------------------------------------------------------
+void AGate::Draw_Cup(HDC hdc, bool is_top)
+{
 	RECT rect;
 	HRGN region;
 	const int scale = AsConfig::Global_Scale;
@@ -64,11 +75,6 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 
 	// 1.5 Draw a jumper in front of the bowl
 	AsConfig::Rect(hdc, X_Pos + 2, Y_Pos, 2, 1, AsConfig::Blue_Color);
-}
-//------------------------------------------------------------------------------------------------------------
-bool AGate::Is_Finished()
-{
-	return false; //!!! Have to do
 }
 //------------------------------------------------------------------------------------------------------------
 
