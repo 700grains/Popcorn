@@ -20,7 +20,7 @@ void AGate::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw(HDC hdc, RECT& paint_area)
 {
-	//Draw_Cup(hdc, true);
+	Draw_Cup(hdc, true);
 	Draw_Cup(hdc, false);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -34,6 +34,8 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	RECT rect;
 	HRGN region;
 	XFORM xform, old_xform;
+	int cup_y_offset = 5;
+
 	const int x = 0, y = 0;
 	const int scale = AsConfig::Global_Scale;
 	const int half_scale = scale / 2; // NB! 3 / 2 = 1!
@@ -43,12 +45,18 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	xform.eM21 = 0.0f;
 
 	if (is_top)
+	{
 		xform.eM22 = 1.0f;
+		cup_y_offset = 0;
+	}
 	else
+	{
 		xform.eM22 = -1.0f;
+		cup_y_offset = 19 * scale - 1;
+	}
 
 	xform.eDx = (float)(X_Pos * scale);
-	xform.eDy = (float)(Y_Pos * scale);
+	xform.eDy = (float)(Y_Pos * scale + cup_y_offset);
 
 	GetWorldTransform(hdc, &old_xform);
 	SetWorldTransform(hdc, &xform);
@@ -75,7 +83,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	}
 	else
 	{
-		rect.top = (Y_Pos - 1) * scale + 1;
+		rect.top = (Y_Pos - 1) * scale + cup_y_offset + 1;
 		rect.bottom = rect.top - 4 * scale;
 	}
 
