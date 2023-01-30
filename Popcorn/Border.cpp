@@ -33,12 +33,25 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 {
 	RECT rect;
 	HRGN region;
+	XFORM xform, old_xform;
+	const int x = 0, y = 0;
 	const int scale = AsConfig::Global_Scale;
-	const int half_scale = scale / 2; // 3 / 2 = 1!
+	const int half_scale = scale / 2; // NB! 3 / 2 = 1!
+
+	xform.eM11 = 1.0f;
+	xform.eM12 = 0.0f;
+	xform.eM21 = 0.0f;
+	xform.eM22 = 1.0f;
+	xform.eDx = (float)(X_Pos * scale);
+	xform.eDy = (float)(Y_Pos * scale);
+	GetWorldTransform(hdc, &old_xform);
+	SetWorldTransform(hdc, &xform);
+
+
 
 	// 1. semi-circular part of the bowl
-	rect.left = X_Pos * scale;
-	rect.top = (Y_Pos + 1) * scale;
+	rect.left = x * scale;
+	rect.top = (y + 1) * scale;
 	rect.right = rect.left + 6 * scale;
 	rect.bottom = rect.top + 4 * scale;
 
@@ -47,15 +60,18 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	AsConfig::Round_Rect(hdc, rect, 3);
 
 	// 1.2 Highlight on the left side 
+	rect.left = X_Pos * scale;
+	rect.top = (Y_Pos + 1) * scale;
 	rect.right = rect.left + 3 * scale;
+	rect.bottom = rect.top + 4 * scale;
 
 	region = CreateRectRgnIndirect(&rect);
 	SelectClipRgn(hdc, region);
 
 	AsConfig::Letter_Color.Select_Pen(hdc);
 
-	rect.left = X_Pos * scale + half_scale;
-	rect.top = (Y_Pos + 1) * scale + half_scale;
+	rect.left = x * scale + half_scale;
+	rect.top = (y + 1) * scale + half_scale;
 	rect.right = rect.left + 5 * scale + half_scale;
 	rect.bottom = rect.top + 5 * scale + half_scale;
 
@@ -65,16 +81,18 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	DeleteObject(region);
 
 	// 1.3 Highlight on the bottom part of the bowl
-	AsConfig::Rect(hdc, X_Pos, Y_Pos + 4, 4, 1, AsConfig::White_Color);
+	AsConfig::Rect(hdc, x, y + 4, 4, 1, AsConfig::White_Color);
 
 	// 1.4 A "patch" in the lower right corner
-	AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + 3, 2, 2, AsConfig::Blue_Color);
+	AsConfig::Rect(hdc, x + 4, y + 3, 2, 2, AsConfig::Blue_Color);
 
 	// 1.5 Cutting a hole in the bowl
-	AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + 3, 1, 1, AsConfig::BG_Color);
+	AsConfig::Rect(hdc, x + 4, y + 3, 1, 1, AsConfig::BG_Color);
 
 	// 1.5 Draw a jumper in front of the bowl
-	AsConfig::Rect(hdc, X_Pos + 2, Y_Pos, 2, 1, AsConfig::Blue_Color);
+	AsConfig::Rect(hdc, x + 2, y, 2, 1, AsConfig::Blue_Color);
+
+	SetWorldTransform(hdc, &old_xform);
 }
 //------------------------------------------------------------------------------------------------------------
 
