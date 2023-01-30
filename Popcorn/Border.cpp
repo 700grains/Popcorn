@@ -62,6 +62,23 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 	AsConfig::White_Color.Select(hdc);
 	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
 
+	// 1.4 A "patch" in the lower right corner
+	rect.left = (X_Pos + 4) * scale;
+	rect.top = (Y_Pos + 3) * scale;
+	rect.right = rect.left + 2 * scale;
+	rect.bottom = rect.top + 2 * scale;
+
+	AsConfig::Blue_Color.Select(hdc);
+	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+
+	// 1.5 Cutting a hole in the bowl
+	rect.left = (X_Pos + 4) * scale;
+	rect.top = (Y_Pos + 3) * scale;
+	rect.right = rect.left + scale;
+	rect.bottom = rect.top + scale;
+
+	AsConfig::BG_Color.Select(hdc);
+	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
