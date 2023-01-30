@@ -39,10 +39,17 @@ void AsConfig::Round_Rect(HDC hdc, RECT& rect, int corner_radius)
 	RoundRect(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1, radius, radius);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsConfig::Rect(HDC hdc, RECT& rect, const AColor &color)
+void AsConfig::Rect(HDC hdc, RECT& rect, const AColor& color)
 {
 	color.Select(hdc);
 	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsConfig::Rect(HDC hdc, int x_pos, int y_pos, int width, int height, const AColor& color)
+{
+	color.Select(hdc);
+	Rectangle(hdc, x_pos * Global_Scale, y_pos * Global_Scale,
+		(x_pos + width) * Global_Scale - 1, (y_pos + height) * Global_Scale - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsConfig::Invalidate_Rect(RECT& rect)

@@ -72,12 +72,7 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
 
 	// 1.5 Cutting a hole in the bowl
-	rect.left = (X_Pos + 4) * scale;
-	rect.top = (Y_Pos + 3) * scale;
-	rect.right = rect.left + scale;
-	rect.bottom = rect.top + scale;
-
-	AsConfig::Rect(hdc, rect, AsConfig::BG_Color);
+	AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + 3, 1, 1, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
