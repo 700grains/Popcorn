@@ -4,7 +4,8 @@
 bool AsConfig::Level_Has_Floor = true;
 int AsConfig::Current_Timer_Tick = 0;
 
-const AColor AsConfig::BG_Color(15, 63, 31);
+//const AColor AsConfig::BG_Color(15, 63, 31);
+const AColor AsConfig::BG_Color(30, 60, 10);
 const AColor AsConfig::Red_Color(255, 85, 85);
 const AColor AsConfig::Blue_Color(85, 255, 255);
 const AColor AsConfig::White_Color(255, 255, 255);

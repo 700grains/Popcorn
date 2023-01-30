@@ -116,9 +116,9 @@ void AsBorder::Draw(HDC hdc, RECT& paint_area)
 	for (i = 0; i < 50; i++)
 		Draw_Element(hdc, paint_area, 2, 1 + i * 4, false);
 
-	// 2. Right line
-	for (i = 0; i < 50; i++)
-		Draw_Element(hdc, paint_area, AsConfig::Max_X_Pos + 1, 1 + i * 4, false);
+	//// 2. Right line
+	//for (i = 0; i < 50; i++)
+	//	Draw_Element(hdc, paint_area, AsConfig::Max_X_Pos + 1, 1 + i * 4, false);
 
 	// 3. Top line
 	for (i = 0; i < 50; i++)
