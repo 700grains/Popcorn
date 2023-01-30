@@ -3,6 +3,20 @@
 #include "Ball.h"
 
 //------------------------------------------------------------------------------------------------------------
+class AGate : public AGraphics_Object
+{
+public:
+	AGate(int x_pos, int y_pos);
+
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+
+private:
+	int X_Pos, Y_Pos;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsBorder : public AHit_Checker, public AGraphics_Object
 {
 public:
@@ -22,5 +36,6 @@ private:
 	void Draw_Floor(HDC hdc, RECT& paint_area);
 
 	RECT Floor_Rect;
+	AGate Gate;
 };
 //------------------------------------------------------------------------------------------------------------

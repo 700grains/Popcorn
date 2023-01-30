@@ -286,12 +286,12 @@ V 2.3.2. floor scale
 V 2.3.3. The interaction of the floor with the ball
 V 2.3.4. Hitting the ball with the bottom edge of the platform
 
-2.4. L ("Laser")
-2.4.1. New state of the platform
-2.4.2. Animation of transforming into a cannon (forward and reverse)
-2.4.3. Space Shooting:
-2.4.3.1. Gap handling in a special way when the platform is in laser mode
-2.4.3.2. Laser beam objects - animation, movement and interaction with other objects
+V 2.4. L ("Laser")
+V 2.4.1. New state of the platform
+V 2.4.2. Animation of transforming into a cannon (forward and reverse)
+V 2.4.3. Space Shooting:
+V 2.4.3.1. Gap handling in a special way when the platform is in laser mode
+V 2.4.3.2. Laser beam objects - animation, movement and interaction with other objects
 
 V 2.5. T ("Three")
 V 2.5.1. Add support for multiple balls
