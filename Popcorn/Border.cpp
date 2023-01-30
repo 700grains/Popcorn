@@ -77,8 +77,7 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 	rect.right = rect.left + scale;
 	rect.bottom = rect.top + scale;
 
-	AsConfig::BG_Color.Select(hdc);
-	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+	AsConfig::Rect(hdc, rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
