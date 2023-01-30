@@ -15,7 +15,10 @@ public:
 
 private:
 	void Draw_Cup(HDC hdc, bool is_top);
+	void Draw_Edges(HDC hdc);
+	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
 	int X_Pos, Y_Pos;
+	int Edges_Count;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsBorder : public AHit_Checker, public AGraphics_Object

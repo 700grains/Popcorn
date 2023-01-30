@@ -3,7 +3,7 @@
 // AGate
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
-	: X_Pos(x_pos), Y_Pos(y_pos)
+	: X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5)
 {
 	//!!! Have to do
 }
@@ -21,6 +21,7 @@ void AGate::Clear(HDC hdc, RECT& paint_area)
 void AGate::Draw(HDC hdc, RECT& paint_area)
 {
 	Draw_Cup(hdc, true);
+
 	Draw_Cup(hdc, false);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -115,6 +116,34 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	AsConfig::Rect(hdc, x + 2, y, 2, 1, AsConfig::Blue_Color);
 
 	SetWorldTransform(hdc, &old_xform);
+
+	Draw_Edges(hdc);
+}
+//------------------------------------------------------------------------------------------------------------
+void AGate::Draw_Edges(HDC hdc)
+{
+	int i;
+	bool is_long_edge = false;
+
+	for (i = 0; i < Edges_Count; i++)
+	{
+		Draw_Single_Edge(hdc, 5 + i, is_long_edge);
+		is_long_edge = !is_long_edge;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
+{
+	if (is_long)
+	{
+		AsConfig::Rect(hdc, X_Pos, Y_Pos + edge_y_offset, 4, 1, AsConfig::White_Color);
+		AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + edge_y_offset, 2, 1, AsConfig::Blue_Color);
+	}
+	else
+	{
+		AsConfig::Rect(hdc, X_Pos + 1, Y_Pos + edge_y_offset, 2, 1, AsConfig::Blue_Color);
+		AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + edge_y_offset, 1, 1, AsConfig::Blue_Color);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 
