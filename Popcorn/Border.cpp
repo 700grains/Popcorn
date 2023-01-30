@@ -52,6 +52,16 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
+
+	// 1.3 Highlight on the bottom part of the bowl
+	rect.left = X_Pos * scale;
+	rect.top = (Y_Pos + 4) * scale;
+	rect.right = rect.left + 4 * scale;
+	rect.bottom = rect.top + scale;
+
+	AsConfig::White_Color.Select(hdc);
+	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
