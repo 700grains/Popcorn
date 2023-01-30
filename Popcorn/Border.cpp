@@ -115,9 +115,10 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	// 1.5 Draw a jumper in front of the bowl
 	AsConfig::Rect(hdc, x + 2, y, 2, 1, AsConfig::Blue_Color);
 
-	SetWorldTransform(hdc, &old_xform);
-
+	// 1.6 Draw edges 
 	Draw_Edges(hdc);
+
+	SetWorldTransform(hdc, &old_xform);
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw_Edges(HDC hdc)
@@ -136,13 +137,13 @@ void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
 {
 	if (is_long)
 	{
-		AsConfig::Rect(hdc, X_Pos, Y_Pos + edge_y_offset, 4, 1, AsConfig::White_Color);
-		AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + edge_y_offset, 2, 1, AsConfig::Blue_Color);
+		AsConfig::Rect(hdc, 0, edge_y_offset, 4, 1, AsConfig::White_Color);
+		AsConfig::Rect(hdc, 4, edge_y_offset, 2, 1, AsConfig::Blue_Color);
 	}
 	else
 	{
-		AsConfig::Rect(hdc, X_Pos + 1, Y_Pos + edge_y_offset, 2, 1, AsConfig::Blue_Color);
-		AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + edge_y_offset, 1, 1, AsConfig::Blue_Color);
+		AsConfig::Rect(hdc, 1, edge_y_offset, 2, 1, AsConfig::Blue_Color);
+		AsConfig::Rect(hdc, 4, edge_y_offset, 1, 1, AsConfig::Blue_Color);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
