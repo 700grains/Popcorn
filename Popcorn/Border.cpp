@@ -3,6 +3,7 @@
 // AGate
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
+	: X_Pos(x_pos), Y_Pos(y_pos)
 {
 	//!!! Have to do
 }
@@ -125,6 +126,9 @@ void AsBorder::Draw(HDC hdc, RECT& paint_area)
 	// 4. if(Floor)
 	if (AsConfig::Level_Has_Floor)
 		Draw_Floor(hdc, paint_area);
+
+	// 5. Gates
+	Gate.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Is_Finished()
