@@ -8,24 +8,24 @@ AGate::AGate(int x_pos, int y_pos)
 	//!!! Have to do
 }
 //------------------------------------------------------------------------------------------------------------
-void Act()
+void AGate::Act()
 {
 	//!!! Have to do 
 }
 //------------------------------------------------------------------------------------------------------------
-void Clear(HDC hdc, RECT& paint_area)
+void AGate::Clear(HDC hdc, RECT& paint_area)
 {
 	//!!! Have to do
 }
 //------------------------------------------------------------------------------------------------------------
-void Draw(HDC hdc, RECT& paint_area)
+void AGate::Draw(HDC hdc, RECT& paint_area)
 {
 	//!!! Have to do
 }
 //------------------------------------------------------------------------------------------------------------
-bool Is_Finished()
+bool AGate::Is_Finished()
 {
-	//!!! Have to do
+	return false; //!!! Have to do
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -35,6 +35,7 @@ bool Is_Finished()
 // AsBorder
 //------------------------------------------------------------------------------------------------------------
 AsBorder::AsBorder()
+	: Gate(AsConfig::Max_X_Pos, 178)
 {
 	Floor_Rect.left = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
 	Floor_Rect.right = (AsConfig::Max_X_Pos - 1) * AsConfig::Global_Scale;
