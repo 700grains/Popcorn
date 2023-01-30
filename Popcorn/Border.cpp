@@ -20,7 +20,19 @@ void AGate::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! Have to do
+	RECT rect;
+	const int scale = AsConfig::Global_Scale;
+	const int half_scale = scale / 2; // 3 / 2 = 1!
+
+	AsConfig::Blue_Color.Select(hdc);
+	AsConfig::Letter_Color.Select_Pen(hdc);
+
+	rect.left = X_Pos * scale + half_scale;
+	rect.top = (Y_Pos + 1) * scale + half_scale;
+	rect.right = rect.left + 5 * scale + half_scale;
+	rect.bottom = rect.top + 5 * scale + half_scale;
+
+	AsConfig::Round_Rect(hdc, rect, 3);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
