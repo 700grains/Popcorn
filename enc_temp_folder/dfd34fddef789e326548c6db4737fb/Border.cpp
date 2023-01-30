@@ -75,7 +75,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	}
 	else
 	{
-		rect.top = (Y_Pos - 1) * scale + 1;
+		rect.top = (Y_Pos) * scale;
 		rect.bottom = rect.top - 4 * scale;
 	}
 
