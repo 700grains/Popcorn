@@ -21,10 +21,26 @@ void AGate::Clear(HDC hdc, RECT& paint_area)
 void AGate::Draw(HDC hdc, RECT& paint_area)
 {
 	RECT rect;
+	HRGN region;
 	const int scale = AsConfig::Global_Scale;
 	const int half_scale = scale / 2; // 3 / 2 = 1!
 
+	// 1. semi-circular part of the bowl
+	rect.left = X_Pos * scale;
+	rect.top = (Y_Pos + 1) * scale;
+	rect.right = rect.left + 6 * scale;
+	rect.bottom = rect.top + 4 * scale;
+
+	// 1.1 Base
 	AsConfig::Blue_Color.Select(hdc);
+	AsConfig::Round_Rect(hdc, rect, 3);
+
+	// 1.2 Highlight on the left side 
+	rect.right = rect.left + 3 * scale;
+
+	region = CreateRectRgnIndirect(&rect);
+	SelectClipRgn(hdc, region);
+
 	AsConfig::Letter_Color.Select_Pen(hdc);
 
 	rect.left = X_Pos * scale + half_scale;
@@ -33,6 +49,9 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 	rect.bottom = rect.top + 5 * scale + half_scale;
 
 	AsConfig::Round_Rect(hdc, rect, 3);
+
+	SelectClipRgn(hdc, 0);
+	DeleteObject(region);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
