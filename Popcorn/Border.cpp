@@ -61,6 +61,9 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 
 	// 1.5 Cutting a hole in the bowl
 	AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + 3, 1, 1, AsConfig::BG_Color);
+
+	// 1.5 Draw a jumper in front of the bowl
+	AsConfig::Rect(hdc, X_Pos + 2, Y_Pos, 2, 1, AsConfig::Blue_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
