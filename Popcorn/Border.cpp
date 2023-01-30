@@ -54,22 +54,10 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 	DeleteObject(region);
 
 	// 1.3 Highlight on the bottom part of the bowl
-	rect.left = X_Pos * scale;
-	rect.top = (Y_Pos + 4) * scale;
-	rect.right = rect.left + 4 * scale;
-	rect.bottom = rect.top + scale;
-
-	AsConfig::White_Color.Select(hdc);
-	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+	AsConfig::Rect(hdc, X_Pos, Y_Pos + 4, 4, 1, AsConfig::White_Color);
 
 	// 1.4 A "patch" in the lower right corner
-	rect.left = (X_Pos + 4) * scale;
-	rect.top = (Y_Pos + 3) * scale;
-	rect.right = rect.left + 2 * scale;
-	rect.bottom = rect.top + 2 * scale;
-
-	AsConfig::Blue_Color.Select(hdc);
-	Rectangle(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+	AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + 3, 2, 2, AsConfig::Blue_Color);
 
 	// 1.5 Cutting a hole in the bowl
 	AsConfig::Rect(hdc, X_Pos + 4, Y_Pos + 3, 1, 1, AsConfig::BG_Color);
