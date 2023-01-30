@@ -107,7 +107,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	region = CreateRectRgnIndirect(&rect);
 	SelectClipRgn(hdc, region);
 
-	AsConfig::Letter_Color.Select_Pen(hdc);
+	AsConfig::Gate_Color.Select_Pen(hdc);
 
 	rect.left = x * scale + half_scale;
 	rect.top = (y + 1) * scale + half_scale;
