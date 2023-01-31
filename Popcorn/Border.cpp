@@ -15,7 +15,23 @@ AGate::AGate(int x_pos, int y_pos)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Act()
 {
-	//!!! Have to do 
+	switch (Gate_State)
+	{
+	case EGate_State::Closed:
+		break;
+
+	case EGate_State::Partially_Open:
+		Act_For_Partially_Open();
+		break;
+
+	case EGate_State::Fully_Open:
+		Act_For_Fully_Open();
+			break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Clear(HDC hdc, RECT& paint_area)
