@@ -10,6 +10,15 @@ enum class EGate_State : unsigned char
 	Fully_Open
 };
 //------------------------------------------------------------------------------------------------------------
+enum class EGate_Transformation : unsigned char
+{
+	Unknown,
+
+	Init,
+	Active,
+	Finalize,
+};
+//------------------------------------------------------------------------------------------------------------
 class AGate : public AGraphics_Object
 {
 public:
@@ -26,6 +35,7 @@ private:
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
 
 	EGate_State Gate_State;
+	EGate_Transformation Gate_Transformation;
 	int X_Pos, Y_Pos;
 	int Edges_Count;
 

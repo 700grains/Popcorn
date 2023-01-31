@@ -3,7 +3,7 @@
 // AGate
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
-	: Gate_State(EGate_State::Closed), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5)
+	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5)
 {
 	const int scale = AsConfig::Global_Scale;
 
