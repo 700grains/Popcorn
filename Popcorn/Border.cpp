@@ -46,6 +46,19 @@ bool AGate::Is_Finished()
 	return false; //!!! Have to do
 }
 //------------------------------------------------------------------------------------------------------------
+void AGate::Open_Gate(bool is_partially)
+{
+	if (Gate_State != EGate_State::Closed)
+		return;
+	
+	if (is_partially)
+		Gate_State = EGate_State::Partially_Open;
+	else
+		Gate_State = EGate_State::Fully_Open;
+
+	Gate_Transformation = EGate_Transformation::Init;
+}
+//------------------------------------------------------------------------------------------------------------
 void AGate::Draw_Cup(HDC hdc, bool is_top)
 {
 	RECT rect;
