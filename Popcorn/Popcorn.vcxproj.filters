@@ -33,10 +33,6 @@
     <Filter Include="Active_Brick">
       <UniqueIdentifier>{63e4d4d8-864f-4cdb-9635-a2888618aef0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Falling_Letter">
       <UniqueIdentifier>{60cf690e-ab51-4938-893e-2a7b8a6db292}</UniqueIdentifier>
     </Filter>
@@ -63,6 +59,10 @@
     </Filter>
     <Filter Include="Platform_Laser">
       <UniqueIdentifier>{82bc633e-6a6f-4f05-8f73-42509ef13c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>

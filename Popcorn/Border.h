@@ -3,6 +3,13 @@
 #include "Ball.h"
 
 //------------------------------------------------------------------------------------------------------------
+enum class EGate_State : unsigned char
+{
+	Closed,
+	Partially_Open,
+	Fully_Open
+};
+//------------------------------------------------------------------------------------------------------------
 class AGate : public AGraphics_Object
 {
 public:
@@ -18,6 +25,7 @@ private:
 	void Draw_Edges(HDC hdc);
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
 
+	EGate_State Gate_State;
 	int X_Pos, Y_Pos;
 	int Edges_Count;
 
