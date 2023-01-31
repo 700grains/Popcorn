@@ -31,6 +31,7 @@ public:
 
 	void Open_Gate(bool is_partially);
 private:
+	bool Act_For_Partially_Open();
 	void Draw_Cup(HDC hdc, bool is_top);
 	void Draw_Edges(HDC hdc);
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
@@ -39,9 +40,12 @@ private:
 	EGate_Transformation Gate_Transformation;
 	int X_Pos, Y_Pos;
 	int Edges_Count;
+	double Hole_Height;
 
 	RECT Gate_Rect;
 
+	static const double Max_Hole_Short_Height;
+	static const double Hole_Height_Short_Step;
 	static const int Width = 6;
 	static const int Height = 19;
 };

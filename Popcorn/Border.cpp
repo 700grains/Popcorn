@@ -1,6 +1,8 @@
 ﻿#include "Border.h"
 
 // AGate
+const double AGate::Max_Hole_Short_Height = 9.0;
+const double AGate::Hole_Height_Short_Step = Max_Hole_Short_Height / (double)AsConfig::FPS; // Animation will complete in 1 second
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
 	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5)
@@ -24,9 +26,9 @@ void AGate::Act()
 		Act_For_Partially_Open();
 		break;
 
-	case EGate_State::Fully_Open:
-		Act_For_Fully_Open();
-			break;
+	//case EGate_State::Fully_Open:
+	//	Act_For_Fully_Open();
+	//		break;
 
 	default:
 		AsConfig::Throw();
@@ -73,6 +75,48 @@ void AGate::Open_Gate(bool is_partially)
 		Gate_State = EGate_State::Fully_Open;
 
 	Gate_Transformation = EGate_Transformation::Init;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AGate::Act_For_Partially_Open()
+{
+	//next_state = EPlatform_State::Unknown;
+	//correct_pos = false;
+
+	switch (Gate_Transformation	)
+	{
+	case EGate_Transformation::Init:
+		if (Hole_Height < Max_Hole_Short_Height)
+		{
+			Hole_Height += Hole_Height_Short_Step;
+			//x_pos -= Expanding_Platform_Width_Step / 2.0;
+			//correct_pos = true;
+		}
+		else
+			Gate_Transformation = EGate_Transformation::Active;
+		return true;
+
+	case EGate_Transformation::Active:
+		break;
+
+	case EGate_Transformation::Finalize:
+		if (Hole_Height > 0)
+		{
+			Hole_Height -= Hole_Height_Short_Step;
+			//x_pos += Expanding_Platform_Width_Step / 2.0;
+			//correct_pos = true;
+		}
+		else
+		{
+			Gate_Transformation = EGate_Transformation::Unknown;
+			//next_state = Gate_State->Set_State(EPlatform_Substate_Regular::Normal);
+			Gate_State = EGate_State::Closed;
+		}
+		return true;
+
+	default:
+		AsConfig::Throw();
+	}
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw_Cup(HDC hdc, bool is_top)
