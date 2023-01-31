@@ -57,6 +57,8 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Modules[2] = &Platform;
 	Modules[3] = &Ball_Set;
 	Modules[4] = &Laser_Beam_Set;
+
+	Border.Open_Gate(7, true);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)

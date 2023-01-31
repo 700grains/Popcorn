@@ -222,7 +222,7 @@ void AsBorder::Open_Gate(int gate_index, bool is_partially)
 	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
 		AsConfig::Throw();
 
-	if (gate_index != AsConfig::Gates_Count - 1 || is_partially)
+	if (gate_index != AsConfig::Gates_Count - 1 && is_partially)
 		AsConfig::Throw();
 
 	Gates[gate_index]->Open_Gate(is_partially);
@@ -270,12 +270,22 @@ bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Act()
 {
-	// Not used
+	int i;
+
+	for (i = 0; i < AsConfig::Gates_Count; ++i)
+		Gates[i]->Act();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Clear(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
+	int i;
+
+	// 1. Clearing the gate
+	for (i = 0; i < AsConfig::Gates_Count; ++i)
+		Gates[i]->Clear(hdc, paint_area);
+
+	// 2. Clearing the floor
 	if (! AsConfig::Level_Has_Floor)
 		return;
 	
