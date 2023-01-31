@@ -60,6 +60,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Redraw_Floor();
+	void Open_Gate(int gate_index, bool is_partially);
 
 private:
 	void Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border);

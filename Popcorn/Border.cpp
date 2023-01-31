@@ -217,6 +217,17 @@ void AsBorder::Redraw_Floor()
 	AsConfig::Invalidate_Rect(Floor_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsBorder::Open_Gate(int gate_index, bool is_partially)
+{
+	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
+		AsConfig::Throw();
+
+	if (gate_index != AsConfig::Gates_Count - 1 || is_partially)
+		AsConfig::Throw();
+
+	Gates[gate_index]->Open_Gate(is_partially);
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 {// Correcting the position when reflected from the frame
 
