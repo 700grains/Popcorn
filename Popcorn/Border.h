@@ -35,6 +35,7 @@ private:
 	void Draw_Cup(HDC hdc, bool is_top);
 	void Draw_Edges(HDC hdc);
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
+	void Redraw_Gate();
 
 	EGate_State Gate_State;
 	EGate_Transformation Gate_Transformation;
