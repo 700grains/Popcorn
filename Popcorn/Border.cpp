@@ -5,7 +5,7 @@ const double AGate::Max_Hole_Short_Height = 9.0;
 const double AGate::Hole_Height_Short_Step = Max_Hole_Short_Height / (double)AsConfig::FPS; // Animation will complete in 1 second
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
-	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5),
+	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5), Gate_Close_Timer(0),
 	Hole_Height(0)
 {
 	const int scale = AsConfig::Global_Scale;
@@ -81,10 +81,7 @@ void AGate::Open_Gate(bool is_partially)
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Act_For_Partially_Open()
 {
-	//next_state = EPlatform_State::Unknown;
-	//correct_pos = false;
-
-	switch (Gate_Transformation	)
+	switch (Gate_Transformation)
 	{
 	case EGate_Transformation::Init:
 		if (Hole_Height < Max_Hole_Short_Height)
@@ -94,10 +91,15 @@ bool AGate::Act_For_Partially_Open()
 			//correct_pos = true;
 		}
 		else
+		{
+			Gate_Close_Timer = AsConfig::Current_Timer_Tick + Short_Opening_Timeout;
 			Gate_Transformation = EGate_Transformation::Active;
+		}
 		return true;
 
-	case EGate_Transformation::Active:
+	case EGate_Transformation::Active: 
+		if (AsConfig::Current_Timer_Tick >= Gate_Close_Timer)
+			Gate_Transformation = EGate_Transformation::Finalize;
 		break;
 
 	case EGate_Transformation::Finalize:

@@ -41,6 +41,7 @@ private:
 	EGate_Transformation Gate_Transformation;
 	int X_Pos, Y_Pos;
 	int Edges_Count;
+	int Gate_Close_Timer;
 	double Hole_Height;
 
 	RECT Gate_Rect;
@@ -49,6 +50,7 @@ private:
 	static const double Hole_Height_Short_Step;
 	static const int Width = 6;
 	static const int Height = 19;
+	static const int Short_Opening_Timeout = AsConfig::FPS; // 1 second
 };
 //------------------------------------------------------------------------------------------------------------
 class AsBorder : public AHit_Checker, public AGraphics_Object
