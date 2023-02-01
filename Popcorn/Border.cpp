@@ -5,7 +5,8 @@ const double AGate::Max_Hole_Short_Height = 9.0;
 const double AGate::Hole_Height_Short_Step = Max_Hole_Short_Height / (double)AsConfig::FPS; // Animation will complete in 1 second
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
-	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5)
+	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5),
+	Hole_Height(0)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -23,7 +24,8 @@ void AGate::Act()
 		break;
 
 	case EGate_State::Partially_Open:
-		Act_For_Partially_Open();
+		if (Act_For_Partially_Open())
+			Redraw_Gate();
 		break;
 
 	//case EGate_State::Fully_Open:
@@ -99,7 +101,7 @@ bool AGate::Act_For_Partially_Open()
 		break;
 
 	case EGate_Transformation::Finalize:
-		if (Hole_Height > 0)
+		if (Hole_Height > 0.0)
 		{
 			Hole_Height -= Hole_Height_Short_Step;
 			//x_pos += Expanding_Platform_Width_Step / 2.0;
@@ -213,9 +215,13 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 void AGate::Draw_Edges(HDC hdc)
 {
 	int i;
+	int count;
+	double ratio = 1.0 - Hole_Height / Max_Hole_Short_Height;
 	bool is_long_edge = false;
 
-	for (i = 0; i < Edges_Count; i++)
+	count = (int)((double)Edges_Count * ratio);
+
+	for (i = 0; i < count; i++)
 	{
 		Draw_Single_Edge(hdc, 5 + i, is_long_edge);
 		is_long_edge = !is_long_edge;
