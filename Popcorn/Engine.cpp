@@ -138,8 +138,6 @@ void AsEngine::Restart_Level()
 {
 	Game_State = EGS_Restart_Level;
 	Border.Open_Gate(7, true);
-
-	//Platform.Set_State(EPlatform_State::Rolling);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
@@ -202,11 +200,12 @@ void AsEngine::Act()
 	int index = 0;
 	AFalling_Letter* falling_letter;
 
-
+	// 1. Do all the things
 	for (i = 0; i < AsConfig::Max_Modules_Count; i++)
 		if (Modules[i] != 0)
 			Modules[i]->Act();
 
+	// 2. Catching falling letters
 	while (Level.Get_Next_Falling_Letter(index, &falling_letter) )
 	{
 		if (Platform.Hit_By(falling_letter) )
@@ -214,6 +213,11 @@ void AsEngine::Act()
 			On_Falling_Letter(falling_letter);
 		}
 	}
+
+	// 3. Restarting level (if we have to)
+	if (Game_State == EGS_Restart_Level)
+		if (Border.Is_Gate_Opened(AsConfig::Gates_Count - 1) )
+			Platform.Set_State(EPlatform_State::Rolling);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)

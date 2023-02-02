@@ -68,6 +68,7 @@ public:
 
 	void Redraw_Floor();
 	void Open_Gate(int gate_index, bool is_partially);
+	bool Is_Gate_Opened(int gate_index);
 
 private:
 	void Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border);
