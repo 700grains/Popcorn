@@ -36,7 +36,9 @@ public:
 	int On_Key(EKey_Type key_type, bool key_down);
 	int On_Timer();
 
+
 private:
+	void Restart_Level();
 	void Play_Level();
 	void Advance_Movers();
 	void Act();
