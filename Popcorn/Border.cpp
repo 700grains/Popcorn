@@ -2,7 +2,7 @@
 
 // AGate
 const double AGate::Max_Hole_Short_Height = 9.0;
-const double AGate::Hole_Height_Short_Step = Max_Hole_Short_Height / (double)AsConfig::FPS; // Animation will complete in 1 second
+const double AGate::Hole_Height_Short_Step = Max_Hole_Short_Height / ( (double)AsConfig::FPS / 2.0 ); // Animation will complete in 1/2 second
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
 	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5), Gate_Close_Timer(0),
@@ -77,6 +77,15 @@ void AGate::Open_Gate(bool is_partially)
 		Gate_State = EGate_State::Fully_Open;
 
 	Gate_Transformation = EGate_Transformation::Init;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AGate::Is_Opened()
+{
+	if (Gate_State != EGate_State::Closed)
+		if (Gate_Transformation == EGate_Transformation::Active)
+			return true;
+
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Act_For_Partially_Open()
@@ -301,7 +310,7 @@ void AsBorder::Open_Gate(int gate_index, bool is_partially)
 	Gates[gate_index]->Open_Gate(is_partially);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsBorder::Is_Gate_Opened(int gate_index)
+bool AsBorder::Is_Gate_Opened(int gate_index)
 {
 	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
 		AsConfig::Throw();

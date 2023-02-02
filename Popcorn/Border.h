@@ -30,6 +30,8 @@ public:
 	virtual bool Is_Finished();
 
 	void Open_Gate(bool is_partially);
+	bool Is_Opened();
+
 private:
 	bool Act_For_Partially_Open();
 	void Draw_Cup(HDC hdc, bool is_top);
