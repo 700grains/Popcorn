@@ -138,6 +138,7 @@ void AsEngine::Restart_Level()
 {
 	Game_State = EGS_Restart_Level;
 	Border.Open_Gate(7, true);
+	Border.Open_Gate(5, false);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()

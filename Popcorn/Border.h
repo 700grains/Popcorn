@@ -34,6 +34,7 @@ public:
 
 private:
 	bool Act_For_Partially_Open();
+	bool Act_For_Fully_Open(bool& correct_pos);
 	void Draw_Cup(HDC hdc, bool is_top);
 	void Draw_Edges(HDC hdc);
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
@@ -50,6 +51,8 @@ private:
 
 	static const double Max_Hole_Short_Height;
 	static const double Hole_Height_Short_Step;
+	static const double Max_Hole_Long_Height;
+	static const double Hole_Height_Long_Step;
 	static const int Width = 6;
 	static const int Height = 19;
 	static const int Short_Opening_Timeout = AsConfig::FPS; // 1 second

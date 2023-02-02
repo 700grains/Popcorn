@@ -3,6 +3,8 @@
 // AGate
 const double AGate::Max_Hole_Short_Height = 9.0;
 const double AGate::Hole_Height_Short_Step = Max_Hole_Short_Height / ( (double)AsConfig::FPS / 2.0 ); // Animation will complete in 1/2 second
+const double AGate::Max_Hole_Long_Height = 18.0;
+const double AGate::Hole_Height_Long_Step = Max_Hole_Long_Height / ((double)AsConfig::FPS * 3.0); // Animation will complete in 3 second;
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
 	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Edges_Count(5), Gate_Close_Timer(0),
@@ -18,6 +20,8 @@ AGate::AGate(int x_pos, int y_pos)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Act()
 {
+	bool correct_pos;
+
 	switch (Gate_State)
 	{
 	case EGate_State::Closed:
@@ -28,9 +32,18 @@ void AGate::Act()
 			Redraw_Gate();
 		break;
 
-	//case EGate_State::Fully_Open:
-	//	Act_For_Fully_Open();
-	//		break;
+	case EGate_State::Fully_Open:
+		if (Act_For_Fully_Open(correct_pos))
+		{
+			if (correct_pos)
+			{
+				Gate_Rect.top = (int)((Y_Pos - Hole_Height / 2) * AsConfig::D_Global_Scale);
+				Gate_Rect.bottom = (int)((Y_Pos + (double)Height + Hole_Height / 2) * AsConfig::D_Global_Scale);
+			}
+
+			Redraw_Gate();
+		}
+		break;
 
 	default:
 		AsConfig::Throw();
@@ -106,7 +119,7 @@ bool AGate::Act_For_Partially_Open()
 		}
 		return true;
 
-	case EGate_Transformation::Active: 
+	case EGate_Transformation::Active:
 		if (AsConfig::Current_Timer_Tick >= Gate_Close_Timer)
 			Gate_Transformation = EGate_Transformation::Finalize;
 		break;
@@ -117,6 +130,52 @@ bool AGate::Act_For_Partially_Open()
 			Hole_Height -= Hole_Height_Short_Step;
 			//x_pos += Expanding_Platform_Width_Step / 2.0;
 			//correct_pos = true;
+		}
+		else
+		{
+			Gate_Transformation = EGate_Transformation::Unknown;
+			//next_state = Gate_State->Set_State(EPlatform_Substate_Regular::Normal);
+			Gate_State = EGate_State::Closed;
+		}
+		return true;
+
+	default:
+		AsConfig::Throw();
+	}
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AGate::Act_For_Fully_Open(bool& correct_pos)
+{
+	correct_pos = false;
+
+	switch (Gate_Transformation)
+	{
+	case EGate_Transformation::Init:
+		if (Hole_Height < Max_Hole_Long_Height)
+		{
+			Hole_Height += Hole_Height_Long_Step;
+			correct_pos = true;
+		}
+		else
+		{
+			Gate_Close_Timer = AsConfig::Current_Timer_Tick + Short_Opening_Timeout;
+			Gate_Transformation = EGate_Transformation::Active;
+		}
+		return true;
+
+	case EGate_Transformation::Active: 
+		if (AsConfig::Current_Timer_Tick >= Gate_Close_Timer)
+			Gate_Transformation = EGate_Transformation::Finalize;
+		break;
+
+	case EGate_Transformation::Finalize:
+		if (Hole_Height > 0.0)
+		{
+			Hole_Height -= Hole_Height_Long_Step;
+			Gate_Rect.top = (int)((Y_Pos - Hole_Height / 2) * AsConfig::D_Global_Scale);
+			Gate_Rect.bottom = (int)((Y_Pos + (double)Height + Hole_Height / 2) * AsConfig::D_Global_Scale);
+			correct_pos = true;
 		}
 		else
 		{
