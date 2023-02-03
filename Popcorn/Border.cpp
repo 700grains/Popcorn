@@ -13,9 +13,9 @@ AGate::AGate(int x_pos, int y_pos)
 	const int scale = AsConfig::Global_Scale;
 
 	Gate_Rect.left = X_Pos * scale;
-	Gate_Rect.top = Y_Pos * scale;
+	Gate_Rect.top = (int)Y_Pos * scale;
 	Gate_Rect.right = Gate_Rect.left + Width * scale;
-	Gate_Rect.bottom = Gate_Rect.top + Height * scale;
+	Gate_Rect.bottom = Gate_Rect.top + Height * scale; 
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Act()
@@ -39,7 +39,7 @@ void AGate::Act()
 			{
 				Y_Pos = Original_Y_Pos - Hole_Height / 2;
 
-				Gate_Rect.top = (int)(Y_Pos * AsConfig::D_Global_Scale);
+				Gate_Rect.top = (int)round(Y_Pos * AsConfig::D_Global_Scale);
 				Gate_Rect.bottom = (int)((Y_Pos + (double)Height + Hole_Height) * AsConfig::D_Global_Scale);
 			}
 
@@ -198,7 +198,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	RECT rect;
 	HRGN region;
 	XFORM xform, old_xform;
-	int cup_y_offset = 5;
+	double cup_y_offset = 5.0;
 
 	const int x = 0, y = 0;
 	const int scale = AsConfig::Global_Scale;
@@ -212,20 +212,20 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	if (is_top)
 	{
 		xform.eM22 = 1.0f;
-		cup_y_offset = 0;
+		cup_y_offset = 0.0;
 	}
 	else
 	{
 		xform.eM22 = -1.0f;
 		if (Gate_State == EGate_State::Fully_Open)
-			cup_y_offset = (int) ( ( (double)Height + Hole_Height) * d_scale - 1.0);
+			cup_y_offset = ( (double)Height + Hole_Height) * d_scale - 1.0;
 		else
-			cup_y_offset = (double) (Height * scale - 1);
+			cup_y_offset = (double)(Height * d_scale - 1.0);
 
 	}
 
 	xform.eDx = (float)(X_Pos * scale);
-	xform.eDy = (float)(Y_Pos * scale + cup_y_offset);
+	xform.eDy = (float)round(Y_Pos * d_scale + cup_y_offset);
 
 	GetWorldTransform(hdc, &old_xform);
 	SetWorldTransform(hdc, &xform);
@@ -247,13 +247,13 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 
 	if (is_top)
 	{
-		rect.top = (Y_Pos + 1) * scale;
+		rect.top = (int)round( (Y_Pos + 1.0) * d_scale);
 		rect.bottom = rect.top + 4 * scale;
 	}
 	else
 	{
-		rect.top = (Y_Pos - 1) * scale + cup_y_offset + 1;
-		rect.bottom = rect.top - 4 * scale;
+		rect.top = (int)round((Y_Pos - 1.0) * d_scale + cup_y_offset + 1.0);
+		rect.bottom = rect.top - 4 * d_scale;
 	}
 
 	region = CreateRectRgnIndirect(&rect);
