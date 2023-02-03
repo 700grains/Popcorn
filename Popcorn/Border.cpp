@@ -267,6 +267,19 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw_Edges(HDC hdc)
 {
+	if (Gate_State == EGate_State::Fully_Open)
+		Draw_Long_Opening_Edges(hdc);
+	else
+		Draw_Short_Opening_Edges(hdc);
+}
+//------------------------------------------------------------------------------------------------------------
+void AGate::Draw_Long_Opening_Edges(HDC hdc)
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AGate::Draw_Short_Opening_Edges(HDC hdc)
+{
 	int i;
 	int count;
 	double ratio = 1.0 - Hole_Height / Max_Hole_Short_Height;

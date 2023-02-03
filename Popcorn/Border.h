@@ -37,6 +37,8 @@ private:
 	bool Act_For_Open(bool Partially_Open, bool& correct_pos);
 	void Draw_Cup(HDC hdc, bool is_top);
 	void Draw_Edges(HDC hdc);
+	void Draw_Long_Opening_Edges(HDC hdc);
+	void Draw_Short_Opening_Edges(HDC hdc);
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
 	void Redraw_Gate();
 
