@@ -217,7 +217,11 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	else
 	{
 		xform.eM22 = -1.0f;
-		cup_y_offset = (int) ( ( (double)Height + Hole_Height) * d_scale - 1.0);
+		if (Gate_State == EGate_State::Fully_Open)
+			cup_y_offset = (int) ( ( (double)Height + Hole_Height) * d_scale - 1.0);
+		else
+			cup_y_offset = (double) (Height * scale - 1);
+
 	}
 
 	xform.eDx = (float)(X_Pos * scale);
