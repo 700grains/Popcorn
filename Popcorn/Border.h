@@ -34,8 +34,7 @@ public:
 	void Get_Y_Size(int &gate_top_y, int &gate_bot_y);
 
 private:
-	bool Act_For_Partially_Open();
-	bool Act_For_Fully_Open(bool& correct_pos);
+	bool Act_For_Open(bool Partially_Open, bool& correct_pos);
 	void Draw_Cup(HDC hdc, bool is_top);
 	void Draw_Edges(HDC hdc);
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
@@ -58,6 +57,7 @@ private:
 	static const int Width = 6;
 	static const int Height = 19;
 	static const int Short_Opening_Timeout = AsConfig::FPS; // 1 second
+	static const int Long_Opening_Timeout = AsConfig::FPS * 3; // 3 seconds
 };
 //------------------------------------------------------------------------------------------------------------
 class AsBorder : public AHit_Checker, public AGraphics_Object
