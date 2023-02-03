@@ -40,7 +40,7 @@ void AGate::Act()
 				Y_Pos = Original_Y_Pos - Hole_Height / 2;
 
 				Gate_Rect.top = (int)round(Y_Pos * AsConfig::D_Global_Scale);
-				Gate_Rect.bottom = (int)((Y_Pos + (double)Height + Hole_Height) * AsConfig::D_Global_Scale);
+				Gate_Rect.bottom = (int)round((Y_Pos + (double)Height + Hole_Height) * AsConfig::D_Global_Scale);
 			}
 
 			Redraw_Gate();
@@ -321,7 +321,13 @@ void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Redraw_Gate()
 {
+	Gate_Rect.top -= 1;
+	Gate_Rect.bottom += 1;
+
 	AsConfig::Invalidate_Rect(Gate_Rect);
+
+	Gate_Rect.top += 1;
+	Gate_Rect.bottom -= 1;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -493,7 +499,7 @@ void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_bo
 	rect.right = (x + 4) * AsConfig::Global_Scale;
 	rect.bottom = (y + 4) * AsConfig::Global_Scale;
 
-	if (!IntersectRect(&intersection_rect, &paint_area, &rect))
+	if (! IntersectRect(&intersection_rect, &paint_area, &rect))
 		return;
 
  // The main line
