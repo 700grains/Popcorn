@@ -42,7 +42,8 @@ private:
 
 	EGate_State Gate_State;
 	EGate_Transformation Gate_Transformation;
-	int X_Pos, Y_Pos;
+	int X_Pos;
+	double Y_Pos, Original_Y_Pos;
 	int Edges_Count;
 	int Gate_Close_Timer;
 	double Hole_Height;
