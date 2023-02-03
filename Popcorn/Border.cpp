@@ -275,7 +275,29 @@ void AGate::Draw_Edges(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw_Long_Opening_Edges(HDC hdc)
 {
+	int i;
+	double ratio = Hole_Height / Max_Hole_Long_Height;
+	bool is_long_edge = false;
 
+	if (ratio < 0.3)
+	{
+		for (i = 0; i < 4; i++)
+		{
+			Draw_Single_Edge(hdc, 5 + i, is_long_edge);
+			is_long_edge = !is_long_edge;
+		}
+	}
+	else if (ratio < 0.5)
+	{
+		Draw_Single_Edge(hdc, 5, false);
+		Draw_Single_Edge(hdc, 6, true);
+		Draw_Single_Edge(hdc, 7, true);
+	}
+	else
+	{
+		for (i = 0; i < 4; i++)
+			Draw_Single_Edge(hdc, 5 + i, true);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw_Short_Opening_Edges(HDC hdc)
@@ -291,6 +313,20 @@ void AGate::Draw_Short_Opening_Edges(HDC hdc)
 	{
 		Draw_Single_Edge(hdc, 5 + i, is_long_edge);
 		is_long_edge = !is_long_edge;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
+{
+	if (is_long)
+	{
+		AsConfig::Rect(hdc, 0, edge_y_offset, 4, 1, AsConfig::White_Color);
+		AsConfig::Rect(hdc, 4, edge_y_offset, 2, 1, AsConfig::Blue_Color);
+	}
+	else
+	{
+		AsConfig::Rect(hdc, 1, edge_y_offset, 2, 1, AsConfig::Blue_Color);
+		AsConfig::Rect(hdc, 4, edge_y_offset, 1, 1, AsConfig::Blue_Color);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
