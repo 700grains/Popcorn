@@ -103,6 +103,12 @@ bool AGate::Is_Opened()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
+void AGate::Get_Y_Size(int& gate_top_y, int& gate_bot_y)
+{
+	gate_top_y = Gate_Rect.top;
+	gate_bot_y = Gate_Rect.bottom;
+}
+//------------------------------------------------------------------------------------------------------------
 bool AGate::Act_For_Partially_Open()
 {
 	switch (Gate_Transformation)
@@ -321,13 +327,13 @@ void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
 //------------------------------------------------------------------------------------------------------------
 void AGate::Redraw_Gate()
 {
-	Gate_Rect.top -= 1;
-	Gate_Rect.bottom += 1;
+	--Gate_Rect.top;
+	++Gate_Rect.bottom;
 
 	AsConfig::Invalidate_Rect(Gate_Rect);
 
-	Gate_Rect.top += 1;
-	Gate_Rect.bottom -= 1;
+	++Gate_Rect.top;
+	--Gate_Rect.bottom;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -492,12 +498,25 @@ bool AsBorder::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border)
 {// Draws a level border element
+	int i;
+	int gate_top_y, gate_bot_y;
 	RECT intersection_rect, rect;
 
 	rect.left = x * AsConfig::Global_Scale;
 	rect.top = y * AsConfig::Global_Scale;
 	rect.right = (x + 4) * AsConfig::Global_Scale;
 	rect.bottom = (y + 4) * AsConfig::Global_Scale;
+
+	if (! top_border)
+	{
+		for (i = 0; i < AsConfig::Gates_Count; ++i)
+		{
+			Gates[i]->Get_Y_Size(gate_top_y, gate_bot_y);
+
+			if (rect.top >= gate_top_y && rect.bottom <= gate_bot_y)
+				return; // The gate overlaps the border element, there is no point in drawing it.
+		}
+	}
 
 	if (! IntersectRect(&intersection_rect, &paint_area, &rect))
 		return;

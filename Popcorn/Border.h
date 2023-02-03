@@ -31,6 +31,7 @@ public:
 
 	void Open_Gate(bool is_partially);
 	bool Is_Opened();
+	void Get_Y_Size(int &gate_top_y, int &gate_bot_y);
 
 private:
 	bool Act_For_Partially_Open();
