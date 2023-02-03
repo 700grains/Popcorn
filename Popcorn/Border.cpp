@@ -39,8 +39,8 @@ void AGate::Act()
 			{
 				Y_Pos = Original_Y_Pos - Hole_Height / 2;
 
-				Gate_Rect.top = (int)((Y_Pos - Hole_Height / 2) * AsConfig::D_Global_Scale);
-				Gate_Rect.bottom = (int)((Y_Pos + (double)Height + Hole_Height / 2) * AsConfig::D_Global_Scale);
+				Gate_Rect.top = (int)(Y_Pos * AsConfig::D_Global_Scale);
+				Gate_Rect.bottom = (int)((Y_Pos + (double)Height + Hole_Height) * AsConfig::D_Global_Scale);
 			}
 
 			Redraw_Gate();
@@ -202,6 +202,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 
 	const int x = 0, y = 0;
 	const int scale = AsConfig::Global_Scale;
+	const int d_scale = AsConfig::D_Global_Scale;
 	const int half_scale = scale / 2; // NB! 3 / 2 = 1!
 
 	xform.eM11 = 1.0f;
@@ -216,7 +217,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	else
 	{
 		xform.eM22 = -1.0f;
-		cup_y_offset = 19 * scale - 1;
+		cup_y_offset = (int) ( ( (double)Height + Hole_Height) * d_scale - 1.0);
 	}
 
 	xform.eDx = (float)(X_Pos * scale);
