@@ -40,6 +40,7 @@ private:
 	void Draw_Long_Opening_Edges(HDC hdc);
 	void Draw_Short_Opening_Edges(HDC hdc);
 	void Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long);
+	void Draw_Red_Edge(HDC hdc, int edge_y_offset, bool is_long, bool highlight);
 	void Redraw_Gate();
 
 	EGate_State Gate_State;

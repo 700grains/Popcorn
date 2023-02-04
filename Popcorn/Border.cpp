@@ -286,17 +286,26 @@ void AGate::Draw_Long_Opening_Edges(HDC hdc)
 			Draw_Single_Edge(hdc, 5 + i, is_long_edge);
 			is_long_edge = !is_long_edge;
 		}
+		if (ratio > 0.1)
+			Draw_Red_Edge(hdc, 9, false, false);
 	}
 	else if (ratio < 0.5)
 	{
 		Draw_Single_Edge(hdc, 5, false);
 		Draw_Single_Edge(hdc, 6, true);
 		Draw_Single_Edge(hdc, 7, true);
+
+		Draw_Red_Edge(hdc, 8, true, true);
+		Draw_Red_Edge(hdc, 9, false, false);
 	}
 	else
 	{
-		for (i = 0; i < 4; i++)
+		for (i = 0; i < 2; i++)
 			Draw_Single_Edge(hdc, 5 + i, true);
+
+		Draw_Red_Edge(hdc, 7, true, false);
+		Draw_Red_Edge(hdc, 8, true, true);
+		Draw_Red_Edge(hdc, 9, false, false);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -330,17 +339,19 @@ void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
+void AGate::Draw_Red_Edge(HDC hdc, int edge_y_offset, bool is_long, bool highlight)
 {
 	if (is_long)
 	{
-		AsConfig::Rect(hdc, 0, edge_y_offset, 4, 1, AsConfig::White_Color);
-		AsConfig::Rect(hdc, 4, edge_y_offset, 2, 1, AsConfig::Blue_Color);
+		AsConfig::Rect(hdc, 0, edge_y_offset, 6, 1, AsConfig::Red_Color);
+		if (highlight)
+		{
+			AsConfig::Rect(hdc, 1, edge_y_offset, 1, 1, AsConfig::White_Color);
+		}
 	}
 	else
 	{
-		AsConfig::Rect(hdc, 1, edge_y_offset, 2, 1, AsConfig::Blue_Color);
-		AsConfig::Rect(hdc, 4, edge_y_offset, 1, 1, AsConfig::Blue_Color);
+		AsConfig::Rect(hdc, 1, edge_y_offset, 4, 1, AsConfig::Red_Color);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
