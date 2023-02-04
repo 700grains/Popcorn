@@ -74,6 +74,9 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 
 	Draw_Cup(hdc, true);
 	Draw_Cup(hdc, false);
+
+	if (Gate_State == EGate_State::Fully_Open && (Gate_Transformation == EGate_Transformation::Init || Gate_Transformation == EGate_Transformation::Finalize) )
+		Draw_Electrical_Charge(hdc);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
@@ -178,7 +181,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 
 	const int x = 0, y = 0;
 	const int scale = AsConfig::Global_Scale;
-	const int d_scale = AsConfig::D_Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
 	const int half_scale = scale / 2; // NB! 3 / 2 = 1!
 
 	xform.eM11 = 1.0f;
@@ -352,6 +355,28 @@ void AGate::Draw_Red_Edge(HDC hdc, int edge_y_offset, bool is_long, bool highlig
 	else
 	{
 		AsConfig::Rect(hdc, 1, edge_y_offset, 4, 1, AsConfig::Red_Color);
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AGate::Draw_Electrical_Charge(HDC hdc)
+{
+	int i;
+	int dots_count = 4;
+	int electrical_field;
+	int dot_x, dot_y;
+	double ratio = Hole_Height / Max_Hole_Long_Height;
+
+	if (ratio < 0.2 || ratio > 0.9)
+		return; // do not draw electric discharges at the beginning and at the end of the gate opening animation
+
+	electrical_field = (int) (Original_Y_Pos + (double)Height / 2.0 - Hole_Height / 2.0) + 1;
+
+	for (i = 0; i < dots_count; i++)
+	{
+		dot_x = 1 + AsConfig::Rand(4);
+		dot_y = AsConfig::Rand( (int)Hole_Height - 1);
+
+		AsConfig::Rect(hdc, X_Pos + dot_x, electrical_field + dot_y, 1, 1, AsConfig::White_Color);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
