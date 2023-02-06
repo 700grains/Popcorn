@@ -3,7 +3,7 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-:Game_State (EGS_Lost_Ball), Rest_Distance(0), Life_Count(AsConfig::Initial_Life_Count), Movers{}, Modules{}
+:Game_State (EGame_State::Lost_Ball), Rest_Distance(0), Life_Count(AsConfig::Initial_Life_Count), Movers{}, Modules{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -102,27 +102,27 @@ int AsEngine::On_Timer()
 
 	switch (Game_State)
 	{
-	case EGS_Test_Ball:
+	case EGame_State::Test_Ball:
 		Ball_Set.Set_For_Test();
-		Game_State = EGS_Play_Level;
+		Game_State = EGame_State::Play_Level;
 		break;
 
 
-	case EGS_Play_Level:
+	case EGame_State::Play_Level:
 		Play_Level();
 		break;
 
 
-	case EGS_Lost_Ball:
+	case EGame_State::Lost_Ball:
 		if (Platform.Has_State(EPlatform_Substate_Regular::Missing))
 			Restart_Level();
 			break;
 		
 
-	case EGS_Restart_Level:
+	case EGame_State::Restart_Level:
 		if (Platform.Has_State (EPlatform_Substate_Regular::Ready) )
 		{
-			Game_State = EGS_Play_Level;
+			Game_State = EGame_State::Play_Level;
 			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos() );
 			//Platform.Set_State(EPlatform_State::Glue_Init);
 		}
@@ -136,7 +136,7 @@ int AsEngine::On_Timer()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Restart_Level()
 {
-	Game_State = EGS_Restart_Level;
+	Game_State = EGame_State::Restart_Level;
 	Border.Open_Gate(7, true);
 	Border.Open_Gate(5, false);
 }
@@ -148,7 +148,7 @@ void AsEngine::Play_Level()
 	
 	if (Ball_Set.All_Balls_Are_Lost())
 	{ // All balls are lost!
-		Game_State = EGS_Lost_Ball;
+		Game_State = EGame_State::Lost_Ball;
 		Level.Stop();
 		Platform.Set_State(EPlatform_State::Meltdown);
 	}
@@ -156,7 +156,7 @@ void AsEngine::Play_Level()
 		Ball_Set.Accelerate();
 
 	if (Ball_Set.Is_Test_Finished())
-		Game_State = EGS_Test_Ball;
+		Game_State = EGame_State::Test_Ball;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()
@@ -216,7 +216,7 @@ void AsEngine::Act()
 	}
 
 	// 3. Restarting level (if we have to)
-	if (Game_State == EGS_Restart_Level)
+	if (Game_State == EGame_State::Restart_Level)
 		if (Border.Is_Gate_Opened(AsConfig::Gates_Count - 1) )
 			Platform.Set_State(EPlatform_State::Rolling);
 }

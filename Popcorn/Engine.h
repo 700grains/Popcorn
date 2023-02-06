@@ -15,13 +15,13 @@ enum class EKey_Type: unsigned char
 	Space
 };
 //------------------------------------------------------------------------------------------------------------
-enum EGame_State
+enum class EGame_State: unsigned char
 {
-	EGS_Test_Ball,
+	Test_Ball,
 
-	EGS_Play_Level,
-	EGS_Lost_Ball,
-	EGS_Restart_Level
+	Play_Level,
+	Lost_Ball,
+	Restart_Level
 };
 //------------------------------------------------------------------------------------------------------------
 const int Timer_ID = WM_USER + 1;
