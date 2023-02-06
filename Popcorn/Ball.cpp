@@ -448,7 +448,7 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 	sub_arc.right = sub_arc.left + 3 * scale;
 	sub_arc.bottom = sub_arc.top + 4 * scale;
 
-	Ellipse(hdc, sub_arc.left, sub_arc.top, sub_arc.right - 1, sub_arc.bottom - 1);
+	AsTools::Ellipse(hdc, sub_arc, AsConfig::BG_Color);
 
 	// 2.2. Central
 	other_arc = sub_arc;
@@ -456,14 +456,14 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 	other_arc.left = arc_x + 3 * scale + 1;
 	other_arc.right = arc_x + 11 * scale;
 
-	Ellipse(hdc, other_arc.left, other_arc.top, other_arc.right - 1, other_arc.bottom - 1);
+	AsTools::Ellipse(hdc, other_arc, AsConfig::BG_Color);
 
 	// 2.3 Right
 	other_arc = sub_arc;
 	other_arc.left = arc_x + 11 * scale + 1;
 	other_arc.right = arc_x + 14 * scale + 1;
 
-	Ellipse(hdc, sub_arc.left, sub_arc.top, sub_arc.right - 1, sub_arc.bottom - 1);
+	AsTools::Ellipse(hdc, sub_arc, AsConfig::BG_Color);
 
 	// 3. Slings
 	ball_center_x = (Parachute_Rect.left + Parachute_Rect.right) / 2;
