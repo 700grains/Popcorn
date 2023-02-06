@@ -187,8 +187,7 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 	case EPlatform_State::Laser:
 
 		// Clearing the old place with the background color
-		AsConfig::BG_Color.Select(hdc);
-		Rectangle(hdc, Prev_Platform_Rect.left, Prev_Platform_Rect.top, Prev_Platform_Rect.right, Prev_Platform_Rect.bottom);
+		AsTools::Rect(hdc, Prev_Platform_Rect, AsConfig::BG_Color);
 		break;
 	}
 }
