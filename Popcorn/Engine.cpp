@@ -225,53 +225,53 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 {
 	switch (falling_letter->Letter_Type)
 	{
-	case ELT_O: // "Cancel"
+	case ELetter_Type::O: // "Cancel"
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break; // !!! Only glue is canceled so far
 
-	case ELT_I: // "Inversion"
+	case ELetter_Type::I: // "Inversion"
 		Ball_Set.Inverse_Balls();
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
-	case ELT_C: // "Speed"
+	case ELetter_Type::C: // "Speed"
 		Ball_Set.Reset_Speed();
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
-	//case ELT_M: // "Monsters"
+	//case ELetter_Type::M: // "Monsters"
 
-	case ELT_G: // "Life"
+	case ELetter_Type::G: // "Life"
 		if (Life_Count < AsConfig::Max_Life_Count)
 			++Life_Count; // !!! should be displayed on the indicator
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
-	case ELT_K: // "Glue"
+	case ELetter_Type::K: // "Glue"
 		Platform.Set_State(EPlatform_State::Glue);
 		break;
 
-	case ELT_W: // "Wider"
+	case ELetter_Type::W: // "Wider"
 		Platform.Set_State(EPlatform_State::Expanding);
 		break;
 
-	case ELT_T: // "Three"
+	case ELetter_Type::T: // "Three"
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		Ball_Set.Triple_Balls();
 		break;
 
-	case ELT_L: // "Laser"
+	case ELetter_Type::L: // "Laser"
 		Platform.Set_State(EPlatform_State::Laser);
 		break;
 
-	case ELT_P: // "Floor"
+	case ELetter_Type::P: // "Floor"
 		AsConfig::Level_Has_Floor = true;
 		Border.Redraw_Floor();
 		// !!! display on the indicator!
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
-	//case ELT_Plus: // Moving to the next level
+	//case ELetter_Type::Plus: // Moving to the next level
 
 	default:
 		AsConfig::Throw();

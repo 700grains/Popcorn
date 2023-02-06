@@ -2,23 +2,23 @@
 #include "Active_Brick.h"
 
 //------------------------------------------------------------------------------------------------------------
-enum ELetter_Type
+enum class ELetter_Type: unsigned char
 {
-ELT_O, // "Cancel"
-ELT_I, // "Inversion"
-ELT_C, // "Speed"
-ELT_M, // "Monsters"
-ELT_G, // "Life"
-ELT_K, // "Glue"
-ELT_W, // "Wider"
-
-ELT_T, // "Three"
-ELT_L, // "Laser"
-ELT_P, // "Floor"
-
-ELT_Plus, // Moving to the next level
-
-ELT_Max // Max value
+	O, // "Cancel"
+	I, // "Inversion"
+	C, // "Speed"
+	M, // "Monsters"
+	G, // "Life"
+	K, // "Glue"
+	W, // "Wider"
+	
+	T, // "Three"
+	L, // "Laser"
+	P, // "Floor"
+	
+	Plus, // Moving to the next level
+	
+	Max // Max value
 };
 //------------------------------------------------------------------------------------------------------------
 enum EFalling_Letter_State
@@ -66,6 +66,6 @@ private:
 	static const int Brick_Half_Height = AsConfig::Brick_Height * AsConfig::Global_Scale / 2;
 
 	static int All_Letters_Popularity;
-	static int Letters_Popularity[ELT_Max]; // "Weight" of each letter
+	static int Letters_Popularity[(int)ELetter_Type::Max]; // "Weight" of each letter
 };
 //------------------------------------------------------------------------------------------------------------

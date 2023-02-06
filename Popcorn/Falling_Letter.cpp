@@ -2,7 +2,7 @@
 
 // AFalling_Letter
 int AFalling_Letter::All_Letters_Popularity;
-int AFalling_Letter::Letters_Popularity[ELT_Max] = { 7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1 };
+int AFalling_Letter::Letters_Popularity[(int)ELetter_Type::Max] = { 7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1 };
 //------------------------------------------------------------------------------------------------------------
 AFalling_Letter::AFalling_Letter(EBrick_Type brick_type, ELetter_Type letter_type, int x, int y)
 	: Brick_Type(brick_type), Letter_Type(letter_type), Falling_Letter_State(EFLS_Normal), X(x), Y(y), Rotation_Step(2),
@@ -112,7 +112,7 @@ void AFalling_Letter::Init()
 	int i;
 	All_Letters_Popularity = 0;
 
-	for  (i = 0; i < ELT_Max; i++)
+	for  (i = 0; i < (int)ELetter_Type::Max; i++)
 		All_Letters_Popularity += Letters_Popularity[i];
 }
 //------------------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ ELetter_Type AFalling_Letter::Get_Random_Letter_Type()
 
 	letters_popularity = AsConfig::Rand(All_Letters_Popularity);
 
-	for (i = 0; i < ELT_Max; i++)
+	for (i = 0; i < (int)ELetter_Type::Max; i++)
 	{
 		if (letters_popularity < Letters_Popularity[i])
 			return (ELetter_Type)i;
@@ -131,7 +131,7 @@ ELetter_Type AFalling_Letter::Get_Random_Letter_Type()
 		letters_popularity -= Letters_Popularity[i];
 	}
 
-	return ELT_O; 
+	return ELetter_Type::O; 
 }
 //------------------------------------------------------------------------------------------------------------
 void AFalling_Letter::Set_Brick_Letter_Colors(bool is_switch_color, const AColor** front_color, const AColor** back_color)
@@ -236,28 +236,28 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 
 			switch (Letter_Type)
 			{
-			case ELT_O: // "Cancel"
+			case ELetter_Type::O: // "Cancel"
 				Ellipse(hdc, 0 + 5 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 0 + 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
 				break;
 
-			case ELT_I: // "Inversion"
+			case ELetter_Type::I: // "Inversion"
 				Draw_Line(hdc, 5, 1, 5, 6);
 				Draw_Line_To(hdc, 9, 1);
 				Draw_Line_To(hdc, 9, 6);
 				break;
 
-			case ELT_C: // "Speed"
+			case ELetter_Type::C: // "Speed"
 				Draw_C(hdc);
 				break;
 
-			case ELT_M: // "Monsters"
+			case ELetter_Type::M: // "Monsters"
 				Draw_Line(hdc, 5, 6, 5, 1);
 				Draw_Line_To(hdc, 7, 3);
 				Draw_Line_To(hdc, 9, 1);
 				Draw_Line_To(hdc, 9, 6);
 				break;
 
-			case ELT_G: // "Life"
+			case ELetter_Type::G: // "Life"
 				Draw_Line(hdc, 7, 1, 7, 6);
 				Draw_Line(hdc, 5, 3, 9, 3);
 				Draw_Line(hdc, 4, 1, 5, 3);
@@ -266,36 +266,36 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 				Draw_Line(hdc, 9, 3, 10, 6);
 				break;
 
-			case ELT_K: // "Glue"
+			case ELetter_Type::K: // "Glue"
 				Draw_Line(hdc, 5, 1, 5, 6);
 				Draw_Line(hdc, 5, 5, 9, 1);
 				Draw_Line(hdc, 7, 4, 9, 6);
 				break;
 
-			case  ELT_W: // "Wider"
+			case  ELetter_Type::W: // "Wider"
 				Draw_Line(hdc, 4, 1, 4, 6);
 				Draw_Line_To(hdc, 10, 6);
 				Draw_Line_To(hdc, 10, 1);
 				Draw_Line(hdc, 7, 1, 7, 6);
 				break;
 
-			case ELT_P: // "Floor"
+			case ELetter_Type::P: // "Floor"
 				Draw_Line(hdc, 5, 6, 5, 1);
 				Draw_Line_To(hdc, 9, 1);
 				Draw_Line_To(hdc, 9, 6);
 				break;
 
-			case ELT_L: // "Laser"
+			case ELetter_Type::L: // "Laser"
 				Draw_Line(hdc, 5, 6, 7, 1);
 				Draw_Line_To(hdc, 9, 6);
 				break;
 
-			case ELT_T: // "Three"
+			case ELetter_Type::T: // "Three"
 				Draw_Line(hdc, 5, 1, 9, 1);
 				Draw_Line(hdc, 7, 1, 7, 6);
 				break;
 
-			case ELT_Plus: // Moving to the next level
+			case ELetter_Type::Plus: // Moving to the next level
 				Draw_Line(hdc, 7, 1, 7, 5);
 				Draw_Line(hdc, 5, 3, 9, 3);
 				break;
