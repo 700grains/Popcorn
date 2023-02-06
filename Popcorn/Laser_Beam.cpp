@@ -61,8 +61,7 @@ void ALaser_Beam::Clear(HDC hdc, RECT& paint_area)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Previous_Beam_Rect))
 		return;
 
-	AsConfig::BG_Color.Select(hdc);
-	Rectangle(hdc, Previous_Beam_Rect.left, Previous_Beam_Rect.top, Previous_Beam_Rect.right - 1, Previous_Beam_Rect.bottom);
+	AsTools::Rect(hdc, Previous_Beam_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
