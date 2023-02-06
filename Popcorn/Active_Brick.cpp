@@ -351,8 +351,7 @@ void AActive_Brick_Multihit::Draw_Stage(HDC hdc, RECT& brick_rect, int x, int wi
 	AsConfig::BG_Color.Select(hdc);
 	Rectangle(hdc, stage_rect.left + scale, stage_rect.top + scale, stage_rect.right + scale - 1, stage_rect.bottom + scale - 1);
 
-	AsConfig::Blue_Color.Select(hdc);
-	Rectangle(hdc, stage_rect.left, stage_rect.top, stage_rect.right - 1, stage_rect.bottom - 1);
+	AsConfig::Rect(hdc, stage_rect, AsConfig::Blue_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 
