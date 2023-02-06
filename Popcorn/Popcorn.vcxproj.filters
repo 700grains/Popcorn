@@ -21,17 +21,11 @@
     <Filter Include="Level">
       <UniqueIdentifier>{af0f142b-c080-4e29-8c92-82778d40dffd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Config">
-      <UniqueIdentifier>{d47e0b6f-9d2a-4b7b-b735-bcd2c5b78711}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Active_Brick">
       <UniqueIdentifier>{63e4d4d8-864f-4cdb-9635-a2888618aef0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Falling_Letter">
       <UniqueIdentifier>{60cf690e-ab51-4938-893e-2a7b8a6db292}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tools">
-      <UniqueIdentifier>{c3208528-5d1a-493a-9b99-f9889cc91b07}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
@@ -73,6 +67,15 @@
     <Filter Include="#Platform\Platform_State">
       <UniqueIdentifier>{2f745a76-606f-46c4-b0ac-880f27f21b8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Tools">
+      <UniqueIdentifier>{38dfb27a-540b-474f-a8ff-5e66f95a90eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#Tools\Config">
+      <UniqueIdentifier>{d47e0b6f-9d2a-4b7b-b735-bcd2c5b78711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#Tools\Tools">
+      <UniqueIdentifier>{c3208528-5d1a-493a-9b99-f9889cc91b07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -112,13 +115,13 @@
       <Filter>#Ball\Ball_Set</Filter>
     </ClInclude>
     <ClInclude Include="Config.h">
-      <Filter>Config</Filter>
+      <Filter>#Tools\Config</Filter>
     </ClInclude>
     <ClInclude Include="Laser_Beam.h">
       <Filter>#Laser_Beam\Laser_Beam</Filter>
     </ClInclude>
     <ClInclude Include="Tools.h">
-      <Filter>Tools</Filter>
+      <Filter>#Tools\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Laser_Beam_Set.h">
       <Filter>#Laser_Beam\Laser_Beam_Set</Filter>
@@ -163,7 +166,7 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Config.cpp">
-      <Filter>Config</Filter>
+      <Filter>#Tools\Config</Filter>
     </ClCompile>
     <ClCompile Include="Ball.cpp">
       <Filter>#Ball\Ball</Filter>
@@ -184,7 +187,7 @@
       <Filter>#Laser_Beam\Laser_Beam</Filter>
     </ClCompile>
     <ClCompile Include="Tools.cpp">
-      <Filter>Tools</Filter>
+      <Filter>#Tools\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Laser_Beam_Set.cpp">
       <Filter>#Laser_Beam\Laser_Beam_Set</Filter>
