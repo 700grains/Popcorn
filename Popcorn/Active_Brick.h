@@ -20,12 +20,12 @@ enum class EBrick_Type: unsigned char
 	Invisible
 };
 //------------------------------------------------------------------------------------------------------------
-enum EDirection_Type
+enum class EDirection_Type : unsigned char
 {
-	EDT_Left,
-	EDT_Up,
-	EDT_Right,
-	EDT_Down
+	Left,
+	Up,
+	Right,
+	Down
 };
 //------------------------------------------------------------------------------------------------------------
 class AActive_Brick: public AGraphics_Object

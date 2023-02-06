@@ -487,16 +487,16 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, b
 	if (vertical_hit)
 	{
 		if (pre_teleport_y_pos < curr_ball_y_pos)
-			direction = EDT_Down;
+			direction = EDirection_Type::Down;
 		else
-			direction = EDT_Up;
+			direction = EDirection_Type::Up;
 	}
 	else
 	{
 		if (pre_teleport_x_pos < curr_ball_x_pos)
-			direction = EDT_Right;
+			direction = EDirection_Type::Right;
 		else
-			direction = EDT_Left;
+			direction = EDirection_Type::Left;
 	}
 
 	// Selecting the direction exit from the destination teleport - looking for a free one
@@ -506,22 +506,22 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, b
 	{
 		switch (direction)
 		{
-		case EDT_Left:
+		case EDirection_Type::Left:
 			if (dest_brick_x > 0 && Current_Level[dest_brick_y][dest_brick_x - 1] == (char)EBrick_Type::None)
 				got_direction = true;
 			break;
 
-		case EDT_Up:
+		case EDirection_Type::Up:
 			if (dest_brick_y > 0 && Current_Level[dest_brick_y -1][dest_brick_x] == (char)EBrick_Type::None)
 				got_direction = true;
 			break;
 
-		case EDT_Right:
+		case EDirection_Type::Right:
 			if (dest_brick_x < AsConfig::Level_Width - 1 && (EBrick_Type)Current_Level[dest_brick_y][dest_brick_x + 1] == EBrick_Type::None)
 				got_direction = true;
 			break;
 
-		case EDT_Down:
+		case EDirection_Type::Down:
 			if (dest_brick_y < AsConfig::Level_Height - 1 && (EBrick_Type)Current_Level[dest_brick_y + 1][dest_brick_x] == EBrick_Type::None)
 				got_direction = true;
 			break;
@@ -532,11 +532,11 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, b
 		if (got_direction)
 			break;
 
-		direction = (EDirection_Type)(direction - 1);
+		direction = (EDirection_Type)((int)direction - 1);
 		ball->Set_Direction(ball->Get_Direction() + M_PI_2);
 
-		if (direction < 0)
-			direction = EDT_Down;
+		if ((int)direction < 0)
+			direction = EDirection_Type::Down;
 	}
 
 	destination_teleport->Release_Direction = direction;
