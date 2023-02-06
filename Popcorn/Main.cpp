@@ -314,7 +314,7 @@ V 2. Knocking out a falling letter
 V 3. Interception of a falling letter
 4. Each letter has its own actions
 
-Gates
+V Gates
 V 1. Output gates
 V 2. Animation of opening/closing gates
 V 3. Gate states (closed, opening, closing)

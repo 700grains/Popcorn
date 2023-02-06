@@ -162,6 +162,7 @@ void AsBall_Set::Triple_Balls()
 	ABall* left_candidate = 0, * right_candidate = 0;
 	double current_ball_x, current_ball_y;
 	double further_ball_x, further_ball_y;
+
 	// 1. Chosinbg the farthest ball accroding to Y coord
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
