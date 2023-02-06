@@ -5,7 +5,7 @@ int AFalling_Letter::All_Letters_Popularity;
 int AFalling_Letter::Letters_Popularity[(int)ELetter_Type::Max] = { 7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1 };
 //------------------------------------------------------------------------------------------------------------
 AFalling_Letter::AFalling_Letter(EBrick_Type brick_type, ELetter_Type letter_type, int x, int y)
-	: Brick_Type(brick_type), Letter_Type(letter_type), Falling_Letter_State(EFLS_Normal), X(x), Y(y), Rotation_Step(2),
+	: Brick_Type(brick_type), Letter_Type(letter_type), Falling_Letter_State(EFalling_Letter_State::Normal), X(x), Y(y), Rotation_Step(2),
 	Next_Rotation_Tick(AsConfig::Current_Timer_Tick + Ticks_Per_Step)
 {
 	Letter_Cell.left = X;
@@ -18,7 +18,7 @@ AFalling_Letter::AFalling_Letter(EBrick_Type brick_type, ELetter_Type letter_typ
 //------------------------------------------------------------------------------------------------------------
 void AFalling_Letter::Act()
 {
-	if (Falling_Letter_State != EFLS_Normal)
+	if (Falling_Letter_State != EFalling_Letter_State::Normal)
 		return;
 
 	if (Letter_Cell.top >= AsConfig::Max_Y_Pos * AsConfig::Global_Scale)
@@ -59,9 +59,9 @@ void AFalling_Letter::Draw(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 
-	if (Falling_Letter_State == EFLS_Finalizing)
+	if (Falling_Letter_State == EFalling_Letter_State::Finalizing)
 	{
-		Falling_Letter_State = EFLS_Finished;
+		Falling_Letter_State = EFalling_Letter_State::Finished;
 		return;
 	}
 
@@ -71,7 +71,7 @@ void AFalling_Letter::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AFalling_Letter::Is_Finished()
 {
-	if (Falling_Letter_State == EFLS_Finished)
+	if (Falling_Letter_State == EFalling_Letter_State::Finished)
 		return true;
 	else
 		return false;
@@ -84,7 +84,7 @@ void AFalling_Letter::Get_Letter_Cell(RECT& rect)
 //------------------------------------------------------------------------------------------------------------
 void AFalling_Letter::Finalize()
 {
-	Falling_Letter_State = EFLS_Finalizing;
+	Falling_Letter_State = EFalling_Letter_State::Finalizing;
 
 	AsConfig::Invalidate_Rect(Prev_Letter_Cell);
 	AsConfig::Invalidate_Rect(Letter_Cell);

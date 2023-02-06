@@ -21,11 +21,11 @@ enum class ELetter_Type: unsigned char
 	Max // Max value
 };
 //------------------------------------------------------------------------------------------------------------
-enum EFalling_Letter_State
+enum class EFalling_Letter_State: unsigned char
 {
-	EFLS_Normal,
-	EFLS_Finalizing, // Let's start deleting the object
-	EFLS_Finished // Object can be deleted
+	Normal,
+	Finalizing, // Let's start deleting the object
+	Finished // Object can be deleted
 };
 //------------------------------------------------------------------------------------------------------------
 class AFalling_Letter : public AGraphics_Object
