@@ -566,7 +566,6 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 
 	AActive_Brick_Teleport* destination_teleport;
 
-
 	if (Teleport_Bricks_Count < 2)
 	{
 		AsConfig::Throw();
