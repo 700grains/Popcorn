@@ -94,7 +94,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-private:
+protected:
 	virtual bool Get_Next_GameObject(int &index, AGame_Object **game_object) = 0;
 };
 //------------------------------------------------------------------------------------------------------------
