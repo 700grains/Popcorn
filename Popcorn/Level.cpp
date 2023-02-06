@@ -163,6 +163,27 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos)
 	return true;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsLevel::Begin_Movement()
+{
+	// not yet used.
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Finish_Movement()
+{
+	// not yet used.
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Advance(double max_speed)
+{
+	// not yet used.
+}
+//------------------------------------------------------------------------------------------------------------
+double AsLevel::Get_Speed()
+{
+	// not yet used.
+	return 0.0;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsLevel::Act()
 {
 	Act_Objects((AGraphics_Object**)&Active_Bricks, Active_Bricks_Count, AsConfig::Max_Active_Bricks_Count);
