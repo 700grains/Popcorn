@@ -164,13 +164,11 @@ AsGame_Objects_Set::AsGame_Objects_Set(int max_objects_count)
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Objects_Set::Begin_Movement()
 {
-	int i;
+	int index = 0;
 	AGame_Object* object;
 
-	for (i = 0; i < Objects_Count; i++)
-	{
-		object = Game_Objects[i];
+	while (Get_Next_GameObject(index, &object) )
 		object->Begin_Movement();
-	}
+
 }
 //------------------------------------------------------------------------------------------------------------

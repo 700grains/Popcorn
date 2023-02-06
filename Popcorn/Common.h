@@ -76,7 +76,6 @@ private:
 //------------------------------------------------------------------------------------------------------------
 class AGame_Object: public AMover, public AGraphics_Object
 {
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsGame_Objects_Set: public AGame_Object
@@ -96,9 +95,6 @@ public:
 	virtual bool Is_Finished();
 
 private:
-	int Objects_Count;
-	const int Max_Objects_Count;
-
-	AGame_Object** Game_Objects;
+	virtual bool Get_Next_GameObject(int &index, AGame_Object **game_object) = 0;
 };
 //------------------------------------------------------------------------------------------------------------
