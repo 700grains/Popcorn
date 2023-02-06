@@ -114,9 +114,9 @@ private:
 //------------------------------------------------------------------------------------------------------------
 enum ETeleport_State
 {
-	ETS_Starting,
-	ETS_Finishing,
-	ETS_Done
+	Starting,
+	Finishing,
+	Done
 };
 //------------------------------------------------------------------------------------------------------------
 class AActive_Brick_Teleport : public AActive_Brick
