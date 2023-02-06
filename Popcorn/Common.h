@@ -81,9 +81,6 @@ class AGame_Object: public AMover, public AGraphics_Object
 class AsGame_Objects_Set: public AGame_Object
 {
 public:
-	AsGame_Objects_Set(int max_objects_count);
-	~AsGame_Objects_Set();
-
 	virtual void Begin_Movement();
 	virtual void Finish_Movement();
 	virtual void Advance(double max_speed);
