@@ -6,11 +6,6 @@
 class AsConfig
 {
 public:
- 	static int Rand(int range);
-	static void Round_Rect(HDC hdc, RECT &rect, int corner_radius = 2);
-	static void Rect(HDC hdc, RECT& rect, const AColor& color);	
-	static void Rect(HDC hdc, int x_pos, int y_pos, int width, int height, const AColor& color);
-	static void Invalidate_Rect(RECT &rect);
 	static void Throw();
 
 	static bool Level_Has_Floor;
@@ -59,5 +54,15 @@ public:
 	static const int Platform_Normal_Inner_Width = Platform_Normal_Width - Platform_Circle_Size;
 	static const int Platform_Expanding_Inner_Width = 12;
 	static const int Gates_Count = 8;
+};
+//------------------------------------------------------------------------------------------------------------
+class AsTools
+{
+public:
+	static int Rand(int range);
+	static void Round_Rect(HDC hdc, RECT& rect, int corner_radius = 2);
+	static void Rect(HDC hdc, RECT& rect, const AColor& color);
+	static void Rect(HDC hdc, int x_pos, int y_pos, int width, int height, const AColor& color);
+	static void Invalidate_Rect(RECT& rect);
 };
 //------------------------------------------------------------------------------------------------------------
