@@ -15,9 +15,6 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{b24a35de-62d5-4d1d-813e-f6f217c3ed02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Border">
-      <UniqueIdentifier>{fa44af56-897d-4df7-9c5a-02d5ce74f94d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{af0f142b-c080-4e29-8c92-82778d40dffd}</UniqueIdentifier>
     </Filter>
@@ -76,7 +73,13 @@
     <Filter Include="#Tools\Tools">
       <UniqueIdentifier>{c3208528-5d1a-493a-9b99-f9889cc91b07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gate">
+    <Filter Include="#Border">
+      <UniqueIdentifier>{180f1b5a-2c42-4689-9693-f3df6ce0807f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#Border\Border">
+      <UniqueIdentifier>{fa44af56-897d-4df7-9c5a-02d5ce74f94d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#Border\Gate">
       <UniqueIdentifier>{533ca59a-16a2-4c2f-b439-ef3dda1b1877}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -112,7 +115,7 @@
       <Filter>Falling_Letter</Filter>
     </ClInclude>
     <ClInclude Include="Border.h">
-      <Filter>Border</Filter>
+      <Filter>#Border\Border</Filter>
     </ClInclude>
     <ClInclude Include="Ball_Set.h">
       <Filter>#Ball\Ball_Set</Filter>
@@ -142,7 +145,7 @@
       <Filter>#Platform\Platform_Laser</Filter>
     </ClInclude>
     <ClInclude Include="Gate.h">
-      <Filter>Gate</Filter>
+      <Filter>#Border\Gate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -166,7 +169,7 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Border.cpp">
-      <Filter>Border</Filter>
+      <Filter>#Border\Border</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Level</Filter>
@@ -211,7 +214,7 @@
       <Filter>#Platform\Platform_Laser</Filter>
     </ClCompile>
     <ClCompile Include="Gate.cpp">
-      <Filter>Gate</Filter>
+      <Filter>#Border\Gate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
