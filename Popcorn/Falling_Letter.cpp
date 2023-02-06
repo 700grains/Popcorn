@@ -50,9 +50,8 @@ void AFalling_Letter::Clear(HDC hdc, RECT& paint_area)
 	// Erase the past image
 	if (!IntersectRect(&intersection_rect, &paint_area, &Prev_Letter_Cell))
 		return;
-	
-	AsConfig::BG_Color.Select(hdc);
-	Rectangle(hdc, Prev_Letter_Cell.left, Prev_Letter_Cell.top, Prev_Letter_Cell.right, Prev_Letter_Cell.bottom);
+
+	AsTools::Rect(hdc, Prev_Letter_Cell, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AFalling_Letter::Draw(HDC hdc, RECT& paint_area)
