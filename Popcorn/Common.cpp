@@ -150,3 +150,15 @@ HBRUSH AColor::Get_Brush() const
 	return Brush;
 }
 //------------------------------------------------------------------------------------------------------------
+
+
+
+
+// AsGame_Objects_Set
+//------------------------------------------------------------------------------------------------------------
+AsGame_Objects_Set::AsGame_Objects_Set(int max_objects_count)
+	: Objects_Count(0), Max_Objects_Count(max_objects_count), Graphics_Objects(nullptr)
+{
+	Graphics_Objects = new AGraphics_Object* [Max_Objects_Count];
+}
+//------------------------------------------------------------------------------------------------------------

@@ -77,6 +77,9 @@ private:
 class AsGame_Objects_Set : public AMover, public AGraphics_Object
 {
 public:
+	AsGame_Objects_Set(int max_objects_count);
+	~AsGame_Objects_Set();
+
 	virtual void Begin_Movement();
 	virtual void Finish_Movement();
 	virtual void Advance(double max_speed);
@@ -88,5 +91,9 @@ public:
 	virtual bool Is_Finished();
 
 private:
+	int Objects_Count;
+	const int Max_Objects_Count;
+
+	AGraphics_Object** Graphics_Objects;
 };
 //------------------------------------------------------------------------------------------------------------
