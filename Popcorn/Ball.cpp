@@ -141,10 +141,7 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
 
 	// 2. Drawing the ball
 	if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
-	{
-		AsConfig::White_Color.Select(hdc);
-		Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
-	}
+		AsTools::Ellipse(hdc, Ball_Rect, AsConfig::White_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool ABall::Is_Finished()
