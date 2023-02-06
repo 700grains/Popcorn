@@ -49,6 +49,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Add_Next_Module(index, &Platform);
 	Add_Next_Module(index, &Ball_Set);
 	Add_Next_Module(index, &Laser_Beam_Set);
+	Add_Next_Module(index, &Monster_Set);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
