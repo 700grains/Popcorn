@@ -96,10 +96,7 @@ void AsPlatform_Expanding::Draw_State(HDC hdc, double& x)
 	Draw_Expanding_Truss(hdc, inner_rect, false);
 
 	// 3. Draw the middle part
-	Inner_Color->Select(hdc);
-
-	Rectangle(hdc, inner_rect.left, inner_rect.top, inner_rect.right - 1, inner_rect.bottom - 1);
-
+	AsTools::Rect(hdc, inner_rect, *Inner_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Expanding::Draw_Circle_Highlight(HDC hdc, int x, int y)
