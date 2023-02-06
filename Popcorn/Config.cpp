@@ -65,6 +65,12 @@ void AsTools::Rect(HDC hdc, int x_pos, int y_pos, int width, int height, const A
 		(x_pos + width) * scale - 1, (y_pos + height) * scale - 1);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsTools::Ellipse(HDC hdc, RECT& rect, const AColor& color)
+{
+	color.Select(hdc);
+	::Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+}
+//------------------------------------------------------------------------------------------------------------
 void AsTools::Invalidate_Rect(RECT& rect)
 {
 	InvalidateRect(AsConfig::Hwnd, &rect, FALSE);
