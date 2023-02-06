@@ -43,6 +43,7 @@ private:
 	void Advance_Movers();
 	void Act();
 	void On_Falling_Letter(AFalling_Letter* falling_letter);
+	void Add_Next_Module(int &index, AGame_Object* game_object);
 
 	EGame_State Game_State;
 	double Rest_Distance;
@@ -53,9 +54,6 @@ private:
 	AsBorder Border;
 	AsBall_Set Ball_Set; 
 	AsLaser_Beam_Set Laser_Beam_Set;
-
-	//AMover* Movers[AsConfig::Max_Movers_Count]; // UNO; currently moving objects
-	//AGraphics_Object *Modules[AsConfig::Max_Modules_Count]; // UNO; main graphic modules
 
 	AGame_Object* Modules[AsConfig::Max_Modules_Count]; // UNO; main graphic modules
 };

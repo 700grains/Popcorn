@@ -9,6 +9,7 @@ AsEngine::AsEngine()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd)
 {// Game setup at startup
+	int index;
 
 	SYSTEMTIME sys_time;
 	FILETIME file_time;
@@ -35,22 +36,19 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	Level.Set_Current_Level(AsLevel::Level_01);
 
-	//Ball.Set_State(EBall_State::Normal, Platform.X_Pos + Platform.Width / 2);
-	
-	//Platform.Set_State(EPlatform_State::Normal);
-	//Platform.Set_State(EPlatform_State::Laser);
-
 	Platform.Redraw_Platform();
 
 	SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
 
 	// Modules
 	memset(Modules, 0, sizeof(Modules));
-	Modules[0] = &Level;
-	Modules[1] = &Border;
-	Modules[2] = &Platform;
-	Modules[3] = &Ball_Set;
-	Modules[4] = &Laser_Beam_Set;
+	index = 0;
+
+	Add_Next_Module(index, &Level);
+	Add_Next_Module(index, &Border);
+	Add_Next_Module(index, &Platform);
+	Add_Next_Module(index, &Ball_Set);
+	Add_Next_Module(index, &Laser_Beam_Set);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
@@ -118,7 +116,6 @@ int AsEngine::On_Timer()
 		{
 			Game_State = EGame_State::Play_Level;
 			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos() );
-			//Platform.Set_State(EPlatform_State::Glue_Init);
 		}
 		break;
 	}
@@ -179,7 +176,6 @@ void AsEngine::Advance_Movers()
 			if (Modules[i] != 0)
 				Modules[i]->Advance(max_speed);
 
-		//Platform.Advance(max_speed);
 		Rest_Distance -= AsConfig::Moving_Step_Size;
 	}
 
@@ -271,5 +267,14 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		AsConfig::Throw();
 	}
 	falling_letter->Finalize();
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Add_Next_Module(int& index, AGame_Object* game_object)
+{
+	if (index >= 0 && index < AsConfig::Max_Modules_Count)
+		Modules[index++] = game_object;
+	else
+		AsConfig::Throw();
+
 }
 //------------------------------------------------------------------------------------------------------------
