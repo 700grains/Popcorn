@@ -508,14 +508,14 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 	rect.right = (int)((x + (double)AsConfig::Platform_Circle_Size) * d_scale);
 	rect.bottom = (y +AsConfig::Platform_Circle_Size) * scale;
 
-	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+	AsTools::Ellipse(hdc, rect, Platform_Circle_Color);
 
 	rect.left = (int)((x + Inner_Width) * d_scale);
 	rect.top = y * scale;
 	rect.right = (int)((x + (double)AsConfig::Platform_Circle_Size + Inner_Width) * d_scale);
 	rect.bottom = (y +AsConfig::Platform_Circle_Size) * scale;
 	
-	Ellipse(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1);
+	AsTools::Ellipse(hdc, rect, Platform_Circle_Color);
 
 	// 2. Draw the highlight
 	Platform_Expanding.Draw_Circle_Highlight(hdc, (int)(x * d_scale), y * scale);
