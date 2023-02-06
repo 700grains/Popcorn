@@ -76,6 +76,9 @@
     <Filter Include="#Tools\Tools">
       <UniqueIdentifier>{c3208528-5d1a-493a-9b99-f9889cc91b07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gate">
+      <UniqueIdentifier>{533ca59a-16a2-4c2f-b439-ef3dda1b1877}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="Platform_Laser.h">
       <Filter>#Platform\Platform_Laser</Filter>
+    </ClInclude>
+    <ClInclude Include="Gate.h">
+      <Filter>Gate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="Platform_Laser.cpp">
       <Filter>#Platform\Platform_Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="Gate.cpp">
+      <Filter>Gate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
