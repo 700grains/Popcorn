@@ -34,7 +34,7 @@ AsBorder::AsBorder()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Redraw_Floor()
 {
-	AsConfig::Invalidate_Rect(Floor_Rect);
+	AsTools::Invalidate_Rect(Floor_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Open_Gate(int gate_index, bool is_partially)

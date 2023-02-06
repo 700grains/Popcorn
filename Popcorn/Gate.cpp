@@ -60,7 +60,7 @@ void AGate::Clear(HDC hdc, RECT& paint_area)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Gate_Rect))
 		return;
 
-	AsConfig::Rect(hdc, Gate_Rect, AsConfig::BG_Color);
+	AsTools::Rect(hdc, Gate_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Draw(HDC hdc, RECT& paint_area)
@@ -218,7 +218,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 
 	// 1.1 Base
 	AsConfig::Blue_Color.Select(hdc);
-	AsConfig::Round_Rect(hdc, rect, 3);
+	AsTools::Round_Rect(hdc, rect, 3);
 
 	// 1.2 Highlight on the left side 
 	rect.left = X_Pos * scale;
@@ -245,22 +245,22 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	rect.right = rect.left + 5 * scale + half_scale;
 	rect.bottom = rect.top + 5 * scale + half_scale;
 
-	AsConfig::Round_Rect(hdc, rect, 3);
+	AsTools::Round_Rect(hdc, rect, 3);
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
 
 	// 1.3 Highlight on the bottom part of the bowl
-	AsConfig::Rect(hdc, x, y + 4, 4, 1, AsConfig::White_Color);
+	AsTools::Rect(hdc, x, y + 4, 4, 1, AsConfig::White_Color);
 
 	// 1.4 A "patch" in the lower right corner
-	AsConfig::Rect(hdc, x + 4, y + 3, 2, 2, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, x + 4, y + 3, 2, 2, AsConfig::Blue_Color);
 
 	// 1.5 Cutting a hole in the bowl
-	AsConfig::Rect(hdc, x + 4, y + 3, 1, 1, AsConfig::BG_Color);
+	AsTools::Rect(hdc, x + 4, y + 3, 1, 1, AsConfig::BG_Color);
 
 	// 1.5 Draw a jumper in front of the bowl
-	AsConfig::Rect(hdc, x + 2, y, 2, 1, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, x + 2, y, 2, 1, AsConfig::Blue_Color);
 
 	// 1.6 Draw edges 
 	Draw_Edges(hdc);
@@ -332,13 +332,13 @@ void AGate::Draw_Single_Edge(HDC hdc, int edge_y_offset, bool is_long)
 {
 	if (is_long)
 	{
-		AsConfig::Rect(hdc, 0, edge_y_offset, 4, 1, AsConfig::White_Color);
-		AsConfig::Rect(hdc, 4, edge_y_offset, 2, 1, AsConfig::Blue_Color);
+		AsTools::Rect(hdc, 0, edge_y_offset, 4, 1, AsConfig::White_Color);
+		AsTools::Rect(hdc, 4, edge_y_offset, 2, 1, AsConfig::Blue_Color);
 	}
 	else
 	{
-		AsConfig::Rect(hdc, 1, edge_y_offset, 2, 1, AsConfig::Blue_Color);
-		AsConfig::Rect(hdc, 4, edge_y_offset, 1, 1, AsConfig::Blue_Color);
+		AsTools::Rect(hdc, 1, edge_y_offset, 2, 1, AsConfig::Blue_Color);
+		AsTools::Rect(hdc, 4, edge_y_offset, 1, 1, AsConfig::Blue_Color);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -346,15 +346,15 @@ void AGate::Draw_Red_Edge(HDC hdc, int edge_y_offset, bool is_long, bool highlig
 {
 	if (is_long)
 	{
-		AsConfig::Rect(hdc, 0, edge_y_offset, 6, 1, AsConfig::Red_Color);
+		AsTools::Rect(hdc, 0, edge_y_offset, 6, 1, AsConfig::Red_Color);
 		if (highlight)
 		{
-			AsConfig::Rect(hdc, 1, edge_y_offset, 1, 1, AsConfig::White_Color);
+			AsTools::Rect(hdc, 1, edge_y_offset, 1, 1, AsConfig::White_Color);
 		}
 	}
 	else
 	{
-		AsConfig::Rect(hdc, 1, edge_y_offset, 4, 1, AsConfig::Red_Color);
+		AsTools::Rect(hdc, 1, edge_y_offset, 4, 1, AsConfig::Red_Color);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -373,10 +373,10 @@ void AGate::Draw_Electrical_Charge(HDC hdc)
 
 	for (i = 0; i < dots_count; i++)
 	{
-		dot_x = 1 + AsConfig::Rand(4);
-		dot_y = AsConfig::Rand((int)Hole_Height - 1);
+		dot_x = 1 + AsTools::Rand(4);
+		dot_y = AsTools::Rand((int)Hole_Height - 1);
 
-		AsConfig::Rect(hdc, X_Pos + dot_x, electrical_field + dot_y, 1, 1, AsConfig::White_Color);
+		AsTools::Rect(hdc, X_Pos + dot_x, electrical_field + dot_y, 1, 1, AsConfig::White_Color);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -385,7 +385,7 @@ void AGate::Redraw_Gate()
 	--Gate_Rect.top;
 	++Gate_Rect.bottom;
 
-	AsConfig::Invalidate_Rect(Gate_Rect);
+	AsTools::Invalidate_Rect(Gate_Rect);
 
 	++Gate_Rect.top;
 	--Gate_Rect.bottom;

@@ -131,7 +131,7 @@ void ALaser_Beam::Redraw_Beam()
 	Beam_Rect.right = Beam_Rect.left + Width * scale;
 	Beam_Rect.bottom = Beam_Rect.top + AsConfig::Platform_Height * scale;
 
-	AsConfig::Invalidate_Rect(Beam_Rect);
-	AsConfig::Invalidate_Rect(Previous_Beam_Rect);
+	AsTools::Invalidate_Rect(Beam_Rect);
+	AsTools::Invalidate_Rect(Previous_Beam_Rect);
 }
 //-----------------------------------------------------------------------------------------------------------

@@ -348,7 +348,7 @@ void AsLevel::Redraw_Brick(int brick_x, int brick_y)
 	brick_rect.right = brick_rect.left + AsConfig::Brick_Width * AsConfig::Global_Scale;
 	brick_rect.bottom = brick_rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 
-	AsConfig::Invalidate_Rect(brick_rect);
+	AsTools::Invalidate_Rect(brick_rect);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type)
@@ -362,7 +362,7 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 	if (!(brick_type == EBrick_Type::Red || brick_type == EBrick_Type::Blue) )
 		return false;
 
-	if (AsConfig::Rand(AsConfig::Hits_Per_Letter) != 0)
+	if (AsTools::Rand(AsConfig::Hits_Per_Letter) != 0)
 		return false;
 	
 	if (Falling_Letters_Count >= AsConfig::Max_Falling_Letters_Count)
@@ -376,7 +376,7 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 			letter_y = (brick_y * AsConfig::Cell_Height + AsConfig::Level_Y_Offset) * AsConfig::Global_Scale;
 
 			//letter_type = AFalling_Letter::Get_Random_Letter_Type();
-			//switch (AsConfig::Rand(3) )
+			//switch (AsTools::Rand(3) )
 			//{
 			//case 0:
 				letter_type = ELetter_Type::L;
@@ -573,7 +573,7 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 		return 0;
 	}
 
-	dest_index = AsConfig::Rand(Teleport_Bricks_Count);
+	dest_index = AsTools::Rand(Teleport_Bricks_Count);
 
 	if (Teleport_Bricks_Pos[dest_index].X == source_x && Teleport_Bricks_Pos[dest_index].Y == source_y)
 	{// If the source teleport is randomly selected, then go to the next one in the list
@@ -720,13 +720,13 @@ void AsLevel::Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int wid
 	rect.bottom = rect.top + 3 * scale + 1;
 
 	Parachute_Color.Select(hdc);
-	AsConfig::Round_Rect(hdc, rect);
+	AsTools::Round_Rect(hdc, rect);
 
 	// 1. Lower segment
 	rect.top += 3 * scale;
 	rect.bottom += 3 * scale;
 
-	AsConfig::Round_Rect(hdc, rect);
+	AsTools::Round_Rect(hdc, rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Clear_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count)
