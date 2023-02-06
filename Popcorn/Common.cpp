@@ -157,8 +157,20 @@ HBRUSH AColor::Get_Brush() const
 // AsGame_Objects_Set
 //------------------------------------------------------------------------------------------------------------
 AsGame_Objects_Set::AsGame_Objects_Set(int max_objects_count)
-	: Objects_Count(0), Max_Objects_Count(max_objects_count), Graphics_Objects(nullptr)
+	: Objects_Count(0), Max_Objects_Count(max_objects_count), Game_Objects(nullptr)
 {
-	Graphics_Objects = new AGraphics_Object* [Max_Objects_Count];
+	Game_Objects = new AGame_Object* [Max_Objects_Count];
+}
+//------------------------------------------------------------------------------------------------------------
+void AsGame_Objects_Set::Begin_Movement()
+{
+	int i;
+	AGame_Object* object;
+
+	for (i = 0; i < Objects_Count; i++)
+	{
+		object = Game_Objects[i];
+		object->Begin_Movement();
+	}
 }
 //------------------------------------------------------------------------------------------------------------

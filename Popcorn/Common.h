@@ -74,7 +74,12 @@ private:
 	HBRUSH Brush;
 };
 //------------------------------------------------------------------------------------------------------------
-class AsGame_Objects_Set : public AMover, public AGraphics_Object
+class AGame_Object: public AMover, public AGraphics_Object
+{
+
+};
+//------------------------------------------------------------------------------------------------------------
+class AsGame_Objects_Set: public AGame_Object
 {
 public:
 	AsGame_Objects_Set(int max_objects_count);
@@ -94,6 +99,6 @@ private:
 	int Objects_Count;
 	const int Max_Objects_Count;
 
-	AGraphics_Object** Graphics_Objects;
+	AGame_Object** Game_Objects;
 };
 //------------------------------------------------------------------------------------------------------------
