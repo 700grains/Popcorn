@@ -78,17 +78,17 @@ int AsEngine::On_Key(EKey_Type key_type, bool key_down)
 {
 	switch (key_type)
 	{
-	case EKT_Left:
+	case EKey_Type::Left:
 		Platform.Move(true, key_down);
 		break;
 
 
-	case EKT_Right:
+	case EKey_Type::Right:
 		Platform.Move(false, key_down);
 		break;
 
 
-	case EKT_Space:
+	case EKey_Type::Space:
 		Platform.On_Space_Key(key_down);
 		break;
 	}
