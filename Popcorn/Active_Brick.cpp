@@ -60,7 +60,7 @@ AActive_Brick_Red_Blue::~AActive_Brick_Red_Blue()
 AActive_Brick_Red_Blue::AActive_Brick_Red_Blue(EBrick_Type brick_type, int level_x, int level_y)
 	: AActive_Brick(brick_type, level_x, level_y), Fade_Step(0)
 {
-	if (!(brick_type == EBT_Red || brick_type == EBT_Blue) )
+	if (!(brick_type == EBrick_Type::Red || brick_type == EBrick_Type::Blue) )
 		AsConfig::Throw();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -79,11 +79,11 @@ void AActive_Brick_Red_Blue::Draw(HDC hdc, RECT& paint_area)
 
 	switch (Brick_Type)
 	{
-	case EBT_Red:
+	case EBrick_Type::Red:
 		color = &Fading_Red_Brick_Colors[Fade_Step];
 		break;
 
-	case EBT_Blue:
+	case EBrick_Type::Blue:
 		color = &Fading_Blue_Brick_Colors[Fade_Step];
 		break;
 	}
@@ -120,15 +120,15 @@ void AActive_Brick_Red_Blue::Draw_In_Level(HDC hdc, RECT brick_rect, EBrick_Type
 
 	switch (brick_type)
 	{
-	case EBT_None:
+	case EBrick_Type::None:
 		color = &AsConfig::BG_Color;
 		break;
 
-	case EBT_Red:
+	case EBrick_Type::Red:
 		color = &AsConfig::Red_Color;
 		break;
 
-	case EBT_Blue:
+	case EBrick_Type::Blue:
 		color = &AsConfig::Blue_Color;
 		break;
 
@@ -170,7 +170,7 @@ AActive_Brick_Unbreakable::~AActive_Brick_Unbreakable()
 }
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Unbreakable::AActive_Brick_Unbreakable(int level_x, int level_y)
-	: AActive_Brick (EBT_Unbreakable, level_x, level_y), Animation_Step(0), Region(0)
+	: AActive_Brick (EBrick_Type::Unbreakable, level_x, level_y), Animation_Step(0), Region(0)
 {
 	Region = CreateRoundRectRgn(Brick_Rect.left, Brick_Rect.top, Brick_Rect.right + 1, Brick_Rect.bottom + 1, 2 * AsConfig::Global_Scale - 1, 2 * AsConfig::Global_Scale - 1);
 }
@@ -232,7 +232,7 @@ AActive_Brick_Multihit::~AActive_Brick_Multihit()
 }
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Multihit::AActive_Brick_Multihit(int level_x, int level_y)
-: AActive_Brick(EBT_Multihit_1, level_x, level_y), Rotation_Step(0)
+: AActive_Brick(EBrick_Type::Multihit_1, level_x, level_y), Rotation_Step(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -311,22 +311,22 @@ void AActive_Brick_Multihit::Draw_In_Level(HDC hdc, RECT& brick_rect, EBrick_Typ
 	// 2. Drawing inner rectangles
 	switch (brick_type)
 	{
-	case EBT_Multihit_1:
+	case EBrick_Type::Multihit_1:
 		Draw_Stage(hdc, brick_rect, 2, 10);
 		break;
 
-	case EBT_Multihit_2:
+	case EBrick_Type::Multihit_2:
 		Draw_Stage(hdc, brick_rect, 2, 4);
 		Draw_Stage(hdc, brick_rect, 8, 4);
 		break;
 
-	case EBT_Multihit_3:
+	case EBrick_Type::Multihit_3:
 		Draw_Stage(hdc, brick_rect, 2, 2);
 		Draw_Stage(hdc, brick_rect, 6, 2);
 		Draw_Stage(hdc, brick_rect, 10, 2);
 		break;
 
-	case EBT_Multihit_4:
+	case EBrick_Type::Multihit_4:
 		Draw_Stage(hdc, brick_rect, 2, 2);
 		Draw_Stage(hdc, brick_rect, 5, 2);
 		Draw_Stage(hdc, brick_rect, 8, 2);
@@ -366,7 +366,7 @@ AActive_Brick_Teleport::~AActive_Brick_Teleport()
 }
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Teleport::AActive_Brick_Teleport(int level_x, int level_y, ABall* ball, AActive_Brick_Teleport* destination_teleport)
-	: AActive_Brick(EBT_Teleport, level_x, level_y), Teleport_State(ETS_Starting), Animation_Step(0), Ball(0), Destination_Teleport(destination_teleport)
+	: AActive_Brick(EBrick_Type::Teleport, level_x, level_y), Teleport_State(ETS_Starting), Animation_Step(0), Ball(0), Destination_Teleport(destination_teleport)
 {
 	Set_Ball(ball);
 }
@@ -738,7 +738,7 @@ AActive_Brick_Ad::~AActive_Brick_Ad()
 }
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Ad::AActive_Brick_Ad(int level_x, int level_y, AAdvertisement* advertisement)
-	: AActive_Brick(EBT_Unbreakable, level_x, level_y), Advertisement(advertisement)
+	: AActive_Brick(EBrick_Type::Unbreakable, level_x, level_y), Advertisement(advertisement)
 {
 	if (Advertisement != 0)
 		Advertisement->Show_Under_Brick(Level_X, Level_Y);

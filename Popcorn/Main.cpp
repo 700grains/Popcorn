@@ -315,9 +315,9 @@ V 3. Interception of a falling letter
 4. Each letter has its own actions
 
 Gates
-1. Output gates
-2. Animation of opening/closing gates
-3. Gate states (closed, opening, closing)
+V 1. Output gates
+V 2. Animation of opening/closing gates
+V 3. Gate states (closed, opening, closing)
 
 
 Monsters
