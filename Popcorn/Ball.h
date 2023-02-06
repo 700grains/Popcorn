@@ -3,16 +3,16 @@
 #include "Config.h"
 
 //------------------------------------------------------------------------------------------------------------
-enum EBall_State
+enum class EBall_State: unsigned char
 {
-	EBS_Disabled, // not drawn, not moved, doesn't interact
+	Disabled, // not drawn, not moved, doesn't interact
 
-	EBS_Normal,
-	EBS_Lost,
-	EBS_On_Platform,
-	EBS_On_Parachute,
-	EBS_Off_Parachute,
-	EBS_Teleporting
+	Normal,
+	Lost,
+	On_Platform,
+	On_Parachute,
+	Off_Parachute,
+	Teleporting
 };
 //------------------------------------------------------------------------------------------------------------
 class ABall: public AMover, public AGraphics_Object

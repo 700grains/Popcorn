@@ -112,7 +112,7 @@ private:
 	static const int Max_Rotation_Step = Steps_Per_Turn * 4;
 };
 //------------------------------------------------------------------------------------------------------------
-enum ETeleport_State
+enum class ETeleport_State: unsigned char
 {
 	Starting,
 	Finishing,

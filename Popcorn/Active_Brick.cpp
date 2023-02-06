@@ -430,7 +430,7 @@ void AActive_Brick_Teleport::Act()
 				}
 
 				direction = Ball->Get_Direction();
-				Ball->Set_State(EBS_Normal, ball_x, ball_y);
+				Ball->Set_State(EBall_State::Normal, ball_x, ball_y);
 				Ball->Set_Direction(direction);
 
 				Ball = 0; // Marking the ball as missing from the teleport
@@ -496,7 +496,7 @@ void AActive_Brick_Teleport::Set_Ball(ABall* ball)
 	ball_y = Get_Brick_Y_Pos(true);;
 
 	if (ball != 0)
-		ball->Set_State(EBS_Teleporting, ball_x, ball_y);
+		ball->Set_State(EBall_State::Teleporting, ball_x, ball_y);
 
 	Ball = ball;
 }

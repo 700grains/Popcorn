@@ -35,7 +35,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	Level.Set_Current_Level(AsLevel::Level_01);
 
-	//Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
+	//Ball.Set_State(EBall_State::Normal, Platform.X_Pos + Platform.Width / 2);
 	
 	//Platform.Set_State(EPlatform_State::Normal);
 	//Platform.Set_State(EPlatform_State::Laser);

@@ -51,7 +51,7 @@ void AsBall_Set::Act()
 	{
 		current_ball = &Balls[i];
 
-		if (current_ball->Get_State() == EBS_On_Platform)
+		if (current_ball->Get_State() == EBall_State::On_Platform)
 			if (current_ball->Release_Timer_Tick != 0 && AsConfig::Current_Timer_Tick >= current_ball->Release_Timer_Tick)
 				current_ball->Release();
 	}
@@ -83,8 +83,8 @@ void AsBall_Set::Release_From_The_Platform(double platform_x_pos)
 	int i;
 
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-		if (Balls[i].Get_State() == EBS_On_Platform)
-			Balls[i].Set_State(EBS_Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+		if (Balls[i].Get_State() == EBall_State::On_Platform)
+			Balls[i].Set_State(EBall_State::Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::Release_Next_Ball()
@@ -95,7 +95,7 @@ bool AsBall_Set::Release_Next_Ball()
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
 		current_ball = &Balls[i];
-		if (current_ball->Get_State() == EBS_On_Platform)
+		if (current_ball->Get_State() == EBall_State::On_Platform)
 		{
 			current_ball->Release();
 			return true;
@@ -109,12 +109,12 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 	int i;
 	for (i = 0; i < 1; i++)
 	{
-		Balls[i].Set_State(EBS_Normal);
-		Balls[i].Set_State(EBS_On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+		Balls[i].Set_State(EBall_State::Normal);
+		Balls[i].Set_State(EBall_State::On_Platform, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 	}
 
 	for (; i < AsConfig::Max_Balls_Count; i++)
-		Balls[i].Set_State(EBS_Disabled);
+		Balls[i].Set_State(EBall_State::Disabled);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::All_Balls_Are_Lost()
@@ -125,12 +125,12 @@ bool AsBall_Set::All_Balls_Are_Lost()
 
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
-		if (Balls[i].Get_State() == EBS_Disabled)
+		if (Balls[i].Get_State() == EBall_State::Disabled)
 			continue;
 
 		++active_balls_count;
 
-		if (Balls[i].Get_State() == EBS_Lost)
+		if (Balls[i].Get_State() == EBall_State::Lost)
 		{
 			++lost_balls_count;
 			continue;
@@ -167,7 +167,7 @@ void AsBall_Set::Triple_Balls()
 	{
 		current_ball = &Balls[i];
 
-		if (current_ball->Get_State() != EBS_Normal)
+		if (current_ball->Get_State() != EBall_State::Normal)
 			continue;
 
 		if (further_ball == nullptr)
@@ -183,7 +183,7 @@ void AsBall_Set::Triple_Balls()
 	}
 
 
-	// 2. if (EBS_Normal) 
+	// 2. if (EBall_State::Normal) 
 	//    {making it into three}
 	if (further_ball == nullptr)
 		return;
@@ -194,8 +194,8 @@ void AsBall_Set::Triple_Balls()
 
 		switch (current_ball->Get_State())
 		{
-		case EBS_Disabled:
-		case EBS_Lost:
+		case EBall_State::Disabled:
+		case EBall_State::Lost:
 			if (left_candidate == 0)
 				left_candidate = current_ball;
 			else
@@ -227,7 +227,7 @@ void AsBall_Set::Inverse_Balls()
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
 		current_ball = &Balls[i];
-		if (current_ball->Get_State() == EBS_Normal)
+		if (current_ball->Get_State() == EBall_State::Normal)
 			current_ball->Set_Direction(current_ball->Get_Direction() + M_PI);
 	}
 }
@@ -241,7 +241,7 @@ void AsBall_Set::Accelerate()
 	{
 		current_ball = &Balls[i];
 
- 		if (current_ball->Get_State() == EBS_Normal)
+ 		if (current_ball->Get_State() == EBall_State::Normal)
 			current_ball->Set_Speed(current_ball->Get_Speed() * AsConfig::Ball_Acceleration);
 	}
 }
@@ -254,7 +254,7 @@ void AsBall_Set::Reset_Speed()
 	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
 	{
 		current_ball = &Balls[i];
-		if (current_ball->Get_State() == EBS_Normal)
+		if (current_ball->Get_State() == EBall_State::Normal)
 			current_ball->Set_Speed(AsConfig::Normal_Ball_Speed);
 	}
 }
@@ -268,7 +268,7 @@ void AsBall_Set::On_Platform_Advance(double direction, double platform_speed, do
 	{
 		current_ball = &Balls[i];
 
-		if (current_ball->Get_State() == EBS_On_Platform)
+		if (current_ball->Get_State() == EBall_State::On_Platform)
 			current_ball->Forced_Advance(direction, platform_speed, max_speed);
 	}
 }
