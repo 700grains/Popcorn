@@ -103,10 +103,7 @@ void ABall::Clear(HDC hdc, RECT& paint_area)
 
 	// 1. clearing the background
 	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect))
-	{
-		AsConfig::BG_Color.Select(hdc);
-		Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
-	}
+		AsTools::Ellipse(hdc, Prev_Ball_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Draw(HDC hdc, RECT& paint_area)
