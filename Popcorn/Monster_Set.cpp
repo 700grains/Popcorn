@@ -43,7 +43,8 @@ double AMonster::Get_Speed()
 void AMonster::Act()
 {
 	int i;
-	int current_tick_offset;
+	int current_tick_offset, previous_tick;
+	double ratio;
 
 	if (!Is_Active)
 		return;
@@ -59,6 +60,37 @@ void AMonster::Act()
 		}
 	}
 
+	if (i == 0)
+		previous_tick = 0;
+	else
+		previous_tick = Blink_Ticks[i - 1];
+
+	ratio = (double)(current_tick_offset - previous_tick) / (double)(Blink_Ticks[i] - previous_tick);
+
+	switch (Eye_State)
+	{
+	case EEye_State::Closed:
+		Cornea_Height = 0.0;
+		break;
+
+	case EEye_State::Opening:
+		Cornea_Height = Max_Cornea_Height * ratio;
+		break;
+
+	case EEye_State::Staring:
+		Cornea_Height = Max_Cornea_Height;
+		break;
+
+	case EEye_State::Closing:
+		Cornea_Height = Max_Cornea_Height * (1.0 - ratio);
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
+
+	AsTools::Invalidate_Rect(Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Clear(HDC hdc, RECT& paint_area)
