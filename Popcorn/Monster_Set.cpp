@@ -40,8 +40,10 @@ void AMonster::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw(HDC hdc, RECT& paint_area)
 {
+	const int scale = AsConfig::Global_Scale;
+
 	HRGN region;
-	RECT intersection_rect;
+	RECT intersection_rect, rect;
 
 	if (!Is_Active)
 		return;
@@ -49,10 +51,23 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
 		return;
 
-	region = CreateEllipticRgnIndirect(&Monster_Rect);
+	rect = Monster_Rect;
+	++rect.right;
+	++rect.bottom;
+
+	region = CreateEllipticRgnIndirect(&rect);
 	SelectClipRgn(hdc, region);
 
-	AsTools::Ellipse(hdc, Monster_Rect, AsConfig::Red_Color);
+	AsTools::Ellipse(hdc, Monster_Rect, AsConfig::Dark_Red_Color);
+
+	rect = Monster_Rect;
+	rect.left -= 2 * scale;
+	rect.top -= 3 * scale;
+	rect.right -= 2 * scale;
+	rect.bottom -= 3 * scale;
+
+
+	AsTools::Ellipse(hdc, rect, AsConfig::Red_Color);
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);

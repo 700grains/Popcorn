@@ -17,6 +17,7 @@ const AColor AsConfig::Unbreakable_Red_Highlight(AsConfig::Red_Color, 3 * AsConf
 const AColor AsConfig::Teleport_Portal_Color(AsConfig::Blue_Color, AsConfig::BG_Color, AsConfig::Global_Scale);
 const AColor AsConfig::Advertisement_Blue_Table(0, 159, 159, AsConfig::Global_Scale);
 const AColor AsConfig::Advertisement_Red_Table(AsConfig::Red_Color, 2 * AsConfig::Global_Scale);
+const AColor AsConfig::Dark_Red_Color(190, 30, 30);
 
 HWND AsConfig::Hwnd;
 
