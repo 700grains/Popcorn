@@ -40,6 +40,7 @@ void AMonster::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw(HDC hdc, RECT& paint_area)
 {
+	HRGN region;
 	RECT intersection_rect;
 
 	if (!Is_Active)
@@ -48,7 +49,13 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
 		return;
 
+	region = CreateEllipticRgnIndirect(&Monster_Rect);
+	SelectClipRgn(hdc, region);
+
 	AsTools::Ellipse(hdc, Monster_Rect, AsConfig::Red_Color);
+
+	SelectClipRgn(hdc, 0);
+	DeleteObject(region);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Is_Finished()
