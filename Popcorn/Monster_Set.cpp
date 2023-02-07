@@ -2,6 +2,17 @@
 
 // AMonster
 const double AMonster::Max_Cornea_Height = 11.0;
+const double AMonster::Blinking_Timeouts[AMonster::Blink_Stages_Count] = { 0.5, 0.5, 1, 0.5, 0.5, 0.5, 0.5 };
+const EEye_State AMonster::Blinking_State[AMonster::Blink_Stages_Count] = 
+{
+	EEye_State::Closed,
+	EEye_State::Opening,
+	EEye_State::Staring,
+	EEye_State::Closing,
+	EEye_State::Opening,
+	EEye_State::Staring,
+	EEye_State::Closing
+};
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
 	: Is_Active(false), Eye_State(EEye_State::Closed), X_Pos(0), Y_Pos(0), Cornea_Height(Max_Cornea_Height), Monster_Rect{}
