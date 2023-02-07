@@ -11,6 +11,13 @@ enum class EEye_State : unsigned char
 	Closing
 };
 //------------------------------------------------------------------------------------------------------------
+enum class EMonster_State : unsigned char
+{
+	Missing,
+	Alive,
+	Destroying
+};
+//------------------------------------------------------------------------------------------------------------
 class AMonster: public AGame_Object
 {
 public:
@@ -27,11 +34,11 @@ public:
 	virtual bool Is_Finished();
 
 	void Activate(int x_pos,int y_pos);
-
-	bool Is_Active;
+	bool Is_Active();
 
 private:
 	EEye_State Eye_State;
+	EMonster_State Monster_State;
 	int X_Pos, Y_Pos;
 	double Cornea_Height;
 	int Start_Blinking_Time, Total_Animation_Time;

@@ -15,7 +15,7 @@ const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] =
 };
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	: Is_Active(false), Eye_State(EEye_State::Closed), X_Pos(0), Y_Pos(0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Monster_Rect{}
+	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0), Y_Pos(0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ void AMonster::Act()
 	int current_tick_offset, previous_tick;
 	double ratio;
 
-	if (!Is_Active)
+	if (Monster_State == EMonster_State::Missing)
 		return;
 	
 	current_tick_offset = (AsConfig::Current_Timer_Tick - Start_Blinking_Time) % Total_Animation_Time;
@@ -107,7 +107,7 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	HRGN region;
 	RECT intersection_rect, rect, cornea_rect;
 
-	if (!Is_Active)
+	if (Monster_State == EMonster_State::Missing)
 		return;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
@@ -197,7 +197,7 @@ void AMonster::Activate(int x_pos, int y_pos)
 	double current_timeout = 0.0;
 	const int scale = AsConfig::Global_Scale;
 
-	Is_Active = true;
+	Monster_State = EMonster_State::Alive;
 
 	X_Pos = x_pos + 10;
 	Y_Pos = y_pos;
@@ -220,6 +220,14 @@ void AMonster::Activate(int x_pos, int y_pos)
 	}
 
 	Total_Animation_Time = tick_offset;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AMonster::Is_Active()
+{
+	if (Monster_State == EMonster_State::Missing)
+		return false;
+	else
+		return true;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -250,7 +258,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 
 	for (i = 0; i < Max_Monsters_Count; i++)
 	{
-		if (! Monsters[i].Is_Active)
+		if (! Monsters[i].Is_Active())
 		{
 			monster = &Monsters[i];
 			break;
