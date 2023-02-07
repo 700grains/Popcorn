@@ -230,6 +230,11 @@ bool AMonster::Is_Active()
 		return true;
 }
 //------------------------------------------------------------------------------------------------------------
+void AMonster::Destroy()
+{
+	Monster_State = EMonster_State::Destroying;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -271,6 +276,8 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	Border->Get_Gate_Pos(gate_index, gate_x, gate_y);
 
 	monster->Activate(gate_x, gate_y);
+
+	monster->Destroy();
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)

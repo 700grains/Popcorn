@@ -35,6 +35,7 @@ public:
 
 	void Activate(int x_pos,int y_pos);
 	bool Is_Active();
+	void Destroy();
 
 private:
 	EEye_State Eye_State;
