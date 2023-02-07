@@ -41,6 +41,7 @@ void AMonster::Clear(HDC hdc, RECT& paint_area)
 void AMonster::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
+	const int half_scale = scale / 2;
 
 	HRGN region;
 	RECT intersection_rect, rect;
@@ -58,6 +59,7 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	region = CreateEllipticRgnIndirect(&rect);
 	SelectClipRgn(hdc, region);
 
+	// Background of the "eye" monster
 	AsTools::Ellipse(hdc, Monster_Rect, AsConfig::Dark_Red_Color);
 
 	rect = Monster_Rect;
@@ -66,8 +68,23 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	rect.right -= 2 * scale;
 	rect.bottom -= 3 * scale;
 
-
 	AsTools::Ellipse(hdc, rect, AsConfig::Red_Color);
+
+	// Draw the cornea of the "eye" monster
+	rect = Monster_Rect;
+	rect.left += scale + half_scale;
+	rect.top += 2 * scale;
+	rect.right -= scale + half_scale;
+	rect.bottom -= 3 * scale;
+
+	AsTools::Ellipse(hdc, rect, AsConfig::Eye_Monster_Cornea_Color);
+
+	// Draw the iris of the "eye" monster
+
+
+	// Draw the pupil of the "eye" monster
+
+
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);

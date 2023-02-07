@@ -18,6 +18,7 @@ const AColor AsConfig::Teleport_Portal_Color(AsConfig::Blue_Color, AsConfig::BG_
 const AColor AsConfig::Advertisement_Blue_Table(0, 159, 159, AsConfig::Global_Scale);
 const AColor AsConfig::Advertisement_Red_Table(AsConfig::Red_Color, 2 * AsConfig::Global_Scale);
 const AColor AsConfig::Dark_Red_Color(190, 30, 30);
+const AColor AsConfig::Eye_Monster_Cornea_Color(AsConfig::BG_Color, AsConfig::White_Color, AsConfig::Global_Scale * 2 / 3);
 
 HWND AsConfig::Hwnd;
 
