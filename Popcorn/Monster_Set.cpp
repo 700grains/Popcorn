@@ -3,7 +3,7 @@
 // AMonster
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	: Is_Active(false), X_Pos(0), Y_Pos(0)
+	: Is_Active(false), X_Pos(0), Y_Pos(0), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -40,7 +40,15 @@ void AMonster::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	RECT intersection_rect;
+
+	if (!Is_Active)
+		return;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
+		return;
+
+	AsTools::Ellipse(hdc, Monster_Rect, AsConfig::Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Is_Finished()
@@ -51,10 +59,17 @@ bool AMonster::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Activate(int x_pos, int y_pos)
 {
+	const int scale = AsConfig::Global_Scale;
+
 	Is_Active = true;
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
+
+	Monster_Rect.left = X_Pos * scale;
+	Monster_Rect.top = Y_Pos * scale;
+	Monster_Rect.right = Monster_Rect.left + Width * scale;
+	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -85,7 +100,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 
 	for (i = 0; i < Max_Monsters_Count; i++)
 	{
-		if (Monsters[i].Is_Active)
+		if (! Monsters[i].Is_Active)
 		{
 			monster = &Monsters[i];
 			break;

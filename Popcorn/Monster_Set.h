@@ -24,6 +24,10 @@ public:
 
 private:
 	int X_Pos, Y_Pos;
+	RECT Monster_Rect;
+
+	static const int Width = 16;
+	static const int Height = 16;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsMonster_Set : public AsGame_Objects_Set
