@@ -2,7 +2,7 @@
 
 // AMonster
 const double AMonster::Max_Cornea_Height = 11.0;
-const double AMonster::Blinking_Timeouts[AMonster::Blink_Stages_Count] = { 0.5, 0.5, 1, 0.5, 0.5, 0.5, 0.5 };
+const double AMonster::Blinking_Timeouts[AMonster::Blink_Stages_Count] = { 0.4, 0.3, 1, 0.4, 0.4, 0.4, 0.9 };
 const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] = 
 {
 	EEye_State::Closed,
@@ -139,8 +139,10 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	DeleteObject(region);
 
 	// 2 Draw the eye itself
+	if (Eye_State == EEye_State::Closed)
+		return;
+
 	// 2.1 Draw the cornea of the "eye" monster
-	Cornea_Height = Max_Cornea_Height / 2.0;
 
 	cornea_rect = Monster_Rect;
 	cornea_rect.left += scale + half_scale;
@@ -197,7 +199,7 @@ void AMonster::Activate(int x_pos, int y_pos)
 
 	Is_Active = true;
 
-	X_Pos = x_pos;
+	X_Pos = x_pos + 10;
 	Y_Pos = y_pos;
 
 	Monster_Rect.left = X_Pos * scale;
