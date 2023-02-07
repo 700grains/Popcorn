@@ -18,7 +18,12 @@ enum class EMonster_State : unsigned char
 	Destroying
 };
 //------------------------------------------------------------------------------------------------------------
-class AMonster: public AGame_Object
+class AExplosive_Ball : public AGraphics_Object
+{
+public:
+};
+//------------------------------------------------------------------------------------------------------------
+class AMonster : public AGame_Object
 {
 public:
 	AMonster();
@@ -46,8 +51,10 @@ private:
 	RECT Monster_Rect;
 
 	static const int Blink_Stages_Count = 7;
+	static const int Explosive_Balls_Count = 10;
 
 	int Blink_Ticks[Blink_Stages_Count];
+	AExplosive_Ball Explosive_Balls[Explosive_Balls_Count];
 
 	static const int Width = 16;
 	static const int Height = 16;
