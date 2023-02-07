@@ -46,7 +46,7 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	const int half_scale = scale / 2;
 
 	HRGN region;
-	RECT intersection_rect, rect;
+	RECT intersection_rect, rect, cornea_rect;
 
 	if (!Is_Active)
 		return;
@@ -83,20 +83,20 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	// 2.1 Draw the cornea of the "eye" monster
 	Cornea_Height = Max_Cornea_Height / 2.0;
 
-	rect = Monster_Rect;
-	rect.left += scale + half_scale;
-	rect.top += 2 * scale + (int)((Max_Cornea_Height / 2.0 - Cornea_Height / 2.0) * d_scale);
-	rect.right -= scale + half_scale;
-	rect.bottom = (int)(Cornea_Height * scale + rect.top);
+	cornea_rect = Monster_Rect;
+	cornea_rect.left += scale + half_scale;
+	cornea_rect.top += 2 * scale + (int)((Max_Cornea_Height / 2.0 - Cornea_Height / 2.0) * d_scale);
+	cornea_rect.right -= scale + half_scale;
+	cornea_rect.bottom = (int)(Cornea_Height * d_scale) + cornea_rect.top;
 
-	// Trimming the output of the monster's eye to the size of the cornea
-	region = CreateEllipticRgnIndirect(&rect);
+	// 2.2 Limiting the output of the monster's eye to the size of the cornea
+	region = CreateEllipticRgnIndirect(&cornea_rect);
 	SelectClipRgn(hdc, region);
 
 
-	AsTools::Ellipse(hdc, rect, AsConfig::Eye_Monster_Cornea_Color);
+	AsTools::Ellipse(hdc, cornea_rect, AsConfig::Eye_Monster_Cornea_Color);
 
-	// 2.2 Draw the iris of the "eye" monster
+	// 2.3 Draw the iris of the "eye" monster
 	rect = Monster_Rect;
 	rect.left += 4 * scale + half_scale;
 	rect.top += 4 * scale;
@@ -105,7 +105,7 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Ellipse(hdc, rect, AsConfig::Eye_Monster_Iris_Color);
 
-	// 2.3 Draw the pupil of the "eye" monster
+	// 2.4 Draw the pupil of the "eye" monster
 	rect = Monster_Rect;
 	rect.left += 7 * scale;
 	rect.top += 6 * scale;
@@ -116,6 +116,11 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
+
+	// 2.5 Outlining the cornea
+	AsConfig::BG_Outline_Color.Select_Pen(hdc);
+
+	Arc(hdc, cornea_rect.left, cornea_rect.top, cornea_rect.right - 1, cornea_rect.bottom - 1, 0, 0, 0, 0);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Is_Finished()
