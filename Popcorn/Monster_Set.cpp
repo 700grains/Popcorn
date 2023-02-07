@@ -159,7 +159,7 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EMonster_State::Destroying:
-		Draw_Destroying(hdc);
+		Draw_Destroying(hdc, paint_area);
 		break;
 
 	default:
@@ -303,9 +303,12 @@ void AMonster::Draw_Alive(HDC hdc)
 	Arc(hdc, cornea_rect.left, cornea_rect.top, cornea_rect.right - 1, cornea_rect.bottom - 1, 0, 0, 0, 0);
 }
 //------------------------------------------------------------------------------------------------------------
-void AMonster::Draw_Destroying(HDC hdc)
+void AMonster::Draw_Destroying(HDC hdc, RECT& paint_area)
 {
+	int i;
 
+	for (i = 0; i < Explosive_Balls_Count; i++)
+		Explosive_Balls[i].Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 
