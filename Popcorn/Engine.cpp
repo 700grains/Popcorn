@@ -50,6 +50,8 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Add_Next_Module(index, &Ball_Set);
 	Add_Next_Module(index, &Laser_Beam_Set);
 	Add_Next_Module(index, &Monster_Set);
+
+	Monster_Set.Emit_At_Gate(4);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
@@ -130,7 +132,6 @@ void AsEngine::Restart_Level()
 {
 	Game_State = EGame_State::Restart_Level;
 	Border.Open_Gate(7, true);
-	Border.Open_Gate(5, false);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()

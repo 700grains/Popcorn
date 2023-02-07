@@ -50,6 +50,24 @@ bool AMonster::Is_Finished()
 
 // AsMonster_Set
 //------------------------------------------------------------------------------------------------------------
+void AsMonster_Set::Emit_At_Gate(int gate_index)
+{
+	int i;
+	AMonster* monster = 0;
+
+	for (i = 0; i < Max_Monsters_Count; i++)
+	{
+		if (Monsters[i].Is_Active)
+		{
+			monster = &Monsters[i];
+			break;
+		}
+	}
+
+	if (monster == 0)
+		return; // There are no unused monsters.
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)
 {
 	if (index < 0 || index >= AsConfig::Max_Balls_Count)

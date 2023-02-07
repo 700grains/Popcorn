@@ -19,6 +19,9 @@ public:
 //------------------------------------------------------------------------------------------------------------
 class AsMonster_Set : public AsGame_Objects_Set
 {
+public:
+	void Emit_At_Gate(int gate_index);
+
 private:
 	bool Get_Next_GameObject(int& index, AGame_Object** game_object);
 
