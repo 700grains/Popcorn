@@ -88,8 +88,15 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Ellipse(hdc, rect, AsConfig::Eye_Monster_Iris_Color);
 
-
 	// Draw the pupil of the "eye" monster
+	rect = Monster_Rect;
+	rect.left += 7 * scale;
+	rect.top += 6 * scale;
+	rect.right = rect.left + 2 * scale;
+	rect.bottom = rect.top + 3 * scale;
+
+	AsTools::Ellipse(hdc, rect, AsConfig::BG_Color);
+
 
 
 
