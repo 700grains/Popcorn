@@ -4,7 +4,7 @@
 const double AMonster::Max_Cornea_Height = 11.0;
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	: Is_Active(false), X_Pos(0), Y_Pos(0), Cornea_Height(Max_Cornea_Height), Monster_Rect{}
+	: Is_Active(false), Eye_State(EEye_State::Closed), X_Pos(0), Y_Pos(0), Cornea_Height(Max_Cornea_Height), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------

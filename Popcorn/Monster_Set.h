@@ -3,6 +3,14 @@
 #include "Border.h"
 
 //------------------------------------------------------------------------------------------------------------
+enum class EEye_State : unsigned char
+{
+	Closed,
+	Opening,
+	Staring,
+	Closing
+};
+//------------------------------------------------------------------------------------------------------------
 class AMonster: public AGame_Object
 {
 public:
@@ -23,6 +31,7 @@ public:
 	bool Is_Active;
 
 private:
+	EEye_State Eye_State;
 	int X_Pos, Y_Pos;
 	double Cornea_Height;
 	RECT Monster_Rect;
