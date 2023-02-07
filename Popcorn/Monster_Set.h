@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Config.h"
+#include "Border.h"
 
 //------------------------------------------------------------------------------------------------------------
 class AMonster: public AGame_Object
@@ -20,11 +20,13 @@ public:
 class AsMonster_Set : public AsGame_Objects_Set
 {
 public:
+	void Init(AsBorder* border);
 	void Emit_At_Gate(int gate_index);
 
 private:
 	bool Get_Next_GameObject(int& index, AGame_Object** game_object);
 
+	AsBorder *Border; // UNO
 	static const int Max_Monsters_Count = 10;
 
 	AMonster Monsters[Max_Monsters_Count];

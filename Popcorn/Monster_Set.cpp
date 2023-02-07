@@ -50,6 +50,11 @@ bool AMonster::Is_Finished()
 
 // AsMonster_Set
 //------------------------------------------------------------------------------------------------------------
+void AsMonster_Set::Init(AsBorder* border)
+{
+	Border = border;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Emit_At_Gate(int gate_index)
 {
 	int i;

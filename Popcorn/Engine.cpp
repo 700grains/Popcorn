@@ -25,6 +25,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	Level.Init();
 	Platform.Init(&Ball_Set, &Laser_Beam_Set);
+	Monster_Set.Init(&Border);
 
 	AFalling_Letter::Init();
 
