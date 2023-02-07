@@ -23,7 +23,11 @@ void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	AsConfig::Dark_Red_Color.Select(hdc);
+	Ellipse(hdc, X_Pos, Y_Pos, X_Pos + Size -1, Y_Pos + Size - 1);
+
+	//AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Dark_Red_Color);
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool AExplosive_Ball::Is_Finished()
