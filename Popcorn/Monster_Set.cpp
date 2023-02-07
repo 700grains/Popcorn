@@ -50,6 +50,11 @@ bool AMonster::Is_Finished()
 
 // AsMonster_Set
 //------------------------------------------------------------------------------------------------------------
+AsMonster_Set::AsMonster_Set()
+	: Border(nullptr)
+{
+}
+//------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Init(AsBorder* border)
 {
 	Border = border;
@@ -58,7 +63,12 @@ void AsMonster_Set::Init(AsBorder* border)
 void AsMonster_Set::Emit_At_Gate(int gate_index)
 {
 	int i;
+	int gate_x, gate_y;
+
 	AMonster* monster = 0;
+
+	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
+		AsConfig::Throw();
 
 	for (i = 0; i < Max_Monsters_Count; i++)
 	{
@@ -71,6 +81,10 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 
 	if (monster == 0)
 		return; // There are no unused monsters.
+
+	Border->Get_Gate_Pos(gate_index, gate_x, gate_y);
+
+	monster->Activate(gate_x, gate_y);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)

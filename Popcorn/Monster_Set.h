@@ -20,6 +20,8 @@ public:
 class AsMonster_Set : public AsGame_Objects_Set
 {
 public:
+	AsMonster_Set();
+
 	void Init(AsBorder* border);
 	void Emit_At_Gate(int gate_index);
 
