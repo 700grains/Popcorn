@@ -24,10 +24,12 @@ public:
 
 private:
 	int X_Pos, Y_Pos;
+	double Cornea_Height;
 	RECT Monster_Rect;
 
 	static const int Width = 16;
 	static const int Height = 16;
+	static const double Max_Cornea_Height;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsMonster_Set : public AsGame_Objects_Set
