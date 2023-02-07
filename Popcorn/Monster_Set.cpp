@@ -42,7 +42,7 @@ void AMonster::Clear(HDC hdc, RECT& paint_area)
 void AMonster::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
-	const int d_scale = AsConfig::D_Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
 	const int half_scale = scale / 2;
 
 	HRGN region;
@@ -76,6 +76,9 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Ellipse(hdc, rect, AsConfig::Red_Color);
 
+	SelectClipRgn(hdc, 0);
+	DeleteObject(region);
+
 	// 2 Draw the eye itself
 	// 2.1 Draw the cornea of the "eye" monster
 	Cornea_Height = Max_Cornea_Height / 2.0;
@@ -84,7 +87,12 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	rect.left += scale + half_scale;
 	rect.top += 2 * scale + (int)((Max_Cornea_Height / 2.0 - Cornea_Height / 2.0) * d_scale);
 	rect.right -= scale + half_scale;
-	rect.bottom = Cornea_Height * scale + rect.top;
+	rect.bottom = (int)(Cornea_Height * scale + rect.top);
+
+	// Trimming the output of the monster's eye to the size of the cornea
+	region = CreateEllipticRgnIndirect(&rect);
+	SelectClipRgn(hdc, region);
+
 
 	AsTools::Ellipse(hdc, rect, AsConfig::Eye_Monster_Cornea_Color);
 
@@ -105,7 +113,6 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	rect.bottom = rect.top + 3 * scale;
 
 	AsTools::Ellipse(hdc, rect, AsConfig::BG_Color);
-
 
 	SelectClipRgn(hdc, 0);
 	DeleteObject(region);
