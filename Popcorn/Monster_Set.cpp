@@ -15,7 +15,7 @@ const EEye_State AMonster::Blinking_State[AMonster::Blink_Stages_Count] =
 };
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	: Is_Active(false), Eye_State(EEye_State::Closed), X_Pos(0), Y_Pos(0), Cornea_Height(Max_Cornea_Height), Monster_Rect{}
+	: Is_Active(false), Eye_State(EEye_State::Closed), X_Pos(0), Y_Pos(0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -142,6 +142,9 @@ bool AMonster::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Activate(int x_pos, int y_pos)
 {
+	int i;
+	int tick_offset;
+	double current_timeout = 0.0;
 	const int scale = AsConfig::Global_Scale;
 
 	Is_Active = true;
@@ -153,6 +156,18 @@ void AMonster::Activate(int x_pos, int y_pos)
 	Monster_Rect.top = Y_Pos * scale;
 	Monster_Rect.right = Monster_Rect.left + Width * scale;
 	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
+
+	// Blink animation tick calculation
+	current_timeout;
+	Start_Blinking_Time = AsConfig::Current_Timer_Tick;
+
+	for (i = 0; i < Blink_Stages_Count; i++)
+	{
+		current_timeout += Blinking_Timeouts[i];
+
+		tick_offset = (int)((double)AsConfig::FPS * current_timeout);
+		Blink_Ticks[i] = tick_offset;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 

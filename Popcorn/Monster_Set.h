@@ -34,11 +34,15 @@ private:
 	EEye_State Eye_State;
 	int X_Pos, Y_Pos;
 	double Cornea_Height;
+	int Start_Blinking_Time;
 	RECT Monster_Rect;
+
+	static const int Blink_Stages_Count = 7;
+
+	int Blink_Ticks[Blink_Stages_Count];
 
 	static const int Width = 16;
 	static const int Height = 16;
-	static const int Blink_Stages_Count = 7;
 	static const double Max_Cornea_Height;
 	static const double Blinking_Timeouts[Blink_Stages_Count];
 	static const EEye_State Blinking_State[Blink_Stages_Count];
