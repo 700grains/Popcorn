@@ -5,6 +5,12 @@
 
 //AExplosive_Ball
 //------------------------------------------------------------------------------------------------------------
+AExplosive_Ball::AExplosive_Ball()
+	: X_Pos(0), Y_Pos(0), Size(0), Step_Count(0)
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Act()
 {
 	//!!! TODO
@@ -26,9 +32,12 @@ bool AExplosive_Ball::Is_Finished()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AExplosive_Ball::Explode(int x_pos, int y_pos)
+void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
 {
-	//!!! TODO
+	X_Pos = x_pos;
+	Y_Pos = y_pos;
+	Size = size;
+	Step_Count = step_count;
 }
 //------------------------------------------------------------------------------------------------------------
 
