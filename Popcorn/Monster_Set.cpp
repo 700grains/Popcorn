@@ -1,5 +1,40 @@
 #include "Monster_Set.h"
 
+
+
+
+//AExplosive_Ball
+//------------------------------------------------------------------------------------------------------------
+void AExplosive_Ball::Act()
+{
+}
+//------------------------------------------------------------------------------------------------------------
+void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+bool AExplosive_Ball::Is_Finished()
+{
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void AExplosive_Ball::Explode(int x_pos, int y_pos)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 // AMonster
 const double AMonster::Max_Cornea_Height = 11.0;
 const double AMonster::Blinking_Timeouts[AMonster::Blink_Stages_Count] = { 0.4, 0.3, 1, 0.4, 0.4, 0.4, 0.9 };
@@ -233,6 +268,8 @@ bool AMonster::Is_Active()
 void AMonster::Destroy()
 {
 	Monster_State = EMonster_State::Destroying;
+
+	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20);
 }
 //------------------------------------------------------------------------------------------------------------
 

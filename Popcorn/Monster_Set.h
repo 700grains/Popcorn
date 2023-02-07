@@ -21,6 +21,12 @@ enum class EMonster_State : unsigned char
 class AExplosive_Ball : public AGraphics_Object
 {
 public:
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+
+	void Explode(int x_pos, int y_pos);
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster : public AGame_Object
