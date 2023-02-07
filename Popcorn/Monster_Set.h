@@ -34,7 +34,7 @@ private:
 	EEye_State Eye_State;
 	int X_Pos, Y_Pos;
 	double Cornea_Height;
-	int Start_Blinking_Time;
+	int Start_Blinking_Time, Total_Animation_Time;
 	RECT Monster_Rect;
 
 	static const int Blink_Stages_Count = 7;
@@ -45,7 +45,7 @@ private:
 	static const int Height = 16;
 	static const double Max_Cornea_Height;
 	static const double Blinking_Timeouts[Blink_Stages_Count];
-	static const EEye_State Blinking_State[Blink_Stages_Count];
+	static const EEye_State Blinking_States[Blink_Stages_Count];
 };
 //------------------------------------------------------------------------------------------------------------
 class AsMonster_Set : public AsGame_Objects_Set

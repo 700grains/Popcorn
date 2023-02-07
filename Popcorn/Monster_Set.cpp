@@ -3,7 +3,7 @@
 // AMonster
 const double AMonster::Max_Cornea_Height = 11.0;
 const double AMonster::Blinking_Timeouts[AMonster::Blink_Stages_Count] = { 0.5, 0.5, 1, 0.5, 0.5, 0.5, 0.5 };
-const EEye_State AMonster::Blinking_State[AMonster::Blink_Stages_Count] = 
+const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] = 
 {
 	EEye_State::Closed,
 	EEye_State::Opening,
@@ -15,7 +15,7 @@ const EEye_State AMonster::Blinking_State[AMonster::Blink_Stages_Count] =
 };
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	: Is_Active(false), Eye_State(EEye_State::Closed), X_Pos(0), Y_Pos(0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Monster_Rect{}
+	: Is_Active(false), Eye_State(EEye_State::Closed), X_Pos(0), Y_Pos(0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -42,7 +42,23 @@ double AMonster::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Act()
 {
-	//!!! TODO
+	int i;
+	int current_tick_offset;
+
+	if (!Is_Active)
+		return;
+	
+	current_tick_offset = (AsConfig::Current_Timer_Tick - Start_Blinking_Time) % Total_Animation_Time;
+
+	for (i = 0; i < Blink_Stages_Count; i++)
+	{
+		if (current_tick_offset < Blink_Ticks[i])
+		{
+			Eye_State = Blinking_States[i];
+			break;
+		}
+	}
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Clear(HDC hdc, RECT& paint_area)
@@ -168,6 +184,8 @@ void AMonster::Activate(int x_pos, int y_pos)
 		tick_offset = (int)((double)AsConfig::FPS * current_timeout);
 		Blink_Ticks[i] = tick_offset;
 	}
+
+	Total_Animation_Time = tick_offset;
 }
 //------------------------------------------------------------------------------------------------------------
 
