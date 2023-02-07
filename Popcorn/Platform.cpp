@@ -282,6 +282,7 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 
 		X_Pos = AsConfig::Max_X_Pos - 1;
 		Rolling_Step = Max_Rolling_Step - 1;
+		Redraw_Platform();
 		break;
 
 	case EPlatform_State::Glue:
