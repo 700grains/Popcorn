@@ -112,6 +112,12 @@ void AGate::Get_Y_Size(int& gate_top_y, int& gate_bot_y)
 	gate_bot_y = Gate_Rect.bottom;
 }
 //------------------------------------------------------------------------------------------------------------
+void AGate::Get_Pos(int& gate_x, int& gate_y)
+{
+	gate_x = X_Pos; 
+	gate_y = (int)Original_Y_Pos;
+}
+//------------------------------------------------------------------------------------------------------------
 bool AGate::Act_For_Open(bool Partially_Open, bool& correct_pos)
 {
 	double max_hole_height, hole_height_step;
