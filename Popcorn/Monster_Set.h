@@ -6,6 +6,8 @@
 class AMonster: public AGame_Object
 {
 public:
+	AMonster();
+
 	virtual void Begin_Movement();
 	virtual void Finish_Movement();
 	virtual void Advance(double max_speed);
@@ -15,6 +17,13 @@ public:
 	virtual void Clear(HDC hdc, RECT& paint_area);
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
+
+	void Activate(int x_pos,int y_pos);
+
+	bool Is_Active;
+
+private:
+	int X_Pos, Y_Pos;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsMonster_Set : public AsGame_Objects_Set
