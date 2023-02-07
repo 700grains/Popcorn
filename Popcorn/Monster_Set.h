@@ -56,6 +56,9 @@ public:
 	void Destroy();
 
 private:
+	void Draw_Alive(HDC hdc);
+	void Draw_Destroying(HDC hdc);
+
 	EEye_State Eye_State;
 	EMonster_State Monster_State;
 	int X_Pos, Y_Pos;

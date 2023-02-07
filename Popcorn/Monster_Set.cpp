@@ -144,19 +144,94 @@ void AMonster::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw(HDC hdc, RECT& paint_area)
 {
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
+		return;
+
+	switch (Monster_State)
+	{
+	case EMonster_State::Missing:
+		break;
+
+	case EMonster_State::Alive:
+		Draw_Alive(hdc);
+		break;
+
+	case EMonster_State::Destroying:
+		Draw_Destroying(hdc);
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+bool AMonster::Is_Finished()
+{
+	//!!! TODO
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Activate(int x_pos, int y_pos)
+{
+	int i;
+	int tick_offset;
+	double current_timeout = 0.0;
+	const int scale = AsConfig::Global_Scale;
+
+	Monster_State = EMonster_State::Alive;
+
+	X_Pos = x_pos + 10;
+	Y_Pos = y_pos;
+
+	Monster_Rect.left = X_Pos * scale;
+	Monster_Rect.top = Y_Pos * scale;
+	Monster_Rect.right = Monster_Rect.left + Width * scale;
+	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
+
+	// Blink animation tick calculation
+	current_timeout;
+	Start_Blinking_Time = AsConfig::Current_Timer_Tick;
+
+	for (i = 0; i < Blink_Stages_Count; i++)
+	{
+		current_timeout += Blinking_Timeouts[i];
+
+		tick_offset = (int)((double)AsConfig::FPS * current_timeout);
+		Blink_Ticks[i] = tick_offset;
+	}
+
+	Total_Animation_Time = tick_offset;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AMonster::Is_Active()
+{
+	if (Monster_State == EMonster_State::Missing)
+		return false;
+	else
+		return true;
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Destroy()
+{
+	Monster_State = EMonster_State::Destroying;
+
+	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 10);
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Draw_Alive(HDC hdc)
+{
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 	const int half_scale = scale / 2;
 
 	HRGN region;
-	RECT intersection_rect, rect, cornea_rect;
+	RECT rect, cornea_rect;
 
 	if (Monster_State == EMonster_State::Missing)
 		return;
-
-	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
-		return;
-
 
 	// 1. Draw background
 	// 1.1 Creating a rect to draw background
@@ -228,57 +303,9 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	Arc(hdc, cornea_rect.left, cornea_rect.top, cornea_rect.right - 1, cornea_rect.bottom - 1, 0, 0, 0, 0);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AMonster::Is_Finished()
+void AMonster::Draw_Destroying(HDC hdc)
 {
-	//!!! TODO
-	return false;
-}
-//------------------------------------------------------------------------------------------------------------
-void AMonster::Activate(int x_pos, int y_pos)
-{
-	int i;
-	int tick_offset;
-	double current_timeout = 0.0;
-	const int scale = AsConfig::Global_Scale;
 
-	Monster_State = EMonster_State::Alive;
-
-	X_Pos = x_pos + 10;
-	Y_Pos = y_pos;
-
-	Monster_Rect.left = X_Pos * scale;
-	Monster_Rect.top = Y_Pos * scale;
-	Monster_Rect.right = Monster_Rect.left + Width * scale;
-	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
-
-	// Blink animation tick calculation
-	current_timeout;
-	Start_Blinking_Time = AsConfig::Current_Timer_Tick;
-
-	for (i = 0; i < Blink_Stages_Count; i++)
-	{
-		current_timeout += Blinking_Timeouts[i];
-
-		tick_offset = (int)((double)AsConfig::FPS * current_timeout);
-		Blink_Ticks[i] = tick_offset;
-	}
-
-	Total_Animation_Time = tick_offset;
-}
-//------------------------------------------------------------------------------------------------------------
-bool AMonster::Is_Active()
-{
-	if (Monster_State == EMonster_State::Missing)
-		return false;
-	else
-		return true;
-}
-//------------------------------------------------------------------------------------------------------------
-void AMonster::Destroy()
-{
-	Monster_State = EMonster_State::Destroying;
-
-	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20);
 }
 //------------------------------------------------------------------------------------------------------------
 
