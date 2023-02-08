@@ -21,6 +21,7 @@ const AColor AsConfig::Dark_Red_Color(190, 30, 30);
 const AColor AsConfig::Eye_Monster_Cornea_Color(AsConfig::BG_Color, AsConfig::White_Color, AsConfig::Global_Scale * 2 / 3);
 const AColor AsConfig::Eye_Monster_Iris_Color(AsConfig::BG_Color, AsConfig::Blue_Color, AsConfig::Global_Scale * 2 / 3);
 const AColor AsConfig::BG_Outline_Color(AsConfig::BG_Color, AsConfig::Global_Scale * 2 / 3);
+const AColor AsConfig::Explosion_Red_Color(AsConfig::White_Color, AsConfig::Red_Color, 0);
 
 HWND AsConfig::Hwnd;
 

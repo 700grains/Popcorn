@@ -70,7 +70,7 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 
 
 	case EExplosive_Ball_State::Expanding:
-		AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Dark_Red_Color);
+		AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Explosion_Red_Color);
 		break;
 
 
