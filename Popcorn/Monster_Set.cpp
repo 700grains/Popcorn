@@ -50,22 +50,32 @@ void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 {
+	int current_time_interval;
+	double ratio;
+
 	switch (Explosive_Ball_State)
 	{
 	case EExplosive_Ball_State::Idle:
-		return;
+		break;
+
 
 	case EExplosive_Ball_State::Expanding:
 		AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Dark_Red_Color);
 		break;
 
-	case EExplosive_Ball_State::Fading:
 
+	case EExplosive_Ball_State::Fading:
+		current_time_interval = AsConfig::Current_Timer_Tick - Start_Fading_Tick;
+
+		if (current_time_interval > Fading_Time)
+			current_time_interval = Fading_Time;
+
+		ratio = current_time_interval / Fading_Time;
 		break;
+
 
 	default:
 		break;
-
 	}
 }
 //------------------------------------------------------------------------------------------------------------
