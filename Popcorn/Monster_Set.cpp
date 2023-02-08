@@ -568,6 +568,9 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	else
 		gate_is_left = false;
 
+	if (! gate_is_left)
+		gate_x -= monster->Width - AGate::Width;
+
 	monster->Activate(gate_x, gate_y, gate_is_left);
 
 	//monster->Destroy();

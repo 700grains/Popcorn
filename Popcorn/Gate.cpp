@@ -238,7 +238,7 @@ void AGate::Draw_Cup(HDC hdc, bool is_top)
 	else
 	{
 		rect.top = (int)round((Y_Pos - 1.0) * d_scale + cup_y_offset + 1.0);
-		rect.bottom = rect.top - 4 * d_scale;
+		rect.bottom = rect.top - 4 * scale;
 	}
 
 	region = CreateRectRgnIndirect(&rect);

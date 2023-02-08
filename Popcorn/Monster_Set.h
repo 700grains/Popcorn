@@ -78,6 +78,9 @@ public:
 	bool Is_Active();
 	void Destroy();
 
+	static const int Width = 16;
+	static const int Height = 16;
+
 private:
 	void Draw_Alive(HDC hdc);
 	void Draw_Destroying(HDC hdc, RECT& paint_area);
@@ -99,8 +102,6 @@ private:
 	int Blink_Ticks[Blink_Stages_Count];
 	AExplosive_Ball Explosive_Balls[Explosive_Balls_Count];
 
-	static const int Width = 16;
-	static const int Height = 16;
 	static const double Max_Cornea_Height;
 	static const double Blinking_Timeouts[Blink_Stages_Count];
 	static const EEye_State Blinking_States[Blink_Stages_Count];

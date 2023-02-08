@@ -34,6 +34,9 @@ public:
 	void Get_Y_Size(int& gate_top_y, int& gate_bot_y);
 	void Get_Pos(int &gate_x,int &gate_y);
 
+	static const int Width = 6;
+	static const int Height = 19;
+
 private:
 	bool Act_For_Open(bool Partially_Open, bool& correct_pos);
 	void Draw_Cup(HDC hdc, bool is_top);
@@ -59,8 +62,6 @@ private:
 	static const double Hole_Height_Short_Step;
 	static const double Max_Hole_Long_Height;
 	static const double Hole_Height_Long_Step;
-	static const int Width = 6;
-	static const int Height = 19;
 	static const int Short_Opening_Timeout = AsConfig::FPS; // 1 second
 	static const int Long_Opening_Timeout = AsConfig::FPS * 3; // 3 seconds
 };
