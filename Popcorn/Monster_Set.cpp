@@ -5,9 +5,10 @@
 
 //AExplosive_Ball
 AColor AExplosive_Ball::Fading_Red_Colors[Max_Fade_Step];
+AColor AExplosive_Ball::Fading_Blue_Colors[Max_Fade_Step];
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
-	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Start_Explosion_Tick(0), Max_Size(0.0),
+	:Explosive_Ball_State(EExplosive_Ball_State::Idle), Is_Red(false), X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Start_Explosion_Tick(0), Max_Size(0.0),
 	Size(0.0), Size_Step(0.0), Time_Offset(0), Ball_Rect{}
 {
 
@@ -61,6 +62,7 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 	int current_time_interval;
 	int color_index;
 	double ratio;
+	const AColor* color;
 
 	switch (Explosive_Ball_State)
 	{
@@ -70,7 +72,12 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 
 
 	case EExplosive_Ball_State::Expanding:
-		AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Explosion_Red_Color);
+		if (Is_Red)
+			color = &AsConfig::Explosion_Red_Color;
+		else
+			color = &AsConfig::Explosion_Blue_Color;
+
+			AsTools::Ellipse(hdc, Ball_Rect, *color);
 		break;
 
 
@@ -86,7 +93,13 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 		{
 			ratio = (double)current_time_interval / (double)Fading_Time;
 			color_index = (int)round(ratio * (double)(Max_Fade_Step - 1));
-			AsTools::Ellipse(hdc, Ball_Rect, Fading_Red_Colors[color_index]);
+
+			if (Is_Red)
+				color = &Fading_Red_Colors[color_index];
+			else
+				color = &Fading_Blue_Colors[color_index];
+
+			AsTools::Ellipse(hdc, Ball_Rect, *color);
 		}
 		break;
 
@@ -102,7 +115,7 @@ bool AExplosive_Ball::Is_Finished()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int time_offset, int step_count)
+void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, bool is_red, int time_offset, int step_count)
 {
 	Explosive_Ball_State = EExplosive_Ball_State::Expanding;
 
@@ -112,6 +125,7 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int time_offset, i
 	Size = 0.0;
 	Time_Offset = time_offset;
 	Step_Count = step_count;
+	Is_Red = is_red;
 
 	Start_Explosion_Tick = AsConfig::Current_Timer_Tick + Time_Offset;
 	Explosive_Ball_State = EExplosive_Ball_State::Charging;
@@ -126,7 +140,10 @@ void AExplosive_Ball::Setup_Colors()
 	int i;
 
 	for (i = 0; i < Max_Fade_Step; i++)
+	{
 		AsTools::Get_Fading_Color(AsConfig::Red_Color, i, Fading_Red_Colors[i], Max_Fade_Step);
+		AsTools::Get_Fading_Color(AsConfig::Blue_Color, i, Fading_Blue_Colors[i], Max_Fade_Step);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Update_Ball_Rect()
@@ -288,6 +305,8 @@ bool AMonster::Is_Active()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Destroy()
 {
+	bool is_red;
+
 	int scale = AsConfig::Global_Scale;
 	int half_width = Width * scale / 2;
 	int half_height = Height * scale / 2;
@@ -317,7 +336,8 @@ void AMonster::Destroy()
 
 		time_offset = AsTools::Rand(AsConfig::FPS * 3 / 2);
 
-		Explosive_Balls[i].Explode(x_pos + x_offset, y_pos + y_offset, size, time_offset, 10);
+		is_red = (bool)AsTools::Rand(2);
+		Explosive_Balls[i].Explode(x_pos + x_offset, y_pos + y_offset, size, is_red, time_offset, 10);
 	}
 
 	Monster_State = EMonster_State::Destroying;

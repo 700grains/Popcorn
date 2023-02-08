@@ -22,6 +22,7 @@ const AColor AsConfig::Eye_Monster_Cornea_Color(AsConfig::BG_Color, AsConfig::Wh
 const AColor AsConfig::Eye_Monster_Iris_Color(AsConfig::BG_Color, AsConfig::Blue_Color, AsConfig::Global_Scale * 2 / 3);
 const AColor AsConfig::BG_Outline_Color(AsConfig::BG_Color, AsConfig::Global_Scale * 2 / 3);
 const AColor AsConfig::Explosion_Red_Color(AsConfig::White_Color, AsConfig::Red_Color, 0);
+const AColor AsConfig::Explosion_Blue_Color(AsConfig::White_Color, AsConfig::Blue_Color, 0);
 
 HWND AsConfig::Hwnd;
 
@@ -43,7 +44,7 @@ void AsConfig::Throw()
 // AsTools
 //------------------------------------------------------------------------------------------------------------
 int AsTools::Rand(int range)
-{// Calculates a pseudo-random number in the range [0, .. range - 1]
+{// Calculates a pseudo-random number in the range [0, .. range -1]
 
 	return rand() * range / RAND_MAX;
 }

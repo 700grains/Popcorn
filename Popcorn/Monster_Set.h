@@ -36,7 +36,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Explode(int x_pos, int y_pos, int size, int time_offset, int step_count);
+	void Explode(int x_pos, int y_pos, int size, bool is_red, int time_offset, int step_count);
 
 	static void Setup_Colors();
 
@@ -45,6 +45,7 @@ private:
 
 	EExplosive_Ball_State Explosive_Ball_State;
 
+	bool Is_Red;
 	int X_Pos, Y_Pos;
 	int Step_Count;
 	int Start_Fading_Tick, Start_Explosion_Tick;
@@ -55,6 +56,7 @@ private:
 	static const int Fading_Time = AsConfig::FPS;
 	static const int Max_Fade_Step = AsConfig::FPS;
 	static AColor Fading_Red_Colors[Max_Fade_Step];
+	static AColor Fading_Blue_Colors[Max_Fade_Step];
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster : public AGame_Object
@@ -90,7 +92,7 @@ private:
 	RECT Monster_Rect;
 
 	static const int Blink_Stages_Count = 7;
-	static const int Explosive_Balls_Count = 10;
+	static const int Explosive_Balls_Count = 20;
 
 	int Blink_Ticks[Blink_Stages_Count];
 	AExplosive_Ball Explosive_Balls[Explosive_Balls_Count];
