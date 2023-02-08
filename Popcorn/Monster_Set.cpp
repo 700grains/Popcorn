@@ -174,7 +174,7 @@ const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] =
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
 	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Direction(0.0),
-	Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Monster_Rect{}
+	Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Next_Direction_Switch_Tick(0), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -455,6 +455,7 @@ void AMonster::Act_Alive()
 	int i;
 	int current_tick_offset, previous_tick;
 	double ratio;
+	double direction_delta;
 
 	if (Monster_State == EMonster_State::Missing)
 		return;
@@ -498,6 +499,16 @@ void AMonster::Act_Alive()
 	default:
 		AsConfig::Throw();
 		break;
+	}
+
+	if (AsConfig::Current_Timer_Tick > Next_Direction_Switch_Tick)
+	{
+		Next_Direction_Switch_Tick += AsTools::Rand(AsConfig::FPS);
+
+		// Random direction of movement in the range of +/- 45 degrees.
+		direction_delta = (double)(AsTools::Rand(90) - 45) * M_PI / 180.0;
+
+		Direction += direction_delta;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
