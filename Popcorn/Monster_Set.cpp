@@ -288,12 +288,44 @@ bool AMonster::Is_Active()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Destroy()
 {
+	int scale = AsConfig::Global_Scale;
+	int half_width = Width * scale / 2;
+	int half_height = Height * scale / 2;
+	int i;
+	int x_pos = X_Pos * scale + half_width;
+	int y_pos = Y_Pos * scale + half_height;
+	int x_offset, y_offset;
+	int size, half_size, remained_size;
+	int time_offset;
+
+	half_size = half_width;
+
+	if (half_height < half_size)
+		half_size = half_height;
+
+	for (i = 0; i < Explosive_Balls_Count; i++)
+	{
+		x_offset = AsTools::Rand(half_width) - half_width / 2;
+		y_offset = AsTools::Rand(half_height) - half_height / 2;
+
+		remained_size = half_size - (int)sqrt(x_offset * x_offset + y_offset * y_offset);
+
+		size = AsTools::Rand(remained_size / 2) + remained_size;
+
+		if (size < scale)
+			size = scale;
+
+		time_offset = AsTools::Rand(AsConfig::FPS * 3 / 2);
+
+		Explosive_Balls[i].Explode(x_pos + x_offset, y_pos + y_offset, size, time_offset, 10);
+	}
+
 	Monster_State = EMonster_State::Destroying;
 
-	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 0, 10);
-	Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 25, 5, 10);
-	Explosive_Balls[2].Explode(Monster_Rect.left + 20, Monster_Rect.top + 30, 20, 8, 10);
-	Explosive_Balls[3].Explode(Monster_Rect.left + 30, Monster_Rect.top + 20, 16, 13, 10);
+	//Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 0, 10);
+	//Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 25, 5, 10);
+	//Explosive_Balls[2].Explode(Monster_Rect.left + 20, Monster_Rect.top + 30, 20, 8, 10);
+	//Explosive_Balls[3].Explode(Monster_Rect.left + 30, Monster_Rect.top + 20, 16, 13, 10);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
