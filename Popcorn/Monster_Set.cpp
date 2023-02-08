@@ -540,6 +540,7 @@ void AsMonster_Set::Init(AsBorder* border)
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Emit_At_Gate(int gate_index)
 {
+	bool gate_is_left;
 	int i;
 	int gate_x, gate_y;
 
@@ -562,7 +563,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 
 	Border->Get_Gate_Pos(gate_index, gate_x, gate_y);
 
-	monster->Activate(gate_x, gate_y, true);
+	monster->Activate(gate_x, gate_y, gate_is_left);
 
 	//monster->Destroy();
 }
