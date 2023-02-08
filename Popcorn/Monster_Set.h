@@ -41,9 +41,9 @@ private:
 	EExplosive_Ball_State Explosive_Ball_State;
 
 	int X_Pos, Y_Pos;
-	int Size;
 	int Step_Count;
-	double Size_Step;
+	double Max_Size, Size, Size_Step;
+	RECT Ball_Rect;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster : public AGame_Object

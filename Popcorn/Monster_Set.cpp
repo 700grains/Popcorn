@@ -6,14 +6,42 @@
 //AExplosive_Ball
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
-	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Size(0), Step_Count(0), Size_Step(0)
+	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Max_Size(0.0), Size(0.0), Size_Step(0.0), Ball_Rect{}
 {
 
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Act()
 {
-	//!!! TODO
+	switch (Explosive_Ball_State)
+	{
+	case EExplosive_Ball_State::Idle:
+		break;
+
+	case EExplosive_Ball_State::Expanding:
+		Size += Size_Step;
+
+		if (Size > Max_Size)
+			Explosive_Ball_State == EExplosive_Ball_State::Fading;
+		else
+		{
+			Ball_Rect.left = X_Pos - (int)(Size / 2.0);
+			Ball_Rect.top = Y_Pos - (int)(Size / 2.0);
+			Ball_Rect.right = Ball_Rect.left + (int)Size;
+			Ball_Rect.bottom = Ball_Rect.top + (int)Size;
+
+			AsTools::Invalidate_Rect(Ball_Rect);
+		}
+		break;
+
+	case EExplosive_Ball_State::Fading:
+
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
@@ -27,10 +55,10 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 	if (Explosive_Ball_State == EExplosive_Ball_State::Idle)
 		return;
 
-	AsConfig::Dark_Red_Color.Select(hdc);
-	Ellipse(hdc, X_Pos, Y_Pos, X_Pos + Size -1, Y_Pos + Size - 1);
+	//AsConfig::Dark_Red_Color.Select(hdc);
+	//Ellipse(hdc, X_Pos, Y_Pos, X_Pos + Size -1, Y_Pos + Size - 1);
 
-	//AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Dark_Red_Color);
+	AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Dark_Red_Color);
 
 }
 //------------------------------------------------------------------------------------------------------------
@@ -46,10 +74,11 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
-	Size = size;
+	Max_Size = size;
+	Size = 0.0;
 	Step_Count = step_count;
 
-	Size_Step = (double)Size / (double)Step_Count;
+	Size_Step = (double)Max_Size / (double)Step_Count;
 }
 //------------------------------------------------------------------------------------------------------------
 
