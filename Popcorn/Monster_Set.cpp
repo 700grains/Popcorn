@@ -4,6 +4,7 @@
 
 
 //AExplosive_Ball
+AColor AExplosive_Ball::Fading_Red_Colors[Max_Fade_Step];
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
 	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Max_Size(0.0), Size(0.0), Size_Step(0.0), Ball_Rect{}
@@ -98,6 +99,14 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
 	Size_Step = (double)Max_Size / (double)Step_Count;
 
 	Update_Ball_Rect();
+}
+//------------------------------------------------------------------------------------------------------------
+void AExplosive_Ball::Setup_Colors()
+{
+	int i;
+
+	for (i = 0; i < Max_Fade_Step; i++)
+		Get_Fading_Color(AsConfig::Red_Color, i, Fading_Red_Colors[i]);
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Update_Ball_Rect()

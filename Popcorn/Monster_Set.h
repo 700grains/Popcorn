@@ -37,6 +37,8 @@ public:
 
 	void Explode(int x_pos, int y_pos, int size, int step_count);
 
+	static void Setup_Colors();
+
 private:
 	void Update_Ball_Rect();
 
@@ -49,6 +51,8 @@ private:
 	RECT Ball_Rect;
 
 	static const int Fading_Time = AsConfig::FPS;
+	static const int Max_Fade_Step = AsConfig::FPS / 2;
+	static AColor Fading_Red_Colors[Max_Fade_Step];
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster : public AGame_Object
