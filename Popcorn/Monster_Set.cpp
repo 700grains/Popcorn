@@ -34,7 +34,7 @@ void AExplosive_Ball::Act()
 
 
 	case EExplosive_Ball_State::Fading:
-		if (AsConfig::Current_Timer_Tick >= Start_Fading_Tick + Fading_Time)
+		if (AsConfig::Current_Timer_Tick > Start_Fading_Tick + Fading_Time)
 			Explosive_Ball_State = EExplosive_Ball_State::Idle;
 		break;
 
@@ -71,12 +71,15 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 
 		if (current_time_interval > Fading_Time)
 			current_time_interval = Fading_Time;
-
-		ratio = current_time_interval / Fading_Time;
-
-		color_index = (int)round(ratio * (double)(Max_Fade_Step - 1));
-
-		AsTools::Ellipse(hdc, Ball_Rect, Fading_Red_Colors[color_index]);
+		
+		if (current_time_interval == Fading_Time)
+			AsTools::Ellipse(hdc, Ball_Rect, AsConfig::BG_Color);
+		else
+		{
+			ratio = (double)current_time_interval / (double)Fading_Time;
+			color_index = (int)round(ratio * (double)(Max_Fade_Step - 1));
+			AsTools::Ellipse(hdc, Ball_Rect, Fading_Red_Colors[color_index]);
+		}
 		break;
 
 
