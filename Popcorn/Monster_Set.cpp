@@ -52,6 +52,7 @@ void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
 void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 {
 	int current_time_interval;
+	int color_index;
 	double ratio;
 
 	switch (Explosive_Ball_State)
@@ -72,6 +73,10 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 			current_time_interval = Fading_Time;
 
 		ratio = current_time_interval / Fading_Time;
+
+		color_index = (int)round(ratio * (double)(Max_Fade_Step - 1));
+
+		AsTools::Ellipse(hdc, Ball_Rect, Fading_Red_Colors[color_index]);
 		break;
 
 
