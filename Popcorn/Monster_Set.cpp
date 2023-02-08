@@ -173,8 +173,8 @@ const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] =
 };
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0),
-	Total_Animation_Time(0), Monster_Rect{}
+	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Direction(0.0),
+	Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -271,7 +271,7 @@ bool AMonster::Is_Finished()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AMonster::Activate(int x_pos, int y_pos)
+void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 {
 	int i;
 	int tick_offset;
@@ -281,7 +281,12 @@ void AMonster::Activate(int x_pos, int y_pos)
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
-	Speed = 1.0;
+	Speed = 0.25;
+
+	if (moving_right)
+		Direction = M_PI;
+	else
+		Direction = 0;
 
 	// Blink animation ticks calculation
 	current_timeout;
@@ -557,7 +562,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 
 	Border->Get_Gate_Pos(gate_index, gate_x, gate_y);
 
-	monster->Activate(gate_x, gate_y);
+	monster->Activate(gate_x, gate_y, true);
 
 	//monster->Destroy();
 }

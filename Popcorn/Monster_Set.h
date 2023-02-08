@@ -74,7 +74,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Activate(int x_pos,int y_pos);
+	void Activate(int x_pos,int y_pos, bool moving_right);
 	bool Is_Active();
 	void Destroy();
 
@@ -88,7 +88,7 @@ private:
 	EEye_State Eye_State;
 	EMonster_State Monster_State;
 	double X_Pos, Y_Pos;
-	double Speed;
+	double Speed, Direction;
 	double Cornea_Height;
 	int Start_Blinking_Time, Total_Animation_Time;
 	RECT Monster_Rect;
