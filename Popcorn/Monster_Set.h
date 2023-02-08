@@ -47,12 +47,12 @@ private:
 
 	int X_Pos, Y_Pos;
 	int Step_Count;
-	int Start_Fading_Tick;
+	int Start_Fading_Tick, Start_Explosion_Tick;
 	int Time_Offset;
 	double Max_Size, Size, Size_Step;
 	RECT Ball_Rect;
 
-	static const int Fading_Time = AsConfig::FPS / 2;
+	static const int Fading_Time = AsConfig::FPS * 5;
 	static const int Max_Fade_Step = AsConfig::FPS;
 	static AColor Fading_Red_Colors[Max_Fade_Step];
 };

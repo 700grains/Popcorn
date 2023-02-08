@@ -7,7 +7,8 @@
 AColor AExplosive_Ball::Fading_Red_Colors[Max_Fade_Step];
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
-	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Max_Size(0.0), Size(0.0), Size_Step(0.0), Time_Offset(0), Ball_Rect{}
+	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Start_Explosion_Tick(0), Max_Size(0.0),
+	Size(0.0), Size_Step(0.0), Time_Offset(0), Ball_Rect{}
 {
 
 }
@@ -20,13 +21,19 @@ void AExplosive_Ball::Act()
 		break;
 
 
+	case EExplosive_Ball_State::Charging:
+		if (AsConfig::Current_Timer_Tick >= Start_Explosion_Tick)
+			Explosive_Ball_State = EExplosive_Ball_State::Expanding;
+		break;
+
+
 	case EExplosive_Ball_State::Expanding:
 		Size += Size_Step;
 
 		if (Size > Max_Size)
 		{
 			Explosive_Ball_State = EExplosive_Ball_State::Fading;
-			Start_Fading_Tick = AsConfig::Current_Timer_Tick + Time_Offset;
+			Start_Fading_Tick = AsConfig::Current_Timer_Tick;
 		}
 		else
 			Update_Ball_Rect();
@@ -58,6 +65,7 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 	switch (Explosive_Ball_State)
 	{
 	case EExplosive_Ball_State::Idle:
+	case EExplosive_Ball_State::Charging:
 		break;
 
 
@@ -106,6 +114,7 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int time_offset, i
 	Step_Count = step_count;
 
 	Start_Explosion_Tick = AsConfig::Current_Timer_Tick + Time_Offset;
+	Explosive_Ball_State = EExplosive_Ball_State::Charging;
 
 	Size_Step = (double)Max_Size / (double)Step_Count;
 
