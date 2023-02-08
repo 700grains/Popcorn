@@ -24,14 +24,8 @@ void AExplosive_Ball::Act()
 		if (Size > Max_Size)
 			Explosive_Ball_State == EExplosive_Ball_State::Fading;
 		else
-		{
-			Ball_Rect.left = X_Pos - (int)(Size / 2.0);
-			Ball_Rect.top = Y_Pos - (int)(Size / 2.0);
-			Ball_Rect.right = Ball_Rect.left + (int)Size;
-			Ball_Rect.bottom = Ball_Rect.top + (int)Size;
+			Redraw_Ball();
 
-			AsTools::Invalidate_Rect(Ball_Rect);
-		}
 		break;
 
 	case EExplosive_Ball_State::Fading:
@@ -79,6 +73,18 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
 	Step_Count = step_count;
 
 	Size_Step = (double)Max_Size / (double)Step_Count;
+
+	Redraw_Ball();
+}
+//------------------------------------------------------------------------------------------------------------
+void AExplosive_Ball::Redraw_Ball()
+{
+	Ball_Rect.left = X_Pos - (int)(Size / 2.0);
+	Ball_Rect.top = Y_Pos - (int)(Size / 2.0);
+	Ball_Rect.right = Ball_Rect.left + (int)Size;
+	Ball_Rect.bottom = Ball_Rect.top + (int)Size;
+
+	AsTools::Invalidate_Rect(Ball_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
