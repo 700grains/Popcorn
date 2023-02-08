@@ -194,7 +194,12 @@ void AMonster::Act()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
+		return;
+
+	AsTools::Ellipse(hdc, Monster_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw(HDC hdc, RECT& paint_area)
@@ -274,6 +279,7 @@ void AMonster::Destroy()
 	Monster_State = EMonster_State::Destroying;
 
 	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 55);
+	Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 30, 55);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
