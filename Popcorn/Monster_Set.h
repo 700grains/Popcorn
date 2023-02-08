@@ -44,8 +44,11 @@ private:
 
 	int X_Pos, Y_Pos;
 	int Step_Count;
+	int Start_Fading_Tick;
 	double Max_Size, Size, Size_Step;
 	RECT Ball_Rect;
+
+	static const int Fading_Time = AsConfig::FPS;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster : public AGame_Object

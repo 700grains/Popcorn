@@ -6,7 +6,7 @@
 //AExplosive_Ball
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
-	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Max_Size(0.0), Size(0.0), Size_Step(0.0), Ball_Rect{}
+	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Max_Size(0.0), Size(0.0), Size_Step(0.0), Ball_Rect{}
 {
 
 }
@@ -18,18 +18,23 @@ void AExplosive_Ball::Act()
 	case EExplosive_Ball_State::Idle:
 		break;
 
+
 	case EExplosive_Ball_State::Expanding:
 		Size += Size_Step;
 
 		if (Size > Max_Size)
+		{
 			Explosive_Ball_State = EExplosive_Ball_State::Fading;
+			Start_Fading_Tick = AsConfig::Current_Timer_Tick;
+		}
 		else
 			Update_Ball_Rect();
-
 		break;
 
-	case EExplosive_Ball_State::Fading:
 
+	case EExplosive_Ball_State::Fading:
+		if (AsConfig::Current_Timer_Tick >= Start_Fading_Tick + Fading_Time)
+			Explosive_Ball_State = EExplosive_Ball_State::Idle;
 		break;
 
 	default:
@@ -45,15 +50,23 @@ void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 {
-
-	if (Explosive_Ball_State == EExplosive_Ball_State::Idle)
+	switch (Explosive_Ball_State)
+	{
+	case EExplosive_Ball_State::Idle:
 		return;
 
-	//AsConfig::Dark_Red_Color.Select(hdc);
-	//Ellipse(hdc, X_Pos, Y_Pos, X_Pos + Size -1, Y_Pos + Size - 1);
+	case EExplosive_Ball_State::Expanding:
+		AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Dark_Red_Color);
+		break;
 
-	AsTools::Ellipse(hdc, Ball_Rect, AsConfig::Dark_Red_Color);
+	case EExplosive_Ball_State::Fading:
 
+		break;
+
+	default:
+		break;
+
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 bool AExplosive_Ball::Is_Finished()
