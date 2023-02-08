@@ -22,9 +22,9 @@ void AExplosive_Ball::Act()
 		Size += Size_Step;
 
 		if (Size > Max_Size)
-			Explosive_Ball_State == EExplosive_Ball_State::Fading;
+			Explosive_Ball_State = EExplosive_Ball_State::Fading;
 		else
-			Redraw_Ball();
+			Update_Ball_Rect();
 
 		break;
 
@@ -74,17 +74,15 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
 
 	Size_Step = (double)Max_Size / (double)Step_Count;
 
-	Redraw_Ball();
+	Update_Ball_Rect();
 }
 //------------------------------------------------------------------------------------------------------------
-void AExplosive_Ball::Redraw_Ball()
+void AExplosive_Ball::Update_Ball_Rect()
 {
 	Ball_Rect.left = X_Pos - (int)(Size / 2.0);
 	Ball_Rect.top = Y_Pos - (int)(Size / 2.0);
 	Ball_Rect.right = Ball_Rect.left + (int)Size;
 	Ball_Rect.bottom = Ball_Rect.top + (int)Size;
-
-	AsTools::Invalidate_Rect(Ball_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -136,7 +134,7 @@ void AMonster::Act()
 	switch (Monster_State)
 	{
 	case EMonster_State::Missing:
-		break;
+		return;
 
 	case EMonster_State::Alive:
 		Act_Alive();
@@ -150,6 +148,8 @@ void AMonster::Act()
 		AsConfig::Throw();
 		break;
 	}
+
+	AsTools::Invalidate_Rect(Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Clear(HDC hdc, RECT& paint_area)
@@ -181,8 +181,6 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 		AsConfig::Throw();
 		break;
 	}
-
-	AsTools::Invalidate_Rect(Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Is_Finished()

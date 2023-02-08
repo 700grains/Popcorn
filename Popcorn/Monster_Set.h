@@ -38,7 +38,7 @@ public:
 	void Explode(int x_pos, int y_pos, int size, int step_count);
 
 private:
-	void Redraw_Ball();
+	void Update_Ball_Rect();
 
 	EExplosive_Ball_State Explosive_Ball_State;
 
