@@ -54,7 +54,7 @@ void AExplosive_Ball::Act()
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
@@ -111,7 +111,7 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AExplosive_Ball::Is_Finished()
 {
-	//!!! TODO
+// Not used
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -173,7 +173,8 @@ const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] =
 };
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0), Y_Pos(0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Monster_Rect{}
+	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0),
+	Total_Animation_Time(0), Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -189,7 +190,12 @@ void AMonster::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Advance(double max_speed)
 {
-	//!!! TODO
+	double next_step;
+
+	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
+
+	X_Pos += next_step;
+	Y_Pos += next_step;
 }
 //------------------------------------------------------------------------------------------------------------
 double AMonster::Get_Speed()
@@ -269,18 +275,20 @@ void AMonster::Activate(int x_pos, int y_pos)
 	int tick_offset;
 	double current_timeout = 0.0;
 	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
 
 	Monster_State = EMonster_State::Alive;
 
-	X_Pos = x_pos + 10;
+	X_Pos = x_pos;
 	Y_Pos = y_pos;
+	Speed = 1.0;
 
-	Monster_Rect.left = X_Pos * scale;
-	Monster_Rect.top = Y_Pos * scale;
+	Monster_Rect.left = (int)(X_Pos * d_scale);
+	Monster_Rect.top = (int)(Y_Pos * d_scale);
 	Monster_Rect.right = Monster_Rect.left + Width * scale;
 	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
 
-	// Blink animation tick calculation
+	// Blink animation ticks calculation
 	current_timeout;
 	Start_Blinking_Time = AsConfig::Current_Timer_Tick;
 
@@ -308,11 +316,13 @@ void AMonster::Destroy()
 	bool is_red;
 
 	int scale = AsConfig::Global_Scale;
+	double d_scale = AsConfig::D_Global_Scale;
+
 	int half_width = Width * scale / 2;
 	int half_height = Height * scale / 2;
 	int i;
-	int x_pos = X_Pos * scale + half_width;
-	int y_pos = Y_Pos * scale + half_height;
+	int x_pos = (int)(X_Pos * d_scale) + half_width;
+	int y_pos = (int)(Y_Pos * d_scale) + half_height;
 	int x_offset, y_offset;
 	int size, half_size, remained_size;
 	int time_offset;

@@ -86,7 +86,8 @@ private:
 
 	EEye_State Eye_State;
 	EMonster_State Monster_State;
-	int X_Pos, Y_Pos;
+	double X_Pos, Y_Pos;
+	double Speed;
 	double Cornea_Height;
 	int Start_Blinking_Time, Total_Animation_Time;
 	RECT Monster_Rect;
