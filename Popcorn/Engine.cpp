@@ -53,7 +53,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Add_Next_Module(index, &Laser_Beam_Set);
 	Add_Next_Module(index, &Monster_Set);
 
-	Monster_Set.Emit_At_Gate(5);
+	Monster_Set.Emit_At_Gate(4);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)

@@ -197,8 +197,8 @@ void AMonster::Advance(double max_speed)
 
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
 
-	X_Pos += next_step;
-	Y_Pos += next_step;
+	X_Pos += next_step * cos(Direction);
+	Y_Pos -= next_step * sin(Direction);
 }
 //------------------------------------------------------------------------------------------------------------
 double AMonster::Get_Speed()
@@ -281,12 +281,12 @@ void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
-	Speed = 0.25;
+	Speed = 0.35;
 
 	if (moving_right)
-		Direction = M_PI;
+		Direction = M_PI / 6.0;
 	else
-		Direction = 0;
+		Direction = M_PI;
 
 	// Blink animation ticks calculation
 	current_timeout;
