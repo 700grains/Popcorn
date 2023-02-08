@@ -290,8 +290,10 @@ void AMonster::Destroy()
 {
 	Monster_State = EMonster_State::Destroying;
 
-	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 0, 55);
-	Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 30, 10, 55);
+	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 0, 10);
+	Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 25, 5, 10);
+	Explosive_Balls[2].Explode(Monster_Rect.left + 20, Monster_Rect.top + 30, 20, 8, 10);
+	Explosive_Balls[3].Explode(Monster_Rect.left + 30, Monster_Rect.top + 20, 16, 13, 10);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)

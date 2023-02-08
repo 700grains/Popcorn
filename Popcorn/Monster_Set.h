@@ -52,7 +52,7 @@ private:
 	double Max_Size, Size, Size_Step;
 	RECT Ball_Rect;
 
-	static const int Fading_Time = AsConfig::FPS * 5;
+	static const int Fading_Time = AsConfig::FPS;
 	static const int Max_Fade_Step = AsConfig::FPS;
 	static AColor Fading_Red_Colors[Max_Fade_Step];
 };
