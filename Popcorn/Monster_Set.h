@@ -18,6 +18,13 @@ enum class EMonster_State : unsigned char
 	Destroying
 };
 //------------------------------------------------------------------------------------------------------------
+enum class EExplosive_Ball_State : unsigned char
+{
+	Idle,
+	Expanding,
+	Fading
+};
+//------------------------------------------------------------------------------------------------------------
 class AExplosive_Ball : public AGraphics_Object
 {
 public:
@@ -31,9 +38,12 @@ public:
 	void Explode(int x_pos, int y_pos, int size, int step_count);
 
 private:
+	EExplosive_Ball_State Explosive_Ball_State;
+
 	int X_Pos, Y_Pos;
 	int Size;
 	int Step_Count;
+	double Size_Step;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster : public AGame_Object

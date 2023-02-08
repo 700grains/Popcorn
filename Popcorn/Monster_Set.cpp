@@ -6,7 +6,7 @@
 //AExplosive_Ball
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
-	: X_Pos(0), Y_Pos(0), Size(0), Step_Count(0)
+	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Size(0), Step_Count(0), Size_Step(0)
 {
 
 }
@@ -23,6 +23,10 @@ void AExplosive_Ball::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 {
+
+	if (Explosive_Ball_State == EExplosive_Ball_State::Idle)
+		return;
+
 	AsConfig::Dark_Red_Color.Select(hdc);
 	Ellipse(hdc, X_Pos, Y_Pos, X_Pos + Size -1, Y_Pos + Size - 1);
 
@@ -38,10 +42,14 @@ bool AExplosive_Ball::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
 {
+	Explosive_Ball_State = EExplosive_Ball_State::Expanding;
+
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
 	Size = size;
 	Step_Count = step_count;
+
+	Size_Step = (double)Size / (double)Step_Count;
 }
 //------------------------------------------------------------------------------------------------------------
 
