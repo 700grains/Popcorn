@@ -185,7 +185,7 @@ void AMonster::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Finish_Movement()
 {
-	//!!! TODO
+	Redraw_Monster();
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Advance(double max_speed)
@@ -274,19 +274,12 @@ void AMonster::Activate(int x_pos, int y_pos)
 	int i;
 	int tick_offset;
 	double current_timeout = 0.0;
-	const int scale = AsConfig::Global_Scale;
-	const double d_scale = AsConfig::D_Global_Scale;
 
 	Monster_State = EMonster_State::Alive;
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
 	Speed = 1.0;
-
-	Monster_Rect.left = (int)(X_Pos * d_scale);
-	Monster_Rect.top = (int)(Y_Pos * d_scale);
-	Monster_Rect.right = Monster_Rect.left + Width * scale;
-	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
 
 	// Blink animation ticks calculation
 	current_timeout;
@@ -301,6 +294,8 @@ void AMonster::Activate(int x_pos, int y_pos)
 	}
 
 	Total_Animation_Time = tick_offset;
+
+	Redraw_Monster();
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Is_Active()
@@ -505,6 +500,19 @@ void AMonster::Act_Destroying()
 
 	for (i = 0; i < Explosive_Balls_Count; i++)
 		Explosive_Balls[i].Act();
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Redraw_Monster()
+{
+	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
+
+	Monster_Rect.left = (int)(X_Pos * d_scale);
+	Monster_Rect.top = (int)(Y_Pos * d_scale);
+	Monster_Rect.right = Monster_Rect.left + Width * scale;
+	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
+
+	AsTools::Invalidate_Rect(Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
