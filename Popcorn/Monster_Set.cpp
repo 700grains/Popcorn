@@ -133,55 +133,23 @@ double AMonster::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Act()
 {
-	int i;
-	int current_tick_offset, previous_tick;
-	double ratio;
-
-	if (Monster_State == EMonster_State::Missing)
-		return;
-	
-	current_tick_offset = (AsConfig::Current_Timer_Tick - Start_Blinking_Time) % Total_Animation_Time;
-
-	for (i = 0; i < Blink_Stages_Count; i++)
+	switch (Monster_State)
 	{
-		if (current_tick_offset < Blink_Ticks[i])
-		{
-			Eye_State = Blinking_States[i];
-			break;
-		}
-	}
-
-	if (i == 0)
-		previous_tick = 0;
-	else
-		previous_tick = Blink_Ticks[i - 1];
-
-	ratio = (double)(current_tick_offset - previous_tick) / (double)(Blink_Ticks[i] - previous_tick);
-
-	switch (Eye_State)
-	{
-	case EEye_State::Closed:
-		Cornea_Height = 0.0;
+	case EMonster_State::Missing:
 		break;
 
-	case EEye_State::Opening:
-		Cornea_Height = Max_Cornea_Height * ratio;
+	case EMonster_State::Alive:
+		Act_Alive();
 		break;
 
-	case EEye_State::Staring:
-		Cornea_Height = Max_Cornea_Height;
-		break;
-
-	case EEye_State::Closing:
-		Cornea_Height = Max_Cornea_Height * (1.0 - ratio);
+	case EMonster_State::Destroying:
+		Act_Destroying();
 		break;
 
 	default:
 		AsConfig::Throw();
 		break;
 	}
-
-	AsTools::Invalidate_Rect(Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Clear(HDC hdc, RECT& paint_area)
@@ -213,6 +181,8 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 		AsConfig::Throw();
 		break;
 	}
+
+	AsTools::Invalidate_Rect(Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Is_Finished()
@@ -265,7 +235,7 @@ void AMonster::Destroy()
 {
 	Monster_State = EMonster_State::Destroying;
 
-	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 10);
+	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 55);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
@@ -356,6 +326,65 @@ void AMonster::Draw_Destroying(HDC hdc, RECT& paint_area)
 
 	for (i = 0; i < Explosive_Balls_Count; i++)
 		Explosive_Balls[i].Draw(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Act_Alive()
+{
+	int i;
+	int current_tick_offset, previous_tick;
+	double ratio;
+
+	if (Monster_State == EMonster_State::Missing)
+		return;
+
+	current_tick_offset = (AsConfig::Current_Timer_Tick - Start_Blinking_Time) % Total_Animation_Time;
+
+	for (i = 0; i < Blink_Stages_Count; i++)
+	{
+		if (current_tick_offset < Blink_Ticks[i])
+		{
+			Eye_State = Blinking_States[i];
+			break;
+		}
+	}
+
+	if (i == 0)
+		previous_tick = 0;
+	else
+		previous_tick = Blink_Ticks[i - 1];
+
+	ratio = (double)(current_tick_offset - previous_tick) / (double)(Blink_Ticks[i] - previous_tick);
+
+	switch (Eye_State)
+	{
+	case EEye_State::Closed:
+		Cornea_Height = 0.0;
+		break;
+
+	case EEye_State::Opening:
+		Cornea_Height = Max_Cornea_Height * ratio;
+		break;
+
+	case EEye_State::Staring:
+		Cornea_Height = Max_Cornea_Height;
+		break;
+
+	case EEye_State::Closing:
+		Cornea_Height = Max_Cornea_Height * (1.0 - ratio);
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Act_Destroying()
+{
+	int i;
+
+	for (i = 0; i < Explosive_Balls_Count; i++)
+		Explosive_Balls[i].Act();
 }
 //------------------------------------------------------------------------------------------------------------
 

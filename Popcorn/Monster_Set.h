@@ -70,6 +70,8 @@ public:
 private:
 	void Draw_Alive(HDC hdc);
 	void Draw_Destroying(HDC hdc, RECT& paint_area);
+	void Act_Alive();
+	void Act_Destroying();
 
 	EEye_State Eye_State;
 	EMonster_State Monster_State;
