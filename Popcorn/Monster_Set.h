@@ -21,6 +21,7 @@ enum class EMonster_State : unsigned char
 enum class EExplosive_Ball_State : unsigned char
 {
 	Idle,
+	Charging,
 	Expanding,
 	Fading
 };
@@ -35,7 +36,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Explode(int x_pos, int y_pos, int size, int step_count);
+	void Explode(int x_pos, int y_pos, int size, int time_offset, int step_count);
 
 	static void Setup_Colors();
 
@@ -47,6 +48,7 @@ private:
 	int X_Pos, Y_Pos;
 	int Step_Count;
 	int Start_Fading_Tick;
+	int Time_Offset;
 	double Max_Size, Size, Size_Step;
 	RECT Ball_Rect;
 

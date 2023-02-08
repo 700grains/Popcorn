@@ -7,7 +7,7 @@
 AColor AExplosive_Ball::Fading_Red_Colors[Max_Fade_Step];
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
-	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Max_Size(0.0), Size(0.0), Size_Step(0.0), Ball_Rect{}
+	:Explosive_Ball_State(EExplosive_Ball_State::Idle),  X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Max_Size(0.0), Size(0.0), Size_Step(0.0), Time_Offset(0), Ball_Rect{}
 {
 
 }
@@ -26,7 +26,7 @@ void AExplosive_Ball::Act()
 		if (Size > Max_Size)
 		{
 			Explosive_Ball_State = EExplosive_Ball_State::Fading;
-			Start_Fading_Tick = AsConfig::Current_Timer_Tick;
+			Start_Fading_Tick = AsConfig::Current_Timer_Tick + Time_Offset;
 		}
 		else
 			Update_Ball_Rect();
@@ -94,7 +94,7 @@ bool AExplosive_Ball::Is_Finished()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
+void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int time_offset, int step_count)
 {
 	Explosive_Ball_State = EExplosive_Ball_State::Expanding;
 
@@ -102,7 +102,10 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, int step_count)
 	Y_Pos = y_pos;
 	Max_Size = size;
 	Size = 0.0;
+	Time_Offset = time_offset;
 	Step_Count = step_count;
+
+	Start_Explosion_Tick = AsConfig::Current_Timer_Tick + Time_Offset;
 
 	Size_Step = (double)Max_Size / (double)Step_Count;
 
@@ -278,8 +281,8 @@ void AMonster::Destroy()
 {
 	Monster_State = EMonster_State::Destroying;
 
-	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 55);
-	Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 30, 55);
+	Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 0, 55);
+	Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 30, 10, 55);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
