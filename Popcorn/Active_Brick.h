@@ -63,9 +63,6 @@ public:
 private:
 	int Fade_Step;
 
-	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step);
-	static void Get_Fading_Color(const AColor& origin_color, int step, AColor& result_color);
-
 	static const int Max_Fade_Step = AsConfig::FPS;
 
 	static AColor Fading_Red_Brick_Colors[Max_Fade_Step];

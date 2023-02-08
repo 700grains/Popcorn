@@ -66,5 +66,7 @@ public:
 	static void Rect(HDC hdc, int x_pos, int y_pos, int width, int height, const AColor& color);
 	static void Ellipse(HDC hdc, RECT& rect, const AColor& color);
 	static void Invalidate_Rect(RECT& rect);
+	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step, int max_step);
+	static void Get_Fading_Color(const AColor& origin_color, int step, AColor& result_color, int max_step);
 };
 //------------------------------------------------------------------------------------------------------------

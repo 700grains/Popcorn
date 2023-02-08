@@ -80,3 +80,19 @@ void AsTools::Invalidate_Rect(RECT& rect)
 	InvalidateRect(AsConfig::Hwnd, &rect, FALSE);
 }
 //------------------------------------------------------------------------------------------------------------
+unsigned char AsTools::Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step, int max_step)
+{
+	return color - step * (color - bg_color) / (max_step - 1);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsTools::Get_Fading_Color(const AColor& origin_color, int step, AColor& result_color, int max_step)
+{
+	unsigned char r, g, b;
+
+	r = Get_Fading_Channel(origin_color.R, AsConfig::BG_Color.R, step, max_step);
+	g = Get_Fading_Channel(origin_color.G, AsConfig::BG_Color.G, step, max_step);
+	b = Get_Fading_Channel(origin_color.B, AsConfig::BG_Color.B, step, max_step);
+
+	result_color = AColor(r, g, b);
+}
+//------------------------------------------------------------------------------------------------------------

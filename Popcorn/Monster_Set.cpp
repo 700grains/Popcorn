@@ -106,7 +106,7 @@ void AExplosive_Ball::Setup_Colors()
 	int i;
 
 	for (i = 0; i < Max_Fade_Step; i++)
-		Get_Fading_Color(AsConfig::Red_Color, i, Fading_Red_Colors[i]);
+		AsTools::Get_Fading_Color(AsConfig::Red_Color, i, Fading_Red_Colors[i], Max_Fade_Step);
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Update_Ball_Rect()
