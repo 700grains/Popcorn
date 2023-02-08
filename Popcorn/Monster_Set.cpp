@@ -174,7 +174,7 @@ const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] =
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
 	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Direction(0.0),
-	Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Next_Direction_Switch_Tick(0), Monster_Rect{}
+	Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Next_Direction_Switch_Tick(0), Monster_Rect{}, Previous_Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -233,10 +233,10 @@ void AMonster::Clear(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 
-	if (!IntersectRect(&intersection_rect, &paint_area, &Monster_Rect))
+	if (!IntersectRect(&intersection_rect, &paint_area, &Previous_Monster_Rect))
 		return;
 
-	AsTools::Ellipse(hdc, Monster_Rect, AsConfig::BG_Color);
+	AsTools::Ellipse(hdc, Previous_Monster_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw(HDC hdc, RECT& paint_area)
@@ -353,11 +353,6 @@ void AMonster::Destroy()
 	}
 
 	Monster_State = EMonster_State::Destroying;
-
-	//Explosive_Balls[0].Explode(Monster_Rect.left + 20, Monster_Rect.top + 20, 30, 0, 10);
-	//Explosive_Balls[1].Explode(Monster_Rect.left + 30, Monster_Rect.top + 30, 25, 5, 10);
-	//Explosive_Balls[2].Explode(Monster_Rect.left + 20, Monster_Rect.top + 30, 20, 8, 10);
-	//Explosive_Balls[3].Explode(Monster_Rect.left + 30, Monster_Rect.top + 20, 16, 13, 10);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
@@ -525,12 +520,15 @@ void AMonster::Redraw_Monster()
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 
+	Previous_Monster_Rect = Monster_Rect;
+
 	Monster_Rect.left = (int)(X_Pos * d_scale);
 	Monster_Rect.top = (int)(Y_Pos * d_scale);
 	Monster_Rect.right = Monster_Rect.left + Width * scale;
 	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
 
 	AsTools::Invalidate_Rect(Monster_Rect);
+	AsTools::Invalidate_Rect(Previous_Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
