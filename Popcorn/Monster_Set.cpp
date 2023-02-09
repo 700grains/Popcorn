@@ -571,7 +571,7 @@ void AsMonster_Set::Act()
 
 
 	case EMonster_Set_State::Waiting_For_Gate_To_Close:
-		if (!Border->Is_Gate_Opened(Current_Gate_Index))
+		if (Border->Is_Gate_Closed(Current_Gate_Index))
 			Monster_Set_State = EMonster_Set_State::Selecting_Next_Gate;
 		break;
 
