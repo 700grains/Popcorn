@@ -627,6 +627,11 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	//monster->Destroy();
 }
 //------------------------------------------------------------------------------------------------------------
+void AsMonster_Set::Activate()
+{
+	Monster_Set_State = EMonster_Set_State::Selecting_Next_Gate;
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)
 {
 	if (index < 0 || index >= AsConfig::Max_Balls_Count)

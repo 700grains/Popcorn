@@ -126,6 +126,7 @@ public:
 
 	void Init(AsBorder* border);
 	void Emit_At_Gate(int gate_index);
+	void Activate();
 
 private:
 	bool Get_Next_GameObject(int& index, AGame_Object** game_object);
