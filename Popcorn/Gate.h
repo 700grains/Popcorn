@@ -31,6 +31,7 @@ public:
 
 	void Open_Gate(bool is_partially);
 	bool Is_Opened();
+	bool Is_Closed();
 	void Get_Y_Size(int& gate_top_y, int& gate_bot_y);
 	void Get_Pos(int &gate_x,int &gate_y);
 
