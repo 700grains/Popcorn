@@ -275,16 +275,20 @@ void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 {
 	int i;
 	int tick_offset;
+	int random_speed;
 	double current_timeout = 0.0;
 
 	Monster_State = EMonster_State::Alive;
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
-	Speed = 0.35;
+
+	random_speed = AsTools::Rand(6) + 1;
+
+	Speed = (double)random_speed;
 
 	if (moving_right)
-		Direction = M_PI / 6.0;
+		Direction = 0.0;
 	else
 		Direction = M_PI;
 
