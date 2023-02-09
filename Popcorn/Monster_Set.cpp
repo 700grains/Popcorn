@@ -174,7 +174,8 @@ const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] =
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
 	:Eye_State(EEye_State::Closed), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Direction(0.0),
-	Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Next_Direction_Switch_Tick(0), Monster_Rect{}, Previous_Monster_Rect{}
+	Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0), Next_Direction_Switch_Tick(0), Monster_Is_Alive_Timer(0), Monster_Rect{}, 
+	Previous_Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -200,17 +201,22 @@ void AMonster::Advance(double max_speed)
 	X_Pos += next_step * cos(Direction);
 	Y_Pos -= next_step * sin(Direction);
 
-	if (X_Pos < (double)AsConfig::Level_X_Offset)
-		X_Pos = (double)AsConfig::Level_X_Offset;
 
-	if (X_Pos + (double)Width > (double)AsConfig::Max_X_Pos)
-		X_Pos = (double)AsConfig::Max_X_Pos - (double)Width;
+	// This code will restrict monster movement to level border.
+	if (Monster_State == EMonster_State::Alive)
+	{
+		if (X_Pos < (double)AsConfig::Level_X_Offset)
+			X_Pos = (double)AsConfig::Level_X_Offset;
 
-	if (Y_Pos < (double)AsConfig::Level_Y_Offset)
-		Y_Pos = (double)AsConfig::Level_Y_Offset;
+		if (X_Pos + (double)Width > (double)AsConfig::Max_X_Pos)
+			X_Pos = (double)AsConfig::Max_X_Pos - (double)Width;
 
-	if (Y_Pos + (double)Height > (double)AsConfig::Max_Y_Pos)
-		Y_Pos = (double)AsConfig::Max_Y_Pos - (double)Height;
+		if (Y_Pos < (double)AsConfig::Level_Y_Offset)
+			Y_Pos = (double)AsConfig::Level_Y_Offset;
+
+		if (Y_Pos + (double)Height > (double)AsConfig::Max_Y_Pos)
+			Y_Pos = (double)AsConfig::Max_Y_Pos - (double)Height;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 double AMonster::Get_Speed()
@@ -223,6 +229,11 @@ void AMonster::Act()
 	switch (Monster_State)
 	{
 	case EMonster_State::Missing:
+		return;
+
+	case EMonster_State::Emitting:
+		if (Monster_Is_Alive_Timer < AsConfig::Current_Timer_Tick)
+			Monster_State = EMonster_State::Alive;
 		return;
 
 	case EMonster_State::Alive:
@@ -263,6 +274,7 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 	case EMonster_State::Missing:
 		break;
 
+	case EMonster_State::Emitting:
 	case EMonster_State::Alive:
 		Draw_Alive(hdc);
 		break;
@@ -288,16 +300,21 @@ void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 	int i;
 	int tick_offset;
 	int random_speed;
+	int emitting_offset;
 	double current_timeout = 0.0;
 
-	Monster_State = EMonster_State::Alive;
+	Monster_State = EMonster_State::Emitting;
 
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
 
-	random_speed = AsTools::Rand(2) + 1;
+	random_speed = AsTools::Rand(5) + 1;
 
-	Speed = (double)random_speed;
+	Speed = (double)random_speed / 10.0;
+
+	emitting_offset = (int)((double)AGate::Width / Speed);
+
+	Monster_Is_Alive_Timer = AsConfig::Current_Timer_Tick + emitting_offset;
 
 	if (moving_right)
 		Direction = 0.0;
