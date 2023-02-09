@@ -23,7 +23,8 @@ public:
 	virtual bool Is_Finished();
 
 	void Redraw_Floor();
-	void Open_Gate(int gate_index, bool is_partially);
+	int Open_Gate(int gate_index, bool short_open);
+	int Long_Open_Gate();
 	bool Is_Gate_Opened(int gate_index);
 	bool Is_Gate_Closed(int gate_index);
 	void Get_Gate_Pos(int gate_index, int& gate_x, int & gate_y);

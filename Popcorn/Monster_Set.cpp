@@ -596,8 +596,7 @@ void AsMonster_Set::Act()
 		// Add a monster if possible
 		if (current_monsters_alive_count < Max_Monsters_Alive)
 		{
-			Current_Gate_Index = AsTools::Rand(AsConfig::Gates_Count);
-			Border->Open_Gate(Current_Gate_Index, false);
+			Current_Gate_Index = Border->Long_Open_Gate();
 			Monster_Set_State = EMonster_Set_State::Waiting_For_Gate_To_Open;
 		}
 		break;
