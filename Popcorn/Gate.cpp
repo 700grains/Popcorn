@@ -8,7 +8,7 @@ const double AGate::Hole_Height_Long_Step = Max_Hole_Long_Height / ((double)AsCo
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos, int level_x_pos, int level_y_pos)
 	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Level_X_Pos(level_x_pos), Level_Y_Pos(level_y_pos), Y_Pos(y_pos), Original_Y_Pos(y_pos), Edges_Count(5), Gate_Close_Timer(0),
-	Hole_Height(0)
+	Hole_Height(0.0)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -37,7 +37,7 @@ void AGate::Act()
 		{
 			if (correct_pos)
 			{
-				Y_Pos = Original_Y_Pos - Hole_Height / 2;
+				Y_Pos = Original_Y_Pos - Hole_Height / 2.0;
 
 				Gate_Rect.top = (int)round(Y_Pos * AsConfig::D_Global_Scale);
 				Gate_Rect.bottom = (int)round((Y_Pos + (double)Height + Hole_Height) * AsConfig::D_Global_Scale);

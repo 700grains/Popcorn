@@ -37,7 +37,7 @@ void AsBorder::Redraw_Floor()
 	AsTools::Invalidate_Rect(Floor_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
-int AsBorder::Open_Gate(int gate_index, bool short_open)
+void AsBorder::Open_Gate(int gate_index, bool is_partially)
 {
 	if (gate_index != AsConfig::Gates_Count - 1 && is_partially)
 		AsConfig::Throw();
@@ -69,17 +69,17 @@ int AsBorder::Long_Open_Gate()
 				break;
 			}
 
-			if (! AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos && ! AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos + 1))
+			if (! AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos) && ! AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos + 1))
 			{
 				is_found = true;
-					break;
+				break;
 			}
 		}
 
 		++gate_index;
 
 		if (gate_index >= AsConfig::Gates_Count)
-			gate_index == 0;
+			gate_index = 0;
 	}
 
 	if (! is_found)

@@ -41,6 +41,7 @@ char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 
 
 // AsLevel
+AsLevel* AsLevel::Level = nullptr;
 //------------------------------------------------------------------------------------------------------------
 AsLevel::~AsLevel()
 {
@@ -50,9 +51,10 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All (false),  Active_Bricks_Count (0), Falling_Letters_Count(0), Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0),
+: Level_Rect{}, Need_To_Cancel_All(false),  Active_Bricks_Count(0), Falling_Letters_Count(0), Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0),
   Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
 {
+	Level = this;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
@@ -67,7 +69,7 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	bool got_horizontal_hit, got_vertical_hit;
 	double horizontal_reflection_pos, vertical_reflection_pos;
 
-	if (next_y_pos + ball->Radius> AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
+	if (next_y_pos + ball->Radius > AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
 		return false;
 
 	direction = ball->Get_Direction();
@@ -77,19 +79,19 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	min_ball_y = next_y_pos - ball->Radius;
 	max_ball_y = next_y_pos + ball->Radius;
 
-	min_level_x = (int)(min_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width;
+	min_level_x = (int)( (min_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width);
 	if (min_level_x < 0)
 		min_level_x = 0;
 
-	max_level_x = (int)(max_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width;
+	max_level_x = (int)( (max_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width);
 	if (max_level_x >= AsConfig::Level_Width - 1)
 		max_level_x = AsConfig::Level_Width - 1;
 
-	min_level_y = (int)(min_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height;
+	min_level_y = (int)( (min_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height);
 	if (min_level_y < 0)
 		min_level_y = 0;
 
-	max_level_y = (int)(max_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height;
+	max_level_y = (int)( (max_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height);
 	if (max_level_y >= AsConfig::Level_Height - 1)
 		max_level_y = AsConfig::Level_Height - 1;
 
@@ -106,13 +108,13 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 			Current_Brick_Left_X = AsConfig::Level_X_Offset + j * AsConfig::Cell_Width;
 			Current_Brick_Right_X = Current_Brick_Left_X + AsConfig::Brick_Width;
 
-			got_horizontal_hit = (Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball, horizontal_reflection_pos) );
+			got_horizontal_hit = Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball, horizontal_reflection_pos);
 
-			got_vertical_hit = (Check_Vertical_Hit(next_x_pos, next_y_pos, j, i, ball, vertical_reflection_pos) );
+			got_vertical_hit = Check_Vertical_Hit(next_x_pos, next_y_pos, j, i, ball, vertical_reflection_pos);
 
 			if (got_horizontal_hit && got_vertical_hit)
 			{
-				if (On_Hit(j, i, ball, true))
+				if (On_Hit(j, i, ball, true) )
 				{
 					if (vertical_reflection_pos < horizontal_reflection_pos)
 						ball->Reflect(true);
@@ -146,8 +148,8 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos)
 {// Return "true" if at given positions our laser beam hits a brick
 	int level_x_index, level_y_index;
 
-	level_x_index = (int)(next_x_pos - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width;
-	level_y_index = (int)(next_y_pos - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height;
+	level_x_index = (int)( (next_x_pos - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width);
+	level_y_index = (int)( (next_y_pos - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height);
 
 	if (level_x_index < 0 || level_x_index >= AsConfig::Level_Width)
 		return false;
@@ -226,14 +228,14 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 				brick_rect.right = brick_rect.left + AsConfig::Brick_Width * AsConfig::Global_Scale;
 				brick_rect.bottom = brick_rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 
-				if (IntersectRect(&intersection_rect, &paint_area, &brick_rect))
+				if (IntersectRect(&intersection_rect, &paint_area, &brick_rect) )
 					Draw_Brick(hdc, brick_rect, j, i);
 			}
 
-		Draw_Objects(hdc, paint_area, (AGraphics_Object**)&Active_Bricks, AsConfig::Max_Active_Bricks_Count);
+		Draw_Objects(hdc, paint_area, (AGraphics_Object **)&Active_Bricks, AsConfig::Max_Active_Bricks_Count);
 	}
 
-	Draw_Objects(hdc, paint_area, (AGraphics_Object**)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
+	Draw_Objects(hdc, paint_area, (AGraphics_Object **)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
@@ -264,7 +266,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 	// 1. Count the number of teleports
 	Teleport_Bricks_Count = 0;
 
-	for ( i = 0; i < AsConfig::Level_Height; i++)
+	for (i = 0; i < AsConfig::Level_Height; i++)
 	{
 		for (j = 0; j < AsConfig::Level_Width; j++)
 		{
@@ -290,6 +292,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 			for (j = 0; j < AsConfig::Level_Width; j++)
 			{
 				brick_type = (EBrick_Type)Current_Level[i][j];
+
 				if (brick_type == EBrick_Type::Teleport)
 				{
 					Teleport_Bricks_Pos[index].X = j;
@@ -330,6 +333,24 @@ bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_lett
 void AsLevel::Stop()
 {
 	Need_To_Cancel_All = true;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsLevel::Has_Brick_At(int level_x, int level_y)
+{
+	EBrick_Type brick_type;
+
+	if (level_x < 0 || level_x >= AsConfig::Level_Width)
+		return false;	
+	
+	if (level_y < 0 || level_y >= AsConfig::Level_Height)
+		return false;
+
+	brick_type = (EBrick_Type)Level->Current_Level[level_y][level_x];
+
+	if (brick_type == EBrick_Type::None)
+		return false;
+	else
+		return true;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::On_Hit(int brick_x, int brick_y, ABall* ball, bool vertical_hit)
@@ -396,21 +417,21 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 			letter_x = (brick_x * AsConfig::Cell_Width + AsConfig::Level_X_Offset) * AsConfig::Global_Scale;
 			letter_y = (brick_y * AsConfig::Cell_Height + AsConfig::Level_Y_Offset) * AsConfig::Global_Scale;
 
-			//letter_type = AFalling_Letter::Get_Random_Letter_Type();
-			//switch (AsTools::Rand(3) )
-			//{
-			//case 0:
+			letter_type = AFalling_Letter::Get_Random_Letter_Type();
+			switch (AsTools::Rand(3) )
+			{
+			case 0:
 				letter_type = ELetter_Type::L;
-			//	break;
+				break;
 
-			//case 1:
-			//	letter_type = ELetter_Type::K;
-			//	break;
+			case 1:
+				letter_type = ELetter_Type::K;
+				break;
 
-			//case 2:
-			//	letter_type = ELetter_Type::W;
-			//	break;
-			//}
+			case 2:
+				letter_type = ELetter_Type::W;
+				break;
+			}
 
 			falling_letter = new AFalling_Letter(brick_type, letter_type, letter_x, letter_y);
 			Falling_Letters[i] = falling_letter;
@@ -489,7 +510,6 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, b
 	bool got_direction;
 	EDirection_Type direction;
 	int dest_brick_x, dest_brick_y;
-
 	double pre_teleport_x_pos, pre_teleport_y_pos;
 	double curr_ball_x_pos, curr_ball_y_pos;
 	AActive_Brick_Teleport* source_teleport, *destination_teleport;
@@ -553,10 +573,10 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, b
 		if (got_direction)
 			break;
 
-		direction = (EDirection_Type)((int)direction - 1);
+		direction = (EDirection_Type)( (int)direction - 1);
 		ball->Set_Direction(ball->Get_Direction() + M_PI_2);
 
-		if ((int)direction < 0)
+		if ( (int)direction < 0)
 			direction = EDirection_Type::Down;
 	}
 
@@ -597,6 +617,7 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 
 	if (Teleport_Bricks_Pos[dest_index].X == source_x && Teleport_Bricks_Pos[dest_index].Y == source_y)
 	{// If the source teleport is randomly selected, then go to the next one in the list
+
 		++dest_index;
 
 		if (dest_index >= Teleport_Bricks_Count)
@@ -611,6 +632,7 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
 {
 	double direction = ball->Get_Direction();
+
 	if (ball->Is_Moving_Up() )
 	{// Checking if it hits the bottom
 
@@ -625,6 +647,7 @@ bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level
 	}
 	else
 	{// Checking if it hits the top
+
 			if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos) )
 			{// Checking the possibility of reflecting UP
 
@@ -641,8 +664,7 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 {
 	double direction = ball->Get_Direction();
 
-
-	if (!ball->Is_Moving_Left() )
+	if (! ball->Is_Moving_Left() )
 	{// Checking for a hit on the "left" edge
 
 		if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos) )
@@ -792,6 +814,7 @@ void AsLevel::Act_Objects(AGraphics_Object** objects_array, int& objects_count, 
 		if (objects_array[i] != 0)
 		{
 			objects_array[i]->Act();
+
 			if (objects_array[i]->Is_Finished() )
 			{
 				delete objects_array[i];

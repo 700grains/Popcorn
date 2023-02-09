@@ -32,6 +32,7 @@ public:
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
 	void Stop();
 
+	static bool Has_Brick_At(int level_x, int level_y);
 
 	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
 	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
@@ -73,5 +74,7 @@ private:
 	int Teleport_Bricks_Count;
 	SPoint* Teleport_Bricks_Pos;
 	AAdvertisement* Advertisement;
+
+	static AsLevel* Level;
 };
 //------------------------------------------------------------------------------------------------------------

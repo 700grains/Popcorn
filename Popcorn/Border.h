@@ -2,6 +2,7 @@
 
 #include "Ball.h"
 # include "Gate.h"
+#include "Level.h"
 
 //------------------------------------------------------------------------------------------------------------
 class AsBorder : public AHit_Checker, public AGame_Object
@@ -23,7 +24,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Redraw_Floor();
-	int Open_Gate(int gate_index, bool short_open);
+	void Open_Gate(int gate_index, bool short_open);
 	int Long_Open_Gate();
 	bool Is_Gate_Opened(int gate_index);
 	bool Is_Gate_Closed(int gate_index);
