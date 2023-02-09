@@ -283,7 +283,7 @@ void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 	X_Pos = x_pos;
 	Y_Pos = y_pos;
 
-	random_speed = AsTools::Rand(6) + 1;
+	random_speed = AsTools::Rand(2) + 1;
 
 	Speed = (double)random_speed;
 
@@ -548,6 +548,8 @@ AsMonster_Set::AsMonster_Set()
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Act()
 {
+	int current_monsters_alive_count;
+	int i;
 	switch (Monster_Set_State)
 	{
 	case EMonster_Set_State::Idle:
@@ -555,9 +557,20 @@ void AsMonster_Set::Act()
 
 
 	case EMonster_Set_State::Selecting_Next_Gate:
-		Current_Gate_Index = AsTools::Rand(AsConfig::Gates_Count) + 1;
-		Border->Open_Gate(Current_Gate_Index, false);
-		Monster_Set_State = EMonster_Set_State::Waiting_For_Gate_To_Open;
+		// We count living monsters
+		current_monsters_alive_count = 0;
+
+		for (i = 0; i < Max_Monsters_Count; i++)
+			if (Monsters[i].Is_Active())
+				++current_monsters_alive_count;
+
+		// Add a monster if possible
+		if (current_monsters_alive_count < Max_Monsters_Alive)
+		{
+			Current_Gate_Index = AsTools::Rand(AsConfig::Gates_Count) + 1;
+			Border->Open_Gate(Current_Gate_Index, false);
+			Monster_Set_State = EMonster_Set_State::Waiting_For_Gate_To_Open;
+		}
 		break;
 
 
