@@ -550,7 +550,7 @@ void AsMonster_Set::Act()
 {
 	Emit_At_Gate(4);
 
-	AsGame_Objects_Set::Act();
+	AGame_Objects_Set::Act();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Init(AsBorder* border)

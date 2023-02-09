@@ -108,7 +108,7 @@ private:
 	static const EEye_State Blinking_States[Blink_Stages_Count];
 };
 //------------------------------------------------------------------------------------------------------------
-class AsMonster_Set : public AsGame_Objects_Set
+class AsMonster_Set : public AGame_Objects_Set
 {
 public:
 	AsMonster_Set();
