@@ -567,7 +567,7 @@ void AsMonster_Set::Act()
 		// Add a monster if possible
 		if (current_monsters_alive_count < Max_Monsters_Alive)
 		{
-			Current_Gate_Index = AsTools::Rand(AsConfig::Gates_Count) + 1;
+			Current_Gate_Index = AsTools::Rand(AsConfig::Gates_Count);
 			Border->Open_Gate(Current_Gate_Index, false);
 			Monster_Set_State = EMonster_Set_State::Waiting_For_Gate_To_Open;
 		}
@@ -635,7 +635,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	if (! gate_is_left)
 		gate_x -= monster->Width - AGate::Width;
 
-	monster->Activate(gate_x, gate_y, gate_is_left);
+	monster->Activate(gate_x, gate_y + 1, gate_is_left);
 
 	//monster->Destroy();
 }
