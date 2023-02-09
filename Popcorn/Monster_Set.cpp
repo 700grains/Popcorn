@@ -542,7 +542,7 @@ void AMonster::Redraw_Monster()
 // AsMonster_Set
 //------------------------------------------------------------------------------------------------------------
 AsMonster_Set::AsMonster_Set()
-	: Border(nullptr)
+	: Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr)
 {
 }
 //------------------------------------------------------------------------------------------------------------
