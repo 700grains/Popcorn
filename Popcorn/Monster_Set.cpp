@@ -199,6 +199,18 @@ void AMonster::Advance(double max_speed)
 
 	X_Pos += next_step * cos(Direction);
 	Y_Pos -= next_step * sin(Direction);
+
+	if (X_Pos < (double)AsConfig::Level_X_Offset)
+		X_Pos = (double)AsConfig::Level_X_Offset;
+
+	if (X_Pos + (double)Width > (double)AsConfig::Max_X_Pos)
+		X_Pos = (double)AsConfig::Max_X_Pos - (double)Width;
+
+	if (Y_Pos < (double)AsConfig::Level_Y_Offset)
+		Y_Pos = (double)AsConfig::Level_Y_Offset;
+
+	if (Y_Pos + (double)Height > (double)AsConfig::Max_Y_Pos)
+		Y_Pos = (double)AsConfig::Max_Y_Pos - (double)Height;
 }
 //------------------------------------------------------------------------------------------------------------
 double AMonster::Get_Speed()
