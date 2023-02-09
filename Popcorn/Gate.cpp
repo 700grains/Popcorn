@@ -4,7 +4,7 @@
 const double AGate::Max_Hole_Short_Height = 9.0;
 const double AGate::Hole_Height_Short_Step = Max_Hole_Short_Height / ((double)AsConfig::FPS / 2.0); // Animation will complete in 1/2 second
 const double AGate::Max_Hole_Long_Height = 18.0;
-const double AGate::Hole_Height_Long_Step = Max_Hole_Long_Height / ((double)AsConfig::FPS * 3.0); // Animation will complete in 3 second;
+const double AGate::Hole_Height_Long_Step = Max_Hole_Long_Height / ((double)AsConfig::FPS * 1.5); // Animation will complete in 1.5 second;
 //------------------------------------------------------------------------------------------------------------
 AGate::AGate(int x_pos, int y_pos)
 	: Gate_State(EGate_State::Closed), Gate_Transformation(EGate_Transformation::Unknown), X_Pos(x_pos), Y_Pos(y_pos), Original_Y_Pos(y_pos), Edges_Count(5), Gate_Close_Timer(0),
@@ -152,6 +152,10 @@ bool AGate::Act_For_Open(bool Partially_Open, bool& correct_pos)
 		if (Hole_Height < max_hole_height)
 		{
 			Hole_Height += hole_height_step;
+
+			if (Hole_Height > max_hole_height)
+				Hole_Height = max_hole_height;
+
 			correct_pos = true;
 		}
 		else
@@ -170,6 +174,10 @@ bool AGate::Act_For_Open(bool Partially_Open, bool& correct_pos)
 		if (Hole_Height > 0.0)
 		{
 			Hole_Height -= hole_height_step;
+
+			if (Hole_Height < 0.0)
+				Hole_Height = 0.0;
+
 			correct_pos = true;
 		}
 		else
