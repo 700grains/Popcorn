@@ -52,7 +52,7 @@ private:
 	EGate_State Gate_State;
 	EGate_Transformation Gate_Transformation;
 	int X_Pos;
-	int Level_X_Pos, Level_Y_Pos;
+	int Level_X_Pos, Level_Y_Pos; // The position corresponding to the top brick opposite the gate. If the gate is not opposite the bricks, then -1 (default)
 	double Y_Pos, Original_Y_Pos;
 	int Edges_Count;
 	int Gate_Close_Timer;
