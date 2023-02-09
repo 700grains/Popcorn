@@ -542,7 +542,7 @@ void AMonster::Redraw_Monster()
 // AsMonster_Set
 //------------------------------------------------------------------------------------------------------------
 AsMonster_Set::AsMonster_Set()
-	: Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr), Current_Gate_Index(-1)
+	: Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr), Current_Gate_Index(-1), Max_Monsters_Alive(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -627,9 +627,10 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	//monster->Destroy();
 }
 //------------------------------------------------------------------------------------------------------------
-void AsMonster_Set::Activate()
+void AsMonster_Set::Activate(int max_monsters_alive)
 {
 	Monster_Set_State = EMonster_Set_State::Selecting_Next_Gate;
+	Max_Monsters_Alive = max_monsters_alive;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)

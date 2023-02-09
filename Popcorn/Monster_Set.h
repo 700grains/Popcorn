@@ -126,12 +126,13 @@ public:
 
 	void Init(AsBorder* border);
 	void Emit_At_Gate(int gate_index);
-	void Activate();
+	void Activate(int max_monsters_alive);
 
 private:
 	bool Get_Next_GameObject(int& index, AGame_Object** game_object);
 
 	int Current_Gate_Index;
+	int Max_Monsters_Alive;
 
 	EMonster_Set_State Monster_Set_State;
 
