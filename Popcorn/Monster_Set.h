@@ -130,6 +130,8 @@ public:
 private:
 	bool Get_Next_GameObject(int& index, AGame_Object** game_object);
 
+	int Current_Gate_Index;
+
 	EMonster_Set_State Monster_Set_State;
 
 	AsBorder *Border; // UNO

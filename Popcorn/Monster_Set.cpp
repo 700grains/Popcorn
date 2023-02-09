@@ -542,13 +542,44 @@ void AMonster::Redraw_Monster()
 // AsMonster_Set
 //------------------------------------------------------------------------------------------------------------
 AsMonster_Set::AsMonster_Set()
-	: Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr)
+	: Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr), Current_Gate_Index(-1)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Act()
 {
-	Emit_At_Gate(4);
+	switch (Monster_Set_State)
+	{
+	case EMonster_Set_State::Idle:
+		break;
+
+
+	case EMonster_Set_State::Selecting_Next_Gate:
+		Current_Gate_Index = AsTools::Rand(AsConfig::Gates_Count) + 1;
+		Border->Open_Gate(Current_Gate_Index, false);
+		Monster_Set_State = EMonster_Set_State::Waiting_For_Gate_To_Open;
+		break;
+
+
+	case EMonster_Set_State::Waiting_For_Gate_To_Open:
+		if (Border->Is_Gate_Opened(Current_Gate_Index))
+		{
+			Emit_At_Gate(Current_Gate_Index);
+			Monster_Set_State = EMonster_Set_State::Waiting_For_Gate_To_Close;
+		}
+		break;
+
+
+	case EMonster_Set_State::Waiting_For_Gate_To_Close:
+		if (!Border->Is_Gate_Opened(Current_Gate_Index))
+			Monster_Set_State = EMonster_Set_State::Selecting_Next_Gate;
+		break;
+
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
 
 	AGame_Objects_Set::Act();
 }
