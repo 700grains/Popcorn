@@ -36,19 +36,38 @@ void AMonster::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Advance(double max_speed)
 {
+	int i;
+	double original_direction;
 	double next_step;
 	double next_x_pos, next_y_pos;
+	bool changed_direction = false;
 	RECT monster_rect;
 
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
 
-	next_x_pos = X_Pos + next_step * cos(Direction);
-	next_y_pos = Y_Pos - next_step * sin(Direction);
+	original_direction = Direction;
 
-	Get_Monster_Rect(next_x_pos, next_y_pos, monster_rect);
+	for (i = 0; i < 16; ++i)
+	{
+		next_x_pos = X_Pos + next_step * cos(Direction);
+		next_y_pos = Y_Pos - next_step * sin(Direction);
 
-	if (AsLevel::Has_Brick_At(monster_rect))
+		Get_Monster_Rect(next_x_pos, next_y_pos, monster_rect);
+
+		if (AsLevel::Has_Brick_At(monster_rect))
+			Direction += M_PI / 8.0;
+		else
+		{
+			changed_direction = true;
+			break;
+		}
+	}
+
+	if (! changed_direction)
+	{
+		Direction = original_direction - M_PI;
 		return;
+	}
 
 	// This code will restrict monster movement to level border.
 	if (Monster_State == EMonster_State::Alive)
@@ -65,6 +84,7 @@ void AMonster::Advance(double max_speed)
 		if (next_y_pos + (double)Height > (double)AsConfig::Max_Y_Pos)
 			next_y_pos = (double)AsConfig::Max_Y_Pos - (double)Height;
 	}
+
 	Y_Pos = next_y_pos;
 	X_Pos = next_x_pos;
 }
