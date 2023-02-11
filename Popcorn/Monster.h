@@ -2,6 +2,7 @@
 
 #include "Explosive_Ball.h"
 #include "Gate.h"
+#include "Level.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum class EEye_State : unsigned char

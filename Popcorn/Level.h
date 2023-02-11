@@ -33,6 +33,7 @@ public:
 	void Stop();
 
 	static bool Has_Brick_At(int level_x, int level_y);
+	static bool Has_Brick_At(RECT& monster_rect);
 
 	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
 	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];

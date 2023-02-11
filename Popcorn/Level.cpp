@@ -353,6 +353,29 @@ bool AsLevel::Has_Brick_At(int level_x, int level_y)
 		return true;
 }
 //------------------------------------------------------------------------------------------------------------
+bool AsLevel::Has_Brick_At(RECT& monster_rect)
+{
+	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
+
+	int i, j;
+	int min_x, max_x;
+	int min_y, max_y;
+
+	min_x = (monster_rect.left - AsConfig::Level_X_Offset * scale) / (AsConfig::Cell_Width * scale);
+	max_x = (monster_rect.right - AsConfig::Level_X_Offset * scale) / (AsConfig::Cell_Width * scale);
+
+	min_y = (monster_rect.top - AsConfig::Level_Y_Offset * scale) / (AsConfig::Cell_Height * scale);
+	max_y = (monster_rect.bottom - AsConfig::Level_Y_Offset * scale) / (AsConfig::Cell_Height * scale);
+
+	for (i = min_y; i <= max_y; i++)
+		for (j = min_x; j <= max_x; j++)
+			if (Has_Brick_At(j, i))
+				return true;
+
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsLevel::On_Hit(int brick_x, int brick_y, ABall* ball, bool vertical_hit)
 {
 	EBrick_Type brick_type;
