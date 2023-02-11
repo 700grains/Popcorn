@@ -13,10 +13,13 @@ enum class EMonster_Set_State : unsigned char
 
 };
 //------------------------------------------------------------------------------------------------------------
-class AsMonster_Set : public AGame_Objects_Set
+class AsMonster_Set : public AHit_Checker, public AGame_Objects_Set
 {
 public:
 	AsMonster_Set();
+
+	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall* ball) = 0;
+	virtual bool Check_Hit(double next_x_pos, double next_y_pos);
 
 	virtual void Act();
 
