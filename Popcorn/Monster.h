@@ -21,10 +21,12 @@ enum class EMonster_State : unsigned char
 	Destroying
 };
 //------------------------------------------------------------------------------------------------------------
-class AMonster : public AGame_Object
+class AMonster : public AHit_Checker, public AGame_Object
 {
 public:
 	AMonster();
+	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall* ball) = 0;
+	virtual bool Check_Hit(double next_x_pos, double next_y_pos);
 
 	virtual void Begin_Movement();
 	virtual void Finish_Movement();
