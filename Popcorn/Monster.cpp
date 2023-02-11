@@ -37,28 +37,31 @@ void AMonster::Finish_Movement()
 void AMonster::Advance(double max_speed)
 {
 	double next_step;
+	double next_x_pos, next_y_pos;
 
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
 
-	X_Pos += next_step * cos(Direction);
-	Y_Pos -= next_step * sin(Direction);
+	next_x_pos = X_Pos + next_step * cos(Direction);
+	next_y_pos = Y_Pos - next_step * sin(Direction);
 
 
 	// This code will restrict monster movement to level border.
 	if (Monster_State == EMonster_State::Alive)
 	{
-		if (X_Pos < (double)AsConfig::Level_X_Offset)
-			X_Pos = (double)AsConfig::Level_X_Offset;
+		if (next_x_pos < (double)AsConfig::Level_X_Offset)
+			next_x_pos = (double)AsConfig::Level_X_Offset;
 
-		if (X_Pos + (double)Width > (double)AsConfig::Max_X_Pos)
-			X_Pos = (double)AsConfig::Max_X_Pos - (double)Width;
+		if (next_x_pos + (double)Width > (double)AsConfig::Max_X_Pos)
+			next_x_pos = (double)AsConfig::Max_X_Pos - (double)Width;
 
-		if (Y_Pos < (double)AsConfig::Level_Y_Offset)
-			Y_Pos = (double)AsConfig::Level_Y_Offset;
+		if (next_y_pos < (double)AsConfig::Level_Y_Offset)
+			next_y_pos = (double)AsConfig::Level_Y_Offset;
 
-		if (Y_Pos + (double)Height > (double)AsConfig::Max_Y_Pos)
-			Y_Pos = (double)AsConfig::Max_Y_Pos - (double)Height;
+		if (next_y_pos + (double)Height > (double)AsConfig::Max_Y_Pos)
+			next_y_pos = (double)AsConfig::Max_Y_Pos - (double)Height;
 	}
+	Y_Pos = next_y_pos;
+	X_Pos = next_x_pos;
 }
 //------------------------------------------------------------------------------------------------------------
 double AMonster::Get_Speed()
