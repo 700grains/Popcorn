@@ -47,6 +47,7 @@ private:
 	void Draw_Destroying(HDC hdc, RECT& paint_area);
 	void Act_Alive();
 	void Act_Destroying();
+	void Get_Monster_Rect(double x_pos, double y_pos, RECT& rect);
 	void Redraw_Monster();
 
 	EEye_State Eye_State;

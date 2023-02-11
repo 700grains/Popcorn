@@ -38,12 +38,17 @@ void AMonster::Advance(double max_speed)
 {
 	double next_step;
 	double next_x_pos, next_y_pos;
+	RECT monster_rect;
 
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;
 
 	next_x_pos = X_Pos + next_step * cos(Direction);
 	next_y_pos = Y_Pos - next_step * sin(Direction);
 
+	Get_Monster_Rect(next_x_pos, next_y_pos, monster_rect);
+
+	if (AsLevel::Has_Brick_At(monster_rect))
+		return;
 
 	// This code will restrict monster movement to level border.
 	if (Monster_State == EMonster_State::Alive)
@@ -393,17 +398,22 @@ void AMonster::Act_Destroying()
 		Explosive_Balls[i].Act();
 }
 //------------------------------------------------------------------------------------------------------------
-void AMonster::Redraw_Monster()
+void AMonster::Get_Monster_Rect(double x_pos, double y_pos, RECT& rect)
 {
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 
+	rect.left = (int)(x_pos * d_scale);
+	rect.top = (int)(y_pos * d_scale);
+	rect.right = rect.left + Width * scale;
+	rect.bottom = rect.top + Height * scale;
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Redraw_Monster()
+{
 	Previous_Monster_Rect = Monster_Rect;
 
-	Monster_Rect.left = (int)(X_Pos * d_scale);
-	Monster_Rect.top = (int)(Y_Pos * d_scale);
-	Monster_Rect.right = Monster_Rect.left + Width * scale;
-	Monster_Rect.bottom = Monster_Rect.top + Height * scale;
+	Get_Monster_Rect(X_Pos, Y_Pos, Monster_Rect);
 
 	AsTools::Invalidate_Rect(Monster_Rect);
 	AsTools::Invalidate_Rect(Previous_Monster_Rect);
