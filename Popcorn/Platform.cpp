@@ -637,52 +637,6 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 	Platform_Expanding.Draw_Circle_Highlight(hdc, x, y);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platform_ball_x_offset, ABall *ball)
-{
-	double dx, dy;
-	double platform_ball_x, platform_ball_y, platform_ball_radius;
-	double distance, two_radiuses;
-	double alpha, beta, gamma;
-	double related_ball_direction;
-	const double pi_2 = 2.0 * M_PI;
-
-	platform_ball_radius = (double)AsConfig::Platform_Circle_Size / 2.0;
-	platform_ball_x = (double)X_Pos + platform_ball_radius + platform_ball_x_offset;
-	platform_ball_y = (double)AsConfig::Platform_Y_Pos + platform_ball_radius;
-
-	dx = next_x_pos - platform_ball_x;
-	dy = next_y_pos - platform_ball_y;
-
-	distance = sqrt(dx * dx + dy * dy);
-	two_radiuses = platform_ball_radius + ball->Radius;
-
-	if (distance + AsConfig::Moving_Step_Size < two_radiuses)
-	{// The ball touched the side ball
-
-		beta = atan2(-dy, dx);
-
-		related_ball_direction = ball->Get_Direction();
-		related_ball_direction -= beta;
-
-		if (related_ball_direction > pi_2)
-			related_ball_direction -= pi_2;
-
-		if (related_ball_direction < 0.0)
-			related_ball_direction += pi_2;
-
-		if (related_ball_direction > M_PI_2 && related_ball_direction < M_PI + M_PI_2)
-		{
-			alpha = beta + M_PI - ball->Get_Direction();
-			gamma = beta + alpha;
-
-			ball->Set_Direction(gamma);
-
-			return true;
-		}
-	}
-	return false;
-}
-//------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len)
 {// Calculate the length of the next vertical stroke
 	int i;
