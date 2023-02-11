@@ -108,9 +108,7 @@ bool AsTools::Reflect_On_Circle(double next_x_pos, double next_y_pos, double cir
 	double related_ball_direction;
 	const double pi_2 = 2.0 * M_PI;
 
-	circle_radius = (double)AsConfig::Platform_Circle_Size / 2.0;
-	//platform_ball_x = (double)X_Pos + circle_radius + platform_ball_x_offset;
-	//platform_ball_y = (double)AsConfig::Platform_Y_Pos + circle_radius;
+	//circle_radius = (double)AsConfig::Platform_Circle_Size / 2.0;
 
 	dx = next_x_pos - circle_x;
 	dy = next_y_pos - circle_y;

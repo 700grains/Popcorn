@@ -17,11 +17,15 @@ Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 {
+	int platform_ball_x_offset;
+	double platform_ball_x, platform_ball_y;
+
 	double iiner_left_x, inner_right_x;
 	double inner_top_y, inner_low_y;
 	double inner_y;
 	double reflection_pos;
 	double ball_x, ball_y;
+	double circle_radius;
 
 	if (next_y_pos + ball->Radius < AsConfig::Platform_Y_Pos)
 		return false;
@@ -32,10 +36,16 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	inner_right_x = (double)(X_Pos + Get_Current_Width() - (AsConfig::Platform_Circle_Size - 1) );
 
 	// 1. Checking the reflection from the side balls
-	if (Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball) )
+	circle_radius = (double)AsConfig::Platform_Circle_Size / 2.0;
+	platform_ball_x = (double)X_Pos + circle_radius;
+	platform_ball_y = (double)AsConfig::Platform_Y_Pos + circle_radius;
+
+	if (AsTools::Reflect_On_Circle(next_x_pos, next_y_pos, platform_ball_x, platform_ball_y, circle_radius, ball) )
 		goto _on_hit; // From the left ball
 
-	if (Reflect_On_Circle(next_x_pos, next_y_pos, Get_Current_Width() -AsConfig::Platform_Circle_Size, ball) )
+	platform_ball_x += Get_Current_Width() - AsConfig::Platform_Circle_Size;
+
+	if (AsTools::Reflect_On_Circle(next_x_pos, next_y_pos, platform_ball_x, platform_ball_y, circle_radius, ball) )
 		goto _on_hit; // From  the right ball
 
 
