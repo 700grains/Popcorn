@@ -6,11 +6,31 @@
 #include <cmath>
 
 //------------------------------------------------------------------------------------------------------------
+enum class EBall_State : unsigned char
+{
+	Disabled, // not drawn, not moved, doesn't interact
+
+	Normal,
+	Lost,
+	On_Platform,
+	On_Parachute,
+	Off_Parachute,
+	Teleporting
+};
+//------------------------------------------------------------------------------------------------------------
 class ABall_Object
 {
 public:
 	virtual double Get_Direction() = 0;
 	virtual void Set_Direction(double new_direction) = 0;
+	virtual EBall_State Get_State() = 0;
+	virtual void Set_State(EBall_State new_state, double x_pos = 0, double y_pos = 0) = 0;
+	virtual void Reflect(bool from_horizontal) = 0;
+	virtual void Get_Center(double& x_pos, double& y_pos) = 0;
+	virtual void Draw_Teleporting(HDC hdc, int step) = 0;
+	virtual void Set_On_Parachute(int brick_x, int brick_y) = 0;
+	virtual bool Is_Moving_Up() = 0;
+	virtual bool Is_Moving_Left() = 0;
 };
 //------------------------------------------------------------------------------------------------------------
 class AHit_Checker

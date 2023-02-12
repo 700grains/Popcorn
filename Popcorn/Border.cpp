@@ -120,7 +120,7 @@ void AsBorder::Get_Gate_Pos(int gate_index, int& gate_x, int& gate_y)
 		AsConfig::Throw();
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
+bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball)
 {// Correcting the position when reflected from the frame
 
 	bool got_hit = false;

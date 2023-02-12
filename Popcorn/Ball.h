@@ -3,18 +3,6 @@
 #include "Config.h"
 
 //------------------------------------------------------------------------------------------------------------
-enum class EBall_State: unsigned char
-{
-	Disabled, // not drawn, not moved, doesn't interact
-
-	Normal,
-	Lost,
-	On_Platform,
-	On_Parachute,
-	Off_Parachute,
-	Teleporting
-};
-//------------------------------------------------------------------------------------------------------------
 class ABall : public AGame_Object, public ABall_Object
 {
 public:
@@ -32,18 +20,18 @@ public:
 
 	virtual double Get_Direction();
 	virtual void Set_Direction(double new_direction);
-	
+	virtual EBall_State Get_State();
+	virtual void Set_State(EBall_State new_state, double x_pos = 0, double y_pos = 0);
+	virtual void Reflect(bool from_horizontal);
+	virtual void Get_Center(double& x_pos, double& y_pos);
+	virtual void Draw_Teleporting(HDC hdc, int step);
+	virtual void Set_On_Parachute(int brick_x, int brick_y);
+	virtual bool Is_Moving_Up();
+	virtual bool Is_Moving_Left();
+
 	void Set_Speed(double new_speed);
-	void Draw_Teleporting(HDC hdc, int step);
 	void Set_For_Test();
 	bool Is_Test_Finished();
-	EBall_State Get_State();
-	void Set_State(EBall_State new_state, double x_pos = 0, double y_pos = 0);
-	void Get_Center(double& x_pos, double& y_pos);
-	void Reflect(bool from_horizontal);
-	bool Is_Moving_Up();
-	bool Is_Moving_Left();
-	void Set_On_Parachute(int brick_x, int brick_y);
 	void Forced_Advance(double direction, double speed, double max_speed);
 	void Release();
 

@@ -12,7 +12,7 @@ bool AsMonster_Set::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object
 	int i;
 
 	for (i = 0; i < Max_Monsters_Count; i++)
-		if (Monsters[i].Check_Hit(next_x_pos, next_y_pos, *ball) )
+		if (Monsters[i].Check_Hit(next_x_pos, next_y_pos, ball) )
 			return true;
 
 	return false;
