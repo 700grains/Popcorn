@@ -51,8 +51,6 @@ public:
 
 	static AHit_Checker_List Hit_Checker_List;
 
-	static const double Radius;
-
 private:
 	void Redraw_Ball();
 	void Redraw_Parachute();

@@ -2,7 +2,6 @@
 
 // ABall
 AHit_Checker_List ABall::Hit_Checker_List;
-const double ABall::Radius = 2.0 - 0.5 / AsConfig::Global_Scale;
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
 	: Ball_State (EBall_State::Disabled), Previous_Ball_State(EBall_State::Disabled), Release_Timer_Tick (0), Center_X_Pos(0), Center_Y_Pos(0.0), 
@@ -365,7 +364,7 @@ void ABall::Set_On_Parachute(int brick_x, int brick_y)
 	Previous_Parachute_Rect = Parachute_Rect;
 
 	Center_X_Pos = (double)(cell_x + AsConfig::Cell_Width / 2) - 1.0 / AsConfig::D_Global_Scale;
-	Center_Y_Pos = (double)(cell_y + Parachute_Size) - ABall::Radius * 2.0;
+	Center_Y_Pos = (double)(cell_y + Parachute_Size) - AsConfig::Ball_Radius * 2.0;
 
 	Redraw_Parachute();
 }
@@ -401,10 +400,10 @@ void ABall::Release()
 //------------------------------------------------------------------------------------------------------------
 void ABall::Redraw_Ball()
 {
-	Ball_Rect.left = (int)((Center_X_Pos - Radius) * AsConfig::D_Global_Scale);
-	Ball_Rect.top = (int)((Center_Y_Pos - Radius) * AsConfig::D_Global_Scale);
-	Ball_Rect.right = (int)((Center_X_Pos + Radius) * AsConfig::D_Global_Scale);
-	Ball_Rect.bottom = (int)((Center_Y_Pos + Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.left = (int)((Center_X_Pos - AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.top = (int)((Center_Y_Pos - AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.right = (int)((Center_X_Pos + AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.bottom = (int)((Center_Y_Pos + AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
 
 	AsTools::Invalidate_Rect(Prev_Ball_Rect);
 	AsTools::Invalidate_Rect(Ball_Rect);

@@ -22,7 +22,7 @@ public:
 	static const double Ball_Acceleration;
 	static const double Normal_Ball_Speed;
 	static const double Min_Ball_Angle;
-
+	static const double Ball_Radius;
 
 	static const int Global_Scale = 3;
 	static const int Border_X_Offset = 6;

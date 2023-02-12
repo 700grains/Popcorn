@@ -389,23 +389,23 @@ void AActive_Brick_Teleport::Act()
 				switch (Release_Direction)
 				{
 				case EDirection_Type::Left:
-					ball_x = Get_Brick_X_Pos(false) - ABall::Radius;
+					ball_x = Get_Brick_X_Pos(false) - AsConfig::Ball_Radius;
 					ball_y = Get_Brick_Y_Pos(true);
 					break;
 
 				case EDirection_Type::Up:
 					ball_x = Get_Brick_X_Pos(true);
-					ball_y = Get_Brick_Y_Pos(false) - ABall::Radius;
+					ball_y = Get_Brick_Y_Pos(false) - AsConfig::Ball_Radius;
 					break;
 
 				case EDirection_Type::Right:
-					ball_x = Get_Brick_X_Pos(false) + (double)AsConfig::Brick_Width + ABall::Radius;
+					ball_x = Get_Brick_X_Pos(false) + (double)AsConfig::Brick_Width + AsConfig::Ball_Radius;
 					ball_y = Get_Brick_Y_Pos(true);
 					break;
 
 				case EDirection_Type::Down:
 					ball_x = Get_Brick_X_Pos(true);
-					ball_y = Get_Brick_Y_Pos(false) + (double)AsConfig::Brick_Height + ABall::Radius;
+					ball_y = Get_Brick_Y_Pos(false) + (double)AsConfig::Brick_Height + AsConfig::Ball_Radius;
 					break;
 
 				default:
