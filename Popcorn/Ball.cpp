@@ -149,48 +149,50 @@ bool ABall::Is_Finished()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Set_Speed(double new_speed)
+double ABall::Get_Direction()
 {
-	Ball_Speed = new_speed;
+	return Ball_Direction;
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Draw_Teleporting(HDC hdc, int step)
+void ABall::Set_Direction(double new_direction)
 {
-	int top_y = Ball_Rect.top + step / 2;
-	int low_y = Ball_Rect.bottom - step / 2 - 1;
+	const double pi_2 = 2.0 * M_PI;
 
-	if (top_y >= low_y)
-		return;
+	while (new_direction > pi_2)
+		new_direction -= pi_2;
 
-	AsConfig::White_Color.Select(hdc);
-	Ellipse(hdc, Ball_Rect.left, top_y, Ball_Rect.right - 1, low_y);
+	while (new_direction < 0.0)
+		new_direction += pi_2;
 
+
+	// 2. Correcting the angle of the ball when approaching the horizontal closer than AsConfig::Min_Ball_Angle
+
+	// 2.1 Left side
+	// 
+	// 2.1.1 Top
+	if (new_direction < AsConfig::Min_Ball_Angle)
+		new_direction = AsConfig::Min_Ball_Angle;
+
+	// 2.1.2 Bottom
+	if (new_direction > pi_2 - AsConfig::Min_Ball_Angle)
+		new_direction = pi_2 - AsConfig::Min_Ball_Angle;
+
+	// 2.2 Right side
+	// 
+	// 2.2.1 Top
+	if (new_direction > M_PI - AsConfig::Min_Ball_Angle && new_direction < M_PI)
+		new_direction = M_PI - AsConfig::Min_Ball_Angle;
+
+	// 2.2.2 Bottom
+	if (new_direction >= M_PI && new_direction < M_PI + AsConfig::Min_Ball_Angle)
+		new_direction = M_PI + AsConfig::Min_Ball_Angle;
+
+	Ball_Direction = new_direction;
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Set_For_Test()
+EBall_State ABall::Get_State()
 {
-	Testing_Is_Active = true;
-	Rest_Test_Distance = 50.0;
-
-	Set_State(EBall_State::Normal, 130 + Test_Iteration, 90);
-	Ball_Direction = M_PI_4;
-	Ball_Speed = AsConfig::Normal_Ball_Speed;
-
-	++Test_Iteration;
-}
-//------------------------------------------------------------------------------------------------------------
-bool ABall::Is_Test_Finished()
-{
-	if (Testing_Is_Active)
-	{
-		if (Rest_Test_Distance <= 0.0)
-		{
-			Testing_Is_Active = false;
-			Set_State(EBall_State::Lost);
-			return true;
-		}
-	}
-	return false;
+	return Ball_State;
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
@@ -214,7 +216,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 
 
 	case	EBall_State::Lost:
-		if (!(Ball_State == EBall_State::Normal || Ball_State == EBall_State::On_Parachute) )
+		if (!(Ball_State == EBall_State::Normal || Ball_State == EBall_State::On_Parachute))
 			AsConfig::Throw(); // Only these conditions can lead to the loss of the ball!
 
 		Redraw_Ball();
@@ -275,53 +277,6 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 	Ball_State = new_state;
 }
 //------------------------------------------------------------------------------------------------------------
-void ABall::Get_Center(double& x_pos, double& y_pos)
-{
-	x_pos = Center_X_Pos; 
-	y_pos = Center_Y_Pos;
-}
-//------------------------------------------------------------------------------------------------------------
-double ABall::Get_Direction()
-{
-	return Ball_Direction;
-}
-//------------------------------------------------------------------------------------------------------------
-void ABall::Set_Direction(double new_direction)
-{
-	const double pi_2 = 2.0 * M_PI;
-
-	while (new_direction > pi_2)
-		new_direction -= pi_2;
-
-	while (new_direction < 0.0)
-		new_direction += pi_2;
-
-
-	// 2. Correcting the angle of the ball when approaching the horizontal closer than AsConfig::Min_Ball_Angle
-	
-	// 2.1 Left side
-	// 
-	// 2.1.1 Top
-	if (new_direction < AsConfig::Min_Ball_Angle)
-		new_direction = AsConfig::Min_Ball_Angle;
-
-	// 2.1.2 Bottom
-	if (new_direction > pi_2 - AsConfig::Min_Ball_Angle)
-		new_direction = pi_2 - AsConfig::Min_Ball_Angle;
-
-	// 2.2 Right side
-	// 
-	// 2.2.1 Top
-	if (new_direction > M_PI - AsConfig::Min_Ball_Angle && new_direction < M_PI)
-		new_direction = M_PI - AsConfig::Min_Ball_Angle;
-
-	// 2.2.2 Bottom
-	if (new_direction >= M_PI && new_direction < M_PI + AsConfig::Min_Ball_Angle)
-		new_direction = M_PI + AsConfig::Min_Ball_Angle;
-
-	Ball_Direction = new_direction;
-}
-//------------------------------------------------------------------------------------------------------------
 void ABall::Reflect(bool from_horizontal)
 {
 	if (from_horizontal)
@@ -330,20 +285,23 @@ void ABall::Reflect(bool from_horizontal)
 		Set_Direction(M_PI - Ball_Direction);
 }
 //------------------------------------------------------------------------------------------------------------
-bool ABall::Is_Moving_Up()
+void ABall::Get_Center(double& x_pos, double& y_pos)
 {
-	if (Ball_Direction >= 0.0 && Ball_Direction < M_PI)
-		return true;
-	else
-		return false;
+	x_pos = Center_X_Pos;
+	y_pos = Center_Y_Pos;
 }
 //------------------------------------------------------------------------------------------------------------
-bool ABall::Is_Moving_Left()
+void ABall::Draw_Teleporting(HDC hdc, int step)
 {
-	if (Ball_Direction >= M_PI_2 && Ball_Direction < M_PI + M_PI_2)
-		return true;
-	else
-		return false;
+	int top_y = Ball_Rect.top + step / 2;
+	int low_y = Ball_Rect.bottom - step / 2 - 1;
+
+	if (top_y >= low_y)
+		return;
+
+	AsConfig::White_Color.Select(hdc);
+	Ellipse(hdc, Ball_Rect.left, top_y, Ball_Rect.right - 1, low_y);
+
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Set_On_Parachute(int brick_x, int brick_y)
@@ -367,6 +325,53 @@ void ABall::Set_On_Parachute(int brick_x, int brick_y)
 	Center_Y_Pos = (double)(cell_y + Parachute_Size) - AsConfig::Ball_Radius * 2.0;
 
 	Redraw_Parachute();
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Moving_Up()
+{
+	if (Ball_Direction >= 0.0 && Ball_Direction < M_PI)
+		return true;
+	else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Moving_Left()
+{
+	if (Ball_Direction >= M_PI_2 && Ball_Direction < M_PI + M_PI_2)
+		return true;
+	else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Set_Speed(double new_speed)
+{
+	Ball_Speed = new_speed;
+}
+//------------------------------------------------------------------------------------------------------------
+void ABall::Set_For_Test()
+{
+	Testing_Is_Active = true;
+	Rest_Test_Distance = 50.0;
+
+	Set_State(EBall_State::Normal, 130 + Test_Iteration, 90);
+	Ball_Direction = M_PI_4;
+	Ball_Speed = AsConfig::Normal_Ball_Speed;
+
+	++Test_Iteration;
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Test_Finished()
+{
+	if (Testing_Is_Active)
+	{
+		if (Rest_Test_Distance <= 0.0)
+		{
+			Testing_Is_Active = false;
+			Set_State(EBall_State::Lost);
+			return true;
+		}
+	}
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Forced_Advance(double direction, double speed, double max_speed)
@@ -488,10 +493,5 @@ void ABall::Clear_Parachute(HDC hdc)
 { // Clearing background
 	AsConfig::BG_Color.Select(hdc);
 	AsTools::Round_Rect(hdc, Previous_Parachute_Rect);
-}
-//------------------------------------------------------------------------------------------------------------
-EBall_State ABall::Get_State()
-{
-	return Ball_State;
 }
 //------------------------------------------------------------------------------------------------------------
