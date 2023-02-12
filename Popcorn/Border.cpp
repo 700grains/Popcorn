@@ -61,18 +61,21 @@ int AsBorder::Long_Open_Gate()
 	{
 		gate = Gates[gate_index];
 
-		if (gate->Is_Closed())
+		if (gate_index != AsConfig::Gates_Count - 1) // The gate from which the platform rolls out cannot release monsters.
 		{
-			if (gate->Level_X_Pos == -1)
+			if (gate->Is_Closed())
 			{
-				is_found = true;
-				break;
-			}
+				if (gate->Level_X_Pos == -1)
+				{
+					is_found = true;
+					break;
+				}
 
-			if (! AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos) && ! AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos + 1))
-			{
-				is_found = true;
-				break;
+				if (!AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos) && !AsLevel::Has_Brick_At(gate->Level_X_Pos, gate->Level_Y_Pos + 1))
+				{
+					is_found = true;
+					break;
+				}
 			}
 		}
 
