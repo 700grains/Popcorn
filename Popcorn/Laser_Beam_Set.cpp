@@ -29,6 +29,14 @@ void AsLaser_Beam_Set::Fire(double left_gun_x_pos, double right_gun_x_pos)
 	right_beam->Set_At(right_gun_x_pos, AsConfig::Platform_Y_Pos - 1);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsLaser_Beam_Set::Disable_All()
+{
+	int i;
+
+	for (i = 0; i < Max_Laser_Beam_Count; ++i)
+		Laser_Beams[i].Stopping();
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsLaser_Beam_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)
 {
 	if (index < 0 || index >= AsConfig::Max_Balls_Count)
