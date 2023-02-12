@@ -146,6 +146,8 @@ void AsEngine::Play_Level()
 	{ // All balls are lost!
 		Game_State = EGame_State::Lost_Ball;
 		Level.Stop();
+		Monster_Set.Destroy_All();
+		Laser_Beam_Set.Disable_All();
 		Platform.Set_State(EPlatform_State::Meltdown);
 	}
 	else
