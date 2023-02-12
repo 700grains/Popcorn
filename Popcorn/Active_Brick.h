@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ball.h"
+#include "Config.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum class EBrick_Type: unsigned char

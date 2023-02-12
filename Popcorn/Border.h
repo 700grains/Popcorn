@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "Ball.h"
 #include "Gate.h"
 #include "Level.h"
 
