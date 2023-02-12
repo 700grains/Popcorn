@@ -140,10 +140,6 @@ bool AsTools::Reflect_On_Circle(double next_x_pos, double next_y_pos, double cir
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-
-
-
-
 // AHit_Checker
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker::Check_Hit(double next_x_pos, double next_y_pos)
@@ -152,12 +148,13 @@ bool AHit_Checker::Check_Hit(double next_x_pos, double next_y_pos)
 }
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double& x)
-{//This function checks the intersection of the horizontal segment (passing from left_x to right_x through y) with a circle of radius "radius"
+{// Проверяет пересечение горизонтального отрезка (проходящего от left_x до right_x через y) с окружностью радиусом radius
 
 	double min_x, max_x;
-	// x*x + y*y = R*R
 
-	// x*x = R*R - y*y
+	// x * x + y * y = R * R
+	// x = sqrt(R * R - y * y)
+	// y = sqrt(R * R - x * x)
 
 	if (y > radius)
 		return false;
@@ -216,7 +213,3 @@ bool AHit_Checker_List::Check_Hit(double x_pos, double y_pos)
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-
-
-
-

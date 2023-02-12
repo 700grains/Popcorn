@@ -35,8 +35,18 @@ bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* bal
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Check_Hit(double next_x_pos, double next_y_pos)
-{
-	return false;
+{// Return "true" if at given positions our laser beam hits a monster
+
+	if (!(Monster_State == EMonster_State::Emitting || Monster_State == EMonster_State::Alive))
+		return false;
+
+	if (next_x_pos >= X_Pos && next_x_pos <= X_Pos + (double)Width && next_y_pos >= Y_Pos && next_y_pos <= Y_Pos + (double)Height)
+	{
+		Destroy();
+		return true;
+	}
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Begin_Movement()
