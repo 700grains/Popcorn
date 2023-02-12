@@ -15,7 +15,7 @@ Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color
 	X_Pos = (AsConfig::Max_X_Pos - AsConfig::Platform_Normal_Width) / 2;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
+bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball)
 {
 	int platform_ball_x_offset;
 	double platform_ball_x, platform_ball_y;

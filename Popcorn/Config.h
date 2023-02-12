@@ -57,13 +57,6 @@ public:
 	static const int Gates_Count = 8;
 };
 //------------------------------------------------------------------------------------------------------------
-class ABall_Object
-{
-public:
-	virtual double Get_Direction() = 0;
-	virtual void Set_Direction(double new_direction) = 0;
-};
-//------------------------------------------------------------------------------------------------------------
 class AsTools
 {
 public:

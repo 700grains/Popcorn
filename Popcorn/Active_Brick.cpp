@@ -348,7 +348,7 @@ AActive_Brick_Teleport::~AActive_Brick_Teleport()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-AActive_Brick_Teleport::AActive_Brick_Teleport(int level_x, int level_y, ABall* ball, AActive_Brick_Teleport* destination_teleport)
+AActive_Brick_Teleport::AActive_Brick_Teleport(int level_x, int level_y, ABall_Object* ball, AActive_Brick_Teleport* destination_teleport)
 	: AActive_Brick(EBrick_Type::Teleport, level_x, level_y), Teleport_State(ETeleport_State::Starting), Animation_Step(0), Ball(0), Destination_Teleport(destination_teleport)
 {
 	Set_Ball(ball);
@@ -470,7 +470,7 @@ void AActive_Brick_Teleport::Draw_In_Level(HDC hdc, RECT& brick_rect, int step)
 	Ellipse(hdc, brick_rect.left + 3 * scale + 1, top_y, brick_rect.left + 11 * scale + 1, low_y);
 }
 //------------------------------------------------------------------------------------------------------------
-void AActive_Brick_Teleport::Set_Ball(ABall* ball)
+void AActive_Brick_Teleport::Set_Ball(ABall_Object* ball)
 {
 	double ball_x, ball_y;
 

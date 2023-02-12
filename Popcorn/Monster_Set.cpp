@@ -7,7 +7,7 @@ AsMonster_Set::AsMonster_Set()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsMonster_Set::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
+bool AsMonster_Set::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball)
 {
 	int i;
 

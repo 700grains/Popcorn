@@ -21,7 +21,7 @@ AMonster::AMonster()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
+bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball)
 { // Checking if the ball hit the monster
 
 	double radius = (double)Width / 2.0;

@@ -57,7 +57,7 @@ AsLevel::AsLevel()
 	Level = this;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
+bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball)
 {// Correcting the position when reflected from bricks
 
 	int i, j;
@@ -376,7 +376,7 @@ bool AsLevel::Has_Brick_At(RECT& monster_rect)
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsLevel::On_Hit(int brick_x, int brick_y, ABall* ball, bool vertical_hit)
+bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical_hit)
 {
 	EBrick_Type brick_type;
 	bool can_reflect = true;
@@ -466,7 +466,7 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type, ABall* ball, bool vertical_hit)
+bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type, ABall_Object* ball, bool vertical_hit)
 {// Create an active brick if possible
 
 	AActive_Brick* active_brick = 0;
@@ -527,7 +527,7 @@ bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 	return true;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall* ball, bool vertical_hit)
+void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall_Object* ball, bool vertical_hit)
 {
 	int i;
 	bool got_direction;
@@ -652,7 +652,7 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 	return destination_teleport;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
+bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall_Object* ball, double &reflection_pos)
 {
 	double direction = ball->Get_Direction();
 
@@ -683,7 +683,7 @@ bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double& reflection_pos)
+bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall_Object* ball, double& reflection_pos)
 {
 	double direction = ball->Get_Direction();
 
