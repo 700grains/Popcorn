@@ -26,6 +26,9 @@ bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* bal
 
 	double radius = (double)Width / 2.0;
 
+	if (!(Monster_State == EMonster_State::Emitting || Monster_State == EMonster_State::Alive))
+		return false;
+
 	if (! AsTools::Reflect_On_Circle(next_x_pos, next_y_pos, X_Pos + radius, Y_Pos + radius, radius, ball))
 		return false;
 
