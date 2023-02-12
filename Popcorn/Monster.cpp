@@ -24,7 +24,7 @@ AMonster::AMonster()
 bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 { // Checking if the ball hit the monster
 
-	if (! Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball))
+	if (!AsConfig::Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball))
 		return false;
 
 	Destroy();
@@ -34,7 +34,7 @@ bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Check_Hit(double next_x_pos, double next_y_pos)
 {
-
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Begin_Movement()

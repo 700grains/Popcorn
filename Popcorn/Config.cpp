@@ -4,7 +4,6 @@
 bool AsConfig::Level_Has_Floor = true;
 int AsConfig::Current_Timer_Tick = 0;
 
-//const AColor AsConfig::BG_Color(15, 63, 31);
 const AColor AsConfig::BG_Color(30, 60, 10);
 const AColor AsConfig::Red_Color(255, 85, 85);
 const AColor AsConfig::Blue_Color(85, 255, 255);
@@ -99,16 +98,13 @@ void AsTools::Get_Fading_Color(const AColor& origin_color, int step, AColor& res
 	result_color = AColor(r, g, b);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsTools::Reflect_On_Circle(double next_x_pos, double next_y_pos, double circle_x, double circle_y, double circle_radius, ABall* ball)
+bool AsTools::Reflect_On_Circle(double next_x_pos, double next_y_pos, double circle_x, double circle_y, double circle_radius, ABall_Object* ball)
 {
 	double dx, dy;
-	//double platform_ball_x, platform_ball_y; //, platform_ball_radius;
 	double distance, two_radiuses;
 	double alpha, beta, gamma;
 	double related_ball_direction;
 	const double pi_2 = 2.0 * M_PI;
-
-	//circle_radius = (double)AsConfig::Platform_Circle_Size / 2.0;
 
 	dx = next_x_pos - circle_x;
 	dy = next_y_pos - circle_y;

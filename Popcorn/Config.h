@@ -57,6 +57,13 @@ public:
 	static const int Gates_Count = 8;
 };
 //------------------------------------------------------------------------------------------------------------
+class ABall_Object
+{
+public:
+	virtual double Get_Direction() = 0;
+	virtual void Set_Direction(double new_direction) = 0;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsTools
 {
 public:
@@ -69,6 +76,6 @@ public:
 	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step, int max_step);
 	static void Get_Fading_Color(const AColor& origin_color, int step, AColor& result_color, int max_step);
 
-	static bool Reflect_On_Circle(double next_x_pos, double next_y_pos, double circle_x, double circle_y, double circle_radius, ABall* ball);
+	static bool Reflect_On_Circle(double next_x_pos, double next_y_pos, double circle_x, double circle_y, double circle_radius, ABall_Object* ball);
 };
 //------------------------------------------------------------------------------------------------------------
