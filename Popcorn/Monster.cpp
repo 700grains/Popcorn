@@ -112,8 +112,8 @@ void AMonster::Advance(double max_speed)
 		if (next_y_pos < (double)AsConfig::Level_Y_Offset)
 			next_y_pos = (double)AsConfig::Level_Y_Offset;
 
-		if (next_y_pos + (double)Height > (double)AsConfig::Max_Y_Pos)
-			next_y_pos = (double)AsConfig::Max_Y_Pos - (double)Height;
+		if (next_y_pos + (double)Height > (double)AsConfig::Floor_Y_Pos)
+			next_y_pos = (double)AsConfig::Floor_Y_Pos - (double)Height;
 	}
 
 	Y_Pos = next_y_pos;
