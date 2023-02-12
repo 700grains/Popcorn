@@ -24,7 +24,9 @@ AMonster::AMonster()
 bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 { // Checking if the ball hit the monster
 
-	if (!AsConfig::Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball))
+	double radius = (double)Width / 2.0;
+
+	if (!AsTools::Reflect_On_Circle(next_x_pos, next_y_pos, X_Pos + radius, Y_Pos + radius, radius, ball))
 		return false;
 
 	Destroy();

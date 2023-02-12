@@ -400,10 +400,10 @@ void ABall::Release()
 //------------------------------------------------------------------------------------------------------------
 void ABall::Redraw_Ball()
 {
-	Ball_Rect.left = (int)((Center_X_Pos - AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
-	Ball_Rect.top = (int)((Center_Y_Pos - AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
-	Ball_Rect.right = (int)((Center_X_Pos + AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
-	Ball_Rect.bottom = (int)((Center_Y_Pos + AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.left = (int)( (Center_X_Pos - AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.top = (int)( (Center_Y_Pos - AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.right = (int)( (Center_X_Pos + AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
+	Ball_Rect.bottom = (int)( (Center_Y_Pos + AsConfig::Ball_Radius) * AsConfig::D_Global_Scale);
 
 	AsTools::Invalidate_Rect(Prev_Ball_Rect);
 	AsTools::Invalidate_Rect(Ball_Rect);
