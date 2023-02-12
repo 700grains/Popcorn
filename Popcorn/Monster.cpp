@@ -434,9 +434,17 @@ void AMonster::Act_Alive()
 void AMonster::Act_Destroying()
 {
 	int i;
+	bool destroyed = true;
 
 	for (i = 0; i < Explosive_Balls_Count; i++)
+	{
 		Explosive_Balls[i].Act();
+
+		destroyed &= Explosive_Balls[i].Is_Finished();
+	}
+
+	if (destroyed)
+		Monster_State = EMonster_State::Missing;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Get_Monster_Rect(double x_pos, double y_pos, RECT& rect)

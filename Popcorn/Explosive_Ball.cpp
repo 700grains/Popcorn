@@ -108,8 +108,10 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AExplosive_Ball::Is_Finished()
 {
-	// Not used
-	return false;
+	if (Explosive_Ball_State == EExplosive_Ball_State::Idle)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, bool is_red, int time_offset, int step_count)
