@@ -17,9 +17,7 @@ Normal_Platform_Image(0), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Color
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball)
 {
-	int platform_ball_x_offset;
 	double platform_ball_x, platform_ball_y;
-
 	double iiner_left_x, inner_right_x;
 	double inner_top_y, inner_low_y;
 	double inner_y;

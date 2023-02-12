@@ -26,7 +26,7 @@ bool AMonster::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* bal
 
 	double radius = (double)Width / 2.0;
 
-	if (!AsTools::Reflect_On_Circle(next_x_pos, next_y_pos, X_Pos + radius, Y_Pos + radius, radius, ball))
+	if (! AsTools::Reflect_On_Circle(next_x_pos, next_y_pos, X_Pos + radius, Y_Pos + radius, radius, ball))
 		return false;
 
 	Destroy();
