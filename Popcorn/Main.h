@@ -7,8 +7,8 @@
 class AsFrame_DC
 {
 public:
+	~AsFrame_DC();
 	AsFrame_DC();
-
 	HDC Get_DC(HWND hwnd, HDC hdc);
 
 	int Width, Height;

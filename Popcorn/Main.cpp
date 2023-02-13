@@ -8,6 +8,15 @@
 
 //AsFrame_DC
 //------------------------------------------------------------------------------------------------------------
+AsFrame_DC::~AsFrame_DC()
+{
+	if (Frame_Bitmap != 0)
+		DeleteObject(Frame_Bitmap);
+
+	if (Frame_DC != 0)
+		DeleteObject(Frame_DC);
+}
+//------------------------------------------------------------------------------------------------------------
 AsFrame_DC::AsFrame_DC()
 	: Width(0), Height(0), Frame_DC(0), Frame_Bitmap(0)
 {
