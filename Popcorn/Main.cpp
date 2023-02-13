@@ -7,6 +7,10 @@
 #define MAX_LOADSTRING 100
 
 // Global Variables:
+int Frame_DC_Width = 0, Frame_DC_Height = 0;
+HBITMAP Frame_Bitmap = 0;
+HDC Frame_DC = 0;
+
 AsEngine Engine;
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -118,8 +122,6 @@ void On_Paint(HWND hwnd)
 	HDC hdc;
 	PAINTSTRUCT ps;
 	RECT rect;
-	HDC mem_dc;
-	HBITMAP mem_bitmap;
 
 	hdc = BeginPaint(hwnd, &ps);
 
@@ -128,16 +130,25 @@ void On_Paint(HWND hwnd)
 	dc_width = rect.right - rect.left;
 	dc_height = rect.bottom - rect.top;
 
-	mem_dc = CreateCompatibleDC(hdc);
-	mem_bitmap = CreateCompatibleBitmap(hdc, dc_width, dc_height);
-	SelectObject(mem_dc, mem_bitmap);
+	if (dc_width != Frame_DC_Width && dc_height != Frame_DC_Height)
+	{
+		if (Frame_Bitmap != 0)
+			DeleteObject(Frame_Bitmap);
 
-	Engine.Draw_Frame(mem_dc, ps.rcPaint);
+		if (Frame_DC != 0)
+			DeleteObject(Frame_DC);
 
-	BitBlt(hdc, 0, 0, dc_width, dc_height, mem_dc, 0, 0, SRCCOPY);
+		Frame_DC_Width = dc_width;
+		Frame_DC_Height = dc_height;
 
-	DeleteObject(mem_bitmap);
-	DeleteObject(mem_dc);
+		Frame_DC = CreateCompatibleDC(hdc);
+		Frame_Bitmap = CreateCompatibleBitmap(hdc, Frame_DC_Width, Frame_DC_Height);
+		SelectObject(Frame_DC, Frame_Bitmap);
+	}
+
+	Engine.Draw_Frame(Frame_DC, ps.rcPaint);
+
+	BitBlt(hdc, 0, 0, Frame_DC_Width, Frame_DC_Height, Frame_DC, 0, 0, SRCCOPY);
 
 	EndPaint(hwnd, &ps);
 }
