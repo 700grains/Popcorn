@@ -10,15 +10,15 @@
 //------------------------------------------------------------------------------------------------------------
 AsFrame_DC::~AsFrame_DC()
 {
-	if (Frame_Bitmap != 0)
-		DeleteObject(Frame_Bitmap);
+	if (Bitmap != 0)
+		DeleteObject(Bitmap);
 
-	if (Frame_DC != 0)
-		DeleteObject(Frame_DC);
+	if (DC != 0)
+		DeleteObject(DC);
 }
 //------------------------------------------------------------------------------------------------------------
 AsFrame_DC::AsFrame_DC()
-	: Width(0), Height(0), Frame_DC(0), Frame_Bitmap(0)
+	: Width(0), Height(0), DC(0), Bitmap(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -34,21 +34,23 @@ HDC AsFrame_DC::Get_DC(HWND hwnd, HDC hdc)
 
 	if (dc_width != Width && dc_height != Height)
 	{
-		if (Frame_Bitmap != 0)
-			DeleteObject(Frame_Bitmap);
+		if (Bitmap != 0)
+			DeleteObject(Bitmap);
 
-		if (Frame_DC != 0)
-			DeleteObject(Frame_DC);
+		if (DC != 0)
+			DeleteObject(DC);
 
 		Width = dc_width;
 		Height = dc_height;
 
-		Frame_DC = CreateCompatibleDC(hdc);
-		Frame_Bitmap = CreateCompatibleBitmap(hdc, Width, Height);
-		SelectObject(Frame_DC, Frame_Bitmap);
+		DC = CreateCompatibleDC(hdc);
+		Bitmap = CreateCompatibleBitmap(hdc, Width, Height);
+		SelectObject(DC, Bitmap);
+
+		AsTools::Rect(DC, rect, AsConfig::BG_Color);
 	}
 
-	return Frame_DC;
+	return DC;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -56,7 +58,7 @@ HDC AsFrame_DC::Get_DC(HWND hwnd, HDC hdc)
 
 
 // Global Variables:
-AsFrame_DC Frame_DC;
+AsFrame_DC DC;
 
 AsEngine Engine;
 HINSTANCE hInst;                                // current instance
@@ -169,10 +171,10 @@ void On_Paint(HWND hwnd)
 	PAINTSTRUCT ps;
 
 	hdc = BeginPaint(hwnd, &ps);
-	frame_dc = Frame_DC.Get_DC(hwnd, hdc);
+	frame_dc = DC.Get_DC(hwnd, hdc);
 	Engine.Draw_Frame(frame_dc, ps.rcPaint);
 
-	BitBlt(hdc, 0, 0, Frame_DC.Width, Frame_DC.Height, frame_dc, 0, 0, SRCCOPY);
+	BitBlt(hdc, 0, 0, DC.Width, DC.Height, frame_dc, 0, 0, SRCCOPY);
 
 	EndPaint(hwnd, &ps);
 }
