@@ -23,19 +23,19 @@ class AsMain_Window
 public:
 	AsMain_Window();
 
-	int APIENTRY Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow);
+	int APIENTRY Main(HINSTANCE instance, int cmd_show);
 
 private:
 	static const int MAX_LOADSTRING = 100;
 
 	AsEngine Engine;
-	HINSTANCE hInst;                                // current instance
+	HINSTANCE Instance;                                // current instance
 	WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 	WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 	AsFrame_DC DC;
 
-	ATOM Register_Class(HINSTANCE hInstance);
-	BOOL Init_Instance(HINSTANCE hInstance, int nCmdShow);
+	ATOM Register_Class();
+	BOOL Init_Instance(int cmd_show);
 	void On_Paint(HWND hwnd);
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
