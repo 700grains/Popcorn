@@ -148,10 +148,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 	case WM_PAINT:
+	{
 		hdc = BeginPaint(hWnd, &ps);
-		// TODO: Add any drawing code that uses hdc here...
-		Engine.Draw_Frame(hdc, ps.rcPaint);
+
+		int dc_width, dc_height;
+
+		RECT rect;
+		HDC mem_dc;
+		HBITMAP mem_bitmap;
+
+		GetClientRect(hWnd, &rect);
+
+		dc_width = rect.right - rect.left;
+		dc_height = rect.bottom - rect.top;
+
+		mem_dc = CreateCompatibleDC(hdc);
+		mem_bitmap = CreateCompatibleBitmap(hdc, dc_width, dc_height);
+		SelectObject(mem_dc, mem_bitmap);
+
+		Engine.Draw_Frame(mem_dc, ps.rcPaint);
+
+		BitBlt(hdc, 0, 0, dc_width, dc_height, mem_dc, 0, 0, SRCCOPY);
+
+		DeleteObject(mem_bitmap);
+		DeleteObject(mem_dc);
+
 		EndPaint(hWnd, &ps);
+	}
 	break;
 
 

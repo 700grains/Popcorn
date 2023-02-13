@@ -245,7 +245,7 @@ void AActive_Brick_Multihit::Draw(HDC hdc, RECT& paint_area)
 	rotation_angle = M_PI_4 / 2.0 * (double)step;
 	x_ratio = cos(rotation_angle);
 
-	xform.eM11 = x_ratio;
+	xform.eM11 = (float)x_ratio;
 	xform.eM12 = 0.0f;
 	xform.eM21 = 0.0f;
 	xform.eM22 = 1.0f;
