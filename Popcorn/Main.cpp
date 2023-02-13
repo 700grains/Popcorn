@@ -112,6 +112,36 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return TRUE;
 }
 //------------------------------------------------------------------------------------------------------------
+void On_Paint(HWND hwnd)
+{
+	int dc_width, dc_height;
+	HDC hdc;
+	PAINTSTRUCT ps;
+	RECT rect;
+	HDC mem_dc;
+	HBITMAP mem_bitmap;
+
+	hdc = BeginPaint(hwnd, &ps);
+
+	GetClientRect(hwnd, &rect);
+
+	dc_width = rect.right - rect.left;
+	dc_height = rect.bottom - rect.top;
+
+	mem_dc = CreateCompatibleDC(hdc);
+	mem_bitmap = CreateCompatibleBitmap(hdc, dc_width, dc_height);
+	SelectObject(mem_dc, mem_bitmap);
+
+	Engine.Draw_Frame(mem_dc, ps.rcPaint);
+
+	BitBlt(hdc, 0, 0, dc_width, dc_height, mem_dc, 0, 0, SRCCOPY);
+
+	DeleteObject(mem_bitmap);
+	DeleteObject(mem_dc);
+
+	EndPaint(hwnd, &ps);
+}
+//------------------------------------------------------------------------------------------------------------
 //
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -125,8 +155,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId;
-	HDC hdc;
-	PAINTSTRUCT ps;
 
 	switch (message)
 	{
@@ -148,33 +176,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 	case WM_PAINT:
-	{
-		hdc = BeginPaint(hWnd, &ps);
-
-		int dc_width, dc_height;
-
-		RECT rect;
-		HDC mem_dc;
-		HBITMAP mem_bitmap;
-
-		GetClientRect(hWnd, &rect);
-
-		dc_width = rect.right - rect.left;
-		dc_height = rect.bottom - rect.top;
-
-		mem_dc = CreateCompatibleDC(hdc);
-		mem_bitmap = CreateCompatibleBitmap(hdc, dc_width, dc_height);
-		SelectObject(mem_dc, mem_bitmap);
-
-		Engine.Draw_Frame(mem_dc, ps.rcPaint);
-
-		BitBlt(hdc, 0, 0, dc_width, dc_height, mem_dc, 0, 0, SRCCOPY);
-
-		DeleteObject(mem_bitmap);
-		DeleteObject(mem_dc);
-
-		EndPaint(hWnd, &ps);
-	}
+		On_Paint(hWnd);
 	break;
 
 
