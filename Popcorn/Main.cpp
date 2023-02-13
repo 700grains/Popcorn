@@ -4,8 +4,6 @@
 #include "framework.h"
 #include "Main.h"
 
-#define MAX_LOADSTRING 100
-
 //AsFrame_DC
 //------------------------------------------------------------------------------------------------------------
 AsFrame_DC::~AsFrame_DC()
@@ -57,31 +55,20 @@ HDC AsFrame_DC::Get_DC(HWND hwnd, HDC hdc)
 
 
 
-//AsMain_Window
-//------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 // Global Variables:
-AsFrame_DC DC;
 AsMain_Window Main_Window;
-AsEngine Engine;
-HINSTANCE hInst;                                // current instance
-WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
-WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
-// Forward declarations of functions included in this code module:
-ATOM MyRegisterClass(HINSTANCE hInstance);
-BOOL InitInstance(HINSTANCE, int);
-LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK About(HWND, UINT, WPARAM, LPARAM);
 //------------------------------------------------------------------------------------------------------------
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
 	return Main_Window.Main(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 }
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
+//AsMain_Window
 //------------------------------------------------------------------------------------------------------------
 int APIENTRY AsMain_Window::Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -93,10 +80,10 @@ int APIENTRY AsMain_Window::Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, L
 	// Initialize global strings
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadStringW(hInstance, IDC_POPCORN, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
+	Register_Class(hInstance);
 
 	// Perform application initialization:
-	if (!InitInstance(hInstance, nCmdShow) )
+	if (! Init_Instance(hInstance, nCmdShow) )
 		return FALSE;
 
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_POPCORN) );
@@ -116,12 +103,7 @@ int APIENTRY AsMain_Window::Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, L
 	return (int)msg.wParam;
 }
 //------------------------------------------------------------------------------------------------------------
-//
-//  FUNCTION: MyRegisterClass()
-//
-//  PURPOSE: Registers the window class.
-//
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM AsMain_Window::Register_Class(HINSTANCE hInstance)
 {
 	WNDCLASSEXW wcex;
 
@@ -142,17 +124,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	return RegisterClassExW(&wcex);
 }
 //------------------------------------------------------------------------------------------------------------
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL AsMain_Window::Init_Instance(HINSTANCE hInstance, int nCmdShow)
 {
 	hInst = hInstance; // Store instance handle in our global variable
 
@@ -177,7 +149,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return TRUE;
 }
 //------------------------------------------------------------------------------------------------------------
-void On_Paint(HWND hwnd)
+void AsMain_Window::On_Paint(HWND hwnd)
 {
 	HDC hdc, frame_dc;
 	PAINTSTRUCT ps;
@@ -191,17 +163,7 @@ void On_Paint(HWND hwnd)
 	EndPaint(hwnd, &ps);
 }
 //------------------------------------------------------------------------------------------------------------
-//
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE: Processes messages for the main window.
-//
-//  WM_COMMAND  - process the application menu
-//  WM_PAINT    - Paint the main window
-//  WM_DESTROY  - post a quit message and return
-//
-//
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId;
 
@@ -249,7 +211,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 
-	case WM_KEYUP:
+	case WM_KEYUP: 
 		switch (wParam)
 		{
 		case VK_LEFT:
@@ -276,8 +238,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
-// Message handler for about box.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AsMain_Window::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
 	switch (message)
@@ -334,12 +295,12 @@ V 1. Falling letter - only interacts with the platform
 V 2. Active brick - interacts only with the ball
 
 
-Actions of letters
-1. Simple:
-1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
+V Actions of letters
+V 1. Simple:
+V 1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
 V 1.2. I ("Invert")
 V 1.3. S ("Speed")
-1.4. M ("Monsters")
+V 1.4. M ("Monsters")
 V 1.5. F ("Life")
 
 
