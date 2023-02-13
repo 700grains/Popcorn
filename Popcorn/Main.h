@@ -14,7 +14,17 @@ public:
 	int Width, Height;
 
 private:
-	HBITMAP Frame_Bitmap;
-	HDC Frame_DC;
+	HBITMAP Bitmap;
+	HDC DC;
+};
+//------------------------------------------------------------------------------------------------------------
+class AsMain_Window
+{
+public:
+	int APIENTRY Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow);
+
+
+private:
+
 };
 //------------------------------------------------------------------------------------------------------------

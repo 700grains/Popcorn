@@ -57,9 +57,16 @@ HDC AsFrame_DC::Get_DC(HWND hwnd, HDC hdc)
 
 
 
+//AsMain_Window
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 // Global Variables:
 AsFrame_DC DC;
-
+AsMain_Window Main_Window;
 AsEngine Engine;
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -72,6 +79,11 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK About(HWND, UINT, WPARAM, LPARAM);
 //------------------------------------------------------------------------------------------------------------
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
+{
+	return Main_Window.Main(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+}
+//------------------------------------------------------------------------------------------------------------
+int APIENTRY AsMain_Window::Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
