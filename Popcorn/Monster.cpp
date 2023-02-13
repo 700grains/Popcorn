@@ -52,6 +52,23 @@ bool AMonster::Check_Hit(double next_x_pos, double next_y_pos)
 		return false;
 }
 //------------------------------------------------------------------------------------------------------------
+bool AMonster::Check_Hit(RECT& rect)
+{// Return "true" if at given positions our platform hits a monster
+
+	RECT intersection_rect;
+
+	if (! (Monster_State == EMonster_State::Emitting || Monster_State == EMonster_State::Alive) )
+		return false;
+
+	if (IntersectRect(&intersection_rect, &rect, &Monster_Rect) )
+	{
+		Destroy();
+		return true;
+	}
+	else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
 void AMonster::Begin_Movement()
 {
 	// Not used

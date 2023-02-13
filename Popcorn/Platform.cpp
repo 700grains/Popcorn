@@ -115,6 +115,8 @@ void AsPlatform::Advance(double max_speed)
 			if (Platform_State.Moving == EPlatform_Moving_State::Moving_Right)
 				Ball_Set->On_Platform_Advance(0.0, fabs(Speed), max_speed);
 	}
+
+	Hit_Checker_List.Check_Hit(Platform_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 double AsPlatform::Get_Speed()
@@ -191,6 +193,7 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 	// else - no break;
 
 	case EPlatform_State::Rolling:
+	case EPlatform_State::Meltdown:
 	case EPlatform_State::Glue:
 	case EPlatform_State::Expanding:
 	case EPlatform_State::Laser:

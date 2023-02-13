@@ -137,9 +137,14 @@ bool AsTools::Reflect_On_Circle(double next_x_pos, double next_y_pos, double cir
 			return true;
 		}
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AHit_Checker
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker::Check_Hit(double next_x_pos, double next_y_pos)
@@ -168,6 +173,11 @@ bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x
 		return true;
 	else
 		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AHit_Checker::Check_Hit(RECT &rect)
+{
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -208,6 +218,17 @@ bool AHit_Checker_List::Check_Hit(double x_pos, double y_pos)
 
 	for (i = 0; i < Hit_Checkers_Count; i++)
 		if (Hit_Checkers[i]->Check_Hit(x_pos, y_pos))
+			return true;
+
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+bool AHit_Checker_List::Check_Hit(RECT& rect)
+{
+	int i;
+
+	for (i = 0; i < Hit_Checkers_Count; i++)
+		if (Hit_Checkers[i]->Check_Hit(rect) )
 			return true;
 
 	return false;
