@@ -21,6 +21,8 @@ private:
 class AsMain_Window
 {
 public:
+	AsMain_Window();
+
 	int APIENTRY Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow);
 
 private:
@@ -38,5 +40,7 @@ private:
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+
+	static AsMain_Window* Self;
 };
 //------------------------------------------------------------------------------------------------------------

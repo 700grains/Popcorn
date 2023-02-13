@@ -57,7 +57,6 @@ HDC AsFrame_DC::Get_DC(HWND hwnd, HDC hdc)
 
 // Global Variables:
 AsMain_Window Main_Window;
-
 //------------------------------------------------------------------------------------------------------------
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -69,6 +68,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 
 //AsMain_Window
+AsMain_Window* AsMain_Window::Self = 0;
+//------------------------------------------------------------------------------------------------------------
+AsMain_Window::AsMain_Window()
+{
+	Self = this;
+}
 //------------------------------------------------------------------------------------------------------------
 int APIENTRY AsMain_Window::Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -175,7 +180,7 @@ LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		switch (wmId)
 		{
 		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			DialogBox(Self->hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
@@ -187,7 +192,7 @@ LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 
 	case WM_PAINT:
-		On_Paint(hWnd);
+		Self->On_Paint(hWnd);
 	break;
 
 
@@ -200,35 +205,35 @@ LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		switch (wParam)
 		{
 		case VK_LEFT:
-			return Engine.On_Key(EKey_Type::Left, true);
+			return Self->Engine.On_Key(EKey_Type::Left, true);
 
 		case VK_RIGHT:
-			return Engine.On_Key(EKey_Type::Right, true);
+			return Self->Engine.On_Key(EKey_Type::Right, true);
 
 		case VK_SPACE:
-			return Engine.On_Key(EKey_Type::Space, true);
+			return Self->Engine.On_Key(EKey_Type::Space, true);
 		}
 		break;
 
 
-	case WM_KEYUP: 
+	case WM_KEYUP:
 		switch (wParam)
 		{
 		case VK_LEFT:
-			return Engine.On_Key(EKey_Type::Left, false);
+			return Self->Engine.On_Key(EKey_Type::Left, false);
 
 		case VK_RIGHT:
-			return Engine.On_Key(EKey_Type::Right, false);
+			return Self->Engine.On_Key(EKey_Type::Right, false);
 
 		case VK_SPACE:
-			return Engine.On_Key(EKey_Type::Space, false);
+			return Self->Engine.On_Key(EKey_Type::Space, false);
 		}
 		break;
 
 
 	case WM_TIMER:
 		if (wParam == Timer_ID)
-			return Engine.On_Timer();
+			return Self->Engine.On_Timer();
 		break;
 
 
