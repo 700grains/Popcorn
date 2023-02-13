@@ -1,6 +1,7 @@
 ﻿#include "Platform.h"
 
 // AsPlatform
+AHit_Checker_List AsPlatform::Hit_Checker_List;
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::~AsPlatform()
 {
