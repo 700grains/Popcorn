@@ -6,10 +6,48 @@
 
 #define MAX_LOADSTRING 100
 
+//AsFrame_DC
+//------------------------------------------------------------------------------------------------------------
+AsFrame_DC::AsFrame_DC()
+	: Width(0), Height(0), Frame_DC(0), Frame_Bitmap(0)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+HDC AsFrame_DC::Get_DC(HWND hwnd, HDC hdc)
+{
+	int dc_width, dc_height;
+	RECT rect;
+
+	GetClientRect(hwnd, &rect);
+
+	dc_width = rect.right - rect.left;
+	dc_height = rect.bottom - rect.top;
+
+	if (dc_width != Width && dc_height != Height)
+	{
+		if (Frame_Bitmap != 0)
+			DeleteObject(Frame_Bitmap);
+
+		if (Frame_DC != 0)
+			DeleteObject(Frame_DC);
+
+		Width = dc_width;
+		Height = dc_height;
+
+		Frame_DC = CreateCompatibleDC(hdc);
+		Frame_Bitmap = CreateCompatibleBitmap(hdc, Width, Height);
+		SelectObject(Frame_DC, Frame_Bitmap);
+	}
+
+	return Frame_DC;
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // Global Variables:
-int Frame_DC_Width = 0, Frame_DC_Height = 0;
-HBITMAP Frame_Bitmap = 0;
-HDC Frame_DC = 0;
+AsFrame_DC Frame_DC;
 
 AsEngine Engine;
 HINSTANCE hInst;                                // current instance
@@ -118,37 +156,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //------------------------------------------------------------------------------------------------------------
 void On_Paint(HWND hwnd)
 {
-	int dc_width, dc_height;
-	HDC hdc;
+	HDC hdc, frame_dc;
 	PAINTSTRUCT ps;
-	RECT rect;
 
 	hdc = BeginPaint(hwnd, &ps);
+	frame_dc = Frame_DC.Get_DC(hwnd, hdc);
+	Engine.Draw_Frame(frame_dc, ps.rcPaint);
 
-	GetClientRect(hwnd, &rect);
-
-	dc_width = rect.right - rect.left;
-	dc_height = rect.bottom - rect.top;
-
-	if (dc_width != Frame_DC_Width && dc_height != Frame_DC_Height)
-	{
-		if (Frame_Bitmap != 0)
-			DeleteObject(Frame_Bitmap);
-
-		if (Frame_DC != 0)
-			DeleteObject(Frame_DC);
-
-		Frame_DC_Width = dc_width;
-		Frame_DC_Height = dc_height;
-
-		Frame_DC = CreateCompatibleDC(hdc);
-		Frame_Bitmap = CreateCompatibleBitmap(hdc, Frame_DC_Width, Frame_DC_Height);
-		SelectObject(Frame_DC, Frame_Bitmap);
-	}
-
-	Engine.Draw_Frame(Frame_DC, ps.rcPaint);
-
-	BitBlt(hdc, 0, 0, Frame_DC_Width, Frame_DC_Height, Frame_DC, 0, 0, SRCCOPY);
+	BitBlt(hdc, 0, 0, Frame_DC.Width, Frame_DC.Height, frame_dc, 0, 0, SRCCOPY);
 
 	EndPaint(hwnd, &ps);
 }
