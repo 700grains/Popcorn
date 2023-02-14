@@ -539,14 +539,18 @@ AMonster_Comet::AMonster_Comet()
 void AMonster_Comet::Draw_Alive(HDC hdc)
 {
 	XFORM xform, old_xform;
+	RECT rect;
 	double alpha;
 	double monster_radius;
 
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
+	int ball_size = 4 * scale - scale / 2;
 
 	if (Monster_State == EMonster_State::Missing)
 		return;
+
+	AsTools::Rect(hdc, Monster_Rect, AsConfig::Blue_Color);
 
 	monster_radius = (double)Width * d_scale / 2.0;
 	// 2. The dividing line
@@ -556,15 +560,19 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 	xform.eM12 = (float)sin(alpha);
 	xform.eM21 = (float)-sin(alpha);
 	xform.eM22 = (float)cos(alpha);
-	xform.eDx = (float)(X_Pos + monster_radius);
-	xform.eDy = (float)(Y_Pos + monster_radius);
+	xform.eDx = (float)(X_Pos * d_scale + monster_radius);
+	xform.eDy = (float)(Y_Pos * d_scale + monster_radius);
 	GetWorldTransform(hdc, &old_xform);
 	SetWorldTransform(hdc, &xform);
 
+	rect.left = (int)-monster_radius;
+	rect.top = -ball_size / 2;
+	rect.right = rect.left + ball_size;
+	rect.bottom = rect.top + ball_size;
 
+	AsTools::Ellipse(hdc, rect, AsConfig::White_Color);
 
 	SetWorldTransform(hdc, &old_xform);
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::Act_Alive()
