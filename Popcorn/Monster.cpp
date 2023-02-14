@@ -583,6 +583,12 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 
 	Arc(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1, 0, (int)-monster_radius, (int)-monster_radius, -4 * scale);
 
+	rect.left += scale;
+	rect.right -= scale;
+	rect.bottom -= scale;
+
+	Arc(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1, 0, (int)-monster_radius, (int)-monster_radius, -4 * scale);
+
 	SetWorldTransform(hdc, &old_xform);
 }
 //------------------------------------------------------------------------------------------------------------
