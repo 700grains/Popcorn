@@ -53,6 +53,7 @@ protected:
 	virtual void On_Activation() = 0;
 
 	int Next_Direction_Switch_Tick;
+	int Monster_Is_Alive_Timer;
 	double Direction;
 	double X_Pos, Y_Pos;
 
@@ -67,7 +68,6 @@ private:
 	void Change_Direction();
 
 	double Speed;
-	int Monster_Is_Alive_Timer;
 
 	static const int Explosive_Balls_Count = 20;
 
@@ -105,4 +105,8 @@ private:
 	virtual void Draw_Alive(HDC hdc);
 	virtual void Act_Alive();
 	virtual void On_Activation();
+
+	double Current_Angle;
+
+	static const int Ticks_Per_Rotation = AsConfig::FPS * 4;
 };

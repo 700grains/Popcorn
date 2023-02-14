@@ -533,6 +533,7 @@ void AMonster_Eye::On_Activation()
 
 // AMonster_Comet
 AMonster_Comet::AMonster_Comet()
+	: Current_Angle(0.0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -551,11 +552,12 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 	if (Monster_State == EMonster_State::Missing)
 		return;
 
-	AsTools::Rect(hdc, Monster_Rect, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, Monster_Rect, AsConfig::BG_Color);
 
 	monster_radius = (double)(Width * d_scale / 2.0 - 1.0);
+
 	// 2. The dividing line
-	alpha = 0.0; // -2.0 * M_PI / (double)Max_Rolling_Step * (double)Rolling_Step;
+	alpha = Current_Angle;
 
 	GetWorldTransform(hdc, &old_xform);
 
@@ -601,6 +603,17 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::Act_Alive()
 {
+	int time_offset;
+	double ratio;
+
+	if (Monster_State == EMonster_State::Missing)
+		return;
+	
+
+	time_offset = (AsConfig::Current_Timer_Tick - Monster_Is_Alive_Timer) % Ticks_Per_Rotation;
+	ratio = (double)time_offset / (double)Ticks_Per_Rotation;
+
+	Current_Angle = ratio * 2.0 * -M_PI;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::On_Activation()
