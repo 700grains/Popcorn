@@ -533,8 +533,11 @@ void AMonster_Eye::On_Activation()
 
 // AMonster_Comet
 AMonster_Comet::AMonster_Comet()
-	: Current_Angle(0.0)
+	: Current_Angle(0.0), Ticks_Per_Rotation(0)
 {
+	int rotation_ticks_range = Max_Ticks_Per_Rotation - Min_Ticks_Per_Rotation;
+
+	Ticks_Per_Rotation = AsTools::Rand(rotation_ticks_range) + Min_Ticks_Per_Rotation;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::Clear(HDC hdc, RECT& paint_area)

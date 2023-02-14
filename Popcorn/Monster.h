@@ -109,6 +109,8 @@ private:
 	virtual void On_Activation() override;
 
 	double Current_Angle;
+	int Ticks_Per_Rotation;
 
-	static const int Ticks_Per_Rotation = AsConfig::FPS * 4;
+	static const int Min_Ticks_Per_Rotation = AsConfig::FPS * 2;
+	static const int Max_Ticks_Per_Rotation = AsConfig::FPS * 5;
 };
