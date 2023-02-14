@@ -210,10 +210,8 @@ bool AMonster::Is_Finished()
 void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 {
 	int i;
-	int tick_offset;
 	int random_speed;
 	int emitting_offset;
-	double current_timeout = 0.0;
 
 	Monster_State = EMonster_State::Emitting;
 
@@ -233,19 +231,7 @@ void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 	else
 		Direction = M_PI;
 
-	// Blink animation ticks calculation
-	current_timeout;
-	Start_Blinking_Time = AsConfig::Current_Timer_Tick;
-
-	for (i = 0; i < Blink_Stages_Count; i++)
-	{
-		current_timeout += Blinking_Timeouts[i];
-
-		tick_offset = (int)((double)AsConfig::FPS * current_timeout);
-		Blink_Ticks[i] = tick_offset;
-	}
-
-	Total_Animation_Time = tick_offset;
+	On_Activation();
 
 	Redraw_Monster();
 }
@@ -358,9 +344,9 @@ void AMonster::Redraw_Monster()
 
 
 //  AMonster_Eye 
-const double AMonster::Max_Cornea_Height = 11.0;
-const double AMonster::Blinking_Timeouts[AMonster::Blink_Stages_Count] = { 0.4, 0.3, 1, 0.4, 0.4, 0.4, 0.9 };
-const EEye_State AMonster::Blinking_States[AMonster::Blink_Stages_Count] =
+const double AMonster_Eye::Max_Cornea_Height = 11.0;
+const double AMonster_Eye::Blinking_Timeouts[AMonster_Eye::Blink_Stages_Count] = { 0.4, 0.3, 1, 0.4, 0.4, 0.4, 0.9 };
+const EEye_State AMonster_Eye::Blinking_States[AMonster_Eye::Blink_Stages_Count] =
 {
 	EEye_State::Closed,
 	EEye_State::Opening,
@@ -376,7 +362,7 @@ AMonster_Eye::AMonster_Eye()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void Draw_Alive(HDC hdc)
+void AMonster_Eye::Draw_Alive(HDC hdc)
 {
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
@@ -520,6 +506,26 @@ void AMonster_Eye::Act_Alive()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+void AMonster_Eye::On_Activation()
+{	// Blink animation ticks calculation
+	int i;
+	int tick_offset;
+	double current_timeout = 0.0;
+
+	current_timeout;
+	Start_Blinking_Time = AsConfig::Current_Timer_Tick;
+
+	for (i = 0; i < Blink_Stages_Count; i++)
+	{
+		current_timeout += Blinking_Timeouts[i];
+
+		tick_offset = (int)((double)AsConfig::FPS * current_timeout);
+		Blink_Ticks[i] = tick_offset;
+	}
+
+	Total_Animation_Time = tick_offset;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -529,12 +535,17 @@ AMonster_Comet::AMonster_Comet()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void Draw_Alive(HDC hdc)
+void AMonster_Comet::Draw_Alive(HDC hdc)
 {
 
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::Act_Alive()
 {
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster_Comet::On_Activation()
+{
+
 }
 //------------------------------------------------------------------------------------------------------------

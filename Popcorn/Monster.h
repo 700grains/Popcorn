@@ -51,6 +51,13 @@ public:
 protected:
 	virtual void Draw_Alive(HDC hdc) = 0;
 	virtual void Act_Alive() = 0;
+	virtual void On_Activation() = 0;
+
+	int Next_Direction_Switch_Tick;
+	double Direction;
+
+	EMonster_State Monster_State;
+	RECT Monster_Rect, Previous_Monster_Rect;
 
 private:
 	void Draw_Destroying(HDC hdc, RECT& paint_area);
@@ -58,11 +65,10 @@ private:
 	void Get_Monster_Rect(double x_pos, double y_pos, RECT& rect);
 	void Redraw_Monster();
 
-	EMonster_State Monster_State;
 	double X_Pos, Y_Pos;
-	double Speed, Direction;
-	int Next_Direction_Switch_Tick, Monster_Is_Alive_Timer;
-	RECT Monster_Rect, Previous_Monster_Rect;
+	double Speed;
+	int Monster_Is_Alive_Timer;
+
 	static const int Explosive_Balls_Count = 20;
 
 	AExplosive_Ball Explosive_Balls[Explosive_Balls_Count];
@@ -74,17 +80,16 @@ public:
 	AMonster_Eye();
 
 private:
-	EEye_State Eye_State;
-
 	virtual void Draw_Alive(HDC hdc);
 	virtual void Act_Alive();
+	virtual void On_Activation();
 
+	EEye_State Eye_State;
 	double Cornea_Height;
 	int Start_Blinking_Time, Total_Animation_Time;
 
 	static const int Blink_Stages_Count = 7;
 	int Blink_Ticks[Blink_Stages_Count];
-
 	static const double Max_Cornea_Height;
 	static const double Blinking_Timeouts[Blink_Stages_Count];
 	static const EEye_State Blinking_States[Blink_Stages_Count];
@@ -99,4 +104,5 @@ public:
 private:
 	virtual void Draw_Alive(HDC hdc);
 	virtual void Act_Alive();
+	virtual void On_Activation();
 };
