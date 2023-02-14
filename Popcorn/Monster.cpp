@@ -143,19 +143,25 @@ void AMonster::Act()
 	case EMonster_State::Missing:
 		return;
 
+
 	case EMonster_State::Emitting:
+		Act_Alive();
+
 		if (Monster_Is_Alive_Timer < AsConfig::Current_Timer_Tick)
 			Monster_State = EMonster_State::Alive;
 		return;
+
 
 	case EMonster_State::Alive:
 		Act_Alive();
 		Change_Direction();
 		break;
 
+
 	case EMonster_State::Destroying:
 		Act_Destroying();
 		break;
+
 
 	default:
 		AsConfig::Throw();

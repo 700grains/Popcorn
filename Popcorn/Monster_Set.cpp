@@ -148,8 +148,6 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 		gate_x -= monster->Width - AGate::Width;
 
 	monster->Activate(gate_x, gate_y + 1, gate_is_left);
-
-	//monster->Destroy();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Activate(int max_monsters_alive)
