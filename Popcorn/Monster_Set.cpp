@@ -88,6 +88,16 @@ void AsMonster_Set::Act()
 		break;
 	}
 
+	if (Monster_Set_State != EMonster_Set_State::Idle)
+	{
+		for (i = 0; i < Max_Monsters_Count; i++)
+			if (Monsters[i] != 0 && Monsters[i]->Is_Finished())
+			{
+				delete Monsters[i];
+				Monsters[i] = 0;
+			}
+	}
+
 	AGame_Objects_Set::Act();
 }
 //------------------------------------------------------------------------------------------------------------
