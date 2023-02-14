@@ -80,9 +80,9 @@ public:
 	AMonster_Eye();
 
 private:
-	virtual void Draw_Alive(HDC hdc);
-	virtual void Act_Alive();
-	virtual void On_Activation();
+	virtual void Draw_Alive(HDC hdc) override;
+	virtual void Act_Alive() override;
+	virtual void On_Activation() override;
 
 	EEye_State Eye_State;
 	double Cornea_Height;
@@ -102,9 +102,11 @@ public:
 	AMonster_Comet();
 
 private:
-	virtual void Draw_Alive(HDC hdc);
-	virtual void Act_Alive();
-	virtual void On_Activation();
+	virtual void Clear(HDC hdc, RECT& paint_area) override;
+
+	virtual void Draw_Alive(HDC hdc) override;
+	virtual void Act_Alive() override;
+	virtual void On_Activation() override;
 
 	double Current_Angle;
 

@@ -537,6 +537,16 @@ AMonster_Comet::AMonster_Comet()
 {
 }
 //------------------------------------------------------------------------------------------------------------
+void AMonster_Comet::Clear(HDC hdc, RECT& paint_area)
+{
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Previous_Monster_Rect))
+		return;
+
+	AsTools::Rect(hdc, Previous_Monster_Rect, AsConfig::BG_Color);
+}
+//------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::Draw_Alive(HDC hdc)
 {
 	int i;
