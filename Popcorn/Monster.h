@@ -48,10 +48,12 @@ public:
 	static const int Width = 16;
 	static const int Height = 16;
 
+protected:
+	virtual void Draw_Alive(HDC hdc) = 0;
+	virtual void Act_Alive() = 0;
+
 private:
-	void Draw_Alive(HDC hdc);
 	void Draw_Destroying(HDC hdc, RECT& paint_area);
-	void Act_Alive();
 	void Act_Destroying();
 	void Get_Monster_Rect(double x_pos, double y_pos, RECT& rect);
 	void Redraw_Monster();
@@ -80,10 +82,16 @@ class AMonster_Eye : public AMonster
 {
 public:
 
+private:
+	virtual void Draw_Alive(HDC hdc);
+	virtual void Act_Alive();
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster_Comet : public AMonster
 {
 public:
 
+private:
+	virtual void Draw_Alive(HDC hdc);
+	//virtual void Act_Alive();
 };
