@@ -240,6 +240,9 @@ void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Destroy()
 {
+	if (Monster_State == EMonster_State::Destroying)
+		return;
+
 	bool is_red;
 
 	int scale = AsConfig::Global_Scale;
@@ -277,7 +280,7 @@ void AMonster::Destroy()
 		Explosive_Balls[i].Explode(x_pos + x_offset, y_pos + y_offset, size, is_red, time_offset, 10);
 	}
 
-	Monster_State = EMonster_State::Destroying;
+		Monster_State = EMonster_State::Destroying;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
