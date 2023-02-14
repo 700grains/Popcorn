@@ -67,7 +67,7 @@ void AMonster::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Finish_Movement()
 {
-	if (!Is_Active())
+	if (Is_Finished())
 		return;
 
 	Redraw_Monster();
@@ -203,8 +203,10 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AMonster::Is_Finished()
 {
-	//!!! TODO
-	return false;
+	if (Monster_State == EMonster_State::Missing)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
@@ -234,14 +236,6 @@ void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 	On_Activation();
 
 	Redraw_Monster();
-}
-//------------------------------------------------------------------------------------------------------------
-bool AMonster::Is_Active()
-{
-	if (Monster_State == EMonster_State::Missing)
-		return false;
-	else
-		return true;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Destroy()

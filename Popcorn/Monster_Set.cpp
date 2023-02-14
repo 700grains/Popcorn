@@ -56,7 +56,7 @@ void AsMonster_Set::Act()
 		current_monsters_alive_count = 0;
 
 		for (i = 0; i < Max_Monsters_Count; i++)
-			if (Monsters[i] != 0 && Monsters[i]->Is_Active())
+			if (Monsters[i] != 0 && ! Monsters[i]->Is_Finished())
 				++current_monsters_alive_count;
 
 		// Add a monster if possible
@@ -156,7 +156,7 @@ void AsMonster_Set::Destroy_All()
 	int i;
 
 	for (i = 0; i < Max_Monsters_Count; i++)
-		if (Monsters[i] != 0 && Monsters[i]->Is_Active())
+		if (Monsters[i] != 0 && ! Monsters[i]->Is_Finished())
 			Monsters[i]->Destroy();
 
 	Monster_Set_State = EMonster_Set_State::Idle;

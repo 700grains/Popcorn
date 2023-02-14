@@ -42,7 +42,6 @@ public:
 	virtual bool Is_Finished();
 
 	void Activate(int x_pos, int y_pos, bool moving_right);
-	bool Is_Active();
 	void Destroy();
 
 	static const int Width = 16;
