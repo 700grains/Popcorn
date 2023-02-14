@@ -54,6 +54,7 @@ protected:
 
 	int Next_Direction_Switch_Tick;
 	double Direction;
+	double X_Pos, Y_Pos;
 
 	EMonster_State Monster_State;
 	RECT Monster_Rect, Previous_Monster_Rect;
@@ -65,7 +66,6 @@ private:
 	void Redraw_Monster();
 	void Change_Direction();
 
-	double X_Pos, Y_Pos;
 	double Speed;
 	int Monster_Is_Alive_Timer;
 

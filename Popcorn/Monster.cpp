@@ -212,7 +212,6 @@ bool AMonster::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Activate(int x_pos, int y_pos, bool moving_right)
 {
-	int i;
 	int random_speed;
 	int emitting_offset;
 
@@ -539,6 +538,32 @@ AMonster_Comet::AMonster_Comet()
 //------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::Draw_Alive(HDC hdc)
 {
+	XFORM xform, old_xform;
+	double alpha;
+	double monster_radius;
+
+	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
+
+	if (Monster_State == EMonster_State::Missing)
+		return;
+
+	monster_radius = (double)Width * d_scale / 2.0;
+	// 2. The dividing line
+	alpha = 0.0; // -2.0 * M_PI / (double)Max_Rolling_Step * (double)Rolling_Step;
+
+	xform.eM11 = (float)cos(alpha);
+	xform.eM12 = (float)sin(alpha);
+	xform.eM21 = (float)-sin(alpha);
+	xform.eM22 = (float)cos(alpha);
+	xform.eDx = (float)(X_Pos + monster_radius);
+	xform.eDy = (float)(Y_Pos + monster_radius);
+	GetWorldTransform(hdc, &old_xform);
+	SetWorldTransform(hdc, &xform);
+
+
+
+	SetWorldTransform(hdc, &old_xform);
 
 }
 //------------------------------------------------------------------------------------------------------------
