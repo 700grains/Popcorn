@@ -109,9 +109,10 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 
 	for (i = 0; i < Max_Monsters_Count; i++)
 	{
-		if (Monsters[i] != 0 && ! Monsters[i]->Is_Active())
+		if (Monsters[i] == 0)
 		{
-			monster = Monsters[i];
+			monster = new AMonster_Eye();
+			Monsters[i] = monster;
 			break;
 		}
 	}
