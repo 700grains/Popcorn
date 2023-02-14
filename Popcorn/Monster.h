@@ -24,8 +24,10 @@ enum class EMonster_State : unsigned char
 class AMonster : public AHit_Checker, public AGame_Object
 {
 public:
+	virtual ~AMonster();
 	AMonster();
-	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball);
+
+	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall_Object * ball);
 	virtual bool Check_Hit(double next_x_pos, double next_y_pos);
 	virtual bool Check_Hit(RECT& rect);
 
@@ -74,3 +76,14 @@ private:
 	static const EEye_State Blinking_States[Blink_Stages_Count];
 };
 //------------------------------------------------------------------------------------------------------------
+class AMonster_Eye : public AMonster
+{
+public:
+
+};
+//------------------------------------------------------------------------------------------------------------
+class AMonster_Comet : public AMonster
+{
+public:
+
+};
