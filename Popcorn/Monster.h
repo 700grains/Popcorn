@@ -93,5 +93,5 @@ public:
 
 private:
 	virtual void Draw_Alive(HDC hdc);
-	//virtual void Act_Alive();
+	virtual void Act_Alive();
 };
