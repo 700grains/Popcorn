@@ -111,6 +111,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	bool gate_is_left;
 	int i;
 	int gate_x, gate_y;
+	int monster_type;
 
 	AMonster* monster = 0;
 
@@ -121,8 +122,13 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	{
 		if (Monsters[i] == 0)
 		{
-			//monster = new AMonster_Eye();
-			monster = new AMonster_Comet();
+			monster_type = AsTools::Rand(2);
+
+			if (monster_type == 1)
+				monster = new AMonster_Comet();
+			else
+				monster = new AMonster_Eye();
+
 			Monsters[i] = monster;
 			break;
 		}
