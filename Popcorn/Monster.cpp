@@ -572,6 +572,7 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 
 	AsTools::Ellipse(hdc, rect, AsConfig::White_Color);
 
+
 	SetWorldTransform(hdc, &old_xform);
 }
 //------------------------------------------------------------------------------------------------------------
