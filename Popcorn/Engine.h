@@ -25,8 +25,6 @@ enum class EGame_State: unsigned char
 	Restart_Level
 };
 //------------------------------------------------------------------------------------------------------------
-const int Timer_ID = WM_USER + 1;
-//------------------------------------------------------------------------------------------------------------
 class AsEngine
 {
 public:
@@ -37,6 +35,7 @@ public:
 	int On_Key(EKey_Type key_type, bool key_down);
 	int On_Timer();
 
+	const int Timer_ID;
 
 private:
 	void Restart_Level();

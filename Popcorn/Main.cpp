@@ -232,7 +232,7 @@ LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 
 	case WM_TIMER:
-		if (wParam == Timer_ID)
+		if (wParam == Self->Engine.Timer_ID)
 			return Self->Engine.On_Timer();
 		break;
 
@@ -345,17 +345,17 @@ V 2.5.3. Interaction of many balls with game elements
 2.6.1. Animation of early transition to the next level
 2.6.2. Separate transition level with special walls (frame)
 
-ball movement
+V ball movement
 V 1. Bounce of the ball from the frame
 V 2. Hitting the edges of the platform
 V 3. Sweeping the ball with a platform
-4. Hitting the monster
+V 4. Hitting the monster
 
-Hitting a brick
-1. Hitting a brick - the state of a brick
+V Hitting a brick
+V 1. Hitting a brick - the state of a brick
 V 2. Knocking out a falling letter
 V 3. Interception of a falling letter
-4. Each letter has its own actions
+V 4. Each letter has its own actions
 
 V Gates
 V 1. Output gates
@@ -363,13 +363,13 @@ V 2. Animation of opening/closing gates
 V 3. Gate states (closed, opening, closing)
 
 
-Monsters
-1. List of monsters (eye, "turtle", "saturn", head, "tambourine", aquarium, lighter)
-2. For everyone - make a storyboard
-3. Move, select direction + states (live/pause/disappear)
-4. Interaction with the ball and the platform
-5. Exit the gate
-6. For everyone - animation
+V Monsters
+V 1. List of monsters (eye, "turtle", "saturn", head, "tambourine", aquarium, lighter)
+V 2. For everyone - make a storyboard
+V 3. Move, select direction + states (live/pause/disappear)
+V 4. Interaction with the ball and the platform
+V 5. Exit the gate
+V 6. For everyone - animation
 
 
 Information panel
