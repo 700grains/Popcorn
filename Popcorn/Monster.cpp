@@ -572,6 +572,16 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 
 	AsTools::Ellipse(hdc, rect, AsConfig::White_Color);
 
+	AsConfig::Comet_Monster_Tail.Select_Pen(hdc);
+
+
+	rect.left = (int)(-monster_radius + 2.0 * d_scale);
+	rect.top = (int)(-monster_radius + 2.0 * d_scale);
+	rect.right = (int)(monster_radius - 2.0 * d_scale);
+	rect.bottom = (int)(monster_radius - 2.0 * d_scale);
+
+
+	Arc(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1, 0, (int)-monster_radius, (int)-monster_radius, -4 * scale);
 
 	SetWorldTransform(hdc, &old_xform);
 }
