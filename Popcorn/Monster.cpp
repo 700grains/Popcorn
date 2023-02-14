@@ -150,6 +150,7 @@ void AMonster::Act()
 
 	case EMonster_State::Alive:
 		Act_Alive();
+		Change_Direction();
 		break;
 
 	case EMonster_State::Destroying:
@@ -336,6 +337,21 @@ void AMonster::Redraw_Monster()
 	AsTools::Invalidate_Rect(Previous_Monster_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
+void AMonster::Change_Direction()
+{
+	double direction_delta;
+
+	if (AsConfig::Current_Timer_Tick > Next_Direction_Switch_Tick)
+	{
+		Next_Direction_Switch_Tick += AsTools::Rand(AsConfig::FPS);
+
+		// Random direction of movement in the range of +/- 45 degrees.
+		direction_delta = (double)(AsTools::Rand(90) - 45) * M_PI / 180.0;
+
+		Direction += direction_delta;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -446,7 +462,6 @@ void AMonster_Eye::Act_Alive()
 	int i;
 	int current_tick_offset, previous_tick;
 	double ratio;
-	double direction_delta;
 
 	if (Monster_State == EMonster_State::Missing)
 		return;
@@ -490,16 +505,6 @@ void AMonster_Eye::Act_Alive()
 	default:
 		AsConfig::Throw();
 		break;
-	}
-
-	if (AsConfig::Current_Timer_Tick > Next_Direction_Switch_Tick)
-	{
-		Next_Direction_Switch_Tick += AsTools::Rand(AsConfig::FPS);
-
-		// Random direction of movement in the range of +/- 45 degrees.
-		direction_delta = (double)(AsTools::Rand(90) - 45) * M_PI / 180.0;
-
-		Direction += direction_delta;
 	}
 }
 //------------------------------------------------------------------------------------------------------------

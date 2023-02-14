@@ -63,6 +63,7 @@ private:
 	void Act_Destroying();
 	void Get_Monster_Rect(double x_pos, double y_pos, RECT& rect);
 	void Redraw_Monster();
+	void Change_Direction();
 
 	double X_Pos, Y_Pos;
 	double Speed;
