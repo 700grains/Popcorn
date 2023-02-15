@@ -40,7 +40,9 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO!
+	AsTools::Rect(hdc, 213, 7, 100, 99, AsConfig::Blue_Color);
+
+	AsTools::Rect(hdc, 208, 108, 110, 90, AsConfig::Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
