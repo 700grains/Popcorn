@@ -41,7 +41,8 @@ public:
 	virtual bool Is_Finished() override;
 
 private:
-	HFONT Logo_Font;
+	HFONT Logo_Corn_Font;
+	HFONT Logo_Pop_Font;
 
 	void Choose_Font();
 };

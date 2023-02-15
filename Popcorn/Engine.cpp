@@ -3,7 +3,7 @@
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Logo_Font(0)
+	: Logo_Corn_Font(0), Logo_Pop_Font(0)
 {
 	LOGFONT log_font{};
 
@@ -16,7 +16,11 @@ AsInformation_Panel::AsInformation_Panel()
 
 	wcscpy_s(log_font.lfFaceName, L"Arial Black");
 
-	Logo_Font = CreateFontIndirect(&log_font);
+	Logo_Corn_Font = CreateFontIndirect(&log_font);
+
+	log_font.lfHeight = -128;
+
+	Logo_Pop_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Begin_Movement()
@@ -53,8 +57,8 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
-	int logo_x_pos = 220 * scale;
-	int logo_y_pos = 3 * scale;
+	int logo_x_pos = 212 * scale;
+	int logo_y_pos = 0;
 	int shade_x_offset = 5 * scale;
 	int shade_y_offset = 6 * scale;
 
@@ -64,21 +68,21 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	// 1. Game logo
 	AsTools::Rect(hdc, 211, 5, 104, 100, AsConfig::Blue_Color);
 
-	SelectObject(hdc, Logo_Font);
-
-	//SetBkColor(hdc, AsConfig::Blue_Color.Get_RGB() );
 	SetBkMode(hdc, 0);
 
-	// shadow of the logo
+	// Shadow
+	SelectObject(hdc, Logo_Pop_Font);
 	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
 	TextOut(hdc, logo_x_pos + shade_x_offset, logo_y_pos + shade_y_offset, pop_str, 3);
-	TextOut(hdc, logo_x_pos - 13 * scale + shade_x_offset, logo_y_pos + 44 * scale + shade_y_offset, corn_str, 4);
-
+	SelectObject(hdc, Logo_Corn_Font);
+	TextOut(hdc, logo_x_pos - 5 * scale + shade_x_offset, logo_y_pos + 48 * scale + shade_y_offset, corn_str, 4);
 
 	// logo
+	SelectObject(hdc, Logo_Pop_Font);
 	SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
 	TextOut(hdc, logo_x_pos, logo_y_pos, pop_str, 3);
-	TextOut(hdc, logo_x_pos - 13 * scale, logo_y_pos + 44 * scale, corn_str, 4);
+	SelectObject(hdc, Logo_Corn_Font);
+	TextOut(hdc, logo_x_pos - 5 * scale, logo_y_pos + 48 * scale, corn_str, 4);
 
 	// 2. Score table
 	AsTools::Rect(hdc, 208, 108, 110, 90, AsConfig::Red_Color);
