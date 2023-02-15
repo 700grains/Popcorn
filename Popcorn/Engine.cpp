@@ -53,20 +53,32 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
+	int logo_x_pos = 220 * scale;
+	int logo_y_pos = 3 * scale;
+	int shade_x_offset = 5 * scale;
+	int shade_y_offset = 6 * scale;
+
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 
 	// 1. Game logo
-	AsTools::Rect(hdc, 213, 7, 100, 99, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, 211, 5, 104, 100, AsConfig::Blue_Color);
 
 	SelectObject(hdc, Logo_Font);
 
 	//SetBkColor(hdc, AsConfig::Blue_Color.Get_RGB() );
-	SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
 	SetBkMode(hdc, 0);
 
-	TextOut(hdc, 223 * scale, 3 * scale, pop_str, 3);
-	TextOut(hdc, 210 * scale, 47 * scale, corn_str, 4);
+	// shadow of the logo
+	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
+	TextOut(hdc, logo_x_pos + shade_x_offset, logo_y_pos + shade_y_offset, pop_str, 3);
+	TextOut(hdc, logo_x_pos - 13 * scale + shade_x_offset, logo_y_pos + 44 * scale + shade_y_offset, corn_str, 4);
+
+
+	// logo
+	SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
+	TextOut(hdc, logo_x_pos, logo_y_pos, pop_str, 3);
+	TextOut(hdc, logo_x_pos - 13 * scale, logo_y_pos + 44 * scale, corn_str, 4);
 
 	// 2. Score table
 	AsTools::Rect(hdc, 208, 108, 110, 90, AsConfig::Red_Color);
