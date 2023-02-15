@@ -62,6 +62,11 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	int shade_x_offset = 5 * scale;
 	int shade_y_offset = 6 * scale;
 
+	int score_x_pos = 208;
+	int score_y_pos = 108;
+	int score_width = 110;
+	int score_height = 90;
+
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 
@@ -85,12 +90,12 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	TextOut(hdc, logo_x_pos - 5 * scale, logo_y_pos + 48 * scale, corn_str, 4);
 
 	// 2. Score table
-	AsTools::Rect(hdc, 208, 108, 110, 90, AsConfig::Red_Color);
+	AsTools::Rect(hdc, score_x_pos, score_y_pos, score_width, score_height, AsConfig::Red_Color);
 
 	AsConfig::Letter_Color.Select_Pen(hdc);
-	MoveToEx(hdc, 210 * scale, 197 * scale, 0);
-	LineTo(hdc, 210 * scale, 110 * scale);
-	LineTo(hdc, 317 * scale, 110 * scale);
+	MoveToEx(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale, 0);
+	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + 2) * scale);
+	LineTo(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + 2) * scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
