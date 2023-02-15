@@ -3,8 +3,19 @@
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
+	: Logo_Font(0)
 {
-	//!!! TODO!
+	CHOOSEFONT cf{};
+	LOGFONT lf{};
+
+	cf.lStructSize = sizeof(CHOOSEFONT);
+	cf.lpLogFont = &lf;
+	cf.Flags = CF_SCREENFONTS;
+	cf.nFontType = SCREEN_FONTTYPE;
+
+	ChooseFont(&cf);
+
+	Logo_Font = CreateFontIndirect(cf.lpLogFont);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Begin_Movement()
@@ -46,6 +57,8 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	// 1. Game logo
 	AsTools::Rect(hdc, 213, 7, 100, 99, AsConfig::Blue_Color);
+
+	SelectObject(hdc, Logo_Font);
 	TextOut(hdc, 223 * scale, 3 * scale, pop_str, 3);
 	TextOut(hdc, 210 * scale, 47 * scale, corn_str, 4);
 
