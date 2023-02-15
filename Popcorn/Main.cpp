@@ -44,6 +44,9 @@ HDC AsFrame_DC::Get_DC(HWND hwnd, HDC hdc)
 		Bitmap = CreateCompatibleBitmap(hdc, Width, Height);
 		SelectObject(DC, Bitmap);
 
+		rect.right++;
+		rect.bottom++;
+
 		AsTools::Rect(DC, rect, AsConfig::BG_Color);
 	}
 
