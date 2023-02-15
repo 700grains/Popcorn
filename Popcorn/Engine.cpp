@@ -60,6 +60,11 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	AsTools::Rect(hdc, 213, 7, 100, 99, AsConfig::Blue_Color);
 
 	SelectObject(hdc, Logo_Font);
+
+	//SetBkColor(hdc, AsConfig::Blue_Color.Get_RGB() );
+	SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
+	SetBkMode(hdc, 0);
+
 	TextOut(hdc, 223 * scale, 3 * scale, pop_str, 3);
 	TextOut(hdc, 210 * scale, 47 * scale, corn_str, 4);
 
