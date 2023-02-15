@@ -40,8 +40,16 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
-	AsTools::Rect(hdc, 213, 7, 100, 99, AsConfig::Blue_Color);
+	const int scale = AsConfig::Global_Scale;
+	const wchar_t* pop_str = L"POP";
+	const wchar_t* corn_str = L"CORN";
 
+	// 1. Game logo
+	AsTools::Rect(hdc, 213, 7, 100, 99, AsConfig::Blue_Color);
+	TextOut(hdc, 223 * scale, 3 * scale, pop_str, 3);
+	TextOut(hdc, 210 * scale, 47 * scale, corn_str, 4);
+
+	// 2. Score table
 	AsTools::Rect(hdc, 208, 108, 110, 90, AsConfig::Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
