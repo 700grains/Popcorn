@@ -86,6 +86,11 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	// 2. Score table
 	AsTools::Rect(hdc, 208, 108, 110, 90, AsConfig::Red_Color);
+
+	AsConfig::Letter_Color.Select_Pen(hdc);
+	MoveToEx(hdc, 210 * scale, 197 * scale, 0);
+	LineTo(hdc, 210 * scale, 110 * scale);
+	LineTo(hdc, 317 * scale, 110 * scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
