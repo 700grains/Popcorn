@@ -5,17 +5,7 @@
 AsInformation_Panel::AsInformation_Panel()
 	: Logo_Font(0)
 {
-	CHOOSEFONT cf{};
-	LOGFONT lf{};
-
 	LOGFONT log_font{};
-
-	//cf.lStructSize = sizeof(CHOOSEFONT);
-	//cf.lpLogFont = &lf;
-	//cf.Flags = CF_SCREENFONTS;
-	//cf.nFontType = SCREEN_FONTTYPE;
-
-	//ChooseFont(&cf);
 
 	log_font.lfHeight = -96;
 	log_font.lfWeight = 900;
@@ -81,6 +71,19 @@ bool AsInformation_Panel::Is_Finished()
 {
 	return false;
 	//!!! TODO!
+}
+//------------------------------------------------------------------------------------------------------------
+void AsInformation_Panel::Choose_Font()
+{
+	CHOOSEFONT cf{};
+	LOGFONT lf{};
+
+	cf.lStructSize = sizeof(CHOOSEFONT);
+	cf.lpLogFont = &lf;
+	cf.Flags = CF_SCREENFONTS;
+	cf.nFontType = SCREEN_FONTTYPE;
+
+	ChooseFont(&cf);
 }
 //------------------------------------------------------------------------------------------------------------
 
