@@ -25,6 +25,25 @@ enum class EGame_State: unsigned char
 	Restart_Level
 };
 //------------------------------------------------------------------------------------------------------------
+class AsInformation_Panel: public AGame_Object
+{
+public:
+	AsInformation_Panel();
+
+	virtual void Begin_Movement() override;
+	virtual void Finish_Movement() override;
+	virtual void Advance(double max_speed) override;
+	virtual double Get_Speed() override;
+
+	virtual void Act() override;
+	virtual void Clear(HDC hdc, RECT& paint_area) override;
+	virtual void Draw(HDC hdc, RECT& paint_area) override;
+	virtual bool Is_Finished() override;
+
+private:
+
+};
+//------------------------------------------------------------------------------------------------------------
 class AsEngine
 {
 public:
@@ -55,6 +74,7 @@ private:
 	AsBall_Set Ball_Set; 
 	AsLaser_Beam_Set Laser_Beam_Set;
 	AsMonster_Set Monster_Set;
+	AsInformation_Panel Information_Panel;
 
 	AGame_Object* Modules[AsConfig::Max_Modules_Count]; // UNO; main graphic modules
 };
