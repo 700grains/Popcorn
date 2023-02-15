@@ -8,14 +8,25 @@ AsInformation_Panel::AsInformation_Panel()
 	CHOOSEFONT cf{};
 	LOGFONT lf{};
 
-	cf.lStructSize = sizeof(CHOOSEFONT);
-	cf.lpLogFont = &lf;
-	cf.Flags = CF_SCREENFONTS;
-	cf.nFontType = SCREEN_FONTTYPE;
+	LOGFONT log_font{};
 
-	ChooseFont(&cf);
+	//cf.lStructSize = sizeof(CHOOSEFONT);
+	//cf.lpLogFont = &lf;
+	//cf.Flags = CF_SCREENFONTS;
+	//cf.nFontType = SCREEN_FONTTYPE;
 
-	Logo_Font = CreateFontIndirect(cf.lpLogFont);
+	//ChooseFont(&cf);
+
+	log_font.lfHeight = -96;
+	log_font.lfWeight = 900;
+	log_font.lfOutPrecision = 3;
+	log_font.lfClipPrecision = 2;
+	log_font.lfQuality = 1;
+	log_font.lfPitchAndFamily = 34;
+
+	wcscpy_s(log_font.lfFaceName, L"Arial Black");
+
+	Logo_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Begin_Movement()
