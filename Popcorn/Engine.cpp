@@ -25,9 +25,9 @@ AsInformation_Panel::~AsInformation_Panel()
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
 	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0), 
-	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 216 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
+	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
-	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 296 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale)
+	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale)
 {
 	Letter_P.Show_Full_Size();
 	Letter_G.Show_Full_Size();
@@ -141,10 +141,10 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	// 5. indicators
 	// 5.1 Floor
-	AsTools::Rect(hdc, Score_X_Pos + 10, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
+	AsTools::Rect(hdc, Score_X_Pos + 8, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
 
 	// 5.2 Life
-	AsTools::Rect(hdc, Score_X_Pos + 50, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
+	AsTools::Rect(hdc, Score_X_Pos + 27, Score_Y_Pos + 55, 56, 30, AsConfig::Teleport_Portal_Color);
 
 	// 5.3 Monster
 	AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
