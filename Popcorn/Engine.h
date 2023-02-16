@@ -56,7 +56,7 @@ private:
 	static const int Score_Y_Pos = 108;
 	static const int Score_Width = 110;
 	static const int Score_Height = 90;
-	static const int Score_Val_Offset = 22;
+	static const int Score_Val_Offset = 20;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
