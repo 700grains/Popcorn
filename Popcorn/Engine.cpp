@@ -118,11 +118,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	Draw_String(hdc, rect, player_str);
 
 	// 3.2 Player score
-	// 3.2.1 shadow
-	
-	//Draw_String(hdc, rect, player_score);
-
-	// 3.2.2 the score
+	//AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
 	rect.top += 22 * scale;
 	rect.bottom += 22 * scale;
 
