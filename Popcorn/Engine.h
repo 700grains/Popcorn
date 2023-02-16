@@ -50,7 +50,7 @@ private:
 	HFONT Logo_Corn_Font, Logo_Pop_Font, Name_Font, Score_Font;
 	AColor *Shadow_Color, *Highlight_Color, *Shaded_Blue, *Dark_Red_Color;
 
-	AFalling_Letter Letter_P;// , Letter_L, Letter_F;
+	AFalling_Letter Letter_P, Letter_L, Letter_M;
 
 	static const int Score_X_Pos = 208;
 	static const int Score_Y_Pos = 108;
