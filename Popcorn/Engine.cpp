@@ -58,10 +58,11 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	int score_y_pos = 108;
 	int score_width = 110;
 	int score_height = 90;
+	int str_left_offset, str_top_offset;
 
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
-	const wchar_t* player_str = L"QWERTYuiopa"; // 11 symbols max!
+	const wchar_t* player_str = L"Qopa"; // 11 symbols max!
 	SIZE str_size;
 
 	// 1. Game logo
@@ -112,7 +113,10 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	GetTextExtentPoint32(hdc, player_str, wcslen(player_str), &str_size); 	//Calculate the length of the string in the window with the player's name
 
-	TextOut(hdc, (score_x_pos + 5) * scale, (score_y_pos + 2) * scale, player_str, wcslen(player_str));
+	str_left_offset = (score_x_pos + 5 + (score_width - 2 * 5) / 2) * scale - str_size.cx / 2;
+	str_top_offset = (score_y_pos + 5 + 8) * scale - str_size.cy / 2;
+
+	TextOut(hdc, str_left_offset, str_top_offset, player_str, wcslen(player_str));
 
 	// 3.2 Player score
 	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
