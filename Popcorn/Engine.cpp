@@ -148,6 +148,28 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	// 5.3 Monster
 	AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
+
+	// 6. Extra lifes 
+	rect.left = (Score_X_Pos + 27 + 8) * scale;
+	rect.top = (Score_Y_Pos + 55 + 5) * scale;
+	rect.right = rect.left + 8 * scale;
+	rect.bottom = rect.top + 3 * scale;
+
+
+	AsConfig::Blue_Color.Select(hdc);
+	AsTools::Round_Rect(hdc, rect);
+
+	rect.left = (Score_X_Pos + 27 + 6) * scale;
+	rect.top = (Score_Y_Pos + 55 + 4) * scale;
+	rect.right = rect.left + 4 * scale;
+	rect.bottom = rect.top + 5 * scale;	
+	
+	AsTools::Ellipse(hdc, rect, AsConfig::Red_Color);
+
+	rect.left += 8 * scale;
+	rect.right += 8 * scale;
+
+	AsTools::Ellipse(hdc, rect, AsConfig::Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
