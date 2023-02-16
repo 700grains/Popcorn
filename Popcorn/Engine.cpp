@@ -70,7 +70,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 	const wchar_t* player_str = L"Qopa"; // 11 symbols max!
-	const wchar_t* player_score = L"SCORE: 9999"; // 11 symbols max!
+	const wchar_t* player_score = L"SCORE:000000"; // 11 symbols max!
 	RECT rect;
 
 	// 1. Game logo
@@ -120,13 +120,13 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	rect.right = rect.left + (Score_Width - 2 * 5) * scale;
 	rect.bottom = rect.top + 16 * scale;
 
-	Draw_String(hdc, rect, player_str, Name_Font);
+	Draw_String(hdc, rect, player_str, true);
 
 	// 3.2 Player score
 	rect.top += Score_Val_Offset * scale;
 	rect.bottom += Score_Val_Offset * scale;
 
-	Draw_String(hdc, rect, player_score, Score_Font);
+	Draw_String(hdc, rect, player_score, false);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
@@ -184,7 +184,7 @@ void AsInformation_Panel::Choose_Font()
 	ChooseFont(&cf);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str, HFONT font)
+void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str, bool name)
 {
 	const int scale = AsConfig::Global_Scale;
 	int str_left_offset, str_top_offset;
@@ -194,7 +194,10 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str, H
 	AsTools::Rect(hdc, rect, *Dark_Red_Color);
 
 	// 2. Draw string
-	SelectObject(hdc, font);
+	if (name)
+		SelectObject(hdc, Name_Font);
+	else
+		SelectObject(hdc, Score_Font);
 
 	GetTextExtentPoint32(hdc, str, wcslen(str), &str_size); 	//Calculate the length of the string in the window with the player's name
 
@@ -206,7 +209,11 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str, H
 	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, str, wcslen(str));
 
 	// 2.2 Draw the string
-	SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
+	if (name)
+		SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
+	else
+		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
+	
 	TextOut(hdc, str_left_offset, str_top_offset, str, wcslen(str));
 }
 //------------------------------------------------------------------------------------------------------------
