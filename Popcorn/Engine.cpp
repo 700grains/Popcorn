@@ -11,22 +11,6 @@ AsInformation_Panel::~AsInformation_Panel()
 AsInformation_Panel::AsInformation_Panel()
 	: Logo_Corn_Font(0), Logo_Pop_Font(0), Shadow_Color(0), Highlight_Color(0)
 {
-	LOGFONT log_font{};
-
-	log_font.lfHeight = -96;
-	log_font.lfWeight = 900;
-	log_font.lfOutPrecision = 3;
-	log_font.lfClipPrecision = 2;
-	log_font.lfQuality = 1;
-	log_font.lfPitchAndFamily = 34;
-
-	wcscpy_s(log_font.lfFaceName, L"Arial Black");
-
-	Logo_Corn_Font = CreateFontIndirect(&log_font);
-
-	log_font.lfHeight = -128;
-
-	Logo_Pop_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Begin_Movement()
@@ -120,6 +104,23 @@ void AsInformation_Panel::Init()
 {
 	Shadow_Color = new AColor(AsConfig::BG_Color, AsConfig::Global_Scale);
 	Highlight_Color = new AColor(AsConfig::White_Color, AsConfig::Global_Scale);
+
+	LOGFONT log_font{};
+
+	log_font.lfHeight = -96;
+	log_font.lfWeight = 900;
+	log_font.lfOutPrecision = 3;
+	log_font.lfClipPrecision = 2;
+	log_font.lfQuality = 1;
+	log_font.lfPitchAndFamily = 34;
+
+	wcscpy_s(log_font.lfFaceName, L"Arial Black");
+
+	Logo_Corn_Font = CreateFontIndirect(&log_font);
+
+	log_font.lfHeight = -128;
+
+	Logo_Pop_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Choose_Font()
