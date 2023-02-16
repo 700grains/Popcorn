@@ -8,6 +8,19 @@ AsInformation_Panel::~AsInformation_Panel()
 	delete Highlight_Color;
 	delete Shaded_Blue;
 	delete Dark_Red_Color;
+
+	if (Logo_Corn_Font)
+		DeleteObject(Logo_Corn_Font);
+
+	if (Logo_Pop_Font)
+		DeleteObject(Logo_Pop_Font);
+
+	if (Name_Font)
+		DeleteObject(Name_Font);
+
+	if (Score_Font)
+		DeleteObject(Score_Font);
+
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
@@ -102,22 +115,18 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale);
 
 	// 3.1 Player name
-	// 3.1.1 Shadow
-
-	// 3.1.2 the name
 	rect.left = (Score_X_Pos + 5) * scale;
 	rect.top = (Score_Y_Pos + 5) * scale;
 	rect.right = rect.left + (Score_Width - 2 * 5) * scale;
 	rect.bottom = rect.top + 16 * scale;
 
-	Draw_String(hdc, rect, player_str);
+	Draw_String(hdc, rect, player_str, Name_Font);
 
 	// 3.2 Player score
-	//AsTools::Rect(hdc, Score_X_Pos + 5, Score_Y_Pos + 27, Score_Width - 2 * 5, 16, *Dark_Red_Color);
 	rect.top += Score_Val_Offset * scale;
 	rect.bottom += Score_Val_Offset * scale;
 
-	Draw_String(hdc, rect, player_score);
+	Draw_String(hdc, rect, player_score, Score_Font);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
@@ -143,7 +152,6 @@ void AsInformation_Panel::Init()
 	log_font.lfPitchAndFamily = 34;
 
 	wcscpy_s(log_font.lfFaceName, L"Arial Black");
-
 	Logo_Corn_Font = CreateFontIndirect(&log_font);
 
 	log_font.lfHeight = -128;
@@ -157,10 +165,9 @@ void AsInformation_Panel::Init()
 	log_font.lfPitchAndFamily = 49;
 
 	wcscpy_s(log_font.lfFaceName, L"Consolas");
-
 	Name_Font = CreateFontIndirect(&log_font);
 
-
+	log_font.lfHeight = -44;
 	Score_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -177,7 +184,7 @@ void AsInformation_Panel::Choose_Font()
 	ChooseFont(&cf);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str)
+void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str, HFONT font)
 {
 	const int scale = AsConfig::Global_Scale;
 	int str_left_offset, str_top_offset;
@@ -187,7 +194,7 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str)
 	AsTools::Rect(hdc, rect, *Dark_Red_Color);
 
 	// 2. Draw string
-	SelectObject(hdc, Name_Font);
+	SelectObject(hdc, font);
 
 	GetTextExtentPoint32(hdc, str, wcslen(str), &str_size); 	//Calculate the length of the string in the window with the player's name
 
