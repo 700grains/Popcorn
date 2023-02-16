@@ -62,6 +62,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 	const wchar_t* player_str = L"Qopa"; // 11 symbols max!
+	const wchar_t* player_score = L"SCORE: 9999"; // 11 symbols max!
 	RECT rect;
 
 	// 1. Game logo
@@ -114,7 +115,11 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	Draw_String(hdc, rect, player_str);
 
 	// 3.2 Player score
-	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
+	//AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
+	rect.top += 22 * scale;
+	rect.bottom += 22 * scale;
+
+	Draw_String(hdc, rect, player_score);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
