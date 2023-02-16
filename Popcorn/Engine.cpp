@@ -108,7 +108,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 5, score_width - 2 * 5, 16, *Dark_Red_Color);
 	SelectObject(hdc, Name_Font);
 	SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
-	TextOut(hdc, (score_x_pos + 5) * scale, (score_y_pos + 5) * scale, player_str, wcslen(player_str));
+	TextOut(hdc, (score_x_pos + 5) * scale, (score_y_pos + 2) * scale, player_str, wcslen(player_str));
 
 	// 3.2 Player score
 	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
@@ -143,7 +143,7 @@ void AsInformation_Panel::Init()
 	log_font.lfHeight = -128;
 	Logo_Pop_Font = CreateFontIndirect(&log_font);
 
-	log_font.lfHeight = -32;
+	log_font.lfHeight = -46;
 	Name_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
