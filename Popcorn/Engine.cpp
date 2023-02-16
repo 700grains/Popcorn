@@ -103,8 +103,12 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + score_height - 2) * scale);
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale);
 
-	// 3. Draw a plate for the player's name
+	// 3.1 Draw a plate for the player's name
 	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 5, score_width - 2 * 5, 16, *Dark_Red_Color);
+
+
+	// 3.2 Draw a plate for the player's score
+	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
