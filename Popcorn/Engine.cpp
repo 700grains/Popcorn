@@ -26,11 +26,11 @@ AsInformation_Panel::~AsInformation_Panel()
 AsInformation_Panel::AsInformation_Panel()
 	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0), 
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 216 * AsConfig::Global_Scale, 155 * AsConfig::Global_Scale),
-	Letter_L(EBrick_Type::Blue, ELetter_Type::L, 236 * AsConfig::Global_Scale, 155 * AsConfig::Global_Scale),
-	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 256 * AsConfig::Global_Scale, 155 * AsConfig::Global_Scale)
+	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 155 * AsConfig::Global_Scale),
+	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 296 * AsConfig::Global_Scale, 155 * AsConfig::Global_Scale)
 {
 	Letter_P.Show_Full_Size();
-	Letter_L.Show_Full_Size();
+	Letter_G.Show_Full_Size();
 	Letter_M.Show_Full_Size();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	// 4. Letter indicators
 	Letter_P.Draw(hdc, paint_area);
-	Letter_L.Draw(hdc, paint_area);
+	Letter_G.Draw(hdc, paint_area);
 	Letter_M.Draw(hdc, paint_area);
 
 }
