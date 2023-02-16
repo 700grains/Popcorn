@@ -7,10 +7,11 @@ AsInformation_Panel::~AsInformation_Panel()
 	delete Shadow_Color;
 	delete Highlight_Color;
 	delete Shaded_Blue;
+	delete Dark_Red_Color;
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Logo_Corn_Font(0), Logo_Pop_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0)
+	: Logo_Corn_Font(0), Logo_Pop_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -83,10 +84,10 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	// 2. Score table
 	// 2.1 frame
-	AsTools::Rect(hdc, score_x_pos, score_y_pos, score_width, 2, AsConfig::Red_Color);
-	AsTools::Rect(hdc, score_x_pos, score_y_pos + score_height - 2, score_width, 2, AsConfig::Red_Color);
-	AsTools::Rect(hdc, score_x_pos, score_y_pos, 2, score_height, AsConfig::Red_Color);
-	AsTools::Rect(hdc, score_x_pos + score_width - 2, score_y_pos, 2, score_height, AsConfig::Red_Color);
+	AsTools::Rect(hdc, score_x_pos, score_y_pos, score_width, 2, *Dark_Red_Color);
+	AsTools::Rect(hdc, score_x_pos, score_y_pos + score_height - 2, score_width, 2, *Dark_Red_Color);
+	AsTools::Rect(hdc, score_x_pos, score_y_pos, 2, score_height, *Dark_Red_Color);
+	AsTools::Rect(hdc, score_x_pos + score_width - 2, score_y_pos, 2, score_height, *Dark_Red_Color);
 
 	// 2.2 The table itself
 	AsTools::Rect(hdc, score_x_pos + 2, score_y_pos + 2, score_width - 4, score_height - 4, *Shaded_Blue);
@@ -103,7 +104,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale);
 
 	// 3. Draw a plate for the player's name
-	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 5, score_width - 2 * 5, 16, AsConfig::Dark_Red_Color);
+	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 5, score_width - 2 * 5, 16, *Dark_Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
@@ -117,6 +118,7 @@ void AsInformation_Panel::Init()
 	Shadow_Color = new AColor(AsConfig::BG_Color, AsConfig::Global_Scale);
 	Highlight_Color = new AColor(AsConfig::White_Color, AsConfig::Global_Scale);
 	Shaded_Blue = new AColor(0, 170, 170);
+	Dark_Red_Color = new AColor(190, 30, 30);
 
 	LOGFONT log_font{};
 

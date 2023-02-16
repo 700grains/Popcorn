@@ -48,7 +48,7 @@ private:
 
 	HFONT Logo_Corn_Font;
 	HFONT Logo_Pop_Font;
-	AColor *Shadow_Color, *Highlight_Color, *Shaded_Blue;
+	AColor *Shadow_Color, *Highlight_Color, *Shaded_Blue, *Dark_Red_Color;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
