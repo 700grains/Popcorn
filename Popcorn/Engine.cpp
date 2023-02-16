@@ -11,7 +11,7 @@ AsInformation_Panel::~AsInformation_Panel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0)
+	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -54,11 +54,6 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	int shade_x_offset = 5 * scale;
 	int shade_y_offset = 6 * scale;
 
-	int score_x_pos = 208;
-	int score_y_pos = 108;
-	int score_width = 110;
-	int score_height = 90;
-
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 	const wchar_t* player_str = L"Qopa"; // 11 symbols max!
@@ -87,40 +82,40 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	// 2. Score table
 	// 2.1 frame
-	AsTools::Rect(hdc, score_x_pos, score_y_pos, score_width, 2, *Dark_Red_Color);
-	AsTools::Rect(hdc, score_x_pos, score_y_pos + score_height - 2, score_width, 2, *Dark_Red_Color);
-	AsTools::Rect(hdc, score_x_pos, score_y_pos, 2, score_height, *Dark_Red_Color);
-	AsTools::Rect(hdc, score_x_pos + score_width - 2, score_y_pos, 2, score_height, *Dark_Red_Color);
+	AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos, Score_Width, 2, *Dark_Red_Color);
+	AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos + Score_Height - 2, Score_Width, 2, *Dark_Red_Color);
+	AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos, 2, Score_Height, *Dark_Red_Color);
+	AsTools::Rect(hdc, Score_X_Pos + Score_Width - 2, Score_Y_Pos, 2, Score_Height, *Dark_Red_Color);
 
 	// 2.2 The table itself
-	AsTools::Rect(hdc, score_x_pos + 2, score_y_pos + 2, score_width - 4, score_height - 4, *Shaded_Blue);
+	AsTools::Rect(hdc, Score_X_Pos + 2, Score_Y_Pos + 2, Score_Width - 4, Score_Height - 4, *Shaded_Blue);
 
 	// 2.3 Highlights (light and shades)
 	Highlight_Color->Select_Pen(hdc);
-	MoveToEx(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale, 0);
-	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + 2) * scale);
-	LineTo(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + 2) * scale);
+	MoveToEx(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale, 0);
+	LineTo(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + 2) * scale);
+	LineTo(hdc, (Score_X_Pos + Score_Width - 2) * scale, (Score_Y_Pos + 2) * scale);
 
 	Shadow_Color->Select_Pen(hdc);
-	MoveToEx(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + 2) * scale, 0);
-	LineTo(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + score_height - 2) * scale);
-	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale);
+	MoveToEx(hdc, (Score_X_Pos + Score_Width - 2) * scale, (Score_Y_Pos + 2) * scale, 0);
+	LineTo(hdc, (Score_X_Pos + Score_Width - 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale);
+	LineTo(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale);
 
 	// 3.1 Player name
 	// 3.1.1 Shadow
 
 	// 3.1.2 the name
-	rect.left = (score_x_pos + 5) * scale;
-	rect.top = (score_y_pos + 5) * scale;
-	rect.right = rect.left + (score_width - 2 * 5) * scale;
+	rect.left = (Score_X_Pos + 5) * scale;
+	rect.top = (Score_Y_Pos + 5) * scale;
+	rect.right = rect.left + (Score_Width - 2 * 5) * scale;
 	rect.bottom = rect.top + 16 * scale;
 
 	Draw_String(hdc, rect, player_str);
 
 	// 3.2 Player score
-	//AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
-	rect.top += 22 * scale;
-	rect.bottom += 22 * scale;
+	//AsTools::Rect(hdc, Score_X_Pos + 5, Score_Y_Pos + 27, Score_Width - 2 * 5, 16, *Dark_Red_Color);
+	rect.top += Score_Val_Offset * scale;
+	rect.bottom += Score_Val_Offset * scale;
 
 	Draw_String(hdc, rect, player_score);
 }
@@ -164,6 +159,9 @@ void AsInformation_Panel::Init()
 	wcscpy_s(log_font.lfFaceName, L"Consolas");
 
 	Name_Font = CreateFontIndirect(&log_font);
+
+
+	Score_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Choose_Font()
