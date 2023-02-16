@@ -11,7 +11,7 @@ AsInformation_Panel::~AsInformation_Panel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Logo_Corn_Font(0), Logo_Pop_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0)
+	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -138,8 +138,10 @@ void AsInformation_Panel::Init()
 	Logo_Corn_Font = CreateFontIndirect(&log_font);
 
 	log_font.lfHeight = -128;
-
 	Logo_Pop_Font = CreateFontIndirect(&log_font);
+
+	log_font.lfHeight = -32;
+	Name_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Choose_Font()

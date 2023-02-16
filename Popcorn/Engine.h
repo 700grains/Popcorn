@@ -46,8 +46,7 @@ public:
 private:
 	void Choose_Font();
 
-	HFONT Logo_Corn_Font;
-	HFONT Logo_Pop_Font;
+	HFONT Logo_Corn_Font, Logo_Pop_Font, Name_Font;
 	AColor *Shadow_Color, *Highlight_Color, *Shaded_Blue, *Dark_Red_Color;
 };
 //------------------------------------------------------------------------------------------------------------
