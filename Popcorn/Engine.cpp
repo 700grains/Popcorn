@@ -81,10 +81,16 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	TextOut(hdc, logo_x_pos - 5 * scale, logo_y_pos + 48 * scale, corn_str, 4);
 
 	// 2. Score table
-	AsTools::Rect(hdc, score_x_pos, score_y_pos, score_width, score_height, AsConfig::Red_Color);
+	// 2.1 frame
+	AsTools::Rect(hdc, score_x_pos, score_y_pos, score_width, 2, AsConfig::Red_Color);
+	AsTools::Rect(hdc, score_x_pos, score_y_pos + score_height - 2, score_width, 2, AsConfig::Red_Color);
+	AsTools::Rect(hdc, score_x_pos, score_y_pos, 2, score_height, AsConfig::Red_Color);
+	AsTools::Rect(hdc, score_x_pos + score_width - 2, score_y_pos, 2, score_height, AsConfig::Red_Color);
 
+	// 2.2 The table itself
 	AsTools::Rect(hdc, score_x_pos + 2, score_y_pos + 2, score_width - 4, score_height - 4, *Shaded_Blue);
 
+	// 2.3 Highlights (light and shades)
 	Highlight_Color->Select_Pen(hdc);
 	MoveToEx(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale, 0);
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + 2) * scale);
