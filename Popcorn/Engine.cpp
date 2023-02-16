@@ -143,7 +143,18 @@ void AsInformation_Panel::Init()
 	log_font.lfHeight = -128;
 	Logo_Pop_Font = CreateFontIndirect(&log_font);
 
-	log_font.lfHeight = -46;
+	//log_font.lfHeight = -46;
+	//Name_Font = CreateFontIndirect(&log_font);
+
+	log_font.lfHeight = -48;
+	log_font.lfWeight = 700;
+	log_font.lfOutPrecision = 3;
+	log_font.lfClipPrecision = 2;
+	log_font.lfQuality = 1;
+	log_font.lfPitchAndFamily = 49;
+
+	wcscpy_s(log_font.lfFaceName, L"Consolas");
+
 	Name_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
