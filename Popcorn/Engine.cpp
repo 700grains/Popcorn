@@ -2,6 +2,12 @@
 
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------
+AsInformation_Panel::~AsInformation_Panel()
+{
+	delete Shadow_Color;
+	delete Highlight_Color;
+}
+//------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
 	: Logo_Corn_Font(0), Logo_Pop_Font(0), Shadow_Color(0), Highlight_Color(0)
 {

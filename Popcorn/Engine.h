@@ -28,6 +28,7 @@ enum class EGame_State: unsigned char
 class AsInformation_Panel: public AGame_Object
 {
 public:
+	~AsInformation_Panel();
 	AsInformation_Panel();
 
 	virtual void Begin_Movement() override;
