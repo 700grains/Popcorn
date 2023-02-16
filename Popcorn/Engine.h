@@ -40,11 +40,14 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area) override;
 	virtual bool Is_Finished() override;
 
+	void Init();
+
 private:
+	void Choose_Font();
+
 	HFONT Logo_Corn_Font;
 	HFONT Logo_Pop_Font;
-
-	void Choose_Font();
+	AColor *Shadow_Color, *Highlight_Color;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
