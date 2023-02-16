@@ -62,18 +62,19 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	const wchar_t* corn_str = L"CORN";
 
 	// 1. Game logo
+	// 1.1 Frame
 	AsTools::Rect(hdc, 211, 5, 104, 100, AsConfig::Blue_Color);
 
 	SetBkMode(hdc, 0);
 
-	// Shadow
+	// 1.2 Shadow
 	SelectObject(hdc, Logo_Pop_Font);
 	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
 	TextOut(hdc, logo_x_pos + shade_x_offset, logo_y_pos + shade_y_offset, pop_str, 3);
 	SelectObject(hdc, Logo_Corn_Font);
 	TextOut(hdc, logo_x_pos - 5 * scale + shade_x_offset, logo_y_pos + 48 * scale + shade_y_offset, corn_str, 4);
 
-	// logo
+	// 1.3 logo
 	SelectObject(hdc, Logo_Pop_Font);
 	SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
 	TextOut(hdc, logo_x_pos, logo_y_pos, pop_str, 3);
@@ -101,6 +102,8 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + score_height - 2) * scale);
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale);
 
+	// 3. Draw a plate for the player's name
+	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 5, score_width - 2 * 5, 16, AsConfig::Dark_Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
