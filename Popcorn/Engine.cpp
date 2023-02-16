@@ -62,6 +62,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 	const wchar_t* player_str = L"Qopa"; // 11 symbols max!
+	const wchar_t* player_score = L"SCORE: 9999"; // 11 symbols max!
 	RECT rect;
 
 	// 1. Game logo
@@ -106,6 +107,9 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale);
 
 	// 3.1 Player name
+	// 3.1.1 Shadow
+
+	// 3.1.2 the name
 	rect.left = (score_x_pos + 5) * scale;
 	rect.top = (score_y_pos + 5) * scale;
 	rect.right = rect.left + (score_width - 2 * 5) * scale;
@@ -114,7 +118,15 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	Draw_String(hdc, rect, player_str);
 
 	// 3.2 Player score
-	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 27, score_width - 2 * 5, 16, *Dark_Red_Color);
+	// 3.2.1 shadow
+	
+	//Draw_String(hdc, rect, player_score);
+
+	// 3.2.2 the score
+	rect.top += 22 * scale;
+	rect.bottom += 22 * scale;
+
+	Draw_String(hdc, rect, player_score);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
@@ -146,9 +158,6 @@ void AsInformation_Panel::Init()
 	log_font.lfHeight = -128;
 	Logo_Pop_Font = CreateFontIndirect(&log_font);
 
-	//log_font.lfHeight = -46;
-	//Name_Font = CreateFontIndirect(&log_font);
-
 	log_font.lfHeight = -48;
 	log_font.lfWeight = 700;
 	log_font.lfOutPrecision = 3;
@@ -176,18 +185,27 @@ void AsInformation_Panel::Choose_Font()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str)
 {
+	const int scale = AsConfig::Global_Scale;
 	int str_left_offset, str_top_offset;
 	SIZE str_size;
 
+	// 1. Draw background plate.
 	AsTools::Rect(hdc, rect, *Dark_Red_Color);
+
+	// 2. Draw string
 	SelectObject(hdc, Name_Font);
-	SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
 
 	GetTextExtentPoint32(hdc, str, wcslen(str), &str_size); 	//Calculate the length of the string in the window with the player's name
 
 	str_left_offset = rect.left + (rect.right - rect.left) / 2 - str_size.cx / 2;
-	str_top_offset = rect.top + (rect.bottom - rect.top) / 2 - str_size.cy / 2;
+	str_top_offset = rect.top + (rect.bottom - rect.top) / 2 - str_size.cy / 2 - scale;
 
+	// 2.1 Draw shadow
+	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
+	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, str, wcslen(str));
+
+	// 2.2 Draw the string
+	SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
 	TextOut(hdc, str_left_offset, str_top_offset, str, wcslen(str));
 }
 //------------------------------------------------------------------------------------------------------------
