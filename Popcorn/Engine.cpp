@@ -139,8 +139,15 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	Letter_G.Draw(hdc, paint_area);
 	Letter_M.Draw(hdc, paint_area);
 
-	// 5. Floor indicator
+	// 5. indicators
+	// 5.1 Floor
 	AsTools::Rect(hdc, Score_X_Pos + 10, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
+
+	// 5.2 Life
+	AsTools::Rect(hdc, Score_X_Pos + 50, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
+
+	// 5.3 Monster
+	AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
