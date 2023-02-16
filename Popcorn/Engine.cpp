@@ -24,7 +24,8 @@ AsInformation_Panel::~AsInformation_Panel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0)
+	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0), 
+	Letter_P(EBrick_Type::Red, ELetter_Type::P, 216 * AsConfig::Global_Scale, 155 * AsConfig::Global_Scale)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -127,6 +128,10 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	rect.bottom += Score_Val_Offset * scale;
 
 	Draw_String(hdc, rect, player_score, false);
+
+	// 4. Letter indicators
+	Letter_P.Draw(hdc, paint_area);
+	
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
