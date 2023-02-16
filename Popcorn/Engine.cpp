@@ -96,6 +96,12 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	MoveToEx(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale, 0);
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + 2) * scale);
 	LineTo(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + 2) * scale);
+
+	AsConfig::BG_Bold_Color.Select_Pen(hdc);
+	MoveToEx(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + 2) * scale, 0);
+	LineTo(hdc, (score_x_pos + score_width - 2) * scale, (score_y_pos + score_height - 2) * scale);
+	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale);
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
