@@ -21,6 +21,14 @@ AGraphics_Object::~AGraphics_Object()
 
 
 // AColor
+AColor::~AColor()
+{
+	if (Pen != 0)
+		DeleteObject(Pen);
+
+	if (Brush != 0)
+		DeleteObject(Brush);
+}
 //------------------------------------------------------------------------------------------------------------
 AColor::AColor()
 	: R(0), G(0), B(0), Pen(0), Brush(0)
