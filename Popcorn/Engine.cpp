@@ -64,6 +64,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	const wchar_t* corn_str = L"CORN";
 	const wchar_t* player_str = L"Qopa"; // 11 symbols max!
 	SIZE str_size;
+	RECT rect;
 
 	// 1. Game logo
 	// 1.1 Frame
@@ -107,14 +108,21 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale);
 
 	// 3.1 Player name
-	AsTools::Rect(hdc, score_x_pos + 5, score_y_pos + 5, score_width - 2 * 5, 16, *Dark_Red_Color);
+	rect.left = (score_x_pos + 5) * scale;
+	rect.top = (score_y_pos + 5) * scale;
+	rect.right = rect.left + (score_width - 2 * 5) * scale;
+	rect.bottom = rect.top + 16 * scale;
+
+	AsTools::Rect(hdc, rect, *Dark_Red_Color);
 	SelectObject(hdc, Name_Font);
 	SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
 
 	GetTextExtentPoint32(hdc, player_str, wcslen(player_str), &str_size); 	//Calculate the length of the string in the window with the player's name
 
-	str_left_offset = (score_x_pos + 5 + (score_width - 2 * 5) / 2) * scale - str_size.cx / 2;
-	str_top_offset = (score_y_pos + 5 + 8) * scale - str_size.cy / 2;
+	str_left_offset = rect.left + (rect.right - rect.left) / 2 - str_size.cx / 2;
+		//(score_x_pos + 5 + (score_width - 2 * 5) / 2) * scale - str_size.cx / 2;
+	str_top_offset = rect.top + (rect.bottom - rect.top) / 2 - str_size.cy / 2;
+		//(score_y_pos + 5 + 8) * scale - str_size.cy / 2;
 
 	TextOut(hdc, str_left_offset, str_top_offset, player_str, wcslen(player_str));
 
