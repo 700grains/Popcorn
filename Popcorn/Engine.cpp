@@ -6,10 +6,11 @@ AsInformation_Panel::~AsInformation_Panel()
 {
 	delete Shadow_Color;
 	delete Highlight_Color;
+	delete Shaded_Blue;
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Logo_Corn_Font(0), Logo_Pop_Font(0), Shadow_Color(0), Highlight_Color(0)
+	: Logo_Corn_Font(0), Logo_Pop_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -82,6 +83,8 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	// 2. Score table
 	AsTools::Rect(hdc, score_x_pos, score_y_pos, score_width, score_height, AsConfig::Red_Color);
 
+	AsTools::Rect(hdc, score_x_pos + 2, score_y_pos + 2, score_width - 4, score_height - 4, *Shaded_Blue);
+
 	Highlight_Color->Select_Pen(hdc);
 	MoveToEx(hdc, (score_x_pos + 2) * scale, (score_y_pos + score_height - 2) * scale, 0);
 	LineTo(hdc, (score_x_pos + 2) * scale, (score_y_pos + 2) * scale);
@@ -104,6 +107,7 @@ void AsInformation_Panel::Init()
 {
 	Shadow_Color = new AColor(AsConfig::BG_Color, AsConfig::Global_Scale);
 	Highlight_Color = new AColor(AsConfig::White_Color, AsConfig::Global_Scale);
+	Shaded_Blue = new AColor(0, 170, 170);
 
 	LOGFONT log_font{};
 
