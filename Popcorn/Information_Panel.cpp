@@ -77,6 +77,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
+	wchar_t buffer[32];
 	//const wchar_t* player_str = L"Qopa"; // 11 symbols max!
 	//const wchar_t* player_score = L"SCORE:000000"; // 11 symbols max!
 	std::wstring player_score;
@@ -135,7 +136,9 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	rect.bottom += Score_Val_Offset * scale;
 
 	player_score = L"SCORE:";
-	//player_score.append();
+
+	_itow_s( AsConfig::Score, buffer, 32, 10);
+	player_score += buffer;
 
 	Draw_String(hdc, rect, player_score.c_str(), false);
 
