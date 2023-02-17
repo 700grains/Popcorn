@@ -169,7 +169,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
 
 	// 6. Extra lifes 
-	Show_Extra_Lives();
+	Show_Extra_Lives(hdc);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
@@ -263,11 +263,17 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool na
 void AsInformation_Panel::Show_Extra_Lives(HDC hdc)
 {
 	int i, j;
+	int lives_count = AsConfig::Lives_Left;
 
-	for (i = 0; i < 4; i++)
-		for (j = 0; j < 3; j++)
+	for (j = 0; j < 3; j++)
+		for (i = 0; i < 4; i++)
+		{
+			if (lives_count <= 0)
+				break;
+
 			Draw_Extra_Life(hdc, 27 + 6 + j * 18, 55 + 3 + i * 7);
-
+			lives_count--;
+		}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw_Extra_Life(HDC hdc, int x, int y)
