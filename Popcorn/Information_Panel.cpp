@@ -245,7 +245,7 @@ void AsInformation_Panel::Choose_Font()
 	ChooseFont(&cf);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, const wchar_t* str, bool name)
+void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool name)
 {
 	const int scale = AsConfig::Global_Scale;
 	int str_left_offset, str_top_offset;
