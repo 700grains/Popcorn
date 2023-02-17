@@ -4,6 +4,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <string>
 
 //------------------------------------------------------------------------------------------------------------
 enum class EBall_State : unsigned char
@@ -97,5 +98,20 @@ public:
 
 protected:
 	virtual bool Get_Next_GameObject(int &index, AGame_Object **game_object) = 0;
+};
+//------------------------------------------------------------------------------------------------------------
+class AString
+{
+public:
+	~AString();
+	AString();
+	AString(const wchar_t* str);
+
+	void Append(int value);
+	const wchar_t* Get_Content();
+	int Get_Length();
+
+private:
+	std::wstring Content;
 };
 //------------------------------------------------------------------------------------------------------------

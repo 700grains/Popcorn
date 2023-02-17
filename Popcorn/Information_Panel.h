@@ -2,23 +2,7 @@
 
 #include "Config.h"
 #include "Falling_Letter.h"
-#include <string>
 
-//------------------------------------------------------------------------------------------------------------
-class AString
-{
-public:
-	~AString();
-	AString();
-	AString(const wchar_t* str);
-
-	void Append(int value);
-	const wchar_t* Get_Content();
-	int Get_Length();
-
-private:
-	std::wstring Content;
-};
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
 {

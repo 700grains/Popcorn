@@ -1,44 +1,5 @@
 #include "Information_Panel.h"
 
-// AString
-//------------------------------------------------------------------------------------------------------------
-AString::~AString()
-{
-}
-//------------------------------------------------------------------------------------------------------------
-AString::AString()
-{
-}
-//------------------------------------------------------------------------------------------------------------
-AString::AString(const wchar_t* str)
-	: Content(str)
-{
-}
-//------------------------------------------------------------------------------------------------------------
-void AString::Append(int value)
-{
-	wchar_t buffer[32];
-
-	//_itow_s(value, buffer, 32, 10);
-
-	swprintf(buffer, 32, L"%.6i", value);
-	Content += buffer;
-}
-//------------------------------------------------------------------------------------------------------------
-const wchar_t* AString::Get_Content()
-{
-	return Content.c_str();
-}
-//------------------------------------------------------------------------------------------------------------
-int AString::Get_Length()
-{
-	return Content.length();
-}
-//------------------------------------------------------------------------------------------------------------
-
-
-
-
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::~AsInformation_Panel()
@@ -96,15 +57,17 @@ double AsInformation_Panel::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Act()
 {
-	const int scale = AsConfig::Global_Scale;
+	//!!! TODO!
 
-	RECT rect;
-	rect.left = 211 * scale;
-	rect.top = 5 * scale;
-	rect.right = rect.left + 104 * scale;
-	rect.bottom = 199 * scale;
+	//const int scale = AsConfig::Global_Scale;
 
-	AsTools::Invalidate_Rect(rect);
+	//RECT rect;
+	//rect.left = 211 * scale;
+	//rect.top = 5 * scale;
+	//rect.right = rect.left + 104 * scale;
+	//rect.bottom = 199 * scale;
+
+	//AsTools::Invalidate_Rect(rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
@@ -187,7 +150,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	//_itow_s(AsConfig::Current_Timer_Tick, buffer, 32, 10);
 	//player_score += buffer;
 
-	player_score.Append(AsConfig::Current_Timer_Tick);
+	player_score.Append(AsConfig::Score);
 
 	Draw_String(hdc, rect, player_score, false);
 
