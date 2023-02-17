@@ -19,8 +19,9 @@ void AString::Append(int value)
 {
 	wchar_t buffer[32];
 
-	_itow_s(value, buffer, 32, 10);
+	//_itow_s(value, buffer, 32, 10);
 
+	swprintf(buffer, 32, L"%.6i", value);
 	Content += buffer;
 }
 //------------------------------------------------------------------------------------------------------------
