@@ -3,6 +3,7 @@
 // AsConfig
 bool AsConfig::Level_Has_Floor = false;
 int AsConfig::Current_Timer_Tick = 0;
+int AsConfig::Score = 0;
 
 const AColor AsConfig::BG_Color(30, 60, 10);
 const AColor AsConfig::Red_Color(255, 85, 85);
