@@ -13,6 +13,7 @@ public:
 	AString(const wchar_t* str);
 
 	void Append(int value);
+	const wchar_t* Get_Content();
 
 private:
 	std::wstring Content;
