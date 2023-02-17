@@ -78,8 +78,8 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 	//const wchar_t* player_str = L"Qopa"; // 11 symbols max!
-	const wchar_t* player_score = L"SCORE:000000"; // 11 symbols max!
-
+	//const wchar_t* player_score = L"SCORE:000000"; // 11 symbols max!
+	std::wstring player_score;
 	// 1. Game logo
 	// 1.1 Frame
 	AsTools::Rect(hdc, 211, 5, 104, 100, AsConfig::Blue_Color);
@@ -134,7 +134,10 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	rect.top += Score_Val_Offset * scale;
 	rect.bottom += Score_Val_Offset * scale;
 
-	Draw_String(hdc, rect, player_score, false);
+	player_score = L"SCORE:";
+	//player_score.append();
+
+	Draw_String(hdc, rect, player_score.c_str(), false);
 
 	// 4. Letter indicators
 	Letter_P.Draw(hdc, paint_area);
