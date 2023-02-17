@@ -14,6 +14,7 @@ public:
 
 	void Append(int value);
 	const wchar_t* Get_Content();
+	int Get_Length();
 
 private:
 	std::wstring Content;

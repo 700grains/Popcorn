@@ -29,6 +29,11 @@ const wchar_t* AString::Get_Content()
 	return Content.c_str();
 }
 //------------------------------------------------------------------------------------------------------------
+int AString::Get_Length()
+{
+	return Content.length();
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -276,14 +281,14 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool na
 	else
 		SelectObject(hdc, Score_Font);
 
-	GetTextExtentPoint32(hdc, str, wcslen(str), &str_size); 	//Calculate the length of the string in the window with the player's name
+	GetTextExtentPoint32(hdc, str.Get_Content(), str.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
 
 	str_left_offset = rect.left + (rect.right - rect.left) / 2 - str_size.cx / 2;
 	str_top_offset = rect.top + (rect.bottom - rect.top) / 2 - str_size.cy / 2 - scale;
 
 	// 2.1 Draw shadow
 	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
-	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, str, wcslen(str));
+	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, str.Get_Content(), str.Get_Length());
 
 	// 2.2 Draw the string
 	if (name)
@@ -291,7 +296,7 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool na
 	else
 		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
 
-	TextOut(hdc, str_left_offset, str_top_offset, str, wcslen(str));
+	TextOut(hdc, str_left_offset, str_top_offset, str.Get_Content(), str.Get_Length());
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw_Extra_Life(HDC hdc, int x, int y)
