@@ -3,6 +3,19 @@
 #include "Config.h"
 #include "Falling_Letter.h"
 #include <string>
+
+//------------------------------------------------------------------------------------------------------------
+class AString
+{
+public:
+	~AString();
+	AString();
+	AString(const wchar_t* str);
+
+private:
+	std::wstring Content;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
 {
 public:
@@ -31,7 +44,7 @@ private:
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
 
-	std::wstring Player_Name;
+	AString Player_Name;
 
 	static const int Score_X_Pos = 208;
 	static const int Score_Y_Pos = 108;

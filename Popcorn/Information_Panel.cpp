@@ -1,5 +1,24 @@
 #include "Information_Panel.h"
 
+// AString
+//------------------------------------------------------------------------------------------------------------
+AString::~AString()
+{
+}
+//------------------------------------------------------------------------------------------------------------
+AString::AString()
+{
+}
+//------------------------------------------------------------------------------------------------------------
+AString::AString(const wchar_t* str)
+	: Content(str)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::~AsInformation_Panel()
@@ -88,7 +107,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	wchar_t buffer[32];
 	//const wchar_t* player_str = L"Qopa"; // 11 symbols max!
 	//const wchar_t* player_score = L"SCORE:000000"; // 11 symbols max!
-	std::wstring player_score;
+	AString player_score(L"SCORE:");
 	// 1. Game logo
 	// 1.1 Frame
 	AsTools::Rect(hdc, 211, 5, 104, 100, AsConfig::Blue_Color);
@@ -137,18 +156,18 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	rect.bottom = rect.top + 16 * scale;
 
 	Player_Name = L"OLOLOSHKA";
-	Draw_String(hdc, rect, Player_Name.c_str(), true);
+	Draw_String(hdc, rect, Player_Name, true);
 
 	// 3.2 Player score
 	rect.top += Score_Val_Offset * scale;
 	rect.bottom += Score_Val_Offset * scale;
 
-	player_score = L"SCORE:";
+	//player_score = L"SCORE:";
 
 	_itow_s(AsConfig::Current_Timer_Tick, buffer, 32, 10);
 	player_score += buffer;
 
-	Draw_String(hdc, rect, player_score.c_str(), false);
+	Draw_String(hdc, rect, player_score, false);
 
 	// 4. Letter indicators
 	Letter_P.Draw(hdc, paint_area);
