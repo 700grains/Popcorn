@@ -77,7 +77,6 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
-	int i, j, k;
 	const int scale = AsConfig::Global_Scale;
 	int logo_x_pos = 212 * scale;
 	int logo_y_pos = 0;
@@ -170,9 +169,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
 
 	// 6. Extra lifes 
-	for (i = 0; i < 4; i++)
-		for (j = 0; j < 3; j++)
-			Draw_Extra_Life(hdc, 27 + 6 + j * 18, 55 + 3 + i * 7);
+	Show_Extra_Lives();
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
@@ -261,6 +258,16 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool na
 		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
 
 	TextOut(hdc, str_left_offset, str_top_offset, str.Get_Content(), str.Get_Length());
+}
+//------------------------------------------------------------------------------------------------------------
+void AsInformation_Panel::Show_Extra_Lives(HDC hdc)
+{
+	int i, j;
+
+	for (i = 0; i < 4; i++)
+		for (j = 0; j < 3; j++)
+			Draw_Extra_Life(hdc, 27 + 6 + j * 18, 55 + 3 + i * 7);
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw_Extra_Life(HDC hdc, int x, int y)
