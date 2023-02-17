@@ -46,6 +46,7 @@ public:
 private:
 	void Choose_Font();
 	void Draw_String(HDC hdc, RECT &rect, const wchar_t *str, bool name);
+	void Draw_Extra_Life(HDC hdc, int x, int y);
 
 	HFONT Logo_Corn_Font, Logo_Pop_Font, Name_Font, Score_Font;
 	AColor *Shadow_Color, *Highlight_Color, *Shaded_Blue, *Dark_Red_Color;
