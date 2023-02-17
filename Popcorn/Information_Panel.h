@@ -12,6 +12,8 @@ public:
 	AString();
 	AString(const wchar_t* str);
 
+	void Append(int value);
+
 private:
 	std::wstring Content;
 };

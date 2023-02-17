@@ -15,6 +15,15 @@ AString::AString(const wchar_t* str)
 {
 }
 //------------------------------------------------------------------------------------------------------------
+void AString::Append(int value)
+{
+	wchar_t buffer[32];
+
+	_itow_s(value, buffer, 32, 10);
+
+	Content += buffer;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -164,8 +173,10 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	//player_score = L"SCORE:";
 
-	_itow_s(AsConfig::Current_Timer_Tick, buffer, 32, 10);
-	player_score += buffer;
+	//_itow_s(AsConfig::Current_Timer_Tick, buffer, 32, 10);
+	//player_score += buffer;
+
+	player_score.Append(AsConfig::Current_Timer_Tick);
 
 	Draw_String(hdc, rect, player_score, false);
 
