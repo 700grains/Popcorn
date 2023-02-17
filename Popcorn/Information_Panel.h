@@ -2,7 +2,7 @@
 
 #include "Config.h"
 #include "Falling_Letter.h"
-
+#include <string>
 class AsInformation_Panel : public AGame_Object
 {
 public:
@@ -30,6 +30,8 @@ private:
 	AColor* Shadow_Color, * Highlight_Color, * Shaded_Blue, * Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
+
+	std::wstring Player_Name;
 
 	static const int Score_X_Pos = 208;
 	static const int Score_Y_Pos = 108;
