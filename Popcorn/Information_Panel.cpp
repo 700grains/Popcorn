@@ -57,7 +57,15 @@ double AsInformation_Panel::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Act()
 {
-	//!!! TODO!
+	const int scale = AsConfig::Global_Scale;
+
+	RECT rect;
+	rect.left = 211 * scale;
+	rect.top = 5 * scale;
+	rect.right = rect.left + 104 * scale;
+	rect.bottom = 199 * scale;
+
+	AsTools::Invalidate_Rect(rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
@@ -137,7 +145,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	player_score = L"SCORE:";
 
-	_itow_s( AsConfig::Score, buffer, 32, 10);
+	_itow_s(AsConfig::Current_Timer_Tick, buffer, 32, 10);
 	player_score += buffer;
 
 	Draw_String(hdc, rect, player_score.c_str(), false);
