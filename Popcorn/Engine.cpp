@@ -67,17 +67,18 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
+	int i, j, k;
 	const int scale = AsConfig::Global_Scale;
 	int logo_x_pos = 212 * scale;
 	int logo_y_pos = 0;
 	int shade_x_offset = 5 * scale;
 	int shade_y_offset = 6 * scale;
+	RECT rect;
 
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
 	const wchar_t* player_str = L"Qopa"; // 11 symbols max!
 	const wchar_t* player_score = L"SCORE:000000"; // 11 symbols max!
-	RECT rect;
 
 	// 1. Game logo
 	// 1.1 Frame
@@ -150,7 +151,9 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
 
 	// 6. Extra lifes 
-	Draw_Extra_Life(hdc, 27 + 8, 55 + 5);
+	for (i = 0; i < 4; i++)
+		for ( j = 0; j < 3; j++)
+		Draw_Extra_Life(hdc, 27 + 6 + j * 18, 55 + 3 + i * 7);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Is_Finished()
