@@ -190,7 +190,7 @@ double AsLevel::Get_Speed()
 void AsLevel::Act()
 {
 	Act_Objects((AGraphics_Object**)&Active_Bricks, Active_Bricks_Count, AsConfig::Max_Active_Bricks_Count);
-	Act_Objects((AGraphics_Object**)&Falling_Letters, Falling_Letters_Count, AsConfig::Max_Falling_Letters_Count);
+	Act_Objects(Falling_Letters);
 
 	if (Advertisement != 0)
 		Advertisement->Act();
@@ -839,12 +839,26 @@ void AsLevel::Act_Objects(AGraphics_Object** objects_array, int& objects_count, 
 		{
 			objects_array[i]->Act();
 
-			if (objects_array[i]->Is_Finished() )
+			if (objects_array[i]->Is_Finished())
 			{
 				delete objects_array[i];
 				objects_array[i] = 0;
 				--objects_count;
 			}
+		}
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Act_Objects(std::vector <AFalling_Letter*> &falling_letters)
+{
+	for (auto it = falling_letters.begin(); it != falling_letters.end(); it++)
+	{
+		(*it)->Act();
+
+		if ((*it)->Is_Finished())
+		{
+			delete* it; // deleting object in heap
+			it = falling_letters.erase(it); // delete pointer to deleted object
 		}
 	}
 }

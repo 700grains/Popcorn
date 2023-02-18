@@ -56,6 +56,7 @@ private:
 	void Delete_Objects(AGraphics_Object** objects_array, int& objects_count, int object_max_count);
 	void Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count);
 	void Act_Objects(AGraphics_Object** objects_array, int& objects_count, const int objects_max_count);
+	void Act_Objects(std::vector<AFalling_Letter*>& falling_letters);
 	void Cancel_All_Activity();
 
 
