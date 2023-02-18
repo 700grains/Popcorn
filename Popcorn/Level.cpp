@@ -199,6 +199,7 @@ void AsLevel::Act()
 void AsLevel::Clear(HDC hdc, RECT& paint_area)
 {// 1. Erase all moving objects
 
+
 	for (auto* letter : Falling_Letters)
 		letter->Clear(hdc, paint_area);
 
@@ -238,7 +239,8 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 		Draw_Objects(hdc, paint_area, (AGraphics_Object **)&Active_Bricks, AsConfig::Max_Active_Bricks_Count);
 	}
 
-	Draw_Objects(hdc, paint_area, (AGraphics_Object **)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
+	for (auto letter : Falling_Letters)
+		letter->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
@@ -814,7 +816,8 @@ void AsLevel::Delete_Objects(AGraphics_Object** objects_array, int& objects_coun
 void AsLevel::Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count)
 {
 	int i;
-	for (i = 0; i < object_max_count; ++i)
+
+	for (i = 0; i < object_max_count; i++)
 	{
 		if (objects_array[i] != 0)
 			objects_array[i]->Draw(hdc, paint_area);
