@@ -158,37 +158,33 @@ void AsEngine::Play_Level()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()
 {
-	int  i;
 	double current_speed, max_speed = 0.0;
 
 	// 1. Getting maximum speed of moving objects
-	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-		if (Modules[i] != 0)
+	for (auto* engine_module : Modules)
 		{
-			Modules[i]->Begin_Movement();
+			engine_module->Begin_Movement();
 
-			current_speed = fabs(Modules[i]->Get_Speed());
+				current_speed = fabs(engine_module->Get_Speed());
 
-			if (current_speed > max_speed)
-				max_speed = current_speed;
-		}
+				if (current_speed > max_speed)
+					max_speed = current_speed;
+			}
 
 	// 2. Mving all the moving objects.
 	Rest_Distance += max_speed;
 
 	while (Rest_Distance > 0.0)
 	{
-		for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-			if (Modules[i] != 0)
-				Modules[i]->Advance(max_speed);
+		for (auto* engine_module : Modules)
+			engine_module->Advance(max_speed);
 
 		Rest_Distance -= AsConfig::Moving_Step_Size;
 	}
 
 	// 3. Заканчиваем все движения на этом кадре
-	for (i = 0; i < AsConfig::Max_Movers_Count; i++)
-		if (Modules[i] != 0)
-			Modules[i]->Finish_Movement();
+	for (auto* engine_module : Modules)
+		engine_module->Finish_Movement();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Act()
