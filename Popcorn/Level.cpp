@@ -199,7 +199,9 @@ void AsLevel::Act()
 void AsLevel::Clear(HDC hdc, RECT& paint_area)
 {// 1. Erase all moving objects
 
-	Clear_Objects(hdc, paint_area, (AGraphics_Object**)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
+	for (auto* letter : Falling_Letters)
+		letter->Clear(hdc, paint_area);
+
 	if (Advertisement != 0)
 		Advertisement->Clear(hdc, paint_area);
 
@@ -793,16 +795,6 @@ void AsLevel::Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int wid
 	rect.bottom += 3 * scale;
 
 	AsTools::Round_Rect(hdc, rect);
-}
-//------------------------------------------------------------------------------------------------------------
-void AsLevel::Clear_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count)
-{
-	int i;
-	for (i = 0; i < object_max_count; ++i)
-	{
-		if (objects_array[i] != 0)
-			objects_array[i]->Clear(hdc, paint_area);
-	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Delete_Objects(AGraphics_Object** objects_array, int& objects_count, int object_max_count)
