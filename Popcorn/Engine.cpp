@@ -60,17 +60,14 @@ void AsEngine::Init_Engine(HWND hwnd)
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 {// Drawing the game screen
-	int i;
 
 	SetGraphicsMode(hdc, GM_ADVANCED);
 
-	for (i = 0; i < AsConfig::Max_Modules_Count; i++)
-		if (Modules[i] != 0)
-			Modules[i]->Clear(hdc, paint_area);
+	for (auto* engine_module : Modules) 
+		engine_module->Clear(hdc, paint_area);
 
-	for (i = 0; i < AsConfig::Max_Modules_Count; i++)
-		if (Modules[i] != 0)
-			Modules[i]->Draw(hdc, paint_area);
+	for (auto* engine_module : Modules)
+		engine_module->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key(EKey_Type key_type, bool key_down)
@@ -196,7 +193,6 @@ void AsEngine::Advance_Movers()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Act()
 {
-	int i;
 	int index = 0;
 	AFalling_Letter* falling_letter;
 
