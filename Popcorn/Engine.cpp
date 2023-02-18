@@ -201,9 +201,8 @@ void AsEngine::Act()
 	AFalling_Letter* falling_letter;
 
 	// 1. Do all the things
-	for (i = 0; i < AsConfig::Max_Modules_Count; i++)
-		if (Modules[i] != 0)
-			Modules[i]->Act();
+	for (auto *engine_module : Modules)
+		engine_module->Act();
 
 	// 2. Catching falling letters
 	while (Level.Get_Next_Falling_Letter(index, &falling_letter) )
