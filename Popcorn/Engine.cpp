@@ -48,15 +48,14 @@ void AsEngine::Init_Engine(HWND hwnd)
 	SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
 
 	// Modules
-	index = 0;
+	Modules.push_back(&Level);
+	Modules.push_back(&Border);
+	Modules.push_back(&Platform);
+	Modules.push_back(&Ball_Set);
+	Modules.push_back(&Laser_Beam_Set);
+	Modules.push_back(&Monster_Set);
+	Modules.push_back(&Information_Panel);
 
-	Add_Next_Module(index, &Level);
-	Add_Next_Module(index, &Border);
-	Add_Next_Module(index, &Platform);
-	Add_Next_Module(index, &Ball_Set);
-	Add_Next_Module(index, &Laser_Beam_Set);
-	Add_Next_Module(index, &Monster_Set);
-	Add_Next_Module(index, &Information_Panel);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
@@ -277,14 +276,5 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 		AsConfig::Throw();
 	}
 	falling_letter->Finalize();
-}
-//------------------------------------------------------------------------------------------------------------
-void AsEngine::Add_Next_Module(int& index, AGame_Object* game_object)
-{
-	if (index >= 0 && index < AsConfig::Max_Modules_Count)
-		Modules[index++] = game_object;
-	else
-		AsConfig::Throw();
-
 }
 //------------------------------------------------------------------------------------------------------------

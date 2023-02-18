@@ -43,7 +43,6 @@ private:
 	void Advance_Movers();
 	void Act();
 	void On_Falling_Letter(AFalling_Letter* falling_letter);
-	void Add_Next_Module(int &index, AGame_Object* game_object);
 
 	EGame_State Game_State;
 	double Rest_Distance;
