@@ -165,11 +165,11 @@ void AsEngine::Advance_Movers()
 		{
 			engine_module->Begin_Movement();
 
-				current_speed = fabs(engine_module->Get_Speed());
+			current_speed = fabs(engine_module->Get_Speed());
 
-				if (current_speed > max_speed)
-					max_speed = current_speed;
-			}
+			if (current_speed > max_speed)
+				max_speed = current_speed;
+		}
 
 	// 2. Mving all the moving objects.
 	Rest_Distance += max_speed;
