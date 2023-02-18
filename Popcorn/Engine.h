@@ -6,6 +6,7 @@
 #include "Ball_Set.h"
 #include "Monster_Set.h"
 #include "Information_Panel.h"
+#include <vector>
 
 //------------------------------------------------------------------------------------------------------------
 enum class EKey_Type: unsigned char
@@ -56,6 +57,8 @@ private:
 	AsMonster_Set Monster_Set;
 	AsInformation_Panel Information_Panel;
 
-	AGame_Object* Modules[AsConfig::Max_Modules_Count]; // UNO; main graphic modules
+	//AGame_Object* Modules[AsConfig::Max_Modules_Count];
+
+	std::vector< AGame_Object*> Modules;  // UNO; main graphic modules
 };
 //------------------------------------------------------------------------------------------------------------

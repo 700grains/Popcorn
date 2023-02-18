@@ -48,7 +48,6 @@ void AsEngine::Init_Engine(HWND hwnd)
 	SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
 
 	// Modules
-	memset(Modules, 0, sizeof(Modules));
 	index = 0;
 
 	Add_Next_Module(index, &Level);

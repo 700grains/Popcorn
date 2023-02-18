@@ -36,22 +36,22 @@ AsInformation_Panel::AsInformation_Panel()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Begin_Movement()
 {
-	//!!! TODO!
+	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Finish_Movement()
 {
-	//!!! TODO!
+	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Advance(double max_speed)
 {
-	//!!! TODO!
+	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 double AsInformation_Panel::Get_Speed()
 {
-	//!!! TODO!
+	// Not used
 	return 0.0;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 bool AsInformation_Panel::Is_Finished()
 {
 	return false;
-	//!!! TODO!
+	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Init()
