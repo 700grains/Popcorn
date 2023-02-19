@@ -9,7 +9,6 @@ AsEngine::AsEngine()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd)
 {// Game setup at startup
-	int index;
 
 	SYSTEMTIME sys_time;
 	FILETIME file_time;

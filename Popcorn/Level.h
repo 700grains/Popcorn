@@ -70,10 +70,7 @@ private:
 
 	char Current_Level[AsConfig::Level_Height][AsConfig::Level_Width];
 
-	int Active_Bricks_Count;
-	AActive_Brick* Active_Bricks[AsConfig::Max_Active_Bricks_Count];
-///*	int Falling_Letters_Count;
-//	*/AFalling_Letter* Falling_Letters[AsConfig::Max_Falling_Letters_Count];
+	std::vector <AActive_Brick*> Active_Bricks;
 	std::vector <AFalling_Letter*> Falling_Letters;
 
 	int Teleport_Bricks_Count;

@@ -410,7 +410,6 @@ void AsLevel::Redraw_Brick(int brick_x, int brick_y)
 bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type)
 { // Create a falling letter if possible
 
-	int i;
 	int letter_x, letter_y;
 	ELetter_Type letter_type;
 	AFalling_Letter* falling_letter;
