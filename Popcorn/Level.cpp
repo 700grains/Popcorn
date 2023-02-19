@@ -421,40 +421,33 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 	if (AsTools::Rand(AsConfig::Hits_Per_Letter) != 0)
 		return false;
 	
-	if (Falling_Letters_Count >= AsConfig::Max_Falling_Letters_Count)
+	if (Falling_Letters.size() >= AsConfig::Max_Falling_Letters_Count)
 		return false;
 	
-	for (i = 0; i < AsConfig::Max_Falling_Letters_Count; i++)
+	letter_x = (brick_x * AsConfig::Cell_Width + AsConfig::Level_X_Offset) * AsConfig::Global_Scale;
+	letter_y = (brick_y * AsConfig::Cell_Height + AsConfig::Level_Y_Offset) * AsConfig::Global_Scale;
+
+	letter_type = AFalling_Letter::Get_Random_Letter_Type();
+
+	switch (AsTools::Rand(3) )
 	{
-		if (Falling_Letters[i] == 0)
-		{
-			letter_x = (brick_x * AsConfig::Cell_Width + AsConfig::Level_X_Offset) * AsConfig::Global_Scale;
-			letter_y = (brick_y * AsConfig::Cell_Height + AsConfig::Level_Y_Offset) * AsConfig::Global_Scale;
+	case 0:
+		letter_type = ELetter_Type::L;
+		break;
 
-			letter_type = AFalling_Letter::Get_Random_Letter_Type();
-			switch (AsTools::Rand(3) )
-			{
-			case 0:
-				letter_type = ELetter_Type::L;
-				break;
+	case 1:
+		letter_type = ELetter_Type::K;
+		break;
 
-			case 1:
-				letter_type = ELetter_Type::K;
-				break;
-
-			case 2:
-				letter_type = ELetter_Type::W;
-				break;
-			}
-
-			falling_letter = new AFalling_Letter(brick_type, letter_type, letter_x, letter_y);
-			Falling_Letters[i] = falling_letter;
-			++Falling_Letters_Count;
-			return true;
-		}
+	case 2:
+		letter_type = ELetter_Type::W;
+		break;
 	}
 
-	return false;
+	falling_letter = new AFalling_Letter(brick_type, letter_type, letter_x, letter_y);
+	Falling_Letters.push_back(falling_letter);
+
+	return true;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type, ABall_Object* ball, bool vertical_hit)
