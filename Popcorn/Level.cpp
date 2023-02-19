@@ -236,7 +236,8 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 					Draw_Brick(hdc, brick_rect, j, i);
 			}
 
-		Draw_Objects(hdc, paint_area, (AGraphics_Object **)&Active_Bricks, AsConfig::Max_Active_Bricks_Count);
+		for (auto bricks : Active_Bricks)
+			bricks->Draw(hdc, paint_area);
 	}
 
 	for (auto letter : Falling_Letters)
@@ -761,57 +762,12 @@ void AsLevel::Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int wid
 	AsTools::Round_Rect(hdc, rect);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsLevel::Delete_Objects(AGraphics_Object** objects_array, int& objects_count, int object_max_count)
-{
-	int i;
-	for (i = 0; i < object_max_count; ++i)
-	{
-		if (objects_array[i] != 0)
-		{
-			delete objects_array[i];
-			objects_array[i] = 0;
-		}
-	}
-	objects_count = 0;
-}
-//------------------------------------------------------------------------------------------------------------
 void AsLevel::Delete_Objects(std::vector<AGraphics_Object*>& falling_letters)
 {
 	for (auto it = falling_letters.begin(); it != falling_letters.end(); ++it)
 		delete* it;
 
 	falling_letters.erase(falling_letters.begin(), falling_letters.end());
-}
-//------------------------------------------------------------------------------------------------------------
-void AsLevel::Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count)
-{
-	int i;
-
-	for (i = 0; i < object_max_count; i++)
-	{
-		if (objects_array[i] != 0)
-			objects_array[i]->Draw(hdc, paint_area);
-	}
-}
-//------------------------------------------------------------------------------------------------------------
-void AsLevel::Act_Objects(AGraphics_Object** objects_array, int& objects_count, const int objects_max_count)
-{
-	int i;
-
-	for (i = 0; i < objects_max_count; i++)
-	{
-		if (objects_array[i] != 0)
-		{
-			objects_array[i]->Act();
-
-			if (objects_array[i]->Is_Finished())
-			{
-				delete objects_array[i];
-				objects_array[i] = 0;
-				--objects_count;
-			}
-		}
-	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Act_Objects(std::vector <AGraphics_Object*> &falling_letters)
@@ -830,7 +786,7 @@ void AsLevel::Act_Objects(std::vector <AGraphics_Object*> &falling_letters)
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Cancel_All_Activity()
 {
-	Delete_Objects((AGraphics_Object**)&Active_Bricks, Active_Bricks_Count, AsConfig::Max_Active_Bricks_Count);
+	Delete_Objects(Active_Bricks);
 	Delete_Objects(Falling_Letters);
 }
 //------------------------------------------------------------------------------------------------------------
