@@ -53,10 +53,10 @@ private:
 	void Draw_Parachute_In_Level(HDC hdc, RECT& brick_rect);
 	void Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int width);
 	void Delete_Objects(AGraphics_Object** objects_array, int& objects_count, int object_max_count);
-	void Delete_Objects(std::vector<AFalling_Letter*>& falling_letters);
+	void Delete_Objects(std::vector<AGraphics_Object*>& falling_letters);
 	void Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int object_max_count);
 	void Act_Objects(AGraphics_Object** objects_array, int& objects_count, const int objects_max_count);
-	void Act_Objects(std::vector<AFalling_Letter*>& falling_letters);
+	void Act_Objects(std::vector<AGraphics_Object*>& falling_letters);
 	void Cancel_All_Activity();
 
 
@@ -70,8 +70,8 @@ private:
 
 	char Current_Level[AsConfig::Level_Height][AsConfig::Level_Width];
 
-	std::vector <AActive_Brick*> Active_Bricks;
-	std::vector <AFalling_Letter*> Falling_Letters;
+	std::vector <AGraphics_Object*> Active_Bricks;
+	std::vector <AGraphics_Object*> Falling_Letters;
 
 	int Teleport_Bricks_Count;
 	SPoint* Teleport_Bricks_Pos;

@@ -51,7 +51,7 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All(false),  Active_Bricks_Count(0), Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0),
+: Level_Rect{}, Need_To_Cancel_All(false), Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0),
   Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
 {
 	Level = this;
@@ -791,7 +791,7 @@ void AsLevel::Delete_Objects(AGraphics_Object** objects_array, int& objects_coun
 	objects_count = 0;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsLevel::Delete_Objects(std::vector<AFalling_Letter*>& falling_letters)
+void AsLevel::Delete_Objects(std::vector<AGraphics_Object*>& falling_letters)
 {
 	for (auto it = falling_letters.begin(); it != falling_letters.end(); ++it)
 		delete* it;
@@ -830,7 +830,7 @@ void AsLevel::Act_Objects(AGraphics_Object** objects_array, int& objects_count, 
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void AsLevel::Act_Objects(std::vector <AFalling_Letter*> &falling_letters)
+void AsLevel::Act_Objects(std::vector <AGraphics_Object*> &falling_letters)
 {
 	for (auto it = falling_letters.begin(); it != falling_letters.end(); it++)
 	{
