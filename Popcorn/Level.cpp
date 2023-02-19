@@ -504,7 +504,7 @@ bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 	}
 
 	if (active_brick != 0)
-		Add_New_Active_Brick(active_brick);
+		Active_Bricks.push_back(active_brick);
 
 	return true;
 }
@@ -587,23 +587,8 @@ void AsLevel::Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall_Object* 
 
 	destination_teleport->Release_Direction = direction;
 
-	Add_New_Active_Brick(source_teleport);
-	Add_New_Active_Brick(destination_teleport);
-}
-//------------------------------------------------------------------------------------------------------------
-void AsLevel::Add_New_Active_Brick(AActive_Brick* active_brick)
-{
-	int i;
-
-	for (i = 0; i < AsConfig::Max_Active_Bricks_Count; ++i)
-	{
-		if (Active_Bricks[i] == 0)
-		{
-			Active_Bricks[i] = active_brick;
-			++Active_Bricks_Count;
-			break;
-		}
-	}
+	Active_Bricks.push_back(source_teleport);
+	Active_Bricks.push_back(destination_teleport);
 }
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int source_y)

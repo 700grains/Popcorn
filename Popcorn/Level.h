@@ -45,7 +45,6 @@ private:
 	bool Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type);
 	bool Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type, ABall_Object* ball, bool vertical_hit);
 	void Add_Active_Brick_Teleport(int brick_x, int brick_y, ABall_Object* ball, bool vertical_hit);
-	void Add_New_Active_Brick(AActive_Brick* active_brick);
 	AActive_Brick_Teleport* Select_Destination_Teleport(int source_x, int source_y);
 	bool Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall_Object* ball, double &reflection_pos);
 	bool Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall_Object* ball, double &reflection_pos);
