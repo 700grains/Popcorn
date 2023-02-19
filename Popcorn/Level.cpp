@@ -189,7 +189,7 @@ double AsLevel::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Act()
 {
-	Act_Objects((AGraphics_Object**)&Active_Bricks, Active_Bricks_Count, AsConfig::Max_Active_Bricks_Count);
+	Act_Objects(Active_Bricks);
 	Act_Objects(Falling_Letters);
 
 	if (Advertisement != 0)
@@ -256,7 +256,6 @@ void AsLevel::Init()
 	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 
 	memset(Current_Level, 0, sizeof(Current_Level) );
-	memset(Active_Bricks, 0, sizeof(Active_Bricks) );
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Level_Width])
@@ -314,7 +313,7 @@ bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_lett
 {
 	if (index < Falling_Letters.size())
 	{
-		*falling_letter = Falling_Letters[index++];
+		*falling_letter = (AFalling_Letter*)Falling_Letters[index++];
 		return true;
 	}
 
@@ -454,7 +453,7 @@ bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 
 	AActive_Brick* active_brick = 0;
 
-	if (Active_Bricks_Count >= AsConfig::Max_Active_Bricks_Count)
+	if (Active_Bricks.size() >= AsConfig::Max_Active_Bricks_Count)
 		return true; // There are too many active bricks!
 
 	switch (brick_type)
