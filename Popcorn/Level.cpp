@@ -257,7 +257,6 @@ void AsLevel::Init()
 
 	memset(Current_Level, 0, sizeof(Current_Level) );
 	memset(Active_Bricks, 0, sizeof(Active_Bricks) );
-	memset(Falling_Letters, 0, sizeof(Falling_Letters) );
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Level_Width])
@@ -313,23 +312,10 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_letter)
 {
-	AFalling_Letter* current_letter;
-
-	if (Falling_Letters_Count == 0)
-		return false;
-
-	if (index < 0 || index >= AsConfig::Max_Falling_Letters_Count)
-		return false;
-
-	while (index < AsConfig::Max_Falling_Letters_Count)
+	if (index < Falling_Letters.size())
 	{
-		current_letter = Falling_Letters[index++];
-
-		if (current_letter != 0)
-		{
-			*falling_letter = current_letter;
-			return true;
-		}
+		*falling_letter = Falling_Letters[index++];
+		return true;
 	}
 
 	return false;
