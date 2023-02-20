@@ -57,11 +57,11 @@ int AsBorder::Long_Open_Gate()
 
 	gate_index = AsTools::Rand(Gates.size());
 	
-	for (i = 0; i < AsConfig::Gates_Count; i++)
+	for (i = 0; i < Gates.size(); i++)
 	{
 		gate = Gates[gate_index];
 
-		if (gate_index != AsConfig::Gates_Count - 1) // The gate from which the platform rolls out cannot release monsters.
+		if (gate_index != Gates.size() - 1) // The gate from which the platform rolls out cannot release monsters.
 		{
 			if (gate->Is_Closed())
 			{
@@ -81,7 +81,7 @@ int AsBorder::Long_Open_Gate()
 
 		++gate_index;
 
-		if (gate_index >= AsConfig::Gates_Count)
+		if (gate_index >= Gates.size())
 			gate_index = 0;
 	}
 
