@@ -1,6 +1,10 @@
 #include "Ball_Set.h"
 
 // AsBall_Set
+AsBall_Set::AsBall_Set()
+	: Balls(AsConfig::Max_Balls_Count)
+{
+}
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Act()
 {

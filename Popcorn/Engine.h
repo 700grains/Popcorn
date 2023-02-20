@@ -6,7 +6,6 @@
 #include "Ball_Set.h"
 #include "Monster_Set.h"
 #include "Information_Panel.h"
-#include <vector>
 
 //------------------------------------------------------------------------------------------------------------
 enum class EKey_Type: unsigned char
