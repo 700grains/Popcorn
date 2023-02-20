@@ -8,16 +8,11 @@ AsBall_Set::AsBall_Set()
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Act()
 {
-	int i;
-	ABall* current_ball;
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto &ball: Balls)
 	{
-		current_ball = &Balls[i];
-
-		if (current_ball->Get_State() == EBall_State::On_Platform)
-			if (current_ball->Release_Timer_Tick != 0 && AsConfig::Current_Timer_Tick >= current_ball->Release_Timer_Tick)
-				current_ball->Release();
+		if (ball.Get_State() == EBall_State::On_Platform)
+			if (ball.Release_Timer_Tick != 0 && AsConfig::Current_Timer_Tick >= ball.Release_Timer_Tick)
+				ball.Release();
 	}
 }
 //------------------------------------------------------------------------------------------------------------
