@@ -88,10 +88,10 @@ private:
 	double Cornea_Height;
 	int Start_Blinking_Time, Total_Animation_Time;
 
+
+	std::vector<int> Blink_Ticks;
+
 	static const int Blink_Stages_Count = 7;
-
-	int Blink_Ticks[Blink_Stages_Count]; //!!! replace with vector
-
 	static const double Max_Cornea_Height;
 	static const double Blinking_Timeouts[Blink_Stages_Count];
 	static const EEye_State Blinking_States[Blink_Stages_Count];

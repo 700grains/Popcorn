@@ -373,7 +373,7 @@ const EEye_State AMonster_Eye::Blinking_States[AMonster_Eye::Blink_Stages_Count]
 };
 //------------------------------------------------------------------------------------------------------------
 AMonster_Eye::AMonster_Eye()
-	: Eye_State(EEye_State::Closed), Blink_Ticks{}, Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0)
+	: Eye_State(EEye_State::Closed), Blink_Ticks(Blink_Stages_Count), Cornea_Height(Max_Cornea_Height), Start_Blinking_Time(0), Total_Animation_Time(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
