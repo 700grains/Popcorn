@@ -53,7 +53,6 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::All_Balls_Are_Lost()
 {
-	int  i;
 	int  active_balls_count = 0;
 	int  lost_balls_count = 0;
 

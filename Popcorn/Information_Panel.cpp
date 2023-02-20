@@ -86,9 +86,6 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
-	wchar_t buffer[32];
-	//const wchar_t* player_str = L"Qopa"; // 11 symbols max!
-	//const wchar_t* player_score = L"SCORE:000000"; // 11 symbols max!
 	AString player_score(L"SCORE:");
 	// 1. Game logo
 	// 1.1 Frame

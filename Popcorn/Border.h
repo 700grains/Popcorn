@@ -34,6 +34,7 @@ private:
 	void Draw_Floor(HDC hdc, RECT& paint_area);
 
 	RECT Floor_Rect;
-	AGate* Gates[AsConfig::Gates_Count]; //!!! replace with vector
+	//AGate* Gates[AsConfig::Gates_Count]; //!!! replace with vector
+	std::vector<AGate*> Gates;
 };
 //------------------------------------------------------------------------------------------------------------

@@ -4,14 +4,14 @@
 //------------------------------------------------------------------------------------------------------------
 AsBorder::~AsBorder()
 {
-	int i;
+	for (auto* gate : Gates)
+		delete gate;
 
-	for (i = 0; i < AsConfig::Gates_Count; i++)
-		delete Gates[i]; // !!! is it correct?
+	Gates.erase(Gates.begin(), Gates.end());
 }
 //------------------------------------------------------------------------------------------------------------
 AsBorder::AsBorder()
-	: Floor_Rect{}, Gates {}
+	: Floor_Rect{}
 {
 	Floor_Rect.left = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
 	Floor_Rect.right = (AsConfig::Max_X_Pos - 1) * AsConfig::Global_Scale;
