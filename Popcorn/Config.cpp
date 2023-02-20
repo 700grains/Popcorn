@@ -194,33 +194,24 @@ AHit_Checker_List::AHit_Checker_List()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-bool AHit_Checker_List::Add_Hit_Checker(AHit_Checker* hit_checker)
+void AHit_Checker_List::Add_Hit_Checker(AHit_Checker* hit_checker)
 {
-	if (Hit_Checkers_Count >= sizeof(Hit_Checkers) / sizeof(Hit_Checkers[0]))
-		AsConfig::Throw();
-
-	Hit_Checkers[Hit_Checkers_Count++] = hit_checker;
-
-	return true;
+	Hit_Checkers.push_back(hit_checker);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker_List::Check_Hit(double x_pos, double y_pos, ABall_Object* ball)
 {
-	int i;
-
-	for (i = 0; i < Hit_Checkers_Count; i++)
-		if (Hit_Checkers[i]->Check_Hit(x_pos, y_pos, ball))
-			return true;
+	for (auto* hit_checker : Hit_Checkers)
+		if (hit_checker->Check_Hit(x_pos, y_pos, ball))
+				return true;
 
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker_List::Check_Hit(double x_pos, double y_pos)
 {
-	int i;
-
-	for (i = 0; i < Hit_Checkers_Count; i++)
-		if (Hit_Checkers[i]->Check_Hit(x_pos, y_pos))
+	for (auto* hit_checker : Hit_Checkers)
+		if (hit_checker->Check_Hit(x_pos, y_pos))
 			return true;
 
 	return false;
@@ -228,10 +219,8 @@ bool AHit_Checker_List::Check_Hit(double x_pos, double y_pos)
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker_List::Check_Hit(RECT& rect)
 {
-	int i;
-
-	for (i = 0; i < Hit_Checkers_Count; i++)
-		if (Hit_Checkers[i]->Check_Hit(rect) )
+	for (auto* hit_checker : Hit_Checkers)
+		if (hit_checker->Check_Hit(rect) )
 			return true;
 
 	return false;

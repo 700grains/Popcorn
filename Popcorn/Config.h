@@ -89,13 +89,13 @@ class AHit_Checker_List
 public:
 	AHit_Checker_List();
 
-	bool Add_Hit_Checker(AHit_Checker* hit_checker);
+	void Add_Hit_Checker(AHit_Checker* hit_checker);
 	bool Check_Hit(double x_pos, double y_pos, ABall_Object* ball);
 	bool Check_Hit(double x_pos, double y_pos);
 	bool Check_Hit(RECT& rect);
 
 private:
 	int Hit_Checkers_Count;
-	AHit_Checker* Hit_Checkers[4]; //!!! replace with vector
+	std::vector<AHit_Checker*> Hit_Checkers;
 };
 //------------------------------------------------------------------------------------------------------------
