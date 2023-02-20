@@ -169,7 +169,7 @@ void AsMonster_Set::Destroy_All()
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
-	if (index < 0 || index >= Monsters.size())
+	if (index < 0 || index >= (int)Monsters.size())
 		return false;
 
 	*game_object = Monsters[index++];

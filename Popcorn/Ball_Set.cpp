@@ -47,7 +47,7 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 		Balls[i].Release_Timer_Tick = 0;
 	}
 
-	for (; i < Balls.size(); i++)
+	for (; i < (int)Balls.size(); i++)
 		Balls[i].Set_State(EBall_State::Disabled);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -185,7 +185,7 @@ void AsBall_Set::On_Platform_Advance(double direction, double platform_speed, do
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
-	if (index < 0 || index >= Balls.size())
+	if (index < 0 || index >= (int)Balls.size())
 		return false;
 	
 	*game_object = &Balls[index++];

@@ -312,7 +312,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_letter)
 {
-	if (index < Falling_Letters.size())
+	if (index < (int)Falling_Letters.size())
 	{
 		*falling_letter = (AFalling_Letter*)Falling_Letters[index++];
 		return true;

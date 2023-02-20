@@ -41,7 +41,7 @@ void AsLaser_Beam_Set::Disable_All()
 //------------------------------------------------------------------------------------------------------------
 bool AsLaser_Beam_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
-	if (index < 0 || index >= Laser_Beams.size())
+	if (index < 0 || index >= (int)Laser_Beams.size())
 		return false;
 
 	*game_object = &Laser_Beams[index++];

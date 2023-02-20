@@ -304,7 +304,6 @@ void AMonster::Act_Alive()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Act_Destroying()
 {
-	int i;
 	bool destroyed = true;
 
 	for (auto &explosive_ball : Explosive_Balls)

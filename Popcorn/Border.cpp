@@ -45,7 +45,7 @@ void AsBorder::Open_Gate(int gate_index, bool is_partially)
 	if (gate_index != Gates.size() - 1 && is_partially)
 		AsConfig::Throw();
 
-	if (gate_index >= 0 && gate_index < Gates.size())
+	if (gate_index >= 0 && gate_index < (int)Gates.size())
 		Gates[gate_index]->Open_Gate(is_partially);
 	else
 		AsConfig::Throw();
@@ -60,7 +60,7 @@ int AsBorder::Long_Open_Gate()
 
 	gate_index = AsTools::Rand(Gates.size());
 	
-	for (i = 0; i < Gates.size(); i++)
+	for (i = 0; i < (int)Gates.size(); i++)
 	{
 		gate = Gates[gate_index];
 
@@ -84,7 +84,7 @@ int AsBorder::Long_Open_Gate()
 
 		++gate_index;
 
-		if (gate_index >= Gates.size())
+		if (gate_index >= (int)Gates.size())
 			gate_index = 0;
 	}
 
@@ -98,7 +98,7 @@ int AsBorder::Long_Open_Gate()
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Is_Gate_Opened(int gate_index)
 {
-	if (gate_index >= 0 && gate_index < Gates.size())
+	if (gate_index >= 0 && gate_index < (int)Gates.size())
 		return Gates[gate_index]->Is_Opened();
 	else
 	{
@@ -109,7 +109,7 @@ bool AsBorder::Is_Gate_Opened(int gate_index)
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Is_Gate_Closed(int gate_index)
 {
-	if (gate_index >= 0 && gate_index < Gates.size())
+	if (gate_index >= 0 && gate_index < (int)Gates.size())
 		return Gates[gate_index]->Is_Closed();
 	else
 	{
@@ -120,7 +120,7 @@ bool AsBorder::Is_Gate_Closed(int gate_index)
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Get_Gate_Pos(int gate_index, int& gate_x, int& gate_y)
 {
-	if (gate_index >= 0 && gate_index < Gates.size())
+	if (gate_index >= 0 && gate_index < (int)Gates.size())
 		Gates[gate_index]->Get_Pos(gate_x, gate_y);
 	else
 		AsConfig::Throw();
