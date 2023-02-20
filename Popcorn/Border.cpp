@@ -19,7 +19,7 @@ AsBorder::AsBorder()
 	Floor_Rect.bottom = AsConfig::Max_Y_Pos * AsConfig::Global_Scale;
 
 	// Gates
-	Gates.push_back( new AGate(1, 29, 0, 3));
+	Gates.push_back(new AGate(1, 29, 0, 3));
 	Gates.push_back(new AGate(AsConfig::Max_X_Pos, 29, AsConfig::Level_Width - 1, 3));
 
 	Gates.push_back(new AGate(1, 77, 0, 9));
@@ -39,10 +39,10 @@ void AsBorder::Redraw_Floor()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Open_Gate(int gate_index, bool is_partially)
 {
-	if (gate_index != AsConfig::Gates_Count - 1 && is_partially)
+	if (gate_index != Gates.size() - 1 && is_partially)
 		AsConfig::Throw();
 
-	if (gate_index >= 0 && gate_index < AsConfig::Gates_Count)
+	if (gate_index >= 0 && gate_index < Gates.size())
 		Gates[gate_index]->Open_Gate(is_partially);
 	else
 		AsConfig::Throw();
@@ -55,7 +55,7 @@ int AsBorder::Long_Open_Gate()
 	bool is_found = false;
 	AGate* gate;
 
-	gate_index = AsTools::Rand(AsConfig::Gates_Count);
+	gate_index = AsTools::Rand(Gates.size());
 	
 	for (i = 0; i < AsConfig::Gates_Count; i++)
 	{
