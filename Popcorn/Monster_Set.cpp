@@ -124,21 +124,18 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
 		AsConfig::Throw();
 
-	for (i = 0; i < Max_Monsters_Count; i++)
-	{
-		if (Monsters[i] == 0)
-		{
-			monster_type = AsTools::Rand(2);
+	if (Monsters.size() >= Max_Monsters_Count)
+		return;
 
-			if (monster_type == 1)
-				monster = new AMonster_Comet();
-			else
-				monster = new AMonster_Eye();
+	monster_type = AsTools::Rand(2);
 
-			Monsters[i] = monster;
-			break;
-		}
-	}
+	if (monster_type == 1)
+		monster = new AMonster_Comet();
+	else
+		monster = new AMonster_Eye();
+
+	Monsters.push_back(monster);
+
 
 	if (monster == 0)
 		return; // There are no unused monsters.
