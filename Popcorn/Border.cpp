@@ -30,6 +30,9 @@ AsBorder::AsBorder()
 
 	Gates.push_back(new AGate(1, 178));
 	Gates.push_back(new AGate(AsConfig::Max_X_Pos, 178));
+
+	if (Gates.size() != AsConfig::Gates_Count)
+		AsConfig::Throw();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Redraw_Floor()
@@ -95,7 +98,7 @@ int AsBorder::Long_Open_Gate()
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Is_Gate_Opened(int gate_index)
 {
-	if (gate_index >= 0 && gate_index < AsConfig::Gates_Count)
+	if (gate_index >= 0 && gate_index < Gates.size())
 		return Gates[gate_index]->Is_Opened();
 	else
 	{
@@ -106,7 +109,7 @@ bool AsBorder::Is_Gate_Opened(int gate_index)
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Is_Gate_Closed(int gate_index)
 {
-	if (gate_index >= 0 && gate_index < AsConfig::Gates_Count)
+	if (gate_index >= 0 && gate_index < Gates.size())
 		return Gates[gate_index]->Is_Closed();
 	else
 	{
@@ -117,7 +120,7 @@ bool AsBorder::Is_Gate_Closed(int gate_index)
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Get_Gate_Pos(int gate_index, int& gate_x, int& gate_y)
 {
-	if (gate_index >= 0 && gate_index < AsConfig::Gates_Count)
+	if (gate_index >= 0 && gate_index < Gates.size())
 		Gates[gate_index]->Get_Pos(gate_x, gate_y);
 	else
 		AsConfig::Throw();
@@ -186,20 +189,17 @@ double AsBorder::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Act()
 {
-	int i;
-
-	for (i = 0; i < AsConfig::Gates_Count; ++i)
-		Gates[i]->Act();
+	for (auto* gate : Gates)
+		gate->Act();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Clear(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
-	int i;
 
 	// 1. Clearing the gate
-	for (i = 0; i < AsConfig::Gates_Count; ++i)
-		Gates[i]->Clear(hdc, paint_area);
+	for (auto* gate : Gates)
+		gate->Clear(hdc, paint_area);
 
 	// 2. Clearing the floor
 	if (! AsConfig::Level_Has_Floor)
@@ -233,8 +233,8 @@ void AsBorder::Draw(HDC hdc, RECT& paint_area)
 		Draw_Floor(hdc, paint_area);
 
 	// 5. Gates
-	for (i = 0; i < AsConfig::Gates_Count; ++i)
-		Gates[i]->Draw(hdc, paint_area);
+	for (auto* gate : Gates)
+		gate->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBorder::Is_Finished()
@@ -244,7 +244,7 @@ bool AsBorder::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border)
 {// Draws a level border element
-	int i;
+
 	int gate_top_y, gate_bot_y;
 	RECT intersection_rect, rect;
 
@@ -255,9 +255,9 @@ void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_bo
 
 	if (! top_border)
 	{
-		for (i = 0; i < AsConfig::Gates_Count; ++i)
+		for (auto* gate : Gates)
 		{
-			Gates[i]->Get_Y_Size(gate_top_y, gate_bot_y);
+			gate->Get_Y_Size(gate_top_y, gate_bot_y);
 
 			if (rect.top >= gate_top_y && rect.bottom <= gate_bot_y)
 				return; // The gate overlaps the border element, there is no point in drawing it.
