@@ -93,7 +93,7 @@ void AGame_Objects_Set::Begin_Movement()
 	int index = 0;
 	AGame_Object* object;
 
-	while (Get_Next_GameObject(index, &object) )
+	while (Get_Next_Game_Object(index, &object) )
 		object->Begin_Movement();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ void AGame_Objects_Set::Finish_Movement()
 	int index = 0;
 	AGame_Object* object;
 
-	while (Get_Next_GameObject(index, &object))
+	while (Get_Next_Game_Object(index, &object))
 		object->Finish_Movement();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ void AGame_Objects_Set::Advance(double max_speed)
 	int index = 0;
 	AGame_Object* object;
 
-	while (Get_Next_GameObject(index, &object))
+	while (Get_Next_Game_Object(index, &object))
 		object->Advance(max_speed);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ double AGame_Objects_Set::Get_Speed()
 	AGame_Object* object;
 	double max_speed = 0.0, current_speed;
 
-	while (Get_Next_GameObject(index, &object))
+	while (Get_Next_Game_Object(index, &object))
 	{
 		current_speed = object->Get_Speed();
 
@@ -137,7 +137,7 @@ void AGame_Objects_Set::Act()
 	int index = 0;
 	AGame_Object* object;
 
-	while (Get_Next_GameObject(index, &object))
+	while (Get_Next_Game_Object(index, &object))
 		object->Act();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ void AGame_Objects_Set::Clear(HDC hdc, RECT& paint_area)
 	int index = 0;
 	AGame_Object* object;
 
-	while (Get_Next_GameObject(index, &object))
+	while (Get_Next_Game_Object(index, &object))
 		object->Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ void AGame_Objects_Set::Draw(HDC hdc, RECT& paint_area)
 	int index = 0;
 	AGame_Object* object;
 
-	while (Get_Next_GameObject(index, &object))
+	while (Get_Next_Game_Object(index, &object))
 		object->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------

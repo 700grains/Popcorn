@@ -167,7 +167,7 @@ void AsMonster_Set::Destroy_All()
 	Monster_Set_State = EMonster_Set_State::Idle;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsMonster_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)
+bool AsMonster_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
 	AMonster* monster;
 

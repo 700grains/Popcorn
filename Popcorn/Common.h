@@ -98,7 +98,7 @@ public:
 	virtual bool Is_Finished() override;
 
 protected:
-	virtual bool Get_Next_GameObject(int &index, AGame_Object **game_object) = 0;
+	virtual bool Get_Next_Game_Object(int &index, AGame_Object **game_object) = 0;
 };
 //------------------------------------------------------------------------------------------------------------
 class AString

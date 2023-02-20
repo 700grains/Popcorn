@@ -37,7 +37,7 @@ void AsLaser_Beam_Set::Disable_All()
 		Laser_Beams[i].Stopping();
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsLaser_Beam_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)
+bool AsLaser_Beam_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
 	if (index < 0 || index >= AsConfig::Max_Balls_Count)
 		return false;

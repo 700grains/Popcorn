@@ -10,7 +10,7 @@ public:
 	void Disable_All();
 
 private:
-	bool Get_Next_GameObject(int& index, AGame_Object** game_object);
+	bool Get_Next_Game_Object(int& index, AGame_Object** game_object);
 
 	static const int Max_Laser_Beam_Count = 10;
 

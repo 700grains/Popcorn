@@ -30,7 +30,7 @@ public:
 	void Destroy_All();
 
 private:
-	bool Get_Next_GameObject(int& index, AGame_Object** game_object);
+	bool Get_Next_Game_Object(int& index, AGame_Object** game_object);
 
 	int Current_Gate_Index;
 	int Max_Monsters_Alive;

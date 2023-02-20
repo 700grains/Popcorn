@@ -184,9 +184,9 @@ void AsBall_Set::On_Platform_Advance(double direction, double platform_speed, do
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsBall_Set::Get_Next_GameObject(int& index, AGame_Object** game_object)
+bool AsBall_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
-	if (index < 0 || index >= AsConfig::Max_Balls_Count)
+	if (index < 0 || index >= Balls.size())
 		return false;
 	
 	*game_object = &Balls[index++];

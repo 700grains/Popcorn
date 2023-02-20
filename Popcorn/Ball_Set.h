@@ -23,7 +23,7 @@ public:
 	void On_Platform_Advance(double direction, double platform_speed, double max_speed);
 
 private:
-	virtual bool Get_Next_GameObject(int& index, AGame_Object** game_object);
+	virtual bool Get_Next_Game_Object(int& index, AGame_Object** game_object);
 
 	std::vector <ABall> Balls;
 };
