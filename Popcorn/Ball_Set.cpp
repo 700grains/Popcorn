@@ -18,24 +18,18 @@ void AsBall_Set::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Release_From_The_Platform(double platform_x_pos)
 {
-	int i;
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
-		if (Balls[i].Get_State() == EBall_State::On_Platform)
-			Balls[i].Set_State(EBall_State::Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
+	for (auto& ball : Balls)
+		if (ball.Get_State() == EBall_State::On_Platform)
+			ball.Set_State(EBall_State::Normal, platform_x_pos, AsConfig::Start_Ball_Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::Release_Next_Ball()
 {
-	int i;
-	ABall* current_ball;
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		current_ball = &Balls[i];
-		if (current_ball->Get_State() == EBall_State::On_Platform)
+		if (ball.Get_State() == EBall_State::On_Platform)
 		{
-			current_ball->Release();
+			ball.Release();
 			return true;
 		}
 	}
@@ -45,6 +39,7 @@ bool AsBall_Set::Release_Next_Ball()
 void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 {
 	int i;
+
 	for (i = 0; i < 1; i++)
 	{
 		Balls[i].Set_State(EBall_State::Normal);
@@ -52,7 +47,7 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 		Balls[i].Release_Timer_Tick = 0;
 	}
 
-	for (; i < AsConfig::Max_Balls_Count; i++)
+	for (; i < Balls.size(); i++)
 		Balls[i].Set_State(EBall_State::Disabled);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -62,14 +57,14 @@ bool AsBall_Set::All_Balls_Are_Lost()
 	int  active_balls_count = 0;
 	int  lost_balls_count = 0;
 
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		if (Balls[i].Get_State() == EBall_State::Disabled)
+		if (ball.Get_State() == EBall_State::Disabled)
 			continue;
 
 		++active_balls_count;
 
-		if (Balls[i].Get_State() == EBall_State::Lost)
+		if (ball.Get_State() == EBall_State::Lost)
 		{
 			++lost_balls_count;
 			continue;
@@ -95,30 +90,26 @@ bool AsBall_Set::Is_Test_Finished()
 void AsBall_Set::Triple_Balls()
 { // Triplying the ball farthest from the platform
 
-	int i;
-	ABall* current_ball;
 	ABall* further_ball = nullptr;
 	ABall* left_candidate = 0, * right_candidate = 0;
 	double current_ball_x, current_ball_y;
 	double further_ball_x, further_ball_y;
 
 	// 1. Chosinbg the farthest ball accroding to Y coord
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		current_ball = &Balls[i];
-
-		if (current_ball->Get_State() != EBall_State::Normal)
+		if (ball.Get_State() != EBall_State::Normal)
 			continue;
 
 		if (further_ball == nullptr)
-			further_ball = current_ball;
+			further_ball = &ball;
 		else
 		{
-			current_ball->Get_Center(current_ball_x, current_ball_y);
+			ball.Get_Center(current_ball_x, current_ball_y);
 			further_ball->Get_Center(further_ball_x, further_ball_y);
 
 			if (current_ball_y < further_ball_y)
-				further_ball = current_ball;
+				further_ball = &ball;
 		}
 	}
 
@@ -128,20 +119,18 @@ void AsBall_Set::Triple_Balls()
 	if (further_ball == nullptr)
 		return;
 
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		current_ball = &Balls[i];
-
-		switch (current_ball->Get_State())
+		switch (ball.Get_State())
 		{
 		case EBall_State::Disabled:
 		case EBall_State::Lost:
 			if (left_candidate == 0)
-				left_candidate = current_ball;
+				left_candidate = &ball;
 			else
 				if (right_candidate == 0)
 				{
-					right_candidate = current_ball;
+					right_candidate = &ball;
 					break; // Both candidates found
 				}
 		}
@@ -161,55 +150,37 @@ void AsBall_Set::Triple_Balls()
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Inverse_Balls()
 {//reverse direction for all balls
-	int i;
-	ABall* current_ball;
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		current_ball = &Balls[i];
-		if (current_ball->Get_State() == EBall_State::Normal)
-			current_ball->Set_Direction(current_ball->Get_Direction() + M_PI);
+		if (ball.Get_State() == EBall_State::Normal)
+			ball.Set_Direction(ball.Get_Direction() + M_PI);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Accelerate()
 {
-	int i;
-	ABall* current_ball;
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		current_ball = &Balls[i];
-
- 		if (current_ball->Get_State() == EBall_State::Normal)
-			current_ball->Set_Speed(current_ball->Get_Speed() * AsConfig::Ball_Acceleration);
+ 		if (ball.Get_State() == EBall_State::Normal)
+			ball.Set_Speed(ball.Get_Speed() * AsConfig::Ball_Acceleration);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::Reset_Speed()
 {
-	int i;
-	ABall* current_ball;
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		current_ball = &Balls[i];
-		if (current_ball->Get_State() == EBall_State::Normal)
-			current_ball->Set_Speed(AsConfig::Normal_Ball_Speed);
+		if (ball.Get_State() == EBall_State::Normal)
+			ball.Set_Speed(AsConfig::Normal_Ball_Speed);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBall_Set::On_Platform_Advance(double direction, double platform_speed, double max_speed)
 {
-	int i;
-	ABall* current_ball;
-
-	for (i = 0; i < AsConfig::Max_Balls_Count; i++)
+	for (auto& ball : Balls)
 	{
-		current_ball = &Balls[i];
-
-		if (current_ball->Get_State() == EBall_State::On_Platform)
-			current_ball->Forced_Advance(direction, platform_speed, max_speed);
+		if (ball.Get_State() == EBall_State::On_Platform)
+			ball.Forced_Advance(direction, platform_speed, max_speed);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
