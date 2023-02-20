@@ -115,7 +115,6 @@ void AsMonster_Set::Init(AsBorder* border)
 void AsMonster_Set::Emit_At_Gate(int gate_index)
 {
 	bool gate_is_left;
-	int i;
 	int gate_x, gate_y;
 	int monster_type;
 
@@ -161,34 +160,20 @@ void AsMonster_Set::Activate(int max_monsters_alive)
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Destroy_All()
 {
-	int i;
-
-	for (i = 0; i < Max_Monsters_Count; i++)
-		if (Monsters[i] != 0 && ! Monsters[i]->Is_Finished())
-			Monsters[i]->Destroy();
+	for (auto* monster : Monsters)
+		if (monster->Is_Finished())
+			monster->Destroy();
 
 	Monster_Set_State = EMonster_Set_State::Idle;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
-	AMonster* monster;
-
-	if (index < 0 || index >= Max_Monsters_Count)
+	if (index < 0 || index >= Monsters.size())
 		return false;
 
-	while (index < Max_Monsters_Count)
-	{
-		monster = Monsters[index++];
+	*game_object = Monsters[index++];
 
-		if (monster != 0)
-		{
-			*game_object = monster;
-
-			return true;
-		}
-	}
-
-	return false;
+	return true;
 }
 //------------------------------------------------------------------------------------------------------------
