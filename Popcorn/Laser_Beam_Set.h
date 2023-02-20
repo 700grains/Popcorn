@@ -14,6 +14,6 @@ private:
 
 	static const int Max_Laser_Beam_Count = 10;
 
-	ALaser_Beam Laser_Beams[Max_Laser_Beam_Count];
+	ALaser_Beam Laser_Beams[Max_Laser_Beam_Count]; //!!! replace with vector
 };
 //------------------------------------------------------------------------------------------------------------

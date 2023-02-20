@@ -30,8 +30,8 @@ private:
 
 	AsEngine Engine;
 	HINSTANCE Instance;                                // current instance
-	WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
-	WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+	WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text  //!!! replace with AString
+	WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name  //!!! replace with AString
 	AsFrame_DC DC;
 
 	ATOM Register_Class();

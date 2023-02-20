@@ -71,7 +71,7 @@ private:
 
 	static const int Explosive_Balls_Count = 20;
 
-	AExplosive_Ball Explosive_Balls[Explosive_Balls_Count];
+	AExplosive_Ball Explosive_Balls[Explosive_Balls_Count]; //!!! replace with vector
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster_Eye : public AMonster
@@ -89,7 +89,9 @@ private:
 	int Start_Blinking_Time, Total_Animation_Time;
 
 	static const int Blink_Stages_Count = 7;
-	int Blink_Ticks[Blink_Stages_Count];
+
+	int Blink_Ticks[Blink_Stages_Count]; //!!! replace with vector
+
 	static const double Max_Cornea_Height;
 	static const double Blinking_Timeouts[Blink_Stages_Count];
 	static const EEye_State Blinking_States[Blink_Stages_Count];

@@ -23,6 +23,7 @@ public:
 private:
 	virtual bool Get_Next_GameObject(int& index, AGame_Object** game_object);
 
-	ABall Balls[AsConfig::Max_Balls_Count];
+	//ABall Balls[AsConfig::Max_Balls_Count]; //!!! replace with vector
+	std::vector <ABall> Balls;
 };
 //------------------------------------------------------------------------------------------------------------

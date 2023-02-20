@@ -40,6 +40,6 @@ private:
 	AsBorder *Border; // UNO
 	static const int Max_Monsters_Count = 10;
 
-	AMonster* Monsters[Max_Monsters_Count];
+	AMonster* Monsters[Max_Monsters_Count]; //!!! replace with vector
 };
 //------------------------------------------------------------------------------------------------------------
