@@ -19,17 +19,17 @@ AsBorder::AsBorder()
 	Floor_Rect.bottom = AsConfig::Max_Y_Pos * AsConfig::Global_Scale;
 
 	// Gates
-	Gates[0] = new AGate(1, 29, 0, 3);
-	Gates[1] = new AGate(AsConfig::Max_X_Pos, 29, AsConfig::Level_Width - 1, 3);
+	Gates.push_back( new AGate(1, 29, 0, 3));
+	Gates.push_back(new AGate(AsConfig::Max_X_Pos, 29, AsConfig::Level_Width - 1, 3));
 
-	Gates[2] = new AGate(1, 77, 0, 9);
-	Gates[3] = new AGate(AsConfig::Max_X_Pos, 77, AsConfig::Level_Width - 1, 9);
+	Gates.push_back(new AGate(1, 77, 0, 9));
+	Gates.push_back(new AGate(AsConfig::Max_X_Pos, 77, AsConfig::Level_Width - 1, 9));
 
-	Gates[4] = new AGate(1, 129);
-	Gates[5] = new AGate(AsConfig::Max_X_Pos, 129);
+	Gates.push_back(new AGate(1, 129));
+	Gates.push_back(new AGate(AsConfig::Max_X_Pos, 129));
 
-	Gates[6] = new AGate(1, 178);
-	Gates[7] = new AGate(AsConfig::Max_X_Pos, 178);
+	Gates.push_back(new AGate(1, 178));
+	Gates.push_back(new AGate(AsConfig::Max_X_Pos, 178));
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Redraw_Floor()
