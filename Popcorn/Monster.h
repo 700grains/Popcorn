@@ -69,9 +69,9 @@ private:
 
 	double Speed;
 
-	static const int Explosive_Balls_Count = 20;
+	std::vector<AExplosive_Ball> Explosive_Balls;
 
-	AExplosive_Ball Explosive_Balls[Explosive_Balls_Count]; //!!! replace with vector
+	static const int Explosive_Balls_Count = 20;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster_Eye : public AMonster

@@ -8,7 +8,7 @@ AMonster::~AMonster()
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
 	:Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Direction(0.0), Next_Direction_Switch_Tick(0), Monster_Is_Alive_Timer(0), Monster_Rect{},
-	Previous_Monster_Rect{}
+	Previous_Monster_Rect{}, Explosive_Balls(Explosive_Balls_Count)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -256,7 +256,6 @@ void AMonster::Destroy()
 
 	int half_width = Width * scale / 2;
 	int half_height = Height * scale / 2;
-	int i;
 	int x_pos = (int)(X_Pos * d_scale) + half_width;
 	int y_pos = (int)(Y_Pos * d_scale) + half_height;
 	int x_offset, y_offset;
@@ -268,7 +267,7 @@ void AMonster::Destroy()
 	if (half_height < half_size)
 		half_size = half_height;
 
-	for (i = 0; i < Explosive_Balls_Count; i++)
+	for (auto &explosive_ball : Explosive_Balls)
 	{
 		x_offset = AsTools::Rand(half_width) - half_width / 2;
 		y_offset = AsTools::Rand(half_height) - half_height / 2;
@@ -283,7 +282,7 @@ void AMonster::Destroy()
 		time_offset = AsTools::Rand(AsConfig::FPS * 3 / 2);
 
 		is_red = (bool)AsTools::Rand(2);
-		Explosive_Balls[i].Explode(x_pos + x_offset, y_pos + y_offset, size, is_red, time_offset, 10);
+		explosive_ball.Explode(x_pos + x_offset, y_pos + y_offset, size, is_red, time_offset, 10);
 	}
 
 		Monster_State = EMonster_State::Destroying;
@@ -295,10 +294,8 @@ void AMonster::Draw_Alive(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Destroying(HDC hdc, RECT& paint_area)
 {
-	int i;
-
-	for (i = 0; i < Explosive_Balls_Count; i++)
-		Explosive_Balls[i].Draw(hdc, paint_area);
+	for (auto &explosive_ball : Explosive_Balls)
+		explosive_ball.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Act_Alive()
@@ -310,11 +307,11 @@ void AMonster::Act_Destroying()
 	int i;
 	bool destroyed = true;
 
-	for (i = 0; i < Explosive_Balls_Count; i++)
+	for (auto &explosive_ball : Explosive_Balls)
 	{
-		Explosive_Balls[i].Act();
+		explosive_ball.Act();
 
-		destroyed &= Explosive_Balls[i].Is_Finished();
+		destroyed &= explosive_ball.Is_Finished();
 	}
 
 	if (destroyed)
