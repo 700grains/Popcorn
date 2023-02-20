@@ -2,25 +2,29 @@
 
 // AsLaser_Beam_Set
 //------------------------------------------------------------------------------------------------------------
+AsLaser_Beam_Set::AsLaser_Beam_Set()
+	: Laser_Beams(Max_Laser_Beam_Count)
+{
+}
+//------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Fire(double left_gun_x_pos, double right_gun_x_pos)
 {
-	int i;
 	ALaser_Beam* left_beam = nullptr, * right_beam = nullptr;
 
-	for (i = 0; i < Max_Laser_Beam_Count; ++i)
-	{
-		if (Laser_Beams[i].Is_Active())
-			continue;
+	for (auto &laser_beam : Laser_Beams)
+		{
+			if (laser_beam.Is_Active())
+				continue;
 
-		if (left_beam == nullptr)
-			left_beam = &Laser_Beams[i];
-		else
-			if (right_beam == nullptr)
-			{
-				right_beam = &Laser_Beams[i];
-				break;
-			}
-	}
+			if (left_beam == nullptr)
+				left_beam = &laser_beam;
+			else
+				if (right_beam == nullptr)
+				{
+					right_beam = &laser_beam;
+					break;
+				}
+		}
 
 	if (left_beam == nullptr || right_beam == nullptr)
 		AsConfig::Throw(); // Not enough free laser beams in the array
@@ -31,15 +35,13 @@ void AsLaser_Beam_Set::Fire(double left_gun_x_pos, double right_gun_x_pos)
 //------------------------------------------------------------------------------------------------------------
 void AsLaser_Beam_Set::Disable_All()
 {
-	int i;
-
-	for (i = 0; i < Max_Laser_Beam_Count; ++i)
-		Laser_Beams[i].Stopping();
+	for (auto& laser_beam : Laser_Beams)
+		laser_beam.Stopping();
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLaser_Beam_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
-	if (index < 0 || index >= AsConfig::Max_Balls_Count)
+	if (index < 0 || index >= Laser_Beams.size())
 		return false;
 
 	*game_object = &Laser_Beams[index++];
