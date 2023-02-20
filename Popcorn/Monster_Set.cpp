@@ -2,18 +2,23 @@
 
 // AsMonster_Set
 //------------------------------------------------------------------------------------------------------------
+AsMonster_Set::~AsMonster_Set()
+{
+	for (auto* monster : Monsters)
+		delete monster;
+
+	Monsters.erase(Monsters.begin(), Monsters.end());
+}
+//------------------------------------------------------------------------------------------------------------
 AsMonster_Set::AsMonster_Set()
 	: Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr), Current_Gate_Index(-1), Max_Monsters_Alive(0)
 {
-	memset(Monsters, 0, sizeof (AMonster*) * Max_Monsters_Count);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball)
 {
-	int i;
-
-	for (i = 0; i < Max_Monsters_Count; i++)
-		if (Monsters[i] != 0 && Monsters[i]->Check_Hit(next_x_pos, next_y_pos, ball) )
+	for (auto monster : Monsters)
+		if (monster->Check_Hit(next_x_pos, next_y_pos, ball) )
 			return true;
 
 	return false;
@@ -21,10 +26,8 @@ bool AsMonster_Set::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Check_Hit(double next_x_pos, double next_y_pos)
 {
-	int i;
-
-	for (i = 0; i < Max_Monsters_Count; i++)
-		if (Monsters[i] != 0 && Monsters[i]->Check_Hit(next_x_pos, next_y_pos) )
+	for (auto monster : Monsters)
+		if (monster->Check_Hit(next_x_pos, next_y_pos) )
 			return true;
 
 	return false;
@@ -32,10 +35,8 @@ bool AsMonster_Set::Check_Hit(double next_x_pos, double next_y_pos)
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Check_Hit(RECT& rect)
 {
-	int i;
-
-	for (i = 0; i < Max_Monsters_Count; i++)
-		if (Monsters[i] != 0 && Monsters[i]->Check_Hit(rect))
+	for (auto monster : Monsters)
+		if (monster->Check_Hit(rect))
 			return true;
 
 	return false;
@@ -44,7 +45,6 @@ bool AsMonster_Set::Check_Hit(RECT& rect)
 void AsMonster_Set::Act()
 {
 	int current_monsters_alive_count;
-	int i;
 	switch (Monster_Set_State)
 	{
 	case EMonster_Set_State::Idle:
@@ -55,8 +55,8 @@ void AsMonster_Set::Act()
 		// We count living monsters
 		current_monsters_alive_count = 0;
 
-		for (i = 0; i < Max_Monsters_Count; i++)
-			if (Monsters[i] != 0 && ! Monsters[i]->Is_Finished())
+		for (auto monster : Monsters)
+			if (monster->Is_Finished())
 				++current_monsters_alive_count;
 
 		// Add a monster if possible
@@ -90,12 +90,18 @@ void AsMonster_Set::Act()
 
 	if (Monster_Set_State != EMonster_Set_State::Idle)
 	{
-		for (i = 0; i < Max_Monsters_Count; i++)
-			if (Monsters[i] != 0 && Monsters[i]->Is_Finished())
+		auto it = Monsters.begin();
+
+		while (it != Monsters.end())
+		{
+			if ((*it)->Is_Finished())
 			{
-				delete Monsters[i];
-				Monsters[i] = 0;
+				delete* it;
+				it = Monsters.erase(it);
 			}
+			else
+				it++;
+		}
 	}
 
 	AGame_Objects_Set::Act();
