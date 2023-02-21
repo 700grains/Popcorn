@@ -25,6 +25,8 @@ public:
 private:
 	virtual bool Get_Next_Game_Object(int& index, AGame_Object** game_object);
 
+	void Turn_Tripled_Ball(ABall* ball, bool increase_angle);
+
 	std::vector <ABall> Balls;
 };
 //------------------------------------------------------------------------------------------------------------

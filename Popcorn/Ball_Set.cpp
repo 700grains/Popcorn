@@ -93,7 +93,6 @@ void AsBall_Set::Triple_Balls()
 	ABall* left_candidate = 0, * right_candidate = 0;
 	double current_ball_x, current_ball_y;
 	double further_ball_x, further_ball_y;
-	double previous_direction, direction_delta;
 
 	// 1. Chosinbg the farthest ball accroding to Y coord
 	for (auto& ball : Balls)
@@ -140,29 +139,13 @@ void AsBall_Set::Triple_Balls()
 	{
 		*left_candidate = *further_ball;
 
-		previous_direction = left_candidate->Get_Direction();
-
-		left_candidate->Set_Direction(previous_direction + AsConfig::Min_Ball_Angle);
-
-		direction_delta = fabs(left_candidate->Get_Direction() - previous_direction);
-
-		if (direction_delta < AsConfig::Min_Ball_Angle / 2.0)
-			left_candidate->Set_Direction(previous_direction - AsConfig::Min_Ball_Angle / 2.0);
-
+		Turn_Tripled_Ball(left_candidate, true);
 	}
 	if (right_candidate != 0)
 	{
 		*right_candidate = *further_ball;
 
-		previous_direction = right_candidate->Get_Direction();
-
-		right_candidate->Set_Direction(previous_direction - AsConfig::Min_Ball_Angle);
-
-		direction_delta = fabs(right_candidate->Get_Direction() - previous_direction);
-
-		if (direction_delta < AsConfig::Min_Ball_Angle / 2.0)
-			right_candidate->Set_Direction(previous_direction + AsConfig::Min_Ball_Angle / 2.0);
-
+		Turn_Tripled_Ball(right_candidate, false);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -210,5 +193,27 @@ bool AsBall_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 	*game_object = &Balls[index++];
 
 	return true;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Turn_Tripled_Ball(ABall* ball, bool increase_angle)
+{ // correcting the direction of a "tripled" ball, when it's wrong
+
+	double previous_direction, direction_delta;
+	double correction_angle;
+
+	previous_direction = ball->Get_Direction();
+
+	if (increase_angle)
+		correction_angle = AsConfig::Min_Ball_Angle;
+	else
+		correction_angle = -AsConfig::Min_Ball_Angle;
+
+	ball->Set_Direction(previous_direction + correction_angle);
+
+	direction_delta = fabs(ball->Get_Direction() - previous_direction);
+
+	if (direction_delta < AsConfig::Min_Ball_Angle / 2.0)
+		ball->Set_Direction(previous_direction - correction_angle / 2.0);
+
 }
 //------------------------------------------------------------------------------------------------------------
