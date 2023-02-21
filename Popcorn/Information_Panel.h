@@ -43,6 +43,9 @@ private:
 
 	AString Player_Name;
 
+	static int Score;
+	static int Lives_Left;
+
 	static const int Score_X_Pos = 208;
 	static const int Score_Y_Pos = 108;
 	static const int Score_Width = 110;

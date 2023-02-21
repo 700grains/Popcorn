@@ -1,6 +1,8 @@
 #include "Information_Panel.h"
 
 // AsInformation_Panel
+int AsInformation_Panel::Score = 0;
+int AsInformation_Panel::Lives_Left = 5;
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::~AsInformation_Panel()
 {
@@ -146,7 +148,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	//_itow_s(AsConfig::Current_Timer_Tick, buffer, 32, 10);
 	//player_score += buffer;
 
-	player_score.Append(AsConfig::Score);
+	player_score.Append(Score);
 
 	Draw_String(hdc, rect, player_score, false);
 
@@ -216,15 +218,15 @@ void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
 	switch (event_type)
 	{
 	case EScore_Event_Type::Hit_Brick:
-		AsConfig::Score += 10;
+		Score += 10;
 		break;
 
 	case EScore_Event_Type::Hit_Monster:
-		AsConfig::Score += 30;
+		Score += 30;
 		break;
 
 	case EScore_Event_Type::Catch_Letter:
-		AsConfig::Score += 20;
+		Score += 20;
 		break;
 
 	default:
@@ -281,7 +283,7 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool na
 void AsInformation_Panel::Show_Extra_Lives(HDC hdc)
 {
 	int i, j;
-	int lives_count = AsConfig::Lives_Left;
+	int lives_count = Lives_Left;
 
 	for (j = 0; j < 3; j++)
 		for (i = 0; i < 4; i++)
