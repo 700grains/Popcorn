@@ -19,12 +19,27 @@ void AIndicator::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AIndicator::Draw(HDC hdc, RECT& paint_area)
 {
+	const int scale = AsConfig::Global_Scale;
+
+	double ratio;
+	int current_height;
+	RECT rect;
+
 	AsTools::Rect(hdc, X_Pos, Y_Pos, Width, Height, AsConfig::Teleport_Portal_Color); // border
 
 	if (Is_Finished())
 		return;
 
-	AsTools::Rect(hdc, X_Pos + 1, Y_Pos + 1, Inner_Width, Inner_Height, AsConfig::Red_Color); // inner part of the indicator
+	ratio = (double)(Indicator_Lifetime - AsConfig::Current_Timer_Tick) / (double)Indicator_Timeout;
+
+	current_height = (int)((double)(Inner_Width * scale) * ratio);
+
+	rect.left = (X_Pos + 1) * scale;
+	rect.top = (Y_Pos + 1) * scale + (Inner_Height * scale - current_height);
+	rect.right = rect.left + Inner_Width * scale;
+	rect.bottom = rect.top + Inner_Height * scale;
+
+	AsTools::Rect(hdc, rect, AsConfig::Red_Color); // inner part of the indicator
 }
 //------------------------------------------------------------------------------------------------------------
 bool AIndicator::Is_Finished()
