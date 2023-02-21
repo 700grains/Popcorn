@@ -49,6 +49,11 @@ private:
 	static int Score;
 	static int Lives_Left;
 
+	static const int Logo_X_Pos = 212;
+	static const int Logo_Y_Pos = 0;
+	static const int Shade_X_Offset = 5;
+	static const int Shade_Y_Offset = 6;
+	
 	static const int Score_X_Pos = 208;
 	static const int Score_Y_Pos = 108;
 	static const int Score_Width = 110;

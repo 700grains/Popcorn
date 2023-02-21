@@ -96,10 +96,6 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
-	int logo_x_pos = 212 * scale;
-	int logo_y_pos = 0;
-	int shade_x_offset = 5 * scale;
-	int shade_y_offset = 6 * scale;
 	RECT rect, intersection_rect;
 
 	const wchar_t* pop_str = L"POP";
@@ -117,19 +113,20 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		// 1.2 Shadow
 		SelectObject(hdc, Logo_Pop_Font);
 		SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
-		TextOut(hdc, logo_x_pos + shade_x_offset, logo_y_pos + shade_y_offset, pop_str, wcslen(pop_str));
+		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset) * scale, (Logo_Y_Pos + Shade_Y_Offset) * scale, pop_str, wcslen(pop_str));
 
 		SelectObject(hdc, Logo_Corn_Font);
-		TextOut(hdc, logo_x_pos - 5 * scale + shade_x_offset, logo_y_pos + 48 * scale + shade_y_offset, corn_str, wcslen(corn_str));
+		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset - 5) * scale , (Logo_Y_Pos + Shade_Y_Offset + 48) * scale , corn_str, wcslen(corn_str));
 
 		// 1.3 logo
 		SelectObject(hdc, Logo_Pop_Font);
 		SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
-		TextOut(hdc, logo_x_pos, logo_y_pos, pop_str, wcslen(pop_str));
+		TextOut(hdc, Logo_X_Pos * scale, Logo_Y_Pos * scale, pop_str, wcslen(pop_str));
 
 		SelectObject(hdc, Logo_Corn_Font);
-		TextOut(hdc, logo_x_pos - 5 * scale, logo_y_pos + 48 * scale, corn_str, wcslen(corn_str));
+		TextOut(hdc, (Logo_X_Pos - 5) * scale, (Logo_Y_Pos + 48) * scale, corn_str, wcslen(corn_str));
 	}
+
 	// 2. Score table
 	if (IntersectRect(&intersection_rect, &paint_area, &Data_Rect))
 	{
