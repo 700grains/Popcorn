@@ -39,12 +39,15 @@ void AIndicator::Draw(HDC hdc, RECT& paint_area)
 
 	ratio = (double)(Indicator_Lifetime - AsConfig::Current_Timer_Tick) / (double)Indicator_Timeout;
 
-	current_height = (int)((double)(Inner_Width * scale) * ratio);
+	current_height = (int)((double)(Inner_Height * scale) * ratio);
+
+	if (current_height == 0)
+		return;
 
 	rect.left = (X_Pos + 1) * scale;
 	rect.top = (Y_Pos + 1) * scale + (Inner_Height * scale - current_height);
 	rect.right = rect.left + Inner_Width * scale;
-	rect.bottom = rect.top + Inner_Height * scale;
+	rect.bottom = (Y_Pos + 1 + Inner_Height) * scale;
 
 	AsTools::Rect(hdc, rect, AsConfig::Red_Color); // inner part of the indicator
 }
