@@ -10,6 +10,20 @@ enum class EScore_Event_Type : unsigned char
 	Catch_Letter
 };
 //------------------------------------------------------------------------------------------------------------
+class AIndicator : public AGraphics_Object
+{
+public:
+	AIndicator(int x_pos, int y_pos);
+
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+
+private:
+	int X_Pos, Y_Pos;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
 {
 public:
