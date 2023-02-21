@@ -93,6 +93,7 @@ void AsBall_Set::Triple_Balls()
 	ABall* left_candidate = 0, * right_candidate = 0;
 	double current_ball_x, current_ball_y;
 	double further_ball_x, further_ball_y;
+	double previous_direction, direction_delta;
 
 	// 1. Chosinbg the farthest ball accroding to Y coord
 	for (auto& ball : Balls)
@@ -138,12 +139,30 @@ void AsBall_Set::Triple_Balls()
 	if (left_candidate != 0)
 	{
 		*left_candidate = *further_ball;
-		left_candidate->Set_Direction(left_candidate->Get_Direction() + AsConfig::Min_Ball_Angle);
+
+		previous_direction = left_candidate->Get_Direction();
+
+		left_candidate->Set_Direction(previous_direction + AsConfig::Min_Ball_Angle);
+
+		direction_delta = fabs(left_candidate->Get_Direction() - previous_direction);
+
+		if (direction_delta < AsConfig::Min_Ball_Angle / 2.0)
+			left_candidate->Set_Direction(previous_direction - AsConfig::Min_Ball_Angle / 2.0);
+
 	}
 	if (right_candidate != 0)
 	{
 		*right_candidate = *further_ball;
-		right_candidate->Set_Direction(right_candidate->Get_Direction() - AsConfig::Min_Ball_Angle);
+
+		previous_direction = right_candidate->Get_Direction();
+
+		right_candidate->Set_Direction(previous_direction - AsConfig::Min_Ball_Angle);
+
+		direction_delta = fabs(right_candidate->Get_Direction() - previous_direction);
+
+		if (direction_delta < AsConfig::Min_Ball_Angle / 2.0)
+			right_candidate->Set_Direction(previous_direction + AsConfig::Min_Ball_Angle / 2.0);
+
 	}
 }
 //------------------------------------------------------------------------------------------------------------
