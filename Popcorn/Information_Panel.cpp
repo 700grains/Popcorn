@@ -19,7 +19,9 @@ void AIndicator::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AIndicator::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO!
+	AsTools::Rect(hdc, X_Pos, Y_Pos, Width, Height, AsConfig::Teleport_Portal_Color); // border
+
+	AsTools::Rect(hdc, X_Pos + 1, Y_Pos + 1, Inner_Width, Inner_Height, AsConfig::Red_Color); // inner part of the indicator
 }
 //------------------------------------------------------------------------------------------------------------
 bool AIndicator::Is_Finished()
@@ -64,7 +66,7 @@ AsInformation_Panel::AsInformation_Panel()
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
-	Floor(Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), Monsters(Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset)
+	Floor_Panel(Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), Monsters_Panel(Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -207,18 +209,13 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 		// 5. indicators
 		// 5.1 Floor
-		AsTools::Rect(hdc, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset, 12, 30, AsConfig::Teleport_Portal_Color);
-		AsTools::Rect(hdc, Score_X_Pos + 8 + 1, Score_Y_Pos + Indicator_Y_Offset + 1, 10, 28, AsConfig::Red_Color);
+		Floor_Panel.Draw(hdc, paint_area);
 
 		// 5.2 Life
-		AsTools::Rect(hdc, Score_X_Pos + 27, Score_Y_Pos + Indicator_Y_Offset, 56, 30, AsConfig::Teleport_Portal_Color);
+		Show_Extra_Lives(hdc);
 
 		// 5.3 Monster
-		AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset, 12, 30, AsConfig::Teleport_Portal_Color);
-		AsTools::Rect(hdc, Score_X_Pos + 90 + 1, Score_Y_Pos + Indicator_Y_Offset + 1, 10, 28, AsConfig::Red_Color);
-
-		// 6. Extra lifes 
-		Show_Extra_Lives(hdc);
+		Monsters_Panel.Draw(hdc, paint_area);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -338,6 +335,8 @@ void AsInformation_Panel::Show_Extra_Lives(HDC hdc)
 {
 	int i, j;
 	int lives_count = Lives_Left;
+
+	AsTools::Rect(hdc, Score_X_Pos + 27, Score_Y_Pos + Indicator_Y_Offset, 56, 30, AsConfig::Teleport_Portal_Color);
 
 	for (j = 0; j < 3; j++)
 		for (i = 0; i < 4; i++)

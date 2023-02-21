@@ -22,6 +22,11 @@ public:
 
 private:
 	int X_Pos, Y_Pos;
+
+	static const int Width = 12;
+	static const int Inner_Width = Width - 2;
+	static const int Height = 30;
+	static const int Inner_Height = Height - 2;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
@@ -54,7 +59,7 @@ private:
 	AColor* Shadow_Color, * Highlight_Color, * Shaded_Blue, * Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
-	AIndicator Floor, Monsters;
+	AIndicator Floor_Panel, Monsters_Panel;
 
 	AString Player_Name;
 
