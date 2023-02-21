@@ -3,7 +3,7 @@
 // AIndicator
 //------------------------------------------------------------------------------------------------------------
 AIndicator::AIndicator(int x_pos, int y_pos)
-	: X_Pos(x_pos), Y_Pos(y_pos)
+	: X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -21,13 +21,23 @@ void AIndicator::Draw(HDC hdc, RECT& paint_area)
 {
 	AsTools::Rect(hdc, X_Pos, Y_Pos, Width, Height, AsConfig::Teleport_Portal_Color); // border
 
+	if (Is_Finished())
+		return;
+
 	AsTools::Rect(hdc, X_Pos + 1, Y_Pos + 1, Inner_Width, Inner_Height, AsConfig::Red_Color); // inner part of the indicator
 }
 //------------------------------------------------------------------------------------------------------------
 bool AIndicator::Is_Finished()
 {
-	return false;
-	//!!! TODO!
+	if (AsConfig::Current_Timer_Tick > Indicator_Lifetime)
+		return true;
+	else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void AIndicator::Restart()
+{
+	Indicator_Lifetime = AsConfig::Current_Timer_Tick + Indicator_Timeout;
 }
 //------------------------------------------------------------------------------------------------------------
 

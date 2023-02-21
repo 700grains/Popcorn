@@ -256,7 +256,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
 	case ELetter_Type::P: // "Floor"
 		AsConfig::Level_Has_Floor = true;
 		Border.Redraw_Floor();
-		// !!! display on the indicator!
+		Information_Panel.Floor_Panel.Restart();// !!! display on the indicator!
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 

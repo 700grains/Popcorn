@@ -20,13 +20,17 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	void Restart();
+
 private:
 	int X_Pos, Y_Pos;
+	int Indicator_Lifetime;
 
 	static const int Width = 12;
 	static const int Inner_Width = Width - 2;
 	static const int Height = 30;
 	static const int Inner_Height = Height - 2;
+	static const int Indicator_Timeout = AsConfig::FPS * 50; // 50 seconds
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
@@ -49,6 +53,8 @@ public:
 
 	static void Update_Score(EScore_Event_Type event_type);
 
+	AIndicator Floor_Panel, Monsters_Panel;
+
 private:
 	void Choose_Font();
 	void Draw_String(HDC hdc, RECT& rect, AString& str, bool name);
@@ -59,7 +65,6 @@ private:
 	AColor* Shadow_Color, * Highlight_Color, * Shaded_Blue, * Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
-	AIndicator Floor_Panel, Monsters_Panel;
 
 	AString Player_Name;
 
