@@ -28,7 +28,7 @@ public:
 
 	void Init();
 
-	static void 
+	static void Update_Score(EScore_Event_Type event_type);
 
 private:
 	void Choose_Font();

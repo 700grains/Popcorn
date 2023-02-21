@@ -211,6 +211,27 @@ void AsInformation_Panel::Init()
 	Score_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
+void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
+{
+	switch (event_type)
+	{
+	case EScore_Event_Type::Hit_Brick:
+		AsConfig::Score += 10;
+		break;
+
+	case EScore_Event_Type::Hit_Monster:
+		AsConfig::Score += 30;
+		break;
+
+	case EScore_Event_Type::Catch_Letter:
+		AsConfig::Score += 20;
+		break;
+
+	default:
+		break;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Choose_Font()
 {
 	CHOOSEFONT cf{};
