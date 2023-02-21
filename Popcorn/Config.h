@@ -3,6 +3,33 @@
 #include "Common.h"
 
 //------------------------------------------------------------------------------------------------------------
+class AColor
+{
+public:
+	~AColor();
+	AColor();
+	AColor(unsigned char r, unsigned char g, unsigned char b);
+	AColor(const AColor& color, int pen_size);
+	AColor(unsigned char r, unsigned char g, unsigned char b, int pen_size);
+	AColor(const AColor& pen_color, const AColor& brush_color, int pen_size);
+
+	void operator = (const AColor& another);
+
+	void Set_As(unsigned char r, unsigned char g, unsigned char b);
+
+	int Get_RGB() const;
+	void Select(HDC hdc) const;
+	void Select_Pen(HDC hdc) const;
+	HBRUSH Get_Brush() const;
+
+
+	unsigned char R, G, B;
+
+private:
+	HPEN Pen;
+	HBRUSH Brush;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsConfig
 {
 public:
