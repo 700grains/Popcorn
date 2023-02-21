@@ -54,6 +54,7 @@ private:
 	AColor* Shadow_Color, * Highlight_Color, * Shaded_Blue, * Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
+	AIndicator Floor, Monsters;
 
 	AString Player_Name;
 

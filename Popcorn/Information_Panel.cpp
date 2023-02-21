@@ -57,14 +57,14 @@ AsInformation_Panel::~AsInformation_Panel()
 
 	if (Score_Font)
 		DeleteObject(Score_Font);
-
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
 	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
-	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale)
+	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
+	Floor(Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), Monsters(Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset)
 {
 	const int scale = AsConfig::Global_Scale;
 
