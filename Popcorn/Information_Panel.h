@@ -1,8 +1,14 @@
 #pragma once
 
-#include "Config.h"
 #include "Falling_Letter.h"
 
+//------------------------------------------------------------------------------------------------------------
+enum class EScore_Event_Type : unsigned char
+{
+	Hit_Brick,
+	Hit_Monster,
+	Catch_Letter
+};
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
 {
@@ -21,6 +27,8 @@ public:
 	virtual bool Is_Finished() override;
 
 	void Init();
+
+	static void 
 
 private:
 	void Choose_Font();
