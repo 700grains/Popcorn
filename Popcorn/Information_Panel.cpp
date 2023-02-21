@@ -215,6 +215,9 @@ void AsInformation_Panel::Init()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
 {
+	const int scale = AsConfig::Global_Scale;
+	RECT rect;
+
 	switch (event_type)
 	{
 	case EScore_Event_Type::Hit_Brick:
@@ -232,6 +235,13 @@ void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
 	default:
 		break;
 	}
+
+	rect.left = 211 * scale;
+	rect.top = 5 * scale;
+	rect.right = rect.left + 104 * scale;
+	rect.bottom = AsConfig::Max_Y_Pos * scale;
+
+	AsTools::Invalidate_Rect(rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Choose_Font()
