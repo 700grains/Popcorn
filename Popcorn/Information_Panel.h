@@ -25,6 +25,7 @@ public:
 private:
 	int X_Pos, Y_Pos;
 	int Indicator_Lifetime;
+	RECT Indicator_Rect;
 
 	static const int Width = 12;
 	static const int Inner_Width = Width - 2;

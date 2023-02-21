@@ -5,11 +5,18 @@
 AIndicator::AIndicator(int x_pos, int y_pos)
 	: X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
 {
+	const int scale = AsConfig::Global_Scale;
+
+	Indicator_Rect.left = X_Pos * scale;
+	Indicator_Rect.top = Y_Pos * scale;
+	Indicator_Rect.right = Indicator_Rect.left + Width * scale;
+	Indicator_Rect.bottom = Indicator_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 void AIndicator::Act()
 {	
-	//!!! TODO!
+	if (! Is_Finished() )
+		AsTools::Invalidate_Rect(Indicator_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AIndicator::Clear(HDC hdc, RECT& paint_area)
@@ -27,7 +34,7 @@ void AIndicator::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Rect(hdc, X_Pos, Y_Pos, Width, Height, AsConfig::Teleport_Portal_Color); // border
 
-	if (Is_Finished())
+	if (Indicator_Lifetime == 0 || Is_Finished())
 		return;
 
 	ratio = (double)(Indicator_Lifetime - AsConfig::Current_Timer_Tick) / (double)Indicator_Timeout;
@@ -135,22 +142,13 @@ double AsInformation_Panel::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Act()
 {
-	//!!! TODO!
-
-	//const int scale = AsConfig::Global_Scale;
-
-	//RECT rect;
-	//rect.left = 211 * scale;
-	//rect.top = 5 * scale;
-	//rect.right = rect.left + 104 * scale;
-	//rect.bottom = 199 * scale;
-
-	//AsTools::Invalidate_Rect(rect);
+	Floor_Panel.Act();
+	Monsters_Panel.Act();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO!
+	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
