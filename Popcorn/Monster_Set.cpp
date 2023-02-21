@@ -45,6 +45,7 @@ bool AsMonster_Set::Check_Hit(RECT& rect)
 void AsMonster_Set::Act()
 {
 	int current_monsters_alive_count;
+
 	switch (Monster_Set_State)
 	{
 	case EMonster_Set_State::Idle:
