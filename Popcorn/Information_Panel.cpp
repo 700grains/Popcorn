@@ -174,13 +174,15 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 		// 5. indicators
 		// 5.1 Floor
-		AsTools::Rect(hdc, Score_X_Pos + 8, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
+		AsTools::Rect(hdc, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset, 12, 30, AsConfig::Teleport_Portal_Color);
+		AsTools::Rect(hdc, Score_X_Pos + 8 + 1, Score_Y_Pos + Indicator_Y_Offset + 1, 10, 28, AsConfig::Red_Color);
 
 		// 5.2 Life
-		AsTools::Rect(hdc, Score_X_Pos + 27, Score_Y_Pos + 55, 56, 30, AsConfig::Teleport_Portal_Color);
+		AsTools::Rect(hdc, Score_X_Pos + 27, Score_Y_Pos + Indicator_Y_Offset, 56, 30, AsConfig::Teleport_Portal_Color);
 
 		// 5.3 Monster
-		AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + 55, 12, 30, AsConfig::Teleport_Portal_Color);
+		AsTools::Rect(hdc, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset, 12, 30, AsConfig::Teleport_Portal_Color);
+		AsTools::Rect(hdc, Score_X_Pos + 90 + 1, Score_Y_Pos + Indicator_Y_Offset + 1, 10, 28, AsConfig::Red_Color);
 
 		// 6. Extra lifes 
 		Show_Extra_Lives(hdc);
