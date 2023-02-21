@@ -43,6 +43,9 @@ private:
 
 	AString Player_Name;
 
+	static RECT Logo_Rect;
+	static RECT Data_Rect; // score and lives 
+
 	static int Score;
 	static int Lives_Left;
 
