@@ -285,7 +285,9 @@ void AMonster::Destroy()
 		explosive_ball.Explode(x_pos + x_offset, y_pos + y_offset, size, is_red, time_offset, 10);
 	}
 
-		Monster_State = EMonster_State::Destroying;
+	Monster_State = EMonster_State::Destroying;
+
+	AsInformation_Panel::Update_Score(EScore_Event_Type::Hit_Monster);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
