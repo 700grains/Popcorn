@@ -772,7 +772,9 @@ void AsLevel::Delete_Objects(std::vector<AGraphics_Object*>& falling_letters)
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Act_Objects(std::vector <AGraphics_Object*> &falling_letters)
 {
-	for (auto it = falling_letters.begin(); it != falling_letters.end(); it++)
+	auto it = falling_letters.begin();
+
+	while (it != falling_letters.end())
 	{
 		(*it)->Act();
 
@@ -781,6 +783,8 @@ void AsLevel::Act_Objects(std::vector <AGraphics_Object*> &falling_letters)
 			delete* it; // deleting object in heap
 			it = falling_letters.erase(it); // delete pointer to deleted object
 		}
+		else
+			it++;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
