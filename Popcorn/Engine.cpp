@@ -227,7 +227,7 @@ void AsEngine::Handle_Message()
 			break;
 
 		case EMessage_Type::Unfreeze_Monsters:
-			Monster_Set.Unfreeze();
+			Monster_Set.Set_Freeze_State(false);
 			break;
 
 		default:
@@ -255,7 +255,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 		break;
 
 	case ELetter_Type::M: // "Monsters"
-		Monster_Set.Freeze();
+		Monster_Set.Set_Freeze_State(true);
 		Information_Panel.Monsters_Panel.Restart();// !!! display on the indicator!
 		break;
 
