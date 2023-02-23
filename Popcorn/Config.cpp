@@ -133,7 +133,6 @@ void AsConfig::Throw()
 
 
 // AsTools
-std::vector <AMessage*> AsTools::Messages_Queue;
 //------------------------------------------------------------------------------------------------------------
 int AsTools::Rand(int range)
 {// Calculates a pseudo-random number in the range [0, .. range -1]
@@ -232,21 +231,7 @@ bool AsTools::Reflect_On_Circle(double next_x_pos, double next_y_pos, double cir
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsTools::Add_Message(AMessage* message)
-{
-	Messages_Queue.push_back(message);
-}
-bool AsTools::Get_Message(AMessage** message)
-{
-	if (Messages_Queue.size() == 0)
-		return false;
 
-	*message = Messages_Queue[0];
-	Messages_Queue.erase(Messages_Queue.begin());
-
-	return true;
-}
-//------------------------------------------------------------------------------------------------------------
 
 
 

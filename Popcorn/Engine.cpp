@@ -210,7 +210,7 @@ void AsEngine::Act()
 		if (Border.Is_Gate_Opened(AsConfig::Gates_Count - 1) )
 			Platform.Set_State(EPlatform_State::Rolling);
 
-	if (AsTools::Get_Message(&message))
+	if (AsMessage_Manager::Get_Message(&message))
 	{
 		if (message->Message_Type == EMessage_Type::Floor_Is_Over)
 		{

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <queue>
 
 //------------------------------------------------------------------------------------------------------------
 enum class EBall_State : unsigned char
@@ -104,5 +105,15 @@ public:
 	AMessage(EMessage_Type message_type);
 
 	const EMessage_Type Message_Type;
+};
+//------------------------------------------------------------------------------------------------------------
+class AsMessage_Manager
+{
+public:
+	static void Add_Message(AMessage* message);
+	static bool Get_Message(AMessage** message);
+
+private:
+	static std::queue <AMessage*> Messages_Queue;
 };
 //------------------------------------------------------------------------------------------------------------

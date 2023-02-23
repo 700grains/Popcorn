@@ -97,11 +97,6 @@ public:
 	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step, int max_step);
 	static void Get_Fading_Color(const AColor& origin_color, int step, AColor& result_color, int max_step);
 	static bool Reflect_On_Circle(double next_x_pos, double next_y_pos, double circle_x, double circle_y, double circle_radius, ABall_Object* ball);
-	static void Add_Message(AMessage* message);
-	static bool Get_Message(AMessage** message);
-
-private:
-	static std::vector <AMessage*> Messages_Queue;
 };
 //------------------------------------------------------------------------------------------------------------
 class AHit_Checker

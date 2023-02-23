@@ -147,3 +147,27 @@ AMessage::AMessage(EMessage_Type message_type)
 {
 }
 //------------------------------------------------------------------------------------------------------------
+
+
+
+
+// AsMessage_Manager
+std::queue <AMessage*> AsMessage_Manager::Messages_Queue;
+//------------------------------------------------------------------------------------------------------------
+void AsMessage_Manager::Add_Message(AMessage* message)
+{
+	Messages_Queue.push(message);
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsMessage_Manager::Get_Message(AMessage** message)
+{
+	if (Messages_Queue.size() == 0)
+		return false;
+
+	*message = Messages_Queue.front();
+
+	Messages_Queue.pop();
+
+	return true;
+}
+//------------------------------------------------------------------------------------------------------------
