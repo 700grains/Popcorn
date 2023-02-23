@@ -147,6 +147,8 @@ void AsEngine::Play_Level()
 		Monster_Set.Destroy_All();
 		Laser_Beam_Set.Disable_All();
 		Platform.Set_State(EPlatform_State::Meltdown);
+		Information_Panel.Floor_Panel.Reset();
+		Information_Panel.Monsters_Panel.Reset();
 	}
 	else
 		Ball_Set.Accelerate();

@@ -21,6 +21,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Restart();
+	void Reset();
 
 private:
 	EMessage_Type Message_Type;
