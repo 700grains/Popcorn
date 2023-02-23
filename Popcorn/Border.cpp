@@ -11,7 +11,7 @@ AsBorder::~AsBorder()
 }
 //------------------------------------------------------------------------------------------------------------
 AsBorder::AsBorder()
-	: Floor_Rect{}
+	: Clear_Floor(false), Floor_Rect{}
 {
 	Floor_Rect.left = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
 	Floor_Rect.right = (AsConfig::Max_X_Pos - 1) * AsConfig::Global_Scale;
@@ -37,6 +37,8 @@ AsBorder::AsBorder()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Redraw_Floor()
 {
+	Clear_Floor = true;
+
 	AsTools::Invalidate_Rect(Floor_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
@@ -202,13 +204,13 @@ void AsBorder::Clear(HDC hdc, RECT& paint_area)
 		gate->Clear(hdc, paint_area);
 
 	// 2. Clearing the floor
-	if (! AsConfig::Level_Has_Floor)
-		return;
-	
-	if (! IntersectRect(&intersection_rect, &paint_area, &Floor_Rect))
-			return;
+	if (Clear_Floor)
+	{
+		if (IntersectRect(&intersection_rect, &paint_area, &Floor_Rect))
+			AsTools::Rect(hdc, Floor_Rect, AsConfig::BG_Color);
 
-	AsTools::Rect(hdc, Floor_Rect, AsConfig::BG_Color);
+		Clear_Floor = false;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw(HDC hdc, RECT& paint_area)
