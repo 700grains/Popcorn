@@ -23,6 +23,7 @@ public:
 	void Restart();
 
 private:
+	bool Message_Was_Sent;
 	int X_Pos, Y_Pos;
 	int Indicator_Lifetime;
 	RECT Indicator_Rect;

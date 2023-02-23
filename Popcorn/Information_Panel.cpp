@@ -3,7 +3,7 @@
 // AIndicator
 //------------------------------------------------------------------------------------------------------------
 AIndicator::AIndicator(int x_pos, int y_pos)
-	: X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
+	: Message_Was_Sent(true), X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -76,6 +76,8 @@ bool AIndicator::Is_Finished()
 void AIndicator::Restart()
 {
 	Indicator_Lifetime = AsConfig::Current_Timer_Tick + Indicator_Timeout;
+
+	Message_Was_Sent = false;
 }
 //------------------------------------------------------------------------------------------------------------
 

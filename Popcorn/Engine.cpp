@@ -212,7 +212,7 @@ void AsEngine::Act()
 
 	if (AsTools::Get_Message(&message))
 	{
-		if (message->Type == EMessage_Type::Floor_Is_Over)
+		if (message->Message_Type == EMessage_Type::Floor_Is_Over)
 		{
 			AsConfig::Level_Has_Floor = false;
 			Border.Redraw_Floor();
