@@ -227,7 +227,7 @@ void AsEngine::Handle_Message()
 			break;
 
 		case EMessage_Type::Unfreeze_Monsters:
-
+			Monster_Set.Unfreeze();
 			break;
 
 		default:
@@ -254,7 +254,10 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
-	//case ELetter_Type::M: // "Monsters"
+	case ELetter_Type::M: // "Monsters"
+		Monster_Set.Freeze();
+		Information_Panel.Monsters_Panel.Restart();// !!! display on the indicator!
+		break;
 
 	case ELetter_Type::G: // "Life"
 		if (Life_Count < AsConfig::Max_Life_Count)

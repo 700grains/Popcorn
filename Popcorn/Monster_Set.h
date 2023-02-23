@@ -29,6 +29,8 @@ public:
 	void Emit_At_Gate(int gate_index);
 	void Activate(int max_monsters_alive);
 	void Destroy_All();
+	void Freeze();
+	void Unfreeze();
 
 private:
 	bool Get_Next_Game_Object(int& index, AGame_Object** game_object);

@@ -290,6 +290,18 @@ void AMonster::Destroy()
 	AsInformation_Panel::Update_Score(EScore_Event_Type::Hit_Monster);
 }
 //------------------------------------------------------------------------------------------------------------
+void AMonster::Freeze()
+{
+	Previous_Speed = Speed;
+
+	Speed = 0.0;
+}
+//------------------------------------------------------------------------------------------------------------
+void AMonster::Unfreeze()
+{
+	Speed = Previous_Speed;
+}
+//------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
 {
 }

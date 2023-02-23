@@ -168,6 +168,19 @@ void AsMonster_Set::Destroy_All()
 	Monster_Set_State = EMonster_Set_State::Idle;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsMonster_Set::Freeze()
+{
+	for (auto* monster : Monsters)
+		monster->Freeze();
+}
+//------------------------------------------------------------------------------------------------------------
+void AsMonster_Set::Unfreeze()
+{
+	for (auto* monster : Monsters)
+		monster->Unfreeze();
+
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Get_Next_Game_Object(int& index, AGame_Object** game_object)
 {
 	if (index < 0 || index >= (int)Monsters.size())
