@@ -53,6 +53,9 @@ void AsMonster_Set::Act()
 
 
 	case EMonster_Set_State::Selecting_Next_Gate:
+		if (Is_Frozen)
+			break;
+
 		// We count living monsters
 		current_monsters_alive_count = 0;
 
