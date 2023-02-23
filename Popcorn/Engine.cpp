@@ -190,6 +190,7 @@ void AsEngine::Act()
 {
 	int index = 0;
 	AFalling_Letter* falling_letter;
+	AMessage* message;
 
 	// 1. Do all the things
 	for (auto *engine_module : Modules)
@@ -208,6 +209,19 @@ void AsEngine::Act()
 	if (Game_State == EGame_State::Restart_Level)
 		if (Border.Is_Gate_Opened(AsConfig::Gates_Count - 1) )
 			Platform.Set_State(EPlatform_State::Rolling);
+
+	if (AsTools::Get_Message(&message))
+	{
+		if (message->Type == EMessage_Type::Floor_Is_Over)
+		{
+			AsConfig::Level_Has_Floor = false;
+			Border.Redraw_Floor();
+
+			delete message;
+		}
+		else
+			AsConfig::Throw();
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)

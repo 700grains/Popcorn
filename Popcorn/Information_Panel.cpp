@@ -60,7 +60,7 @@ bool AIndicator::Is_Finished()
 	{
 		if (! Message_Was_Sent)
 		{
-			message = new AMessage();
+			message = new AMessage(EMessage_Type::Floor_Is_Over);
 
 			AsTools::Add_Message(message);
 
