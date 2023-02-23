@@ -190,7 +190,6 @@ void AsEngine::Act()
 {
 	int index = 0;
 	AFalling_Letter* falling_letter;
-	AMessage* message;
 
 	// 1. Do all the things
 	for (auto *engine_module : Modules)
@@ -210,21 +209,34 @@ void AsEngine::Act()
 		if (Border.Is_Gate_Opened(AsConfig::Gates_Count - 1) )
 			Platform.Set_State(EPlatform_State::Rolling);
 
+	Handle_Message();
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Handle_Message()
+{
+	AMessage* message;
+
 	if (AsMessage_Manager::Get_Message(&message))
 	{
-		if (message->Message_Type == EMessage_Type::Floor_Is_Over)
+		switch (message->Message_Type)
 		{
+		case EMessage_Type::Floor_Is_Over:
 			AsConfig::Level_Has_Floor = false;
 			Border.Redraw_Floor();
-
 			delete message;
-		}
-		else
+			break;
+
+		case EMessage_Type::Unfreeze_Monsters:
+
+			break;
+
+		default:
 			AsConfig::Throw();
+		}
 	}
 }
 //------------------------------------------------------------------------------------------------------------
-void AsEngine::On_Falling_Letter(AFalling_Letter* falling_letter)
+void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 {
 	switch (falling_letter->Letter_Type)
 	{
