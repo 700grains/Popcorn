@@ -7,7 +7,7 @@ AMonster::~AMonster()
 }
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
-	:Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Previous_Speed(0.0), Direction(0.0), Next_Direction_Switch_Tick(0), Monster_Is_Alive_Timer(0), Monster_Rect{},
+	:Need_To_Freeze(false), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Previous_Speed(0.0), Direction(0.0), Next_Direction_Switch_Tick(0), Monster_Is_Alive_Timer(0), Monster_Rect{},
 	Previous_Monster_Rect{}, Explosive_Balls(Explosive_Balls_Count)
 {
 }
@@ -153,6 +153,13 @@ void AMonster::Act()
 
 
 	case EMonster_State::Alive:
+		if (Need_To_Freeze)
+		{
+			Previous_Speed = Speed;
+			Speed = 0.0;
+			Need_To_Freeze = false;
+		}
+
 		Act_Alive();
 		Change_Direction();
 		break;
@@ -292,13 +299,10 @@ void AMonster::Destroy()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Set_Freeze_State(bool freeze)
 {
-	if (freeze)
-	{
-		Previous_Speed = Speed;
-		Speed = 0.0;
-	}
-	else
+	if (! freeze)
 		Speed = Previous_Speed;
+
+	Need_To_Freeze = freeze;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)

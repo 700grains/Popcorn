@@ -57,7 +57,7 @@ protected:
 	int Monster_Is_Alive_Timer;
 	double Direction;
 	double X_Pos, Y_Pos;
-
+	bool Need_To_Freeze;
 	EMonster_State Monster_State;
 	RECT Monster_Rect, Previous_Monster_Rect;
 
