@@ -11,7 +11,7 @@ AsMonster_Set::~AsMonster_Set()
 }
 //------------------------------------------------------------------------------------------------------------
 AsMonster_Set::AsMonster_Set()
-	: Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr), Current_Gate_Index(-1), Max_Monsters_Alive(0)
+	: Is_Frozen(false), Monster_Set_State(EMonster_Set_State::Idle), Border(nullptr), Current_Gate_Index(-1), Max_Monsters_Alive(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -118,8 +118,10 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	bool gate_is_left;
 	int gate_x, gate_y;
 	int monster_type;
-
 	AMonster* monster = 0;
+
+	if (Is_Frozen)
+		return;
 
 	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
 		AsConfig::Throw();
@@ -170,6 +172,8 @@ void AsMonster_Set::Destroy_All()
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Set_Freeze_State(bool freeze)
 {
+	Is_Frozen = freeze;
+
 	if (freeze)
 		for (auto* monster : Monsters)
 			monster->Set_Freeze_State(freeze);

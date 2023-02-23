@@ -256,7 +256,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 
 	case ELetter_Type::M: // "Monsters"
 		Monster_Set.Set_Freeze_State(true);
-		Information_Panel.Monsters_Panel.Restart();// !!! display on the indicator!
+		Information_Panel.Monsters_Panel.Restart(); 
 		break;
 
 	case ELetter_Type::G: // "Life"

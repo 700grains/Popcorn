@@ -82,7 +82,7 @@ void AMonster::Advance(double max_speed)
 	bool changed_direction = false;
 	RECT monster_rect;
 
-	if (! (Monster_State == EMonster_State::Emitting || Monster_State == EMonster_State::Alive) )
+	if (! (Monster_State == EMonster_State::Emitting || Monster_State == EMonster_State::Alive) || Speed == 0.0)
 		return;
 
 	next_step = Speed / max_speed * AsConfig::Moving_Step_Size;

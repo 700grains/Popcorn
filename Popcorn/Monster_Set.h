@@ -36,9 +36,8 @@ private:
 
 	int Current_Gate_Index;
 	int Max_Monsters_Alive;
-
+	bool Is_Frozen;
 	EMonster_Set_State Monster_Set_State;
-
 	AsBorder *Border; // UNO
 
 	std::vector<AMonster*> Monsters;
