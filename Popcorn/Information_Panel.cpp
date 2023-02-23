@@ -3,7 +3,7 @@
 // AIndicator
 //------------------------------------------------------------------------------------------------------------
 AIndicator::AIndicator(EMessage_Type message_type, int x_pos, int y_pos)
-	: Message_Type(message_type), Message_Was_Sent(true), X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
+	: Message_Type(message_type), Need_To_Send_A_Message(false), X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -58,13 +58,13 @@ bool AIndicator::Is_Finished()
 
 	if (AsConfig::Current_Timer_Tick > Indicator_Lifetime)
 	{
-		if (! Message_Was_Sent)
+		if (Need_To_Send_A_Message)
 		{
 			message = new AMessage(Message_Type);
 
 			AsMessage_Manager::Add_Message(message);
 
-			Message_Was_Sent = true;
+			Need_To_Send_A_Message = false;
 		}
 
 		return true;
@@ -77,7 +77,7 @@ void AIndicator::Restart()
 {
 	Indicator_Lifetime = AsConfig::Current_Timer_Tick + Indicator_Timeout;
 
-	Message_Was_Sent = false;
+	Need_To_Send_A_Message = true;
 }
 //------------------------------------------------------------------------------------------------------------
 void AIndicator::Reset()

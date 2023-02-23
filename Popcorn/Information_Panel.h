@@ -25,7 +25,7 @@ public:
 
 private:
 	EMessage_Type Message_Type;
-	bool Message_Was_Sent;
+	bool Need_To_Send_A_Message;
 	int X_Pos, Y_Pos;
 	int Indicator_Lifetime;
 	RECT Indicator_Rect;
