@@ -2,8 +2,8 @@
 
 // AIndicator
 //------------------------------------------------------------------------------------------------------------
-AIndicator::AIndicator(int x_pos, int y_pos)
-	: Message_Was_Sent(true), X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
+AIndicator::AIndicator(EMessage_Type message_type, int x_pos, int y_pos)
+	: Message_Type(message_type), Message_Was_Sent(true), X_Pos(x_pos), Y_Pos(y_pos), Indicator_Lifetime()
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -60,7 +60,7 @@ bool AIndicator::Is_Finished()
 	{
 		if (! Message_Was_Sent)
 		{
-			message = new AMessage(EMessage_Type::Floor_Is_Over);
+			message = new AMessage(Message_Type);
 
 			AsMessage_Manager::Add_Message(message);
 
@@ -116,7 +116,8 @@ AsInformation_Panel::AsInformation_Panel()
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
-	Floor_Panel(Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), Monsters_Panel(Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset)
+	Floor_Panel(EMessage_Type::Floor_Is_Over, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), 
+	Monsters_Panel(EMessage_Type::Unfreeze_Monsters, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset)
 {
 	const int scale = AsConfig::Global_Scale;
 

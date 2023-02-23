@@ -13,7 +13,7 @@ enum class EScore_Event_Type : unsigned char
 class AIndicator : public AGraphics_Object
 {
 public:
-	AIndicator(int x_pos, int y_pos);
+	AIndicator(EMessage_Type message_type, int x_pos, int y_pos);
 
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
@@ -23,6 +23,7 @@ public:
 	void Restart();
 
 private:
+	EMessage_Type Message_Type;
 	bool Message_Was_Sent;
 	int X_Pos, Y_Pos;
 	int Indicator_Lifetime;
