@@ -54,8 +54,21 @@ void AIndicator::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AIndicator::Is_Finished()
 {
+	AMessage* message;
+
 	if (AsConfig::Current_Timer_Tick > Indicator_Lifetime)
+	{
+		if (! Message_Was_Sent)
+		{
+			message = new AMessage();
+
+			AsTools::Add_Message(message);
+
+			Message_Was_Sent = true;
+		}
+
 		return true;
+	}
 	else
 		return false;
 }
