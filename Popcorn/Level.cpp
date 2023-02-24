@@ -21,10 +21,17 @@ APoint::APoint(int x, int y)
 ALevel_Data::ALevel_Data(int level_number)
 	: Level(nullptr)
 {
+	if (level_number < 1 || level_number > Max_Level_Number)
+		AsConfig::Throw();
+
 	switch (level_number)
 	{
 	case 1:
 		Level = (char*)Level_01;
+		break;
+
+	case 2:
+		Level = (char*)Level_02;
 		break;
 
 	default:
@@ -94,7 +101,6 @@ char ALevel_Data::Level_02[AsConfig::Level_Height][AsConfig::Level_Width] =
 // AsLevel
 //------------------------------------------------------------------------------------------------------------
 AsLevel* AsLevel::Level = nullptr;
-ALevel_Data AsLevel::Level_01(1);
 //------------------------------------------------------------------------------------------------------------
 AsLevel::~AsLevel()
 {
@@ -301,12 +307,21 @@ bool AsLevel::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Init()
 {
+	int i;
+	ALevel_Data* level_data;
+
 	Level_Rect.left = AsConfig::Level_X_Offset * AsConfig::Global_Scale;
 	Level_Rect.top = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
 	Level_Rect.right = Level_Rect.left + AsConfig::Cell_Width * AsConfig::Level_Width * AsConfig::Global_Scale;
 	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 
 	memset(Current_Level, 0, sizeof(Current_Level) );
+
+	for (i = 0; i < ALevel_Data::Max_Level_Number; i++)
+	{
+		level_data = new ALevel_Data(i + 1);
+		Levels_Data.push_back(level_data);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
@@ -315,7 +330,7 @@ void AsLevel::Set_Current_Level(int level_number)
 	EBrick_Type brick_type;
 	ALevel_Data* levels_data;
 
-	if (level_number < 1 || level_number > Levels_Data.size())
+	if (level_number < 1 || level_number > (int)Levels_Data.size())
 		AsConfig::Throw();
 
 	levels_data = Levels_Data[level_number - 1];

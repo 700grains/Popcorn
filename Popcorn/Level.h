@@ -19,6 +19,8 @@ public:
 	ALevel_Data(int level_number);
 	char* Level;
 
+	static const int Max_Level_Number = 2;
+
 private:
 	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
 
