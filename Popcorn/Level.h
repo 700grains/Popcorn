@@ -20,9 +20,10 @@ public:
 	char* Level;
 
 private:
+	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
+
 	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
 	static char Level_02[AsConfig::Level_Height][AsConfig::Level_Width];
-	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
@@ -45,11 +46,11 @@ public:
 	virtual bool Is_Finished();
 
 	void Init();
-	void Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Level_Width]);
+	void Set_Current_Level(int level_number);
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
 	void Stop();
 
-	static ALevel_Data Level_Data;
+	static ALevel_Data Level_01;
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
 
