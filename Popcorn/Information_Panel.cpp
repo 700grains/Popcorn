@@ -3,7 +3,6 @@
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------
 int AsInformation_Panel::Score = 0;
-int AsInformation_Panel::Lives_Left = 5;
 RECT AsInformation_Panel::Logo_Rect;
 RECT AsInformation_Panel::Data_Rect;
 //------------------------------------------------------------------------------------------------------------
@@ -28,7 +27,7 @@ AsInformation_Panel::~AsInformation_Panel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0),
+	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
@@ -217,6 +216,15 @@ void AsInformation_Panel::Init()
 
 	log_font.lfHeight = -44;
 	Score_Font = CreateFontIndirect(&log_font);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsInformation_Panel::Add_Life()
+{		
+	if (Lives_Left < AsConfig::Max_Life_Count)
+	{
+		++Lives_Left;
+		AsTools::Invalidate_Rect(Data_Rect);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)

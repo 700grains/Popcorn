@@ -3,7 +3,7 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-: Timer_ID(WM_USER + 1), Game_State (EGame_State::Lost_Ball), Rest_Distance(0), Life_Count(AsConfig::Initial_Life_Count), Modules{}
+: Timer_ID(WM_USER + 1), Game_State (EGame_State::Lost_Ball), Rest_Distance(0), Modules{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -262,8 +262,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 		break;
 
 	case ELetter_Type::G: // "Life"
-		if (Life_Count < AsConfig::Max_Life_Count)
-			++Life_Count; // !!! should be displayed on the indicator
+		Information_Panel.Add_Life();
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 

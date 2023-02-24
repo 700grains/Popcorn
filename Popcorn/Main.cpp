@@ -363,7 +363,7 @@ V 4. Each letter has its own actions
 V Gates
 V 1. Output gates
 V 2. Animation of opening/closing gates
-3. Gate states (closed, opening, closing)
+V 3. Gate states (closed, opening, closing)
 
 
 V Monsters

@@ -28,6 +28,7 @@ public:
 	virtual bool Is_Finished() override;
 
 	void Init();
+	void Add_Life();
 
 	static void Update_Score(EScore_Event_Type event_type);
 
@@ -39,6 +40,7 @@ private:
 	void Show_Extra_Lives(HDC hdc);
 	void Draw_Extra_Life(HDC hdc, int x, int y);
 
+	int Lives_Left;
 	HFONT Logo_Corn_Font, Logo_Pop_Font, Name_Font, Score_Font;
 	AColor* Shadow_Color, * Highlight_Color, * Shaded_Blue, * Dark_Red_Color;
 
@@ -50,7 +52,6 @@ private:
 	static RECT Data_Rect; // score and lives 
 
 	static int Score;
-	static int Lives_Left;
 
 	static const int Logo_X_Pos = 212;
 	static const int Logo_Y_Pos = 0;

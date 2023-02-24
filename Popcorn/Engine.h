@@ -46,7 +46,6 @@ private:
 
 	EGame_State Game_State;
 	double Rest_Distance;
-	int Life_Count;
 
 	AsLevel Level;
 	AsPlatform Platform;
