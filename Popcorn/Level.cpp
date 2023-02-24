@@ -313,13 +313,14 @@ void AsLevel::Set_Current_Level(int level_number)
 {
 	int i, j;
 	EBrick_Type brick_type;
+	ALevel_Data* levels_data;
 
-	if (level_number != 1)
+	if (level_number < 1 || level_number > Levels_Data.size())
 		AsConfig::Throw();
 
+	levels_data = Levels_Data[level_number - 1];
 
-
-	memcpy(Current_Level, Level_01.Level, sizeof(Current_Level) );
+	memcpy(Current_Level, levels_data->Level, sizeof(Current_Level) );
 
 	// 1. Count the number of teleports
 	Teleport_Bricks_Pos.erase(Teleport_Bricks_Pos.begin(), Teleport_Bricks_Pos.end());

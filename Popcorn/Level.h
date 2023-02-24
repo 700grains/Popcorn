@@ -50,7 +50,6 @@ public:
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
 	void Stop();
 
-	static ALevel_Data Level_01;
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
 
@@ -83,8 +82,9 @@ private:
 
 	std::vector <AGraphics_Object*> Active_Bricks;
 	std::vector <AGraphics_Object*> Falling_Letters;
-
 	std::vector<APoint> Teleport_Bricks_Pos;
+	std::vector <ALevel_Data*> Levels_Data;
+
 	AAdvertisement* Advertisement;
 
 	static AsLevel* Level;
