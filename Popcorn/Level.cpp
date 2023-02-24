@@ -281,7 +281,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 	memcpy(Current_Level, level, sizeof(Current_Level) );
 
 	// 1. Count the number of teleports
-	Teleport_Bricks_Count = 0;
+	//Teleport_Bricks_Count = 0;
 
 	for (i = 0; i < AsConfig::Level_Height; i++)
 	{
@@ -290,6 +290,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 			brick_type = (EBrick_Type)Current_Level[i][j];
 			if (brick_type == EBrick_Type::Teleport)
 				++Teleport_Bricks_Count;
+			Teleport_Bricks_Pos.push_back(SPoint(j, i));
 		}
 	}
 	delete[] Teleport_Bricks_Pos;
