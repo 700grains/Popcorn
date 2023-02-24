@@ -303,8 +303,9 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 		for (j = 0; j < AsConfig::Level_Width; j++)
 		{
 			brick_type = (EBrick_Type)Current_Level[i][j];
+
 			if (brick_type == EBrick_Type::Teleport)
-				Teleport_Bricks_Pos.push_back(APoint(j, i));
+				Teleport_Bricks_Pos.emplace_back(j, i);
 		}
 	}
 
