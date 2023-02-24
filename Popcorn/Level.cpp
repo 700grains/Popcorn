@@ -18,7 +18,7 @@ char AsLevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
-
+//------------------------------------------------------------------------------------------------------------
 char AsLevel::Level_02[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -36,7 +36,7 @@ char AsLevel::Level_02[AsConfig::Level_Height][AsConfig::Level_Width] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
-
+//------------------------------------------------------------------------------------------------------------
 char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -54,22 +54,17 @@ char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
-
-
-
-
+//------------------------------------------------------------------------------------------------------------
 // AsLevel
 AsLevel* AsLevel::Level = nullptr;
 //------------------------------------------------------------------------------------------------------------
 AsLevel::~AsLevel()
 {
 	Cancel_All_Activity();
-
-	delete[] Teleport_Bricks_Pos;
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All(false), Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0),
+: Level_Rect{}, Need_To_Cancel_All(false), Teleport_Bricks_Count(0),
   Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
 {
 	Level = this;

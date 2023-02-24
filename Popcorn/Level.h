@@ -70,8 +70,7 @@ private:
 	std::vector <AGraphics_Object*> Active_Bricks;
 	std::vector <AGraphics_Object*> Falling_Letters;
 
-	int Teleport_Bricks_Count;
-	SPoint* Teleport_Bricks_Pos;
+	std::vector<SPoint> Teleport_Bricks_Pos;
 	AAdvertisement* Advertisement;
 
 	static AsLevel* Level;
