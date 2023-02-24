@@ -296,7 +296,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 	memcpy(Current_Level, level, sizeof(Current_Level) );
 
 	// 1. Count the number of teleports
-	//Teleport_Bricks_Count = 0;
+	Teleport_Bricks_Pos.erase(Teleport_Bricks_Pos.begin(), Teleport_Bricks_Pos.end());
 
 	for (i = 0; i < AsConfig::Level_Height; i++)
 	{
@@ -304,35 +304,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 		{
 			brick_type = (EBrick_Type)Current_Level[i][j];
 			if (brick_type == EBrick_Type::Teleport)
-				++Teleport_Bricks_Count;
-			Teleport_Bricks_Pos.push_back(APoint(j, i));
-		}
-	}
-	delete[] Teleport_Bricks_Pos;
-	Teleport_Bricks_Pos = 0;
-
-	// 2. Save the coordinates of the teleporters, if any are found
-	if (Teleport_Bricks_Count > 0)
-	{
-		if (Teleport_Bricks_Count == 1)
-			AsConfig::Throw(); // Teleports must be more than 1!
-
-		Teleport_Bricks_Pos = new APoint[Teleport_Bricks_Count];
-		index = 0;
-
-		for (i = 0; i < AsConfig::Level_Height; i++)
-		{
-			for (j = 0; j < AsConfig::Level_Width; j++)
-			{
-				brick_type = (EBrick_Type)Current_Level[i][j];
-
-				if (brick_type == EBrick_Type::Teleport)
-				{
-					Teleport_Bricks_Pos[index].X = j;
-					Teleport_Bricks_Pos[index].Y = i;
-					++index;
-				}
-			}
+				Teleport_Bricks_Pos.push_back(APoint(j, i));
 		}
 	}
 
