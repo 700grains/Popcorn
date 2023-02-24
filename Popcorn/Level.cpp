@@ -290,7 +290,6 @@ void AsLevel::Init()
 void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Level_Width])
 {
 	int i, j;
-	int index;
 	EBrick_Type brick_type;
 
 	memcpy(Current_Level, level, sizeof(Current_Level) );
@@ -308,6 +307,9 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 				Teleport_Bricks_Pos.emplace_back(j, i);
 		}
 	}
+
+	if (Teleport_Bricks_Pos.size() == 1)
+		AsConfig::Throw(); // Teleports count must be 0 or more than 1!
 
 	Advertisement = new AAdvertisement(9, 6, 2, 3);
 }
@@ -606,20 +608,20 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 
 	AActive_Brick_Teleport* destination_teleport;
 
-	if (Teleport_Bricks_Count < 2)
+	if (Teleport_Bricks_Pos.size() < 2)
 	{
 		AsConfig::Throw();
 		return 0;
 	}
 
-	dest_index = AsTools::Rand(Teleport_Bricks_Count);
+	dest_index = AsTools::Rand(Teleport_Bricks_Pos.size());
 
 	if (Teleport_Bricks_Pos[dest_index].X == source_x && Teleport_Bricks_Pos[dest_index].Y == source_y)
 	{// If the source teleport is randomly selected, then go to the next one in the list
 
 		++dest_index;
 
-		if (dest_index >= Teleport_Bricks_Count)
+		if (dest_index >= (int)Teleport_Bricks_Pos.size())
 			dest_index = 0; // Go to the beginning of the array, if you have gone beyond it
 	}
 
