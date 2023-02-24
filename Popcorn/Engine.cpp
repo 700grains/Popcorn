@@ -255,6 +255,8 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 	{
 	case ELetter_Type::O: // "Cancel"
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
+		Information_Panel.Floor_Panel.Cancellation();
+		Information_Panel.Monsters_Panel.Cancellation();
 		break; // !!! Only glue is canceled so far
 
 	case ELetter_Type::I: // "Inversion"

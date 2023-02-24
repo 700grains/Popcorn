@@ -54,23 +54,29 @@ void AIndicator::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AIndicator::Is_Finished()
 {
-	AMessage* message;
-
 	if (AsConfig::Current_Timer_Tick > Indicator_Lifetime)
 	{
-		if (Need_To_Send_A_Message)
-		{
-			message = new AMessage(Message_Type);
-
-			AsMessage_Manager::Add_Message(message);
-
-			Need_To_Send_A_Message = false;
-		}
-
+		Cancellation();
 		return true;
 	}
 	else
 		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void AIndicator::Cancellation()
+{
+	AMessage* message;
+
+	if (Need_To_Send_A_Message)
+	{
+		message = new AMessage(Message_Type);
+
+		AsMessage_Manager::Add_Message(message);
+
+		Need_To_Send_A_Message = false;
+	}
+
+	Reset();
 }
 //------------------------------------------------------------------------------------------------------------
 void AIndicator::Restart()

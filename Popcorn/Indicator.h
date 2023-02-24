@@ -13,6 +13,7 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	void Cancellation();
 	void Restart();
 	void Reset();
 
