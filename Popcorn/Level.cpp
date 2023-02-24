@@ -430,23 +430,24 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 
 	letter_type = AFalling_Letter::Get_Random_Letter_Type();
 
-	//switch (AsTools::Rand(3) )
-	//{
-	//case 0:
-	//	letter_type = ELetter_Type::T;
-	//	break;
+	switch (AsTools::Rand(4) )
+	{
+	case 0:
+		letter_type = ELetter_Type::O;
+		break;
 
-	//case 1:
-	//	letter_type = ELetter_Type::T;
-	//	break;
+	case 1:
+		letter_type = ELetter_Type::L;
+		break;
 
-	//case 2:
-	//	letter_type = ELetter_Type::T;
-	//	break;
-	//}
+	case 2:
+		letter_type = ELetter_Type::K;
+		break;
 
-	letter_type = ELetter_Type::G;
-
+	case 3:
+		letter_type = ELetter_Type::W;
+		break;
+	}
 
 	falling_letter = new AFalling_Letter(brick_type, letter_type, letter_x, letter_y);
 	Falling_Letters.push_back(falling_letter);
