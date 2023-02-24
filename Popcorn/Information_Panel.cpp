@@ -227,6 +227,18 @@ void AsInformation_Panel::Add_Life()
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+bool AsInformation_Panel::Remove_A_Life()
+{
+	if (Lives_Left > 0)
+	{
+		--Lives_Left;
+		AsTools::Invalidate_Rect(Data_Rect);
+		return true;
+	}
+
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
 {
 

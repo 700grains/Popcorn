@@ -37,8 +37,9 @@ public:
 	const int Timer_ID;
 
 private:
-	void Restart_Level();
+	bool Restart_Level();
 	void Play_Level();
+	void Game_Over();
 	void Advance_Movers();
 	void Act();
 	void Handle_Message();

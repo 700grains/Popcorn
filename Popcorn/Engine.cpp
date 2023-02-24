@@ -110,7 +110,8 @@ int AsEngine::On_Timer()
 
 	case EGame_State::Lost_Ball:
 		if (Platform.Has_State(EPlatform_Substate_Regular::Missing))
-			Restart_Level();
+			if (!Restart_Level())
+				Game_Over();
 			break;
 		
 
@@ -129,10 +130,15 @@ int AsEngine::On_Timer()
 	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsEngine::Restart_Level()
+bool AsEngine::Restart_Level()
 {
+	if (! Information_Panel.Remove_A_Life())
+		return false;
+
 	Game_State = EGame_State::Restart_Level;
 	Border.Open_Gate(7, true);
+
+	return true;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
@@ -155,6 +161,11 @@ void AsEngine::Play_Level()
 
 	if (Ball_Set.Is_Test_Finished())
 		Game_State = EGame_State::Test_Ball;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Game_Over()
+{
+	AsConfig::Throw(); //!!! TODO!
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()

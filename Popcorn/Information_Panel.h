@@ -29,6 +29,7 @@ public:
 
 	void Init();
 	void Add_Life();
+	bool Remove_A_Life();
 
 	static void Update_Score(EScore_Event_Type event_type);
 
