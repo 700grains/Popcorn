@@ -4,9 +4,11 @@
 #include "Information_Panel.h"
 
 //------------------------------------------------------------------------------------------------------------
-struct SPoint
+class APoint
 {
-	SPoint(int x, int y);
+public:
+	APoint();
+	APoint(int x, int y);
 
 	int X, Y;
 };
@@ -72,7 +74,7 @@ private:
 	std::vector <AGraphics_Object*> Active_Bricks;
 	std::vector <AGraphics_Object*> Falling_Letters;
 
-	std::vector<SPoint> Teleport_Bricks_Pos;
+	std::vector<APoint> Teleport_Bricks_Pos;
 	AAdvertisement* Advertisement;
 
 	static AsLevel* Level;

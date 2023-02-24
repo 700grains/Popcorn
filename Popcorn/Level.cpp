@@ -1,5 +1,21 @@
 ﻿#include "Level.h"
 
+// APoint
+//------------------------------------------------------------------------------------------------------------
+APoint::APoint()
+	: X(0), Y(0)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+APoint::APoint(int x, int y)
+	: X(x), Y(y)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 //------------------------------------------------------------------------------------------------------------
 char AsLevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
@@ -64,8 +80,7 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All(false), Teleport_Bricks_Count(0),
-  Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
+: Level_Rect{}, Need_To_Cancel_All(false), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
 {
 	Level = this;
 }
@@ -290,7 +305,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 			brick_type = (EBrick_Type)Current_Level[i][j];
 			if (brick_type == EBrick_Type::Teleport)
 				++Teleport_Bricks_Count;
-			Teleport_Bricks_Pos.push_back(SPoint(j, i));
+			Teleport_Bricks_Pos.push_back(APoint(j, i));
 		}
 	}
 	delete[] Teleport_Bricks_Pos;
@@ -302,7 +317,7 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
 		if (Teleport_Bricks_Count == 1)
 			AsConfig::Throw(); // Teleports must be more than 1!
 
-		Teleport_Bricks_Pos = new SPoint[Teleport_Bricks_Count];
+		Teleport_Bricks_Pos = new APoint[Teleport_Bricks_Count];
 		index = 0;
 
 		for (i = 0; i < AsConfig::Level_Height; i++)
