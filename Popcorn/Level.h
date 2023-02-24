@@ -2,6 +2,7 @@
 
 #include "Falling_Letter.h"
 #include "Information_Panel.h"
+#include "Level_Data.h"
 
 //------------------------------------------------------------------------------------------------------------
 class APoint
@@ -11,21 +12,6 @@ public:
 	APoint(int x, int y);
 
 	int X, Y;
-};
-//------------------------------------------------------------------------------------------------------------
-class ALevel_Data
-{
-public:
-	ALevel_Data(int level_number);
-	char* Level;
-
-	static const int Max_Level_Number = 2;
-
-private:
-	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
-
-	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
-	static char Level_02[AsConfig::Level_Height][AsConfig::Level_Width];
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
