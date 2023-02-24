@@ -306,10 +306,10 @@ V 1. Falling letter - only interacts with the platform
 V 2. Active brick - interacts only with the ball
 
 
-V Actions of letters
-V 1. Simple:
-V 1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
-V 1.2. I ("Invert")
+Actions of letters
+1. Simple:
+1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
+1.2. I ("Invert")
 V 1.3. S ("Speed")
 V 1.4. M ("Monsters")
 V 1.5. F ("Life")
@@ -363,7 +363,7 @@ V 4. Each letter has its own actions
 V Gates
 V 1. Output gates
 V 2. Animation of opening/closing gates
-V 3. Gate states (closed, opening, closing)
+3. Gate states (closed, opening, closing)
 
 
 V Monsters
@@ -375,18 +375,32 @@ V 5. Exit the gate
 V 6. For everyone - animation
 
 
-Information panel
-1. Logo
-2. Indicators
-2.1. Player name
-2.2 Checking account
-3. Scale of monsters and gender
-4. Change scales
-5. Extra lives window
-6. Accounting for game actions and display on indicators
+V Information panel
+V 1. Logo
+V 2. Indicators
+V 2.1. Player name
+V 2.2 Current score
+V 3. Scale of monsters and floor
+V 4. Change scales
+V 5. Extra lives window
+V 6. Accounting for game actions and display on indicators
 
 
 Game and levels
 1. List of the first 10 levels
-2. Game states (splash screen, animation of the beginning of the level, playing the level, loss of life, transition to the next level (normal and early), end of the game)
+2. Game states:
+2.1 splash screen
+2.2 animation of the beginning of the level
+2.3 playing the level
+2.4 loss of life
+2.5 transition to the next level
+2.5.1 normal
+2.5.2 early
+2.6 end of the game
+
+3. Final setup of the game
+3.1 Fixing 1st level
+3.2 Playing and testing
+3.3 Compiling in release mode
+
 */
