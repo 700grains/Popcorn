@@ -16,8 +16,24 @@ APoint::APoint(int x, int y)
 
 
 
+// ALevel_Data
 //------------------------------------------------------------------------------------------------------------
-char AsLevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
+ALevel_Data::ALevel_Data(int level_number)
+	: Level(nullptr)
+{
+	switch (level_number)
+	{
+	case 1:
+		Level = (char*)Level_01;
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
+char ALevel_Data::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -35,7 +51,7 @@ char AsLevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 //------------------------------------------------------------------------------------------------------------
-char AsLevel::Level_02[AsConfig::Level_Height][AsConfig::Level_Width] =
+char ALevel_Data::Level_02[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -53,7 +69,7 @@ char AsLevel::Level_02[AsConfig::Level_Height][AsConfig::Level_Width] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 //------------------------------------------------------------------------------------------------------------
-char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
+char ALevel_Data::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -71,8 +87,13 @@ char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 //------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AsLevel
 AsLevel* AsLevel::Level = nullptr;
+ALevel_Data AsLevel::Level_Data(1);
 //------------------------------------------------------------------------------------------------------------
 AsLevel::~AsLevel()
 {

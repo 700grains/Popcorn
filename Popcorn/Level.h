@@ -13,6 +13,18 @@ public:
 	int X, Y;
 };
 //------------------------------------------------------------------------------------------------------------
+class ALevel_Data
+{
+public:
+	ALevel_Data(int level_number);
+	char* Level;
+
+private:
+	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
+	static char Level_02[AsConfig::Level_Height][AsConfig::Level_Width];
+	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
+};
+//------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
 {
 public:
@@ -37,12 +49,9 @@ public:
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
 	void Stop();
 
+	static ALevel_Data Level_Data;
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
-
-	static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];
-	static char Level_02[AsConfig::Level_Height][AsConfig::Level_Width];
-	static char Test_Level[AsConfig::Level_Height][AsConfig::Level_Width];
 
 private: 
 	bool On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical_hit);
