@@ -319,6 +319,9 @@ bool AsLevel::Has_Brick_At(RECT& monster_rect)
 	int min_y, max_y;
 	int min_cell_y, min_cell_x;
 
+	if (monster_rect.top > (AsConfig::Level_X_Offset * scale) + ((AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height) * scale)
+		return false;
+
 	min_x = (monster_rect.left - AsConfig::Level_X_Offset * scale) / (AsConfig::Cell_Width * scale);
 	max_x = (monster_rect.right - AsConfig::Level_X_Offset * scale) / (AsConfig::Cell_Width * scale);
 
