@@ -317,12 +317,26 @@ bool AsLevel::Has_Brick_At(RECT& monster_rect)
 	int i, j;
 	int min_x, max_x;
 	int min_y, max_y;
+	int min_cell_y, min_cell_x;
 
 	min_x = (monster_rect.left - AsConfig::Level_X_Offset * scale) / (AsConfig::Cell_Width * scale);
 	max_x = (monster_rect.right - AsConfig::Level_X_Offset * scale) / (AsConfig::Cell_Width * scale);
 
 	min_y = (monster_rect.top - AsConfig::Level_Y_Offset * scale) / (AsConfig::Cell_Height * scale);
 	max_y = (monster_rect.bottom - AsConfig::Level_Y_Offset * scale) / (AsConfig::Cell_Height * scale);
+
+	/*The cell for a brick is larger than the brick itself. 
+	We make a correction so that the collision with the monster is counted when it comes into contact with a brick, 
+	and not with a cell for a brick*/
+
+	min_cell_y = min_y * AsConfig::Cell_Height * scale + (AsConfig::Level_Y_Offset * scale);
+	min_cell_x = min_x * AsConfig::Cell_Width * scale + (AsConfig::Level_X_Offset * scale);
+
+	if (monster_rect.top - min_cell_y > AsConfig::Brick_Height * scale)
+		++min_y;
+
+	if (monster_rect.left - min_cell_x > AsConfig::Brick_Width * scale)
+		++min_x;
 
 	for (i = min_y; i <= max_y; i++)
 		for (j = min_x; j <= max_x; j++)
