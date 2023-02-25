@@ -361,7 +361,7 @@ void AMonster::Change_Direction()
 
 	if (AsConfig::Current_Timer_Tick > Next_Direction_Switch_Tick)
 	{
-		Next_Direction_Switch_Tick += AsTools::Rand(AsConfig::FPS);
+		Next_Direction_Switch_Tick += AsConfig::FPS;
 
 		// Random direction of movement in the range of +/- 45 degrees.
 		direction_delta = (double)(AsTools::Rand(90) - 45) * M_PI / 180.0;
