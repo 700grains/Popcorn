@@ -40,7 +40,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	AsPlatform::Hit_Checker_List.Add_Hit_Checker(&Monster_Set);
 
-	Level.Set_Current_Level(5);
+	Level.Set_Current_Level(6);
 
 	Platform.Redraw_Platform();
 
