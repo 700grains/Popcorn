@@ -342,7 +342,7 @@ bool AsLevel::Has_Brick_At(RECT& monster_rect)
 		++min_x;
 
 	//if (min_x >= AsConfig::Level_Width)
-	//	min_x = AsConfig::Level_Width - 1;
+	//	min_x = AsConfig::Level_Width - 1; 
 
 	//if (max_x >= AsConfig::Level_Width)
 	//	max_x = AsConfig::Level_Width - 1;
