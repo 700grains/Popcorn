@@ -89,7 +89,7 @@ void AMonster::Advance(double max_speed)
 
 	original_direction = Direction;
 
-	for (i = 0; i < 16; ++i)
+	for (i = 0; i < 60; ++i)
 	{
 		next_x_pos = X_Pos + next_step * cos(Direction);
 		next_y_pos = Y_Pos - next_step * sin(Direction);
@@ -97,7 +97,7 @@ void AMonster::Advance(double max_speed)
 		Get_Monster_Rect(next_x_pos, next_y_pos, monster_rect);
 
 		if (AsLevel::Has_Brick_At(monster_rect))
-			Direction += M_PI / 8.0;
+			Direction += M_PI / 30.0;
 		else
 		{
 			changed_direction = true;
