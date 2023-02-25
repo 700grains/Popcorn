@@ -584,8 +584,6 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 	if (Monster_State == EMonster_State::Missing)
 		return;
 
-	AsTools::Rect(hdc, Monster_Rect, AsConfig::BG_Color);
-
 	monster_radius = (double)(Width * d_scale / 2.0 - 1.0);
 
 	// 2. The dividing line
