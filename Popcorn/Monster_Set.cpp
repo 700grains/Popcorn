@@ -121,6 +121,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	bool gate_is_left;
 	int gate_x, gate_y;
 	int monster_type;
+	double x_pos, y_pos;
 	AMonster* monster = 0;
 
 	if (Is_Frozen)
@@ -147,15 +148,18 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 
 	Border->Get_Gate_Pos(gate_index, gate_x, gate_y);
 
+	x_pos = (double)gate_x;
+	y_pos = (double)gate_y;
+
 	if (gate_index % 2 == 0)
 		gate_is_left = true;
 	else
 		gate_is_left = false;
 
 	if (! gate_is_left)
-		gate_x -= monster->Width - AGate::Width;
+		x_pos -= (double)(monster->Width - AGate::Width);
 
-	monster->Activate(gate_x, gate_y + 1, gate_is_left);
+	monster->Activate(x_pos, y_pos + 1.5, gate_is_left);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Activate(int max_monsters_alive)
