@@ -43,6 +43,9 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball
 	bool got_horizontal_hit, got_vertical_hit;
 	double horizontal_reflection_pos, vertical_reflection_pos;
 
+	if (ball->Get_State() == EBall_State::On_Parachute)
+		return false;
+
 	if (next_y_pos - AsConfig::Ball_Radius > AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
 		return false;
 
