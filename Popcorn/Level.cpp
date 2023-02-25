@@ -382,6 +382,7 @@ bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical
 	{
 		ball->Set_On_Parachute(brick_x, brick_y);
 		Current_Level[brick_y][brick_x] = (char)EBrick_Type::None;
+		can_reflect = false;
 	}
 	else if (Add_Falling_Letter(brick_x, brick_y, brick_type) )
 		Current_Level[brick_y][brick_x] = (char)EBrick_Type::None;
