@@ -43,7 +43,7 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball
 	bool got_horizontal_hit, got_vertical_hit;
 	double horizontal_reflection_pos, vertical_reflection_pos;
 
-	if (next_y_pos + AsConfig::Ball_Radius > AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
+	if (next_y_pos - AsConfig::Ball_Radius > AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
 		return false;
 
 	direction = ball->Get_Direction();
@@ -628,7 +628,8 @@ bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level
 		if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, AsConfig::Ball_Radius, reflection_pos) )
 		{// Checking the possibility of reflection down
 
-			if (level_y < AsConfig::Level_Height - 1 && Current_Level[level_y + 1][level_x] == 0)
+			if (level_y == AsConfig::Level_Height - 1 ||
+				(level_y < AsConfig::Level_Height - 1 && Current_Level[level_y + 1][level_x] == 0))
 				return true;
 			else
 				return false;
