@@ -100,6 +100,10 @@ void ABall::Clear(HDC hdc, RECT& paint_area)
 	if ((Ball_State == EBall_State::Teleporting || Ball_State == EBall_State::Lost) && Ball_State == Previous_Ball_State)
 		return;
 
+	// 0. Clearing background
+	if (Ball_State == EBall_State::On_Parachute)
+		Clear_Parachute(hdc);
+
 	// 1. clearing the background
 	if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect))
 		AsTools::Ellipse(hdc, Prev_Ball_Rect, AsConfig::BG_Color);
@@ -432,9 +436,6 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Parachute_Rect))
 		return;
-
-	// 0. Clearing background
-	Clear_Parachute(hdc);
 
 	// 1. The dome
 	AsConfig::Blue_Color.Select(hdc);
