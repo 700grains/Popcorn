@@ -242,6 +242,10 @@ void AsLevel::Init()
 	{
 		level_data = new ALevel_Data(i + 1);
 		Levels_Data.push_back(level_data);
+
+		if (i == 7)
+			level_data->Advertisement = new AAdvertisement(4, 7, 2, 3);
+
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -257,6 +261,8 @@ void AsLevel::Set_Current_Level(int level_number)
 	levels_data = Levels_Data[level_number - 1];
 
 	memcpy(Current_Level, levels_data->Level, sizeof(Current_Level) );
+
+	Advertisement = levels_data->Advertisement;
 
 	// 1. Count the number of teleports
 	Teleport_Bricks_Pos.erase(Teleport_Bricks_Pos.begin(), Teleport_Bricks_Pos.end());
@@ -274,8 +280,6 @@ void AsLevel::Set_Current_Level(int level_number)
 
 	if (Teleport_Bricks_Pos.size() == 1)
 		AsConfig::Throw(); // Teleports count must be 0 or more than 1!
-
-	Advertisement = new AAdvertisement(9, 6, 2, 3);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_letter)

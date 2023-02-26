@@ -1,13 +1,15 @@
 #pragma once
 
-#include "Config.h"
+#include "Active_Brick.h"
 
 //------------------------------------------------------------------------------------------------------------
 class ALevel_Data
 {
 public:
 	ALevel_Data(int level_number);
+
 	char* Level;
+	AAdvertisement* Advertisement;
 
 	static const int Max_Level_Number = 10;
 

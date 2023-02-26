@@ -16,7 +16,7 @@ char* ALevel_Data::Levels_Array[Max_Level_Number] =
 };
 //------------------------------------------------------------------------------------------------------------
 ALevel_Data::ALevel_Data(int level_number)
-	: Level(nullptr)
+	: Level(nullptr), Advertisement(nullptr)
 {
 	if (level_number < 1 || level_number > Max_Level_Number)
 		AsConfig::Throw();
