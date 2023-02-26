@@ -1,6 +1,19 @@
 #include "Level_Data.h"
 
 // ALevel_Data
+char* ALevel_Data::Levels_Array[Max_Level_Number] =
+{
+	(char*)ALevel_Data::Level_01,
+	(char*)ALevel_Data::Level_02,
+	(char*)ALevel_Data::Level_03,
+	(char*)ALevel_Data::Level_04,
+	(char*)ALevel_Data::Level_05,
+	(char*)ALevel_Data::Level_06,
+	(char*)ALevel_Data::Level_07,
+	(char*)ALevel_Data::Level_08,
+	(char*)ALevel_Data::Level_09,
+	(char*)ALevel_Data::Level_10
+};
 //------------------------------------------------------------------------------------------------------------
 ALevel_Data::ALevel_Data(int level_number)
 	: Level(nullptr)
@@ -8,53 +21,7 @@ ALevel_Data::ALevel_Data(int level_number)
 	if (level_number < 1 || level_number > Max_Level_Number)
 		AsConfig::Throw();
 
-	switch (level_number)
-	{
-	case 1:
-		Level = (char*)Level_01;
-		break;
-
-	case 2:
-		Level = (char*)Level_02;
-		break;
-
-	case 3:
-		Level = (char*)Level_03;
-		break;
-
-	case 4:
-		Level = (char*)Level_04;
-		break;
-
-	case 5:
-		Level = (char*)Level_05;
-		break;
-
-	case 6:
-		Level = (char*)Level_06;
-		break;
-
-	case 7:
-		Level = (char*)Level_07;
-		break;
-
-	case 8:
-		Level = (char*)Level_08;
-		break;
-
-	case 9:
-		Level = (char*)Level_09;
-		break;
-
-	case 10:
-		Level = (char*)Level_10;
-		break;
-
-
-	default:
-		AsConfig::Throw();
-		break;
-	}
+	Level = Levels_Array[level_number - 1];
 }
 //------------------------------------------------------------------------------------------------------------
 char ALevel_Data::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =

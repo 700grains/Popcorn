@@ -24,5 +24,7 @@ private:
 	static char Level_08[AsConfig::Level_Height][AsConfig::Level_Width];
 	static char Level_09[AsConfig::Level_Height][AsConfig::Level_Width];
 	static char Level_10[AsConfig::Level_Height][AsConfig::Level_Width];
+
+	static char* Levels_Array[Max_Level_Number];
 };
 //------------------------------------------------------------------------------------------------------------
