@@ -47,7 +47,7 @@ void AMop_Indicator::Draw(HDC hdc, RECT& paint_area)
 		return;
 
 
-	AsTools::Rect(hdc, X_Pos, Y_Pos, Width, Height, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, Indicator_Rect, AsConfig::Blue_Color);
 
 	// Indicator frame
 	AsConfig::Highlight_Color.Select_Pen(hdc);
@@ -73,11 +73,28 @@ bool AMop_Indicator::Is_Finished()
 
 
 
+
+
 // AsMop
 //------------------------------------------------------------------------------------------------------------
-AsMop::AsMop()
-	: Mop_Indicator(AsConfig::Level_X_Offset + 97, AsConfig::Level_Y_Offset + 1)
+AsMop::~AsMop()
 {
+	for (auto* indicator : Mop_Indicator)
+		delete indicator;
+
+	Mop_Indicator.erase(Mop_Indicator.begin(), Mop_Indicator.end());
+}
+//------------------------------------------------------------------------------------------------------------
+AsMop::AsMop()
+{
+	int i;
+	AMop_Indicator* indicator;
+
+	for (i = 0; i < 10; i++)
+	{
+		indicator = new AMop_Indicator(AsConfig::Level_X_Offset + 1 + i * 19, AsConfig::Level_Y_Offset + 1);
+		Mop_Indicator.push_back(indicator);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Begin_Movement()
@@ -121,7 +138,8 @@ void AsMop::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Rect(hdc, x_pos, y_pos, width, height, AsConfig::Red_Color);
 
-	Mop_Indicator.Draw(hdc, paint_area);
+	for (auto* indicator : Mop_Indicator)
+		indicator->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMop::Is_Finished()
