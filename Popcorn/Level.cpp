@@ -20,7 +20,6 @@ APoint::APoint(int x, int y)
 AMop_Indicator::AMop_Indicator(int x_pos, int y_pos)
 	: X_Pos(x_pos), Y_Pos(y_pos)
 {
-	//!!! TODO
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicator::Act()
@@ -35,7 +34,20 @@ void AMop_Indicator::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicator::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	const int scale = AsConfig::Global_Scale;
+
+	AsTools::Rect(hdc, X_Pos, Y_Pos, 18, 5, AsConfig::Blue_Color);
+
+	// Indicator frame
+	AsConfig::Highlight_Color.Select_Pen(hdc);
+	MoveToEx(hdc, (X_Pos) * scale, (Y_Pos + 5) * scale, 0);
+	LineTo(hdc, X_Pos * scale, Y_Pos * scale);
+	LineTo(hdc, (X_Pos + 18) * scale, (Y_Pos) * scale);
+
+	AsConfig::Shadow_Color.Select_Pen(hdc);
+	MoveToEx(hdc, (X_Pos + 18) * scale, Y_Pos * scale, 0);
+	LineTo(hdc, (X_Pos + 18) * scale, (Y_Pos + 5) * scale);
+	LineTo(hdc, X_Pos * scale, (Y_Pos + 5) * scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMop_Indicator::Is_Finished()
@@ -48,7 +60,14 @@ bool AMop_Indicator::Is_Finished()
 
 
 
+
+
 // AsMop
+//------------------------------------------------------------------------------------------------------------
+AsMop::AsMop()
+	: Mop_Indicator(AsConfig::Level_X_Offset + 97, AsConfig::Level_Y_Offset + 1)
+{
+}
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Begin_Movement()
 {
@@ -91,18 +110,7 @@ void AsMop::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Rect(hdc, x_pos, y_pos, width, height, AsConfig::Red_Color);
 
-	AsTools::Rect(hdc, x_pos + 97, y_pos + 1, 18, 5, AsConfig::Blue_Color);
-
-	// Indicator frame
-	AsConfig::Highlight_Color.Select_Pen(hdc);
-	MoveToEx(hdc, (x_pos + 97) * scale, (y_pos + 6) * scale, 0);
-	LineTo(hdc, (x_pos + 97) * scale, (y_pos + 1) * scale);
-	LineTo(hdc, (x_pos + 97 + 18) * scale, (y_pos + 1) * scale);
-
-	AsConfig::Shadow_Color.Select_Pen(hdc);
-	MoveToEx(hdc, (x_pos + 97 + 18) * scale, (y_pos + 1) * scale, 0);
-	LineTo(hdc, (x_pos + 97 + 18) * scale, (y_pos + 6) * scale);
-	LineTo(hdc, (x_pos + 97) * scale, (y_pos + 6) * scale);
+	Mop_Indicator.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMop::Is_Finished()

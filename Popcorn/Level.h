@@ -31,6 +31,8 @@ private:
 class AsMop : public AGame_Object
 {
 public:
+	AsMop();
+
 	virtual void Begin_Movement();
 	virtual void Finish_Movement();
 	virtual void Advance(double max_speed);
@@ -41,6 +43,8 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+private:
+	AMop_Indicator Mop_Indicator;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
