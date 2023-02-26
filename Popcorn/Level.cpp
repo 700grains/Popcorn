@@ -20,6 +20,12 @@ APoint::APoint(int x, int y)
 AMop_Indicator::AMop_Indicator(int x_pos, int y_pos)
 	: X_Pos(x_pos), Y_Pos(y_pos)
 {
+	const int scale = AsConfig::Global_Scale;
+
+	Indicator_Rect.left = X_Pos * scale;
+	Indicator_Rect.top = Y_Pos * scale;
+	Indicator_Rect.right = Indicator_Rect.left + Width * scale;
+	Indicator_Rect.bottom = Indicator_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicator::Act()
@@ -35,19 +41,24 @@ void AMop_Indicator::Clear(HDC hdc, RECT& paint_area)
 void AMop_Indicator::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
+	RECT intersection_rect;
 
-	AsTools::Rect(hdc, X_Pos, Y_Pos, 18, 5, AsConfig::Blue_Color);
+	if (!IntersectRect(&intersection_rect, &paint_area, &Indicator_Rect))
+		return;
+
+
+	AsTools::Rect(hdc, X_Pos, Y_Pos, Width, Height, AsConfig::Blue_Color);
 
 	// Indicator frame
 	AsConfig::Highlight_Color.Select_Pen(hdc);
-	MoveToEx(hdc, (X_Pos) * scale, (Y_Pos + 5) * scale, 0);
+	MoveToEx(hdc, (X_Pos) * scale, (Y_Pos + Height) * scale, 0);
 	LineTo(hdc, X_Pos * scale, Y_Pos * scale);
-	LineTo(hdc, (X_Pos + 18) * scale, (Y_Pos) * scale);
+	LineTo(hdc, (X_Pos + Width) * scale, (Y_Pos) * scale);
 
 	AsConfig::Shadow_Color.Select_Pen(hdc);
-	MoveToEx(hdc, (X_Pos + 18) * scale, Y_Pos * scale, 0);
-	LineTo(hdc, (X_Pos + 18) * scale, (Y_Pos + 5) * scale);
-	LineTo(hdc, X_Pos * scale, (Y_Pos + 5) * scale);
+	MoveToEx(hdc, (X_Pos + Width) * scale, Y_Pos * scale, 0);
+	LineTo(hdc, (X_Pos + Width) * scale, (Y_Pos + Height) * scale);
+	LineTo(hdc, X_Pos * scale, (Y_Pos + Height) * scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMop_Indicator::Is_Finished()
