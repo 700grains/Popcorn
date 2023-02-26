@@ -161,6 +161,7 @@ double ABall::Get_Direction()
 void ABall::Set_Direction(double new_direction)
 {
 	const double pi_2 = 2.0 * M_PI;
+	const double min_angle = AsConfig::Min_Ball_Angle;
 
 	while (new_direction > pi_2)
 		new_direction -= pi_2;
@@ -169,27 +170,50 @@ void ABall::Set_Direction(double new_direction)
 		new_direction += pi_2;
 
 
-	// 2. Correcting the angle of the ball when approaching the horizontal closer than AsConfig::Min_Ball_Angle
+	// 2. Correcting the angle of the ball when approaching the horizontal closer than min_angle
 
 	// 2.1 Left side
 	// 
 	// 2.1.1 Top
-	if (new_direction < AsConfig::Min_Ball_Angle)
-		new_direction = AsConfig::Min_Ball_Angle;
+	if (new_direction < min_angle)
+		new_direction = min_angle;
 
 	// 2.1.2 Bottom
-	if (new_direction > pi_2 - AsConfig::Min_Ball_Angle)
-		new_direction = pi_2 - AsConfig::Min_Ball_Angle;
+	if (new_direction > pi_2 - min_angle)
+		new_direction = pi_2 - min_angle;
 
 	// 2.2 Right side
 	// 
 	// 2.2.1 Top
-	if (new_direction > M_PI - AsConfig::Min_Ball_Angle && new_direction < M_PI)
-		new_direction = M_PI - AsConfig::Min_Ball_Angle;
+	if (new_direction > M_PI - min_angle && new_direction < M_PI)
+		new_direction = M_PI - min_angle;
 
 	// 2.2.2 Bottom
-	if (new_direction >= M_PI && new_direction < M_PI + AsConfig::Min_Ball_Angle)
-		new_direction = M_PI + AsConfig::Min_Ball_Angle;
+	if (new_direction >= M_PI && new_direction < M_PI + min_angle)
+		new_direction = M_PI + min_angle;	
+	
+	
+	// 3. Correcting the angle of the ball when approaching the vertical closer than min_angle
+
+	// 3.1 from top
+	// 
+	// 3.1.1 from right side
+	if (new_direction < M_PI_2 - min_angle && new_direction < M_PI_2)
+		new_direction = M_PI_2 - min_angle;
+
+	// 3.1.2 from left side
+	if (new_direction > M_PI_2 && new_direction < M_PI_2 + min_angle)
+		new_direction = M_PI_2 + min_angle;
+
+	// 3.2 from bottom
+	// 
+	// 3.2.1 from right side
+	if (new_direction > M_PI + M_PI_2 - min_angle && new_direction < M_PI + M_PI_2)
+		new_direction = M_PI + M_PI_2 - min_angle;
+
+	// 3.2.2 from left side
+	if (new_direction >= M_PI + M_PI_2 && new_direction < M_PI + M_PI_2 + min_angle)
+		new_direction = M_PI + M_PI_2 + min_angle;
 
 	Ball_Direction = new_direction;
 }
