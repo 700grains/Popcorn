@@ -137,7 +137,7 @@ void AsConfig::Throw()
 int AsTools::Rand(int range)
 {// Calculates a pseudo-random number in the range [0, .. range -1]
 
-	return rand() * range / RAND_MAX;
+	return rand() * range / (RAND_MAX + 2);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsTools::Round_Rect(HDC hdc, RECT& rect, int corner_radius)
