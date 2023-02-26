@@ -51,10 +51,25 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
 {
-	int scale = AsConfig::Global_Scale;
+	const int scale = AsConfig::Global_Scale;
+	int x_pos = AsConfig::Level_X_Offset;
+	int y_pos = AsConfig::Level_Y_Offset;
 	int width = (AsConfig::Level_Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width;
+	int height = AsConfig::Brick_Height;
 
-	AsTools::Rect(hdc, AsConfig::Level_X_Offset, AsConfig::Level_Y_Offset, width, AsConfig::Cell_Height, AsConfig::Red_Color);
+	AsTools::Rect(hdc, x_pos, y_pos, width, height, AsConfig::Red_Color);
+
+
+	// Indicator frame
+	AsConfig::Highlight_Color.Select_Pen(hdc);
+	MoveToEx(hdc, (x_pos + 97) * scale, (y_pos + 6) * scale, 0);
+	LineTo(hdc, (x_pos + 97) * scale, (y_pos + 1) * scale);
+	LineTo(hdc, (x_pos + 97 + 18) * scale, (y_pos + 1) * scale);
+
+	AsConfig::Shadow_Color.Select_Pen(hdc);
+	MoveToEx(hdc, (x_pos + 97 + 18) * scale, (y_pos + 1) * scale, 0);
+	LineTo(hdc, (x_pos + 97 + 18) * scale, (y_pos + 6) * scale);
+	LineTo(hdc, (x_pos + 97) * scale, (y_pos + 6) * scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMop::Is_Finished()

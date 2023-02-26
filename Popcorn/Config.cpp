@@ -112,6 +112,8 @@ const AColor AsConfig::Eye_Monster_Iris_Color(BG_Color, Blue_Color, Global_Scale
 const AColor AsConfig::BG_Outline_Color(BG_Color, Global_Scale * 2 / 3);
 const AColor AsConfig::Explosion_Red_Color(White_Color, Red_Color, 0);
 const AColor AsConfig::Explosion_Blue_Color(White_Color, Blue_Color, 0);
+const AColor AsConfig::Shadow_Color(BG_Color, Global_Scale);
+const AColor AsConfig::Highlight_Color(White_Color, Global_Scale);
 
 HWND AsConfig::Hwnd;
 

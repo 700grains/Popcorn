@@ -8,8 +8,6 @@ RECT AsInformation_Panel::Data_Rect;
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::~AsInformation_Panel()
 {
-	delete Shadow_Color;
-	delete Highlight_Color;
 	delete Shaded_Blue;
 	delete Dark_Red_Color;
 
@@ -27,7 +25,7 @@ AsInformation_Panel::~AsInformation_Panel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shadow_Color(0), Highlight_Color(0), Shaded_Blue(0), Dark_Red_Color(0),
+	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shaded_Blue(0), Dark_Red_Color(0),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
@@ -132,12 +130,12 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		AsTools::Rect(hdc, Score_X_Pos + 2, Score_Y_Pos + 2, Score_Width - 4, Score_Height - 4, *Shaded_Blue);
 
 		// 2.3 Highlights (light and shades)
-		Highlight_Color->Select_Pen(hdc);
+		AsConfig::Highlight_Color.Select_Pen(hdc);
 		MoveToEx(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale, 0);
 		LineTo(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + 2) * scale);
 		LineTo(hdc, (Score_X_Pos + Score_Width - 2) * scale, (Score_Y_Pos + 2) * scale);
 
-		Shadow_Color->Select_Pen(hdc);
+		AsConfig::Shadow_Color.Select_Pen(hdc);
 		MoveToEx(hdc, (Score_X_Pos + Score_Width - 2) * scale, (Score_Y_Pos + 2) * scale, 0);
 		LineTo(hdc, (Score_X_Pos + Score_Width - 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale);
 		LineTo(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale);
@@ -148,7 +146,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		rect.right = rect.left + (Score_Width - 2 * 5) * scale;
 		rect.bottom = rect.top + 16 * scale;
 
-		Player_Name = L"OLOLOSHKA";
+		Player_Name = L"Player";
 		Draw_String(hdc, rect, Player_Name, true);
 
 		// 3.2 Player score
@@ -184,8 +182,6 @@ bool AsInformation_Panel::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Init()
 {
-	Shadow_Color = new AColor(AsConfig::BG_Color, AsConfig::Global_Scale);
-	Highlight_Color = new AColor(AsConfig::White_Color, AsConfig::Global_Scale);
 	Shaded_Blue = new AColor(0, 170, 170);
 	Dark_Red_Color = new AColor(190, 30, 30);
 
