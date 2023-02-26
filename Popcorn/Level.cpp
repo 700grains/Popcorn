@@ -51,7 +51,10 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	int scale = AsConfig::Global_Scale;
+	int width = (AsConfig::Level_Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width;
+
+	AsTools::Rect(hdc, AsConfig::Level_X_Offset, AsConfig::Level_Y_Offset, width, AsConfig::Cell_Height, AsConfig::Red_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMop::Is_Finished()
@@ -267,6 +270,8 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 
 	for (auto letter : Falling_Letters)
 		letter->Draw(hdc, paint_area);
+
+	Mop.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
