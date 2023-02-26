@@ -59,6 +59,7 @@ void AsMop::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Rect(hdc, x_pos, y_pos, width, height, AsConfig::Red_Color);
 
+	AsTools::Rect(hdc, x_pos + 97, y_pos + 1, 18, 5, AsConfig::Blue_Color);
 
 	// Indicator frame
 	AsConfig::Highlight_Color.Select_Pen(hdc);
