@@ -244,7 +244,10 @@ void AsLevel::Init()
 		Levels_Data.push_back(level_data);
 
 		if (i == 7)
+
 			level_data->Advertisement = new AAdvertisement(4, 7, 2, 3);
+		if (i == 9)
+			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 
 	}
 }
