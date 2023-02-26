@@ -17,15 +17,15 @@ public:
 	~AsInformation_Panel();
 	AsInformation_Panel();
 
-	virtual void Begin_Movement() override;
-	virtual void Finish_Movement() override;
-	virtual void Advance(double max_speed) override;
-	virtual double Get_Speed() override;
+	virtual void Begin_Movement();
+	virtual void Finish_Movement();
+	virtual void Advance(double max_speed);
+	virtual double Get_Speed();
 
-	virtual void Act() override;
-	virtual void Clear(HDC hdc, RECT& paint_area) override;
-	virtual void Draw(HDC hdc, RECT& paint_area) override;
-	virtual bool Is_Finished() override;
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
 
 	void Init();
 	void Add_Life();

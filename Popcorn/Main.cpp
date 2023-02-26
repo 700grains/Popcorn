@@ -306,16 +306,16 @@ V 1. Falling letter - only interacts with the platform
 V 2. Active brick - interacts only with the ball
 
 
-Actions of letters
-1. Simple:
-1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
-1.2. I ("Invert")
+V Actions of letters
+V 1. Simple:
+V 1.1. O ("Cancel") - cancels the action of the symbols K, W, P, L and M.
+V 1.2. I ("Invert")
 V 1.3. S ("Speed")
 V 1.4. M ("Monsters")
 V 1.5. F ("Life")
 
 
-2. Complex:
+V 2. Complex:
 V 2.1. K ("Glue")
 V 2.1.1. New state of the platform
 V 2.1.2. Spreading glue animation (forward and reverse)
@@ -344,9 +344,9 @@ V 2.5.1. Add support for multiple balls
 V 2.5.2. Output of many balls
 V 2.5.3. Interaction of many balls with game elements
 
-2.6. + (Go to the next level)
-2.6.1. Animation of early transition to the next level
-2.6.2. Separate transition level with special walls (frame)
+X 2.6. + (Go to the next level)
+X 2.6.1. Animation of early transition to the next level
+X 2.6.2. Separate transition level with special walls (frame)
 
 V ball movement
 V 1. Bounce of the ball from the frame
@@ -387,11 +387,11 @@ V 6. Accounting for game actions and display on indicators
 
 
 Game and levels
-1. List of the first 10 levels
+V 1. List of the first 10 levels
 2. Game states:
 2.1 splash screen
 2.2 animation of the beginning of the level
-2.3 playing the level
+V 2.3 playing the level
 2.4 loss of life
 2.5 transition to the next level
 2.5.1 normal
