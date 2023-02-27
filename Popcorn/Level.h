@@ -24,8 +24,6 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	static void Setup_Colors();
-
 private:
 	int X_Pos, Y_Pos;
 	RECT Indicator_Rect;
@@ -34,7 +32,7 @@ private:
 	static const int Height = 5;
 	static const int Max_Fade_Step = AsConfig::FPS;
 
-	static AColor Fading_Blue_Colors[Max_Fade_Step];
+	static AColor_Fade Fading_Blue_Colors;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsMop : public AGame_Object
