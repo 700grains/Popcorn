@@ -35,6 +35,7 @@ class AColor_Fade
 public:
 	~AColor_Fade();
 	AColor_Fade(const AColor& color, int max_fade_steps);
+	AColor_Fade(const AColor& origin_color, const AColor& base_color, int max_fade_steps);
 
 	AColor* Get_Color(int fade_step);
 

@@ -16,7 +16,7 @@ APoint::APoint(int x, int y)
 
 
 // AMop_Indicator
-AColor_Fade AMop_Indicator::Fading_Blue_Colors(AsConfig::Blue_Color, Max_Fade_Step);
+AColor_Fade AMop_Indicator::Fading_Blue_Colors(AsConfig::Blue_Color, AsConfig::Red_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
 AMop_Indicator::AMop_Indicator(int x_pos, int y_pos)
 	: X_Pos(x_pos), Y_Pos(y_pos), Current_Color(&AsConfig::Red_Color)

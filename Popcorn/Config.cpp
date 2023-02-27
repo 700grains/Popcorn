@@ -109,6 +109,20 @@ AColor_Fade::AColor_Fade(const AColor& color, int max_fade_steps)
 	}
 
 }
+//------------------------------------------------------------------------------------------------------------
+AColor_Fade::AColor_Fade(const AColor& origin_color, const AColor& base_color, int max_fade_steps)
+{
+	int i;
+	AColor* current_color;
+
+	for (i = 0; i < max_fade_steps; i++)
+	{
+		current_color = AsTools::Get_Fading_Color(origin_color, base_color, i, max_fade_steps);
+		Fading_Colors.push_back(current_color);
+	}
+
+}
+//------------------------------------------------------------------------------------------------------------
 AColor* AColor_Fade::Get_Color(int fade_step)
 {
 	if (fade_step < 0 || fade_step >(int)Fading_Colors.size())
@@ -216,7 +230,7 @@ unsigned char AsTools::Get_Fading_Channel(unsigned char color, unsigned char bg_
 //------------------------------------------------------------------------------------------------------------
 AColor* AsTools::Get_Fading_Color(const AColor& origin_color, int step, int max_step)
 {
-	Get_Fading_Color(origin_color, AsConfig::BG_Color, step, max_step);
+	return Get_Fading_Color(origin_color, AsConfig::BG_Color, step, max_step);
 }
 //------------------------------------------------------------------------------------------------------------
 AColor* AsTools::Get_Fading_Color(const AColor& origin_color, const AColor& base_color, int step, int max_step)
