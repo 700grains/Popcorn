@@ -19,7 +19,7 @@ public:
 	AColor* Get_Color(int fade_step);
 
 private:
-	std::vector<AColor> Fading_Colors;
+	std::vector<AColor*> Fading_Colors;
 };
 //------------------------------------------------------------------------------------------------------------
 class AExplosive_Ball : public AGraphics_Object

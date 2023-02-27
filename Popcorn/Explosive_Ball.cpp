@@ -9,9 +9,13 @@ AColor_Fade::~AColor_Fade()
 AColor_Fade::AColor_Fade(const AColor& color, int max_fade_steps)
 {
 	int i;
+	AColor* current_color;
 
 	for (i = 0; i < max_fade_steps; i++)
-		AsTools::Get_Fading_Color(color, i, Fading_Colors[i], max_fade_steps);
+	{
+		current_color = AsTools::Get_Fading_Color(color, i, max_fade_steps);
+		Fading_Colors.push_back(current_color);
+	}
 
 }
 AColor* AColor_Fade::Get_Color(int fade_step)
