@@ -17,7 +17,7 @@ public:
 class AMop_Indicator : public AGraphics_Object
 {
 public:
-	AMop_Indicator(int x_pos, int y_pos);
+	AMop_Indicator(int x_pos, int y_pos, int time_offset);
 
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
@@ -28,6 +28,7 @@ private:
 	int X_Pos, Y_Pos;
 	RECT Indicator_Rect;
 	const AColor* Current_Color;
+	int Time_Offset;
 
 	static const int Width = 17;
 	static const int Height = 5;

@@ -18,8 +18,8 @@ APoint::APoint(int x, int y)
 // AMop_Indicator
 AColor_Fade AMop_Indicator::Fading_Blue_Colors(AsConfig::Blue_Color, AsConfig::Red_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
-AMop_Indicator::AMop_Indicator(int x_pos, int y_pos)
-	: X_Pos(x_pos), Y_Pos(y_pos), Current_Color(&AsConfig::Red_Color)
+AMop_Indicator::AMop_Indicator(int x_pos, int y_pos, int time_offset)
+	: X_Pos(x_pos), Y_Pos(y_pos), Time_Offset(time_offset), Current_Color(&AsConfig::Red_Color)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -32,7 +32,7 @@ AMop_Indicator::AMop_Indicator(int x_pos, int y_pos)
 void AMop_Indicator::Act()
 {
 	int total_timeout = Normal_Timeout + Max_Fade_Step;
-	int current_tick = AsConfig::Current_Timer_Tick % total_timeout;
+	int current_tick = (AsConfig::Current_Timer_Tick + Time_Offset) % total_timeout;
 	int current_offset;
 
 	if (current_tick < Normal_Timeout)
@@ -105,7 +105,7 @@ AsMop::AsMop()
 
 	for (i = 0; i < 10; i++)
 	{
-		indicator = new AMop_Indicator(AsConfig::Level_X_Offset + 1 + i * 19, AsConfig::Level_Y_Offset + 1);
+		indicator = new AMop_Indicator(AsConfig::Level_X_Offset + 1 + i * 19, AsConfig::Level_Y_Offset + 1, i * 80);
 		Mop_Indicator.push_back(indicator);
 	}
 }
