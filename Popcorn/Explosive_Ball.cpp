@@ -1,8 +1,35 @@
 #include "Explosive_Ball.h"
 
+//AColor_Fade
+//------------------------------------------------------------------------------------------------------------
+AColor_Fade::~AColor_Fade()
+{
+}
+//------------------------------------------------------------------------------------------------------------
+AColor_Fade::AColor_Fade(const AColor& color, int max_fade_steps)
+{
+	int i;
+
+	for (i = 0; i < max_fade_steps; i++)
+		AsTools::Get_Fading_Color(color, i, Fading_Colors[i], max_fade_steps);
+
+}
+AColor* AColor_Fade::Get_Color(int fade_step)
+{
+	if (fade_step < 0 || fade_step > (int)Fading_Colors.size())
+		AsConfig::Throw();
+
+	return &Fading_Colors[fade_step];
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 //AExplosive_Ball
-AColor AExplosive_Ball::Fading_Red_Colors[Max_Fade_Step];
-AColor AExplosive_Ball::Fading_Blue_Colors[Max_Fade_Step];
+AColor_Fade AExplosive_Ball::Fading_Red_Colors(AsConfig::Red_Color, Max_Fade_Step);
+AColor_Fade AExplosive_Ball::Fading_Blue_Colors(AsConfig::Blue_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
 	:Explosive_Ball_State(EExplosive_Ball_State::Idle), Is_Red(false), X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Start_Explosion_Tick(0), Max_Size(0.0),
@@ -92,9 +119,9 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 			color_index = (int)round(ratio * (double)(Max_Fade_Step - 1));
 
 			if (Is_Red)
-				color = &Fading_Red_Colors[color_index];
+				color = Fading_Red_Colors.Get_Color(color_index);
 			else
-				color = &Fading_Blue_Colors[color_index];
+				color = Fading_Blue_Colors.Get_Color(color_index);
 
 			AsTools::Ellipse(hdc, Ball_Rect, *color);
 		}
@@ -132,17 +159,6 @@ void AExplosive_Ball::Explode(int x_pos, int y_pos, int size, bool is_red, int t
 	Size_Step = (double)Max_Size / (double)Step_Count;
 
 	Update_Ball_Rect();
-}
-//------------------------------------------------------------------------------------------------------------
-void AExplosive_Ball::Setup_Colors()
-{
-	int i;
-
-	for (i = 0; i < Max_Fade_Step; i++)
-	{
-		AsTools::Get_Fading_Color(AsConfig::Red_Color, i, Fading_Red_Colors[i], Max_Fade_Step);
-		AsTools::Get_Fading_Color(AsConfig::Blue_Color, i, Fading_Blue_Colors[i], Max_Fade_Step);
-	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Update_Ball_Rect()

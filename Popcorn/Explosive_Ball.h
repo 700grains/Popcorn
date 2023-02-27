@@ -10,6 +10,17 @@ enum class EExplosive_Ball_State : unsigned char
 	Expanding,
 	Fading
 };
+class AColor_Fade
+{
+public:
+	~AColor_Fade();
+	AColor_Fade(const AColor& color, int max_fade_steps);
+
+	AColor* Get_Color(int fade_step);
+
+private:
+	std::vector<AColor> Fading_Colors;
+};
 //------------------------------------------------------------------------------------------------------------
 class AExplosive_Ball : public AGraphics_Object
 {
@@ -22,8 +33,6 @@ public:
 	virtual bool Is_Finished();
 
 	void Explode(int x_pos, int y_pos, int size, bool is_red, int time_offset, int step_count);
-
-	static void Setup_Colors();
 
 private:
 	void Update_Ball_Rect();
@@ -41,7 +50,7 @@ private:
 	static const int Fading_Time = AsConfig::FPS;
 	static const int Max_Fade_Step = AsConfig::FPS;
 
-	static AColor Fading_Red_Colors[Max_Fade_Step];
-	static AColor Fading_Blue_Colors[Max_Fade_Step];
+	static AColor_Fade Fading_Red_Colors;
+	static AColor_Fade Fading_Blue_Colors;
 };
 //------------------------------------------------------------------------------------------------------------
