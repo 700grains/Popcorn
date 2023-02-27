@@ -108,8 +108,8 @@ void AActive_Brick_Red_Blue::Setup_Colors()
 
 	for (i = 0; i < Max_Fade_Step; i++)
 	{
-		AsTools::Get_Fading_Color(AsConfig::Red_Color, i, Fading_Red_Brick_Colors[i], Max_Fade_Step);
-		AsTools::Get_Fading_Color(AsConfig::Blue_Color, i, Fading_Blue_Brick_Colors[i], Max_Fade_Step);
+		//AsTools::Get_Fading_Color(AsConfig::Red_Color, i, Fading_Red_Brick_Colors[i], Max_Fade_Step);
+		//AsTools::Get_Fading_Color(AsConfig::Blue_Color, i, Fading_Blue_Brick_Colors[i], Max_Fade_Step);
 	}
 }
 //------------------------------------------------------------------------------------------------------------

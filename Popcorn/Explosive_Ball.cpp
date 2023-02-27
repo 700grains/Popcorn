@@ -4,6 +4,10 @@
 //------------------------------------------------------------------------------------------------------------
 AColor_Fade::~AColor_Fade()
 {
+	for (auto* color : Fading_Colors)
+		delete color;
+
+	Fading_Colors.erase(Fading_Colors.begin(), Fading_Colors.end());
 }
 //------------------------------------------------------------------------------------------------------------
 AColor_Fade::AColor_Fade(const AColor& color, int max_fade_steps)
@@ -23,7 +27,7 @@ AColor* AColor_Fade::Get_Color(int fade_step)
 	if (fade_step < 0 || fade_step > (int)Fading_Colors.size())
 		AsConfig::Throw();
 
-	return &Fading_Colors[fade_step];
+	return Fading_Colors[fade_step];
 }
 //------------------------------------------------------------------------------------------------------------
 

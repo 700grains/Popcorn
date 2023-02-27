@@ -70,10 +70,10 @@ bool AMop_Indicator::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicator::Setup_Colors()
 {
-	int i;
+	//int i;
 
-	for (i = 0; i < Max_Fade_Step; i++)
-		AsTools::Get_Fading_Color(AsConfig::Blue_Color, i, Fading_Blue_Colors[i], Max_Fade_Step);
+	//for (i = 0; i < Max_Fade_Step; i++)
+	//	AsTools::Get_Fading_Color(AsConfig::Blue_Color, i, Fading_Blue_Colors[i], Max_Fade_Step);
 }
 //------------------------------------------------------------------------------------------------------------
 
