@@ -40,6 +40,7 @@ private:
 
 	static const int Fading_Time = AsConfig::FPS;
 	static const int Max_Fade_Step = AsConfig::FPS;
+
 	static AColor Fading_Red_Colors[Max_Fade_Step];
 	static AColor Fading_Blue_Colors[Max_Fade_Step];
 };
