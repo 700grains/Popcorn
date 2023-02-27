@@ -19,7 +19,7 @@ APoint::APoint(int x, int y)
 AColor_Fade AMop_Indicator::Fading_Blue_Colors(AsConfig::Blue_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
 AMop_Indicator::AMop_Indicator(int x_pos, int y_pos)
-	: X_Pos(x_pos), Y_Pos(y_pos)
+	: X_Pos(x_pos), Y_Pos(y_pos), Current_Color(&AsConfig::Red_Color)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -31,7 +31,23 @@ AMop_Indicator::AMop_Indicator(int x_pos, int y_pos)
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicator::Act()
 {
-	//!!! TODO
+	int total_timeout = Normal_Timeout + Max_Fade_Step;
+	int current_tick = AsConfig::Current_Timer_Tick % total_timeout;
+	int current_offset;
+
+	if (current_tick < Normal_Timeout)
+		Current_Color = &AsConfig::Red_Color;
+	else
+	{
+		current_offset = current_tick - Normal_Timeout;
+
+		if (current_offset < 0 || current_offset >= Max_Fade_Step)
+			AsConfig::Throw();
+
+		Current_Color = Fading_Blue_Colors.Get_Color(current_offset);
+	}
+
+	AsTools::Invalidate_Rect(Indicator_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicator::Clear(HDC hdc, RECT& paint_area)
@@ -48,7 +64,7 @@ void AMop_Indicator::Draw(HDC hdc, RECT& paint_area)
 		return;
 
 
-	AsTools::Rect(hdc, Indicator_Rect, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, Indicator_Rect, *Current_Color);
 
 	// Indicator frame
 	AsConfig::Highlight_Color.Select_Pen(hdc);
@@ -117,7 +133,8 @@ double AsMop::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Act()
 {
-	//!!! TODO
+	for (auto* indicator : Mop_Indicator)
+		indicator->Act();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Clear(HDC hdc, RECT& paint_area)
@@ -304,6 +321,8 @@ void AsLevel::Act()
 
 	if (Advertisement != 0)
 		Advertisement->Act();
+
+	Mop.Act();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Clear(HDC hdc, RECT& paint_area)
