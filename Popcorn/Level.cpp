@@ -35,7 +35,18 @@ void AMop_Cylinder::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AMop_Cylinder::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	AsTools::Rect(hdc, X_Pos + 2, Y_Pos + 4, 2, Height * 50, AsConfig::White_Color);
+	AsTools::Rect(hdc, X_Pos + 4, Y_Pos + 4, 1, Height * 50, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, X_Pos + 5, Y_Pos + 4, 1, Height * 50, AsConfig::White_Color);
+	AsTools::Rect(hdc, X_Pos + 6, Y_Pos + 4, 4, Height * 50, AsConfig::Blue_Color);
+
+
+	//RECT rect;
+
+	//rect.left = ;
+	//rect.top = ;
+	//rect.right = rect.left + ;
+	//rect.bottom = rect.top + ;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMop_Cylinder::Is_Finished()
