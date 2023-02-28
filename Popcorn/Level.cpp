@@ -35,18 +35,27 @@ void AMop_Cylinder::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AMop_Cylinder::Draw(HDC hdc, RECT& paint_area)
 {
+	const int scale = AsConfig::Global_Scale;
+	RECT rect;
+
+	// 1. cylinder mount
+	rect.left = X_Pos * scale;
+	rect.top = Y_Pos * scale;
+	rect.right = rect.left + Width * scale;
+	rect.bottom = rect.top + 4 * scale;
+
+	AsConfig::Red_Color.Select(hdc);
+	AsTools::Round_Rect(hdc, rect);
+	AsTools::Rect(hdc, X_Pos + 2, Y_Pos + 1, 1, 2, AsConfig::BG_Color);
+	AsTools::Rect(hdc, X_Pos + 4, Y_Pos + 1, 1, 2, AsConfig::BG_Color);
+	AsTools::Rect(hdc, X_Pos + Width - 3, Y_Pos + 1, 1, 2, AsConfig::BG_Color);
+	AsTools::Rect(hdc, X_Pos + Width - 5, Y_Pos + 1, 1, 2, AsConfig::BG_Color);
+
+	// 2. cylinder body
 	AsTools::Rect(hdc, X_Pos + 2, Y_Pos + 4, 2, Height * 50, AsConfig::White_Color);
 	AsTools::Rect(hdc, X_Pos + 4, Y_Pos + 4, 1, Height * 50, AsConfig::Blue_Color);
 	AsTools::Rect(hdc, X_Pos + 5, Y_Pos + 4, 1, Height * 50, AsConfig::White_Color);
-	AsTools::Rect(hdc, X_Pos + 6, Y_Pos + 4, 4, Height * 50, AsConfig::Blue_Color);
-
-
-	//RECT rect;
-
-	//rect.left = ;
-	//rect.top = ;
-	//rect.right = rect.left + ;
-	//rect.bottom = rect.top + ;
+	AsTools::Rect(hdc, X_Pos + 6, Y_Pos + 4, 5, Height * 50, AsConfig::Blue_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMop_Cylinder::Is_Finished()
