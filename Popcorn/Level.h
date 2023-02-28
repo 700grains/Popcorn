@@ -25,6 +25,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Set_Height_For(double ratio);
+	int Get_Height();
 
 	int Y_Pos;
 	static const int Max_Cylinder_Height[4];

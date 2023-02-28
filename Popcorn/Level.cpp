@@ -76,6 +76,11 @@ void AMop_Cylinders::Set_Height_For(double ratio)
 			Height = Max_Height;
 }
 //------------------------------------------------------------------------------------------------------------
+int AMop_Cylinders::Get_Height()
+{
+	return Height;
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -281,10 +286,13 @@ void AsMop::Erase_Level()
 void AsMop::Set_Mop()
 {
 	int i;
+	int total_cylinder_height = 0;
 	const int scale = AsConfig::Global_Scale;
 
 	for (auto* cylinder : Mop_Cylinders)
-		cylinder->
+		total_cylinder_height += cylinder->Get_Height();
+
+	Y_Pos = AsConfig::Max_Y_Pos - total_cylinder_height - Height;
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Set_Y_Pos(Y_Pos + 1);
