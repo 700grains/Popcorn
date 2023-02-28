@@ -41,10 +41,10 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	int Y_Pos;
+	void Set_Y_Pos(int y_pos);
 
 private:
-	int X_Pos;
+	int X_Pos, Y_Pos;
 	RECT Indicator_Rect;
 	const AColor* Current_Color;
 	int Time_Offset;

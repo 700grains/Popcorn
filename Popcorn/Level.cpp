@@ -74,12 +74,7 @@ AColor_Fade AMop_Indicators::Fading_Blue_Colors(AsConfig::Blue_Color, AsConfig::
 AMop_Indicators::AMop_Indicators(int x_pos, int y_pos, int time_offset)
 	: X_Pos(x_pos), Y_Pos(y_pos), Time_Offset(time_offset), Current_Color(&AsConfig::Red_Color)
 {
-	const int scale = AsConfig::Global_Scale;
-
-	Indicator_Rect.left = X_Pos * scale;
-	Indicator_Rect.top = Y_Pos * scale;
-	Indicator_Rect.right = Indicator_Rect.left + Width * scale;
-	Indicator_Rect.bottom = Indicator_Rect.top + Height * scale;
+	Set_Y_Pos(Y_Pos);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicators::Act()
@@ -135,6 +130,18 @@ bool AMop_Indicators::Is_Finished()
 {
 	return false;
 	//!!! TODO
+}
+//------------------------------------------------------------------------------------------------------------
+void AMop_Indicators::Set_Y_Pos(int y_pos)
+{
+	const int scale = AsConfig::Global_Scale;
+
+	Y_Pos = y_pos;
+
+	Indicator_Rect.left = X_Pos * scale;
+	Indicator_Rect.top = Y_Pos * scale;
+	Indicator_Rect.right = Indicator_Rect.left + Width * scale;
+	Indicator_Rect.bottom = Indicator_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -210,10 +217,7 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
 {
-	int x_pos = AsConfig::Level_X_Offset;
-	int y_pos = AsConfig::Level_Y_Offset;
-
-	AsTools::Rect(hdc, x_pos, y_pos, Width, Height, AsConfig::Red_Color);
+	AsTools::Rect(hdc, AsConfig::Level_X_Offset, Y_Pos, Width, Height, AsConfig::Red_Color);
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Draw(hdc, paint_area);
@@ -235,9 +239,9 @@ void AsMop::Erase_Level()
 	Y_Pos = 172;
 
 	for (auto* indicator : Mop_Indicators)
-		indicator->Y_Pos = Y_Pos + 1;
+		indicator->Set_Y_Pos(Y_Pos + 1);
 
-	for (i = 0; i < Mop_Cylinders.size(); i++)
+	for (i = 0; i < (int)Mop_Cylinders.size(); i++)
 		Mop_Cylinders[i]->Y_Pos = Y_Pos + Height + i * 5;
 
 }
@@ -484,6 +488,8 @@ void AsLevel::Init()
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 
 	}
+
+	Mop.Erase_Level();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
