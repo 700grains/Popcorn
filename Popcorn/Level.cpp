@@ -179,6 +179,7 @@ AsMop::AsMop()
 	:Y_Pos(0), Starting_Tick(0), Acting(false)
 {
 	int i;
+	int x_pos, y_pos;
 	AMop_Indicators* indicator;
 	AMop_Cylinders* cylinder;
 
@@ -190,7 +191,10 @@ AsMop::AsMop()
 
 	for (i = 0; i < 5; i++)
 	{
-		cylinder = new AMop_Cylinders(AsConfig::Level_X_Offset + Width / 2 - 6 - i, AsConfig::Level_Y_Offset + 7 + i * 5, 13 + i * 2, 1, AMop_Cylinders::Max_Cylinder_Height[i]);
+		x_pos = AsConfig::Level_X_Offset + Width / 2 - 6 - i;
+		y_pos = AsConfig::Level_Y_Offset + 7 + i * 5;
+
+		cylinder = new AMop_Cylinders(x_pos, y_pos, 13 + i * 2, 1, AMop_Cylinders::Max_Cylinder_Height[i]);
 		Mop_Cylinders.push_back(cylinder);
 	}
 }
