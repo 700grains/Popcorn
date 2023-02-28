@@ -132,6 +132,7 @@ AsMop::~AsMop()
 }
 //------------------------------------------------------------------------------------------------------------
 AsMop::AsMop()
+	: Mop_Cylinder(AsConfig::Level_X_Offset + Width / 2 - 6, AsConfig::Level_Y_Offset + 7, 13, 1)
 {
 	int i;
 	AMop_Indicator* indicator;
@@ -177,16 +178,15 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
 {
-	const int scale = AsConfig::Global_Scale;
 	int x_pos = AsConfig::Level_X_Offset;
 	int y_pos = AsConfig::Level_Y_Offset;
-	int width = (AsConfig::Level_Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width;
-	int height = AsConfig::Brick_Height;
 
-	AsTools::Rect(hdc, x_pos, y_pos, width, height, AsConfig::Red_Color);
+	AsTools::Rect(hdc, x_pos, y_pos, Width, Height, AsConfig::Red_Color);
 
 	for (auto* indicator : Mop_Indicator)
 		indicator->Draw(hdc, paint_area);
+
+	Mop_Cylinder.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMop::Is_Finished()
