@@ -24,8 +24,10 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	int Y_Pos;
+
 private:
-	int X_Pos, Y_Pos;
+	int X_Pos;
 	int Width, Height;
 };
 //------------------------------------------------------------------------------------------------------------
@@ -39,8 +41,10 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	int Y_Pos;
+
 private:
-	int X_Pos, Y_Pos;
+	int X_Pos;
 	RECT Indicator_Rect;
 	const AColor* Current_Color;
 	int Time_Offset;
@@ -69,7 +73,11 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	void Erase_Level();
+
 private:
+	int Y_Pos, X_Pos;
+	int Starting_Tick;
 	std::vector <AMop_Indicators*> Mop_Indicators;
 	std::vector <AMop_Cylinders*> Mop_Cylinders;
 
