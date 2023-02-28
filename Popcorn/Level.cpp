@@ -233,6 +233,8 @@ void AsMop::Act()
 	if (!Acting)
 		return;
 
+	Previous_Mop_Rect = Mop_Rect;
+
 	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
 	if (time_offset < Expansion_Timeout)
@@ -249,6 +251,7 @@ void AsMop::Act()
 		indicator->Act();
 
 	AsTools::Invalidate_Rect(Mop_Rect);
+	AsTools::Invalidate_Rect(Previous_Mop_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Clear(HDC hdc, RECT& paint_area)
