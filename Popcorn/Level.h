@@ -14,10 +14,10 @@ public:
 	int X, Y;
 };
 //------------------------------------------------------------------------------------------------------------
-class  AMop_Cylinder : public AGraphics_Object
+class  AMop_Cylinders : public AGraphics_Object
 {
 public:
-	AMop_Cylinder(int x_pos, int y_pos, int width, int height);
+	AMop_Cylinders(int x_pos, int y_pos, int width, int height);
 
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
@@ -29,10 +29,10 @@ private:
 	int Width, Height;
 };
 //------------------------------------------------------------------------------------------------------------
-class AMop_Indicator : public AGraphics_Object
+class AMop_Indicators : public AGraphics_Object
 {
 public:
-	AMop_Indicator(int x_pos, int y_pos, int time_offset);
+	AMop_Indicators(int x_pos, int y_pos, int time_offset);
 
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
@@ -70,8 +70,8 @@ public:
 	virtual bool Is_Finished();
 
 private:
-	std::vector <AMop_Indicator*> Mop_Indicator;
-	AMop_Cylinder Mop_Cylinder;
+	std::vector <AMop_Indicators*> Mop_Indicators;
+	std::vector <AMop_Cylinders*> Mop_Cylinders;
 
 	static const int Width = (AsConfig::Level_Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width;
 	static const int Height = AsConfig::Brick_Height;

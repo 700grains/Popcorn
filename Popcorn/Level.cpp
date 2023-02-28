@@ -16,24 +16,24 @@ APoint::APoint(int x, int y)
 
 
 
-// AMop_Cylinder
+// AMop_Cylinders
 //------------------------------------------------------------------------------------------------------------
-AMop_Cylinder::AMop_Cylinder(int x_pos, int y_pos, int width, int height)
+AMop_Cylinders::AMop_Cylinders(int x_pos, int y_pos, int width, int height)
 	:X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void AMop_Cylinder::Act()
+void AMop_Cylinders::Act()
 {
 	//!!! TODO
 }
 //------------------------------------------------------------------------------------------------------------
-void AMop_Cylinder::Clear(HDC hdc, RECT& paint_area)
+void AMop_Cylinders::Clear(HDC hdc, RECT& paint_area)
 {
 	//!!! TODO
 }
 //------------------------------------------------------------------------------------------------------------
-void AMop_Cylinder::Draw(HDC hdc, RECT& paint_area)
+void AMop_Cylinders::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
 	RECT rect;
@@ -52,13 +52,13 @@ void AMop_Cylinder::Draw(HDC hdc, RECT& paint_area)
 	AsTools::Rect(hdc, X_Pos + Width - 5, Y_Pos + 1, 1, 2, AsConfig::BG_Color);
 
 	// 2. cylinder body
-	AsTools::Rect(hdc, X_Pos + 2, Y_Pos + 4, 2, Height * 50, AsConfig::White_Color);
-	AsTools::Rect(hdc, X_Pos + 4, Y_Pos + 4, 1, Height * 50, AsConfig::Blue_Color);
-	AsTools::Rect(hdc, X_Pos + 5, Y_Pos + 4, 1, Height * 50, AsConfig::White_Color);
-	AsTools::Rect(hdc, X_Pos + 6, Y_Pos + 4, 5, Height * 50, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, X_Pos + 2, Y_Pos + 4, 2, Height * 5, AsConfig::White_Color);
+	AsTools::Rect(hdc, X_Pos + 4, Y_Pos + 4, 1, Height * 5, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, X_Pos + 5, Y_Pos + 4, 1, Height * 5, AsConfig::White_Color);
+	AsTools::Rect(hdc, X_Pos + 6, Y_Pos + 4, Width - 8, Height * 5, AsConfig::Blue_Color);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AMop_Cylinder::Is_Finished()
+bool AMop_Cylinders::Is_Finished()
 {
 	return false;
 	//!!! TODO
@@ -68,10 +68,10 @@ bool AMop_Cylinder::Is_Finished()
 
 
 
-// AMop_Indicator
-AColor_Fade AMop_Indicator::Fading_Blue_Colors(AsConfig::Blue_Color, AsConfig::Red_Color, Max_Fade_Step);
+// AMop_Indicators
+AColor_Fade AMop_Indicators::Fading_Blue_Colors(AsConfig::Blue_Color, AsConfig::Red_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
-AMop_Indicator::AMop_Indicator(int x_pos, int y_pos, int time_offset)
+AMop_Indicators::AMop_Indicators(int x_pos, int y_pos, int time_offset)
 	: X_Pos(x_pos), Y_Pos(y_pos), Time_Offset(time_offset), Current_Color(&AsConfig::Red_Color)
 {
 	const int scale = AsConfig::Global_Scale;
@@ -82,7 +82,7 @@ AMop_Indicator::AMop_Indicator(int x_pos, int y_pos, int time_offset)
 	Indicator_Rect.bottom = Indicator_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
-void AMop_Indicator::Act()
+void AMop_Indicators::Act()
 {
 	int total_timeout = Normal_Timeout + Max_Fade_Step;
 	int current_tick = (AsConfig::Current_Timer_Tick + Time_Offset) % total_timeout;
@@ -103,12 +103,12 @@ void AMop_Indicator::Act()
 	AsTools::Invalidate_Rect(Indicator_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
-void AMop_Indicator::Clear(HDC hdc, RECT& paint_area)
+void AMop_Indicators::Clear(HDC hdc, RECT& paint_area)
 {
 	//!!! TODO
 }
 //------------------------------------------------------------------------------------------------------------
-void AMop_Indicator::Draw(HDC hdc, RECT& paint_area)
+void AMop_Indicators::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
 	RECT intersection_rect;
@@ -131,7 +131,7 @@ void AMop_Indicator::Draw(HDC hdc, RECT& paint_area)
 	LineTo(hdc, X_Pos * scale, (Y_Pos + Height) * scale);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AMop_Indicator::Is_Finished()
+bool AMop_Indicators::Is_Finished()
 {
 	return false;
 	//!!! TODO
@@ -145,22 +145,33 @@ bool AMop_Indicator::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 AsMop::~AsMop()
 {
-	for (auto* indicator : Mop_Indicator)
+	for (auto* indicator : Mop_Indicators)
 		delete indicator;
 
-	Mop_Indicator.erase(Mop_Indicator.begin(), Mop_Indicator.end());
+	Mop_Indicators.erase(Mop_Indicators.begin(), Mop_Indicators.end());
+
+	for (auto* cylinder : Mop_Cylinders)
+		delete cylinder;
+
+	Mop_Cylinders.erase(Mop_Cylinders.begin(), Mop_Cylinders.end());
 }
 //------------------------------------------------------------------------------------------------------------
 AsMop::AsMop()
-	: Mop_Cylinder(AsConfig::Level_X_Offset + Width / 2 - 6, AsConfig::Level_Y_Offset + 7, 13, 1)
 {
 	int i;
-	AMop_Indicator* indicator;
+	AMop_Indicators* indicator;
+	AMop_Cylinders* cylinder;
 
 	for (i = 0; i < 10; i++)
 	{
-		indicator = new AMop_Indicator(AsConfig::Level_X_Offset + 1 + i * 19, AsConfig::Level_Y_Offset + 1, i * 80);
-		Mop_Indicator.push_back(indicator);
+		indicator = new AMop_Indicators(AsConfig::Level_X_Offset + 1 + i * 19, AsConfig::Level_Y_Offset + 1, i * 80);
+		Mop_Indicators.push_back(indicator);
+	}
+
+	for (i = 0; i < 5; i++)
+	{
+		cylinder = new AMop_Cylinders(AsConfig::Level_X_Offset + Width / 2 - 6 - i, AsConfig::Level_Y_Offset + 7 + i * 5, 13 + i * 2, 1);
+		Mop_Cylinders.push_back(cylinder);
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -187,7 +198,7 @@ double AsMop::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Act()
 {
-	for (auto* indicator : Mop_Indicator)
+	for (auto* indicator : Mop_Indicators)
 		indicator->Act();
 }
 //------------------------------------------------------------------------------------------------------------
@@ -203,10 +214,11 @@ void AsMop::Draw(HDC hdc, RECT& paint_area)
 
 	AsTools::Rect(hdc, x_pos, y_pos, Width, Height, AsConfig::Red_Color);
 
-	for (auto* indicator : Mop_Indicator)
+	for (auto* indicator : Mop_Indicators)
 		indicator->Draw(hdc, paint_area);
 
-	Mop_Cylinder.Draw(hdc, paint_area);
+	for (auto* cylinder : Mop_Cylinders)
+		cylinder->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMop::Is_Finished()
