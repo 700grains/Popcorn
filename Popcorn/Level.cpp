@@ -242,6 +242,8 @@ void AsMop::Act()
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Act();
+
+	AsTools::Invalidate_Rect(Mop_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Clear(HDC hdc, RECT& paint_area)
@@ -279,12 +281,21 @@ void AsMop::Erase_Level()
 void AsMop::Set_Mop()
 {
 	int i;
+	const int scale = AsConfig::Global_Scale;
+
+	for (auto* cylinder : Mop_Cylinders)
+		cylinder->
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Set_Y_Pos(Y_Pos + 1);
 
 	for (i = 0; i < (int)Mop_Cylinders.size(); i++)
 		Mop_Cylinders[i]->Y_Pos = Y_Pos + Height + i * 5;
+
+	Mop_Rect.left = AsConfig::Level_X_Offset * scale;
+	Mop_Rect.top = Y_Pos * scale;
+	Mop_Rect.right = Mop_Rect.left + Width * scale;
+	Mop_Rect.bottom = Mop_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 

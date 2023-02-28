@@ -86,6 +86,7 @@ private:
 	bool Acting;
 	int Y_Pos;
 	int Starting_Tick;
+	RECT Mop_Rect;
 	std::vector <AMop_Indicators*> Mop_Indicators;
 	std::vector <AMop_Cylinders*> Mop_Cylinders;
 
