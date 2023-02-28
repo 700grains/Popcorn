@@ -17,18 +17,21 @@ public:
 class  AMop_Cylinders : public AGraphics_Object
 {
 public:
-	AMop_Cylinders(int x_pos, int y_pos, int width, int height);
+	AMop_Cylinders(int x_pos, int y_pos, int width, int height, int max_height);
 
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	void Set_Height_For(double ratio);
+
 	int Y_Pos;
 
 private:
 	int X_Pos;
 	int Width, Height;
+	int Max_Height;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMop_Indicators : public AGraphics_Object
@@ -76,6 +79,8 @@ public:
 	void Erase_Level();
 
 private:
+	void Set_Mop();
+
 	bool Acting;
 	int Y_Pos;
 	int Starting_Tick;
@@ -84,6 +89,7 @@ private:
 
 	static const int Width = (AsConfig::Level_Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width;
 	static const int Height = AsConfig::Brick_Height;
+	static const int Expansion_Timeout = AsConfig::FPS * 5;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object

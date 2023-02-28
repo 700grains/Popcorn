@@ -18,8 +18,8 @@ APoint::APoint(int x, int y)
 
 // AMop_Cylinders
 //------------------------------------------------------------------------------------------------------------
-AMop_Cylinders::AMop_Cylinders(int x_pos, int y_pos, int width, int height)
-	:X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
+AMop_Cylinders::AMop_Cylinders(int x_pos, int y_pos, int width, int height, int max_height)
+	:X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height), Max_Height(max_height)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -62,6 +62,17 @@ bool AMop_Cylinders::Is_Finished()
 {
 	return false;
 	//!!! TODO
+}
+//------------------------------------------------------------------------------------------------------------
+void AMop_Cylinders::Set_Height_For(double ratio)
+{
+	Height = (int)((double)Max_Height * ratio);
+
+	if (Height < 1)
+		Height = 1;
+	else
+		if (Height > Max_Height)
+			Height = Max_Height;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -219,7 +230,9 @@ void AsMop::Act()
 		ratio = (double)time_offset / (double)Expansion_Timeout;
 
 		for (auto* cylinder : Mop_Cylinders)
-			cylinder->Set_Geight_For(ratio);
+			cylinder->Set_Height_For(ratio);
+
+		Set_Mop();
 	}
 
 	for (auto* indicator : Mop_Indicators)
@@ -250,12 +263,17 @@ bool AsMop::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Erase_Level()
 {
-	int i;
-
 	Starting_Tick = AsConfig::Current_Timer_Tick;
 	Y_Pos = 172;
 
 	Acting = true;
+
+	Set_Mop();
+}
+//------------------------------------------------------------------------------------------------------------
+void AsMop::Set_Mop()
+{
+	int i;
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Set_Y_Pos(Y_Pos + 1);
