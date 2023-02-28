@@ -164,7 +164,7 @@ AsMop::~AsMop()
 }
 //------------------------------------------------------------------------------------------------------------
 AsMop::AsMop()
-	:Y_Pos(0), X_Pos(0), Starting_Tick(0)
+	:Y_Pos(0), Starting_Tick(0), Acting(false)
 {
 	int i;
 	AMop_Indicators* indicator;
@@ -206,6 +206,22 @@ double AsMop::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Act()
 {
+	int time_offset;
+	double ratio;
+
+	if (!Acting)
+		return;
+
+	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
+
+	if (time_offset < Expansion_Timeout)
+	{
+		ratio = (double)time_offset / (double)Expansion_Timeout;
+
+		for (auto* cylinder : Mop_Cylinders)
+			cylinder->Set_Geight_For(ratio);
+	}
+
 	for (auto* indicator : Mop_Indicators)
 		indicator->Act();
 }
@@ -235,15 +251,17 @@ bool AsMop::Is_Finished()
 void AsMop::Erase_Level()
 {
 	int i;
+
 	Starting_Tick = AsConfig::Current_Timer_Tick;
 	Y_Pos = 172;
+
+	Acting = true;
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Set_Y_Pos(Y_Pos + 1);
 
 	for (i = 0; i < (int)Mop_Cylinders.size(); i++)
 		Mop_Cylinders[i]->Y_Pos = Y_Pos + Height + i * 5;
-
 }
 //------------------------------------------------------------------------------------------------------------
 

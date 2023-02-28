@@ -76,7 +76,8 @@ public:
 	void Erase_Level();
 
 private:
-	int Y_Pos, X_Pos;
+	bool Acting;
+	int Y_Pos;
 	int Starting_Tick;
 	std::vector <AMop_Indicators*> Mop_Indicators;
 	std::vector <AMop_Cylinders*> Mop_Cylinders;
