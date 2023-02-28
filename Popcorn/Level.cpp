@@ -256,11 +256,22 @@ void AsMop::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	if (!Acting)
+		return;
+
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Previous_Mop_Rect))
+		return;
+
+	AsTools::Rect(hdc, Previous_Mop_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
 {
+	if (!Acting)
+		return;
+
 	AsTools::Rect(hdc, AsConfig::Level_X_Offset, Y_Pos, Width, Height, AsConfig::Red_Color);
 
 	for (auto* indicator : Mop_Indicators)
@@ -487,6 +498,8 @@ void AsLevel::Clear(HDC hdc, RECT& paint_area)
 		Cancel_All_Activity();
 		Need_To_Cancel_All = false;
 	}
+
+	Mop.Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw(HDC hdc, RECT& paint_area)
