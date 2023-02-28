@@ -17,6 +17,7 @@ APoint::APoint(int x, int y)
 
 
 // AMop_Cylinders
+const int AMop_Cylinders::Max_Cylinder_Height[4] = {86, 43, 32, 11};
 //------------------------------------------------------------------------------------------------------------
 AMop_Cylinders::AMop_Cylinders(int x_pos, int y_pos, int width, int height, int max_height)
 	:X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height), Max_Height(max_height)
@@ -189,7 +190,7 @@ AsMop::AsMop()
 
 	for (i = 0; i < 5; i++)
 	{
-		cylinder = new AMop_Cylinders(AsConfig::Level_X_Offset + Width / 2 - 6 - i, AsConfig::Level_Y_Offset + 7 + i * 5, 13 + i * 2, 1);
+		cylinder = new AMop_Cylinders(AsConfig::Level_X_Offset + Width / 2 - 6 - i, AsConfig::Level_Y_Offset + 7 + i * 5, 13 + i * 2, 1, AMop_Cylinders::Max_Cylinder_Height[i]);
 		Mop_Cylinders.push_back(cylinder);
 	}
 }
