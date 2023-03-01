@@ -35,7 +35,7 @@ private:
 	int X_Pos, Y_Pos;
 	int Width, Height;
 	int Max_Height;
-	RECT Cylinder_Rect;
+	RECT Cylinder_Rect, Previous_Cylinder_Rect;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMop_Indicators : public AGraphics_Object

@@ -31,7 +31,12 @@ void AMop_Cylinders::Act()
 //------------------------------------------------------------------------------------------------------------
 void AMop_Cylinders::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	RECT intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Previous_Cylinder_Rect))
+		return;
+
+	AsTools::Rect(hdc, Previous_Cylinder_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Cylinders::Draw(HDC hdc, RECT& paint_area)
@@ -90,12 +95,15 @@ void AMop_Cylinders::Set_Y_Pos(int y_pos)
 
 	Y_Pos = y_pos;
 
+	Previous_Cylinder_Rect = Cylinder_Rect;
+
 	Cylinder_Rect.left = X_Pos * scale;
 	Cylinder_Rect.top = Y_Pos * scale;
 	Cylinder_Rect.right = Cylinder_Rect.left + Width * scale;
 	Cylinder_Rect.bottom = Cylinder_Rect.top + Height * scale;
 
 	AsTools::Invalidate_Rect(Cylinder_Rect);
+	AsTools::Invalidate_Rect(Previous_Cylinder_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -282,6 +290,10 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 		return;
 
 	AsTools::Rect(hdc, Previous_Mop_Rect, AsConfig::BG_Color);
+
+	for (auto* cylinder : Mop_Cylinders)
+		cylinder->Clear(hdc, paint_area);
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
