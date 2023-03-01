@@ -19,6 +19,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Erase_Level();
+	void Clear_Area(HDC hdc);
 
 private:
 	void Set_Mop();

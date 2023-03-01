@@ -219,6 +219,8 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 
 		for (auto* bricks : Active_Bricks)
 			bricks->Draw(hdc, paint_area);
+
+		Mop.Clear_Area(hdc); // Clearing current lvl
 	}
 
 	for (auto* letter : Falling_Letters)

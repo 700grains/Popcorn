@@ -135,6 +135,20 @@ void AsMop::Erase_Level()
 	Set_Mop();
 }
 //------------------------------------------------------------------------------------------------------------
+void AsMop::Clear_Area(HDC hdc)
+{
+	const int scale = AsConfig::Global_Scale;
+	RECT rect;
+
+	if (!Acting)
+		return;
+
+	rect = Mop_Rect;
+	rect.bottom = AsConfig::Max_Y_Pos * scale;
+
+	AsTools::Rect(hdc, rect, AsConfig::BG_Color);
+}
+//------------------------------------------------------------------------------------------------------------
 void AsMop::Set_Mop()
 {
 	int i;
