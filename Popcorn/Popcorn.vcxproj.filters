@@ -109,6 +109,12 @@
     <Filter Include="#Mop">
       <UniqueIdentifier>{8cef89d5-7a9d-4170-969c-2d42e3415152}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Mop\Mop">
+      <UniqueIdentifier>{3a907ca6-bc31-4d86-99f4-c2036b66f0e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="#Mop\Mop_Indicator">
+      <UniqueIdentifier>{ca37d90b-e623-4f75-83d1-b4a6d6d2dc44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -193,7 +199,10 @@
       <Filter>#Screen\Level_Data</Filter>
     </ClInclude>
     <ClInclude Include="Mop.h">
-      <Filter>#Mop</Filter>
+      <Filter>#Mop\Mop</Filter>
+    </ClInclude>
+    <ClInclude Include="Mop_Indicator.h">
+      <Filter>#Mop\Mop_Indicator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,7 +292,10 @@
       <Filter>#Screen\Level_Data</Filter>
     </ClCompile>
     <ClCompile Include="Mop.cpp">
-      <Filter>#Mop</Filter>
+      <Filter>#Mop\Mop</Filter>
+    </ClCompile>
+    <ClCompile Include="Mop_Indicator.cpp">
+      <Filter>#Mop\Mop_Indicator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
