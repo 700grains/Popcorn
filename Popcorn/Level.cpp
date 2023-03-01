@@ -17,7 +17,7 @@ APoint::APoint(int x, int y)
 
 
 // AMop_Cylinders
-const int AMop_Cylinders::Max_Cylinder_Height[4] = {90, 47, 37, 15};
+const int AMop_Cylinders::Max_Cylinder_Height[4] = {88, 47, 37, 15};
 //------------------------------------------------------------------------------------------------------------
 AMop_Cylinders::AMop_Cylinders(int x_pos, int y_pos, int width, int max_height)
 	:X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(Min_Height), Max_Height(max_height)
