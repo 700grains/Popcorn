@@ -17,7 +17,7 @@ APoint::APoint(int x, int y)
 
 
 // AMop_Cylinders
-const int AMop_Cylinders::Max_Cylinder_Height[4] = {86, 43, 32, 11};
+const int AMop_Cylinders::Max_Cylinder_Height[4] = {90, 47, 37, 15};
 //------------------------------------------------------------------------------------------------------------
 AMop_Cylinders::AMop_Cylinders(int x_pos, int y_pos, int width, int max_height)
 	:X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(Min_Height), Max_Height(max_height)
@@ -262,7 +262,7 @@ void AsMop::Act()
 
 	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
-	if (time_offset < Expansion_Timeout)
+	if (time_offset <= Expansion_Timeout)
 	{
 		ratio = (double)time_offset / (double)Expansion_Timeout;
 
@@ -335,7 +335,7 @@ void AsMop::Set_Mop()
 	for (auto* cylinder : Mop_Cylinders)
 		total_cylinder_height += cylinder->Get_Height();
 
-	Y_Pos = AsConfig::Max_Y_Pos - total_cylinder_height - Height;
+	Y_Pos = AsConfig::Max_Y_Pos - total_cylinder_height - Height + 1;
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Set_Y_Pos(Y_Pos + 1);
@@ -591,11 +591,10 @@ void AsLevel::Init()
 		Levels_Data.push_back(level_data);
 
 		if (i == 7)
-
 			level_data->Advertisement = new AAdvertisement(4, 7, 2, 3);
+
 		if (i == 9)
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
-
 	}
 
 	Mop.Erase_Level();
