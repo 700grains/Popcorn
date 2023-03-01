@@ -48,9 +48,9 @@ void AMop_Indicators::Draw(HDC hdc, RECT& paint_area)
 
 	// Indicator frame
 	AsConfig::Highlight_Color.Select_Pen(hdc);
-	MoveToEx(hdc, (X_Pos)*scale, (Y_Pos + Height) * scale, 0);
+	MoveToEx(hdc, X_Pos * scale, (Y_Pos + Height) * scale, 0);
 	LineTo(hdc, X_Pos * scale, Y_Pos * scale);
-	LineTo(hdc, (X_Pos + Width) * scale, (Y_Pos)*scale);
+	LineTo(hdc, (X_Pos + Width) * scale, Y_Pos * scale);
 
 	AsConfig::Shadow_Color.Select_Pen(hdc);
 	MoveToEx(hdc, (X_Pos + Width) * scale, Y_Pos * scale, 0);

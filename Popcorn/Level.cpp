@@ -217,11 +217,11 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 					Draw_Brick(hdc, brick_rect, j, i);
 			}
 
-		for (auto bricks : Active_Bricks)
+		for (auto* bricks : Active_Bricks)
 			bricks->Draw(hdc, paint_area);
 	}
 
-	for (auto letter : Falling_Letters)
+	for (auto* letter : Falling_Letters)
 		letter->Draw(hdc, paint_area);
 
 	Mop.Draw(hdc, paint_area);

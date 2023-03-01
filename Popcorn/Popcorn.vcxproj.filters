@@ -115,6 +115,9 @@
     <Filter Include="#Mop\Mop_Indicator">
       <UniqueIdentifier>{ca37d90b-e623-4f75-83d1-b4a6d6d2dc44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Mop\Mop_Cylinder">
+      <UniqueIdentifier>{c5422102-2ae6-43f5-bacd-644a3f9f7c5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -203,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="Mop_Indicator.h">
       <Filter>#Mop\Mop_Indicator</Filter>
+    </ClInclude>
+    <ClInclude Include="Mop_Cylinder.h">
+      <Filter>#Mop\Mop_Cylinder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +302,9 @@
     </ClCompile>
     <ClCompile Include="Mop_Indicator.cpp">
       <Filter>#Mop\Mop_Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="Mop_Cylinder.cpp">
+      <Filter>#Mop\Mop_Cylinder</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
