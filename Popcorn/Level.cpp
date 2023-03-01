@@ -37,7 +37,10 @@ void AMop_Cylinders::Clear(HDC hdc, RECT& paint_area)
 void AMop_Cylinders::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
-	RECT rect;
+	RECT rect, intersection_rect;
+
+	if (!IntersectRect(&intersection_rect, &paint_area, &Cylinder_Rect))
+		return;
 
 	// 1. cylinder mount
 	rect.left = X_Pos * scale;
@@ -314,6 +317,7 @@ void AsMop::Erase_Level()
 void AsMop::Set_Mop()
 {
 	int i;
+	int current_y_pos = 0;
 	int total_cylinder_height = 0;
 	const int scale = AsConfig::Global_Scale;
 
@@ -326,7 +330,11 @@ void AsMop::Set_Mop()
 		indicator->Set_Y_Pos(Y_Pos + 1);
 
 	for (i = 0; i < (int)Mop_Cylinders.size(); i++)
-		Mop_Cylinders[i]->Set_Y_Pos(Y_Pos + Height + i * 5);
+	{
+		Mop_Cylinders[i]->Set_Y_Pos(Y_Pos + Height + current_y_pos);
+
+		current_y_pos += Mop_Cylinders[i]->Get_Height();
+	}
 
 	Mop_Rect.left = AsConfig::Level_X_Offset * scale;
 	Mop_Rect.top = Y_Pos * scale;
