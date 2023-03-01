@@ -106,6 +106,9 @@
     <Filter Include="#Screen\Level_Data">
       <UniqueIdentifier>{a4afddeb-7a3c-44dd-828d-19806cf6d79e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Mop">
+      <UniqueIdentifier>{8cef89d5-7a9d-4170-969c-2d42e3415152}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="Level_Data.h">
       <Filter>#Screen\Level_Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Mop.h">
+      <Filter>#Mop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="Level_Data.cpp">
       <Filter>#Screen\Level_Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Mop.cpp">
+      <Filter>#Mop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
