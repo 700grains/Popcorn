@@ -100,7 +100,7 @@ void AMop_Cylinders::Set_Y_Pos(int y_pos)
 	Cylinder_Rect.left = X_Pos * scale;
 	Cylinder_Rect.top = Y_Pos * scale;
 	Cylinder_Rect.right = Cylinder_Rect.left + Width * scale;
-	Cylinder_Rect.bottom = Cylinder_Rect.top + Height * scale;
+	Cylinder_Rect.bottom = Cylinder_Rect.top + (4 + Height) * scale;
 
 	AsTools::Invalidate_Rect(Cylinder_Rect);
 	AsTools::Invalidate_Rect(Previous_Cylinder_Rect);
@@ -293,7 +293,6 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 
 	for (auto* cylinder : Mop_Cylinders)
 		cylinder->Clear(hdc, paint_area);
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
