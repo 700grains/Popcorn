@@ -53,10 +53,10 @@ void AMop_Cylinders::Draw(HDC hdc, RECT& paint_area)
 	AsTools::Rect(hdc, X_Pos + Width - 5, Y_Pos + 1, 1, 2, AsConfig::BG_Color);
 
 	// 2. cylinder body
-	AsTools::Rect(hdc, X_Pos + 2, Y_Pos + 4, 2, Height * 5, AsConfig::White_Color);
-	AsTools::Rect(hdc, X_Pos + 4, Y_Pos + 4, 1, Height * 5, AsConfig::Blue_Color);
-	AsTools::Rect(hdc, X_Pos + 5, Y_Pos + 4, 1, Height * 5, AsConfig::White_Color);
-	AsTools::Rect(hdc, X_Pos + 6, Y_Pos + 4, Width - 8, Height * 5, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, X_Pos + 2, Y_Pos + 4, 2, Height, AsConfig::White_Color);
+	AsTools::Rect(hdc, X_Pos + 4, Y_Pos + 4, 1, Height, AsConfig::Blue_Color);
+	AsTools::Rect(hdc, X_Pos + 5, Y_Pos + 4, 1, Height, AsConfig::White_Color);
+	AsTools::Rect(hdc, X_Pos + 6, Y_Pos + 4, Width - 8, Height, AsConfig::Blue_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AMop_Cylinders::Is_Finished()
@@ -79,6 +79,20 @@ void AMop_Cylinders::Set_Height_For(double ratio)
 int AMop_Cylinders::Get_Height()
 {
 	return Height;
+}
+//------------------------------------------------------------------------------------------------------------
+void AMop_Cylinders::Set_Y_Pos(int y_pos)
+{
+	const int scale = AsConfig::Global_Scale;
+
+	Y_Pos = y_pos;
+
+	Cylinder_Rect.left = X_Pos * scale;
+	Cylinder_Rect.top = Y_Pos * scale;
+	Cylinder_Rect.right = Cylinder_Rect.left + Width * scale;
+	Cylinder_Rect.bottom = Cylinder_Rect.top + Height * scale;
+
+	AsTools::Invalidate_Rect(Cylinder_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -312,7 +326,7 @@ void AsMop::Set_Mop()
 		indicator->Set_Y_Pos(Y_Pos + 1);
 
 	for (i = 0; i < (int)Mop_Cylinders.size(); i++)
-		Mop_Cylinders[i]->Y_Pos = Y_Pos + Height + i * 5;
+		Mop_Cylinders[i]->Set_Y_Pos(Y_Pos + Height + i * 5);
 
 	Mop_Rect.left = AsConfig::Level_X_Offset * scale;
 	Mop_Rect.top = Y_Pos * scale;

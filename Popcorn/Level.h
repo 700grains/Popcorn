@@ -27,14 +27,15 @@ public:
 	void Set_Height_For(double ratio);
 	int Get_Height();
 
-	int Y_Pos;
+	void Set_Y_Pos(int y_pos);
+
 	static const int Max_Cylinder_Height[4];
 
 private:
-	int X_Pos;
+	int X_Pos, Y_Pos;
 	int Width, Height;
 	int Max_Height;
-
+	RECT Cylinder_Rect;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMop_Indicators : public AGraphics_Object
