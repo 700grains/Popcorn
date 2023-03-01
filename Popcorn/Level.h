@@ -17,7 +17,7 @@ public:
 class  AMop_Cylinders : public AGraphics_Object
 {
 public:
-	AMop_Cylinders(int x_pos, int y_pos, int width, int height, int max_height);
+	AMop_Cylinders(int x_pos, int y_pos, int width, int max_height);
 
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
@@ -36,6 +36,9 @@ private:
 	int Width, Height;
 	int Max_Height;
 	RECT Cylinder_Rect, Previous_Cylinder_Rect;
+
+	static const int Binding_Height = 4;
+	static const int Min_Height = Binding_Height + 1;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMop_Indicators : public AGraphics_Object
