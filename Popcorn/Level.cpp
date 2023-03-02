@@ -315,7 +315,7 @@ void AsLevel::Mop_Level(int next_level)
 
 	Next_Level = next_level;
 
-	Mop.Erase_Level();
+	Mop.Activate(true);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Level_Moping_Done()
@@ -327,7 +327,7 @@ bool AsLevel::Is_Level_Moping_Done()
 	if (Mop.Get_Mop_State() == EMop_State::Clean_Done)
 	{
 		Set_Current_Level(Next_Level);
-		Mop.Show_Level();
+		Mop.AsMop::Activate(false);
 	}
 
 	return false;

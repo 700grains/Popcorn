@@ -29,10 +29,9 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Erase_Level();
+	void Activate(bool clearing);
 	void Clear_Area(HDC hdc);
 	EMop_State Get_Mop_State();
-	void Show_Level();
 
 private:
 	void Set_Mop();
