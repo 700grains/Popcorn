@@ -173,6 +173,10 @@ void AsMop::Clear_Area(HDC hdc)
 
 	AsTools::Rect(hdc, rect, AsConfig::BG_Color);
 }
+EMop_State AsMop::Get_Mop_State()
+{
+	return Mop_State;
+}
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Set_Mop()
 {

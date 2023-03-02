@@ -31,6 +31,7 @@ public:
 
 	void Erase_Level();
 	void Clear_Area(HDC hdc);
+	EMop_State Get_Mop_State();
 
 private:
 	void Set_Mop();

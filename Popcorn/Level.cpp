@@ -321,6 +321,15 @@ void AsLevel::Mop_Level(int next_level)
 bool AsLevel::Is_Level_Moping_Done()
 {// If clearing level with our Mop is done it will return True;
 
+	if (Mop.Get_Mop_State() == EMop_State::Show_Done)
+		return true;
+
+	if (Mop.Get_Mop_State() == EMop_State::Clean_Done)
+	{
+		Set_Current_Level(Next_Level);
+		Mop.Show_Level();
+	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
