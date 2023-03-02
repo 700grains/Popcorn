@@ -26,7 +26,7 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All(false), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
+: Level_Rect{}, Need_To_Cancel_All(false), Next_Level(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
 {
 	Level = this;
 }
@@ -257,8 +257,6 @@ void AsLevel::Init()
 		if (i == 9)
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
-
-	//Mop.Erase_Level();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
@@ -312,6 +310,17 @@ void AsLevel::Stop()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Mop_Level(int next_level)
 {
+	if (next_level < 1 || next_level >= ALevel_Data::Max_Level_Number)
+		AsConfig::Throw();
+
+	Next_Level = next_level;
+
+	Mop.Erase_Level();
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsLevel::Is_Level_Moping_Done()
+{
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Has_Brick_At(int level_x, int level_y)

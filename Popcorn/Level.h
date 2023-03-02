@@ -39,6 +39,7 @@ public:
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
 	void Stop();
 	void Mop_Level(int next_level);
+	bool Is_Level_Moping_Done();
 
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
@@ -62,6 +63,7 @@ private:
 
 	RECT Level_Rect;
 	bool Need_To_Cancel_All;
+	int Next_Level;
 
 	double Current_Brick_Left_X, Current_Brick_Right_X;
 	double Current_Brick_Top_Y, Current_Brick_Low_Y;
@@ -72,7 +74,7 @@ private:
 
 	std::vector <AGraphics_Object*> Active_Bricks;
 	std::vector <AGraphics_Object*> Falling_Letters;
-	std::vector<APoint> Teleport_Bricks_Pos;
+	std::vector <APoint> Teleport_Bricks_Pos;
 	std::vector <ALevel_Data*> Levels_Data;
 
 	AAdvertisement* Advertisement;
