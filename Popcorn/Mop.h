@@ -2,6 +2,17 @@
 #include "Mop_Indicator.h"
 #include "Mop_Cylinder.h"
 
+//------------------------------------------------------------------------------------------------------------
+enum class EMop_State : unsigned char
+{
+	Idle,
+
+	Cleaning,
+	Clean_Done,
+	Showing,
+	Show_Done
+};
+//------------------------------------------------------------------------------------------------------------
 class AsMop : public AGame_Object
 {
 public:
@@ -24,7 +35,7 @@ public:
 private:
 	void Set_Mop();
 
-	bool Acting;
+	EMop_State Mop_State;
 	int Y_Pos;
 	int Starting_Tick;
 	RECT Mop_Rect, Previous_Mop_Rect;

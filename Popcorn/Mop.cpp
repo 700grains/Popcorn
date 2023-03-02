@@ -16,7 +16,7 @@ AsMop::~AsMop()
 }
 //------------------------------------------------------------------------------------------------------------
 AsMop::AsMop()
-	:Y_Pos(0), Starting_Tick(0), Acting(false)
+	:Y_Pos(0), Starting_Tick(0), Mop_State(EMop_State::Idle)
 {
 	int i;
 	int x_pos, y_pos;
@@ -65,7 +65,7 @@ void AsMop::Act()
 	int time_offset;
 	double ratio;
 
-	if (!Acting)
+	if (Mop_State == EMop_State::Idle)
 		return;
 
 	Previous_Mop_Rect = Mop_Rect;
@@ -93,7 +93,7 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 
-	if (!Acting)
+	if (Mop_State == EMop_State::Idle)
 		return;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Previous_Mop_Rect))
@@ -107,7 +107,7 @@ void AsMop::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Draw(HDC hdc, RECT& paint_area)
 {
-	if (!Acting)
+	if (Mop_State == EMop_State::Idle)
 		return;
 
 	AsTools::Rect(hdc, AsConfig::Level_X_Offset, Y_Pos, Width, Height, AsConfig::Red_Color);
@@ -130,7 +130,7 @@ void AsMop::Erase_Level()
 	Starting_Tick = AsConfig::Current_Timer_Tick;
 	Y_Pos = 172;
 
-	Acting = true;
+	Mop_State = EMop_State::Cleaning;
 
 	Set_Mop();
 }
@@ -140,7 +140,7 @@ void AsMop::Clear_Area(HDC hdc)
 	const int scale = AsConfig::Global_Scale;
 	RECT rect;
 
-	if (!Acting)
+	if (Mop_State == EMop_State::Idle)
 		return;
 
 	rect = Mop_Rect;
