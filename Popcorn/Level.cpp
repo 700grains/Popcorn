@@ -327,7 +327,7 @@ bool AsLevel::Is_Level_Moping_Done()
 	if (Mop.Get_Mop_State() == EMop_State::Clean_Done)
 	{
 		Set_Current_Level(Next_Level);
-		Mop.AsMop::Activate(false);
+		Mop.Activate(false);
 	}
 
 	return false;

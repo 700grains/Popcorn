@@ -16,7 +16,7 @@ AsMop::~AsMop()
 }
 //------------------------------------------------------------------------------------------------------------
 AsMop::AsMop()
-	:Y_Pos(0), Starting_Tick(0), Mop_State(EMop_State::Idle)
+	:Y_Pos(0), Max_Y_Pos(0), Starting_Tick(0), Mop_State(EMop_State::Idle), Lifting_Height(0)
 {
 	int i;
 	int x_pos, y_pos;
@@ -65,12 +65,17 @@ void AsMop::Act()
 	int time_offset;
 	double ratio;
 
-	if (! (Mop_State == EMop_State::Cleaning || Mop_State == EMop_State::Showing))
+	if (Mop_State == EMop_State::Idle || Mop_State == EMop_State::Descend_Done)
 		return;
 
 	Previous_Mop_Rect = Mop_Rect;
 
 	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
+
+	if (Mop_State == EMop_State::Ascending)
+	{
+
+	}
 
 	if (time_offset <= Expansion_Timeout)
 	{
@@ -152,12 +157,19 @@ bool AsMop::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Activate(bool clearing)
 {
+	int total_cylinder_height = 0;
 	Starting_Tick = AsConfig::Current_Timer_Tick;
 
 	if (clearing)
 	{
 		Y_Pos = 172;
-		Mop_State = EMop_State::Cleaning;
+		Mop_State = EMop_State::Ascending;
+
+		for (auto* cylinder : Mop_Cylinders)
+			total_cylinder_height += cylinder->Get_Height();
+
+		Lifting_Height = total_cylinder_height + Height;
+		Max_Y_Pos = AsConfig::Max_Y_Pos + Lifting_Height;
 	}
 	else
 		Mop_State = EMop_State::Showing;
@@ -193,7 +205,7 @@ void AsMop::Set_Mop()
 	for (auto* cylinder : Mop_Cylinders)
 		total_cylinder_height += cylinder->Get_Height();
 
-	Y_Pos = AsConfig::Max_Y_Pos - total_cylinder_height - Height + 1;
+	Y_Pos = Max_Y_Pos - total_cylinder_height - Height + 1;
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Set_Y_Pos(Y_Pos + 1);

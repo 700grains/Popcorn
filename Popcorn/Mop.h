@@ -9,12 +9,12 @@ enum class EMop_State : unsigned char
 
 	Ascending,
 	Ascend_Done,
-	Descending,
-	Descend_Done,
 	Cleaning,
 	Clean_Done,
 	Showing,
-	Show_Done
+	Show_Done,
+	Descending,
+	Descend_Done
 };
 //------------------------------------------------------------------------------------------------------------
 class AsMop : public AGame_Object
@@ -41,7 +41,8 @@ private:
 	void Set_Mop();
 
 	EMop_State Mop_State;
-	int Y_Pos;
+	int Y_Pos, Max_Y_Pos;
+	int Lifting_Height;
 	int Starting_Tick;
 	RECT Mop_Rect, Previous_Mop_Rect;
 	std::vector <AMop_Indicators*> Mop_Indicators;
