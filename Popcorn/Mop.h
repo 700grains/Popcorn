@@ -8,11 +8,9 @@ enum class EMop_State : unsigned char
 	Idle,
 
 	Ascending,
-	Ascend_Done,
 	Cleaning,
 	Clean_Done,
 	Showing,
-	Show_Done,
 	Descending,
 	Descend_Done
 };

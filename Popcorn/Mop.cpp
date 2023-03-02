@@ -83,7 +83,28 @@ void AsMop::Act()
 			Set_Mop();
 		}
 		else
-			Mop_State == EMop_State::Ascend_Done;
+		{
+			Mop_State == EMop_State::Cleaning;
+			Starting_Tick = AsConfig::Current_Timer_Tick;
+		}
+	}	
+	else if (Mop_State == EMop_State::Descending)
+	{
+		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
+
+		if (time_offset <= Ascending_Timeout)
+		{
+			ratio = (double)time_offset / (double)Ascending_Timeout;
+
+			Max_Y_Pos = AsConfig::Max_Y_Pos + (int)((double)Lifting_Height * ratio);
+
+			Set_Mop();
+		}
+		else
+		{
+			Mop_State == EMop_State::Cleaning;
+			Starting_Tick = AsConfig::Current_Timer_Tick;
+		}
 	}
 
 	if (Mop_State == EMop_State::Cleaning || Mop_State == EMop_State::Showing)
@@ -106,22 +127,18 @@ void AsMop::Act()
 		{
 			switch (Mop_State)
 			{
-				//case EMop_State::Idle:
-				//	break;
 			case EMop_State::Cleaning:
 				Mop_State = EMop_State::Clean_Done;
 				break;
-				//case EMop_State::Clean_Done:
-				//	break;
+
 			case EMop_State::Showing:
-				Mop_State = EMop_State::Show_Done;
+				Mop_State = EMop_State::Descending;
+				Starting_Tick = AsConfig::Current_Timer_Tick;
 				break;
-				//case EMop_State::Show_Done:
-				//	break;
+
 			default:
 				AsConfig::Throw();
 				break;
-
 			}
 		}
 	}
