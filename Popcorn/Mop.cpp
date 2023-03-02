@@ -93,15 +93,16 @@ void AsMop::Act()
 	int time_offset;
 	double ratio;
 
+	
 	Previous_Mop_Rect = Mop_Rect;
 	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
 	switch (Mop_State)
 	{
 	case EMop_State::Descend_Done:
+	case EMop_State::Clean_Done:
 	case EMop_State::Idle:
 		return;
-		break;
 
 
 	case EMop_State::Ascending:
@@ -109,8 +110,9 @@ void AsMop::Act()
 		break;
 
 
-	case EMop_State::Descending:
-		Act_Lifting(false);
+	case EMop_State::Cleaning:
+		if (time_offset > Expansion_Timeout)
+			Mop_State = EMop_State::Clean_Done;
 		break;
 
 
@@ -123,10 +125,10 @@ void AsMop::Act()
 		break;
 
 
-	case EMop_State::Cleaning:
-		if (time_offset > Expansion_Timeout)
-			Mop_State = EMop_State::Clean_Done;
+	case EMop_State::Descending:
+		Act_Lifting(false);
 		break;
+
 
 	default:
 		AsConfig::Throw();
