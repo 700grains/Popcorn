@@ -157,7 +157,6 @@ bool AsMop::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsMop::Activate(bool clearing)
 {
-	int total_cylinder_height = 0;
 	Starting_Tick = AsConfig::Current_Timer_Tick;
 
 	if (clearing)
@@ -165,10 +164,7 @@ void AsMop::Activate(bool clearing)
 		Y_Pos = 172;
 		Mop_State = EMop_State::Ascending;
 
-		for (auto* cylinder : Mop_Cylinders)
-			total_cylinder_height += cylinder->Get_Height();
-
-		Lifting_Height = total_cylinder_height + Height;
+		Lifting_Height = Get_Cylinders_Height() + Height;
 		Max_Y_Pos = AsConfig::Max_Y_Pos + Lifting_Height;
 	}
 	else
@@ -199,13 +195,9 @@ void AsMop::Set_Mop()
 {
 	int i;
 	int current_y_pos = 0;
-	int total_cylinder_height = 0;
 	const int scale = AsConfig::Global_Scale;
 
-	for (auto* cylinder : Mop_Cylinders)
-		total_cylinder_height += cylinder->Get_Height();
-
-	Y_Pos = Max_Y_Pos - total_cylinder_height - Height + 1;
+	Y_Pos = Max_Y_Pos - Get_Cylinders_Height() - Height + 1;
 
 	for (auto* indicator : Mop_Indicators)
 		indicator->Set_Y_Pos(Y_Pos + 1);
@@ -221,5 +213,15 @@ void AsMop::Set_Mop()
 	Mop_Rect.top = Y_Pos * scale;
 	Mop_Rect.right = Mop_Rect.left + Width * scale;
 	Mop_Rect.bottom = Mop_Rect.top + Height * scale;
+}
+//------------------------------------------------------------------------------------------------------------
+int AsMop::Get_Cylinders_Height()
+{
+	int total_cylinder_height = 0;
+
+	for (auto* cylinder : Mop_Cylinders)
+		total_cylinder_height += cylinder->Get_Height();
+
+	return total_cylinder_height;
 }
 //------------------------------------------------------------------------------------------------------------

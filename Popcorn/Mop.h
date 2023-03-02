@@ -39,6 +39,7 @@ public:
 
 private:
 	void Set_Mop();
+	int Get_Cylinders_Height();
 
 	EMop_State Mop_State;
 	int Y_Pos, Max_Y_Pos;
