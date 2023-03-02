@@ -60,6 +60,34 @@ double AsMop::Get_Speed()
 	//!!! TODO
 }
 //------------------------------------------------------------------------------------------------------------
+void AsMop::Act_Lifting(bool ascending)
+{
+	int time_offset;
+	double ratio;
+	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
+
+	if (time_offset <= Ascending_Timeout)
+	{
+		ratio = (double)time_offset / (double)Ascending_Timeout;
+
+		if (ascending)
+			ratio = 1.0 - ratio;
+
+		Max_Y_Pos = AsConfig::Max_Y_Pos + (int)((double)Lifting_Height * ratio);
+		Set_Mop();
+	}
+	else
+	{
+		if (ascending)
+		{
+			Mop_State = EMop_State::Cleaning;
+			Starting_Tick = AsConfig::Current_Timer_Tick;
+		}
+		else
+			Mop_State = EMop_State::Descend_Done;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
 void AsMop::Act()
 {
 	int time_offset;
@@ -76,21 +104,12 @@ void AsMop::Act()
 
 
 	case EMop_State::Ascending:
-		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
+		Act_Lifting(true);
+		break;
 
-		if (time_offset <= Ascending_Timeout)
-		{
-			ratio = 1.0 - (double)time_offset / (double)Ascending_Timeout;
 
-			Max_Y_Pos = AsConfig::Max_Y_Pos + (int)((double)Lifting_Height * ratio);
-
-			Set_Mop();
-		}
-		else
-		{
-			Mop_State = EMop_State::Cleaning;
-			Starting_Tick = AsConfig::Current_Timer_Tick;
-		}
+	case EMop_State::Descending:
+		Act_Lifting(false);
 		break;
 
 
@@ -138,20 +157,6 @@ void AsMop::Act()
 		break;
 
 	case EMop_State::Clean_Done:
-		break;
-	case EMop_State::Descending:
-		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
-
-		if (time_offset <= Ascending_Timeout)
-		{
-			ratio = (double)time_offset / (double)Ascending_Timeout;
-
-			Max_Y_Pos = AsConfig::Max_Y_Pos + (int)((double)Lifting_Height * ratio);
-
-			Set_Mop();
-		}
-		else
-			Mop_State = EMop_State::Descend_Done;
 		break;
 
 	default:

@@ -26,6 +26,7 @@ public:
 	virtual void Advance(double max_speed);
 	virtual double Get_Speed();
 
+
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
 	virtual void Draw(HDC hdc, RECT& paint_area);
@@ -36,6 +37,7 @@ public:
 	EMop_State Get_Mop_State();
 
 private:
+	void Act_Lifting(bool ascending);
 	void Set_Mop();
 	int Get_Cylinders_Height();
 
