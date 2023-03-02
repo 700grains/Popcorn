@@ -94,6 +94,7 @@ void AsMop::Act()
 	double ratio;
 
 	Previous_Mop_Rect = Mop_Rect;
+	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
 	switch (Mop_State)
 	{
@@ -114,21 +115,7 @@ void AsMop::Act()
 
 
 	case EMop_State::Showing:
-		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
-
-		if (time_offset <= Expansion_Timeout)
-		{
-			ratio = (double)time_offset / (double)Expansion_Timeout;
-
-			if (Mop_State == EMop_State::Showing)
-				ratio = 1.0 - ratio;
-
-			for (auto* cylinder : Mop_Cylinders)
-				cylinder->Set_Height_For(ratio);
-
-			Set_Mop();
-		}
-		else 
+		if (time_offset > Expansion_Timeout)
 		{
 			Mop_State = EMop_State::Descending;
 			Starting_Tick = AsConfig::Current_Timer_Tick;
@@ -137,6 +124,17 @@ void AsMop::Act()
 
 
 	case EMop_State::Cleaning:
+		if (time_offset > Expansion_Timeout)
+			Mop_State = EMop_State::Clean_Done;
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+	}
+
+	if (Mop_State == EMop_State::Showing || Mop_State == EMop_State::Cleaning)
+	{
 		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
 		if (time_offset <= Expansion_Timeout)
@@ -151,18 +149,6 @@ void AsMop::Act()
 
 			Set_Mop();
 		}
-		else
-			Mop_State = EMop_State::Clean_Done;
-
-		break;
-
-	case EMop_State::Clean_Done:
-		break;
-
-	default:
-		AsConfig::Throw();
-		break;
-
 	}
 
 	for (auto* indicator : Mop_Indicators)
