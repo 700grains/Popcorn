@@ -70,45 +70,59 @@ void AsMop::Act()
 
 	Previous_Mop_Rect = Mop_Rect;
 
-	time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
-
 	if (Mop_State == EMop_State::Ascending)
 	{
+		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
-	}
-
-	if (time_offset <= Expansion_Timeout)
-	{
-		ratio = (double)time_offset / (double)Expansion_Timeout;
-
-		if (Mop_State == EMop_State::Showing)
-			ratio = 1.0 - ratio;
-
-		for (auto* cylinder : Mop_Cylinders)
-			cylinder->Set_Height_For(ratio);
-
-		Set_Mop();
-	}
-	else
-	{
-		switch (Mop_State)
+		if (time_offset <= Ascending_Timeout)
 		{
-		//case EMop_State::Idle:
-		//	break;
-		case EMop_State::Cleaning:
-			Mop_State = EMop_State::Clean_Done;
-			break;
-		//case EMop_State::Clean_Done:
-		//	break;
-		case EMop_State::Showing:
-			Mop_State = EMop_State::Show_Done;
-			break;
-		//case EMop_State::Show_Done:
-		//	break;
-		default:
-			AsConfig::Throw();
-			break;
+			ratio = 1.0 - (double)time_offset / (double)Ascending_Timeout;
 
+			Max_Y_Pos = AsConfig::Max_Y_Pos + (int)((double)Lifting_Height * ratio);
+
+			Set_Mop();
+		}
+		else
+			Mop_State == EMop_State::Ascend_Done;
+	}
+
+	if (Mop_State == EMop_State::Cleaning || Mop_State == EMop_State::Showing)
+	{
+		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
+
+		if (time_offset <= Expansion_Timeout)
+		{
+			ratio = (double)time_offset / (double)Expansion_Timeout;
+
+			if (Mop_State == EMop_State::Showing)
+				ratio = 1.0 - ratio;
+
+			for (auto* cylinder : Mop_Cylinders)
+				cylinder->Set_Height_For(ratio);
+
+			Set_Mop();
+		}
+		else
+		{
+			switch (Mop_State)
+			{
+				//case EMop_State::Idle:
+				//	break;
+			case EMop_State::Cleaning:
+				Mop_State = EMop_State::Clean_Done;
+				break;
+				//case EMop_State::Clean_Done:
+				//	break;
+			case EMop_State::Showing:
+				Mop_State = EMop_State::Show_Done;
+				break;
+				//case EMop_State::Show_Done:
+				//	break;
+			default:
+				AsConfig::Throw();
+				break;
+
+			}
 		}
 	}
 

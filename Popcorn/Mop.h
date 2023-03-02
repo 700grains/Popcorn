@@ -52,5 +52,6 @@ private:
 	static const int Width = (AsConfig::Level_Width - 1) * AsConfig::Cell_Width + AsConfig::Brick_Width;
 	static const int Height = AsConfig::Brick_Height;
 	static const int Expansion_Timeout = AsConfig::FPS * 2;
+	static const int Ascending_Timeout = AsConfig::FPS;
 };
 //------------------------------------------------------------------------------------------------------------
