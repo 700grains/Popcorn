@@ -258,7 +258,7 @@ void AsLevel::Init()
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
 
-	Mop.Erase_Level();
+	//Mop.Erase_Level();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
@@ -308,6 +308,10 @@ bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_lett
 void AsLevel::Stop()
 {
 	Need_To_Cancel_All = true;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Mop_Level(int next_level)
+{
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Has_Brick_At(int level_x, int level_y)

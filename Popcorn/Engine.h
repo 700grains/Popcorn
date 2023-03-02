@@ -19,6 +19,7 @@ enum class EGame_State: unsigned char
 {
 	Test_Ball,
 
+	Mop_Level,
 	Play_Level,
 	Lost_Ball,
 	Restart_Level
