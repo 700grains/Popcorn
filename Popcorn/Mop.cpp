@@ -65,13 +65,17 @@ void AsMop::Act()
 	int time_offset;
 	double ratio;
 
-	if (Mop_State == EMop_State::Idle || Mop_State == EMop_State::Descend_Done)
-		return;
-
 	Previous_Mop_Rect = Mop_Rect;
 
-	if (Mop_State == EMop_State::Ascending)
+	switch (Mop_State)
 	{
+	case EMop_State::Descend_Done:
+	case EMop_State::Idle:
+		return;
+		break;
+
+
+	case EMop_State::Ascending:
 		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
 		if (time_offset <= Ascending_Timeout)
@@ -87,25 +91,33 @@ void AsMop::Act()
 			Mop_State = EMop_State::Cleaning;
 			Starting_Tick = AsConfig::Current_Timer_Tick;
 		}
-	}	
-	else if (Mop_State == EMop_State::Descending)
-	{
+		break;
+
+
+	case EMop_State::Showing:
 		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
-		if (time_offset <= Ascending_Timeout)
+		if (time_offset <= Expansion_Timeout)
 		{
-			ratio = (double)time_offset / (double)Ascending_Timeout;
+			ratio = (double)time_offset / (double)Expansion_Timeout;
 
-			Max_Y_Pos = AsConfig::Max_Y_Pos + (int)((double)Lifting_Height * ratio);
+			if (Mop_State == EMop_State::Showing)
+				ratio = 1.0 - ratio;
+
+			for (auto* cylinder : Mop_Cylinders)
+				cylinder->Set_Height_For(ratio);
 
 			Set_Mop();
 		}
-		else
-			Mop_State = EMop_State::Descend_Done;
-	}
+		else 
+		{
+			Mop_State = EMop_State::Descending;
+			Starting_Tick = AsConfig::Current_Timer_Tick;
+		}
+		break;
 
-	if (Mop_State == EMop_State::Cleaning || Mop_State == EMop_State::Showing)
-	{
+
+	case EMop_State::Cleaning:
 		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
 
 		if (time_offset <= Expansion_Timeout)
@@ -121,23 +133,31 @@ void AsMop::Act()
 			Set_Mop();
 		}
 		else
+			Mop_State = EMop_State::Clean_Done;
+
+		break;
+
+	case EMop_State::Clean_Done:
+		break;
+	case EMop_State::Descending:
+		time_offset = AsConfig::Current_Timer_Tick - Starting_Tick;
+
+		if (time_offset <= Ascending_Timeout)
 		{
-			switch (Mop_State)
-			{
-			case EMop_State::Cleaning:
-				Mop_State = EMop_State::Clean_Done;
-				break;
+			ratio = (double)time_offset / (double)Ascending_Timeout;
 
-			case EMop_State::Showing:
-				Mop_State = EMop_State::Descending;
-				Starting_Tick = AsConfig::Current_Timer_Tick;
-				break;
+			Max_Y_Pos = AsConfig::Max_Y_Pos + (int)((double)Lifting_Height * ratio);
 
-			default:
-				AsConfig::Throw();
-				break;
-			}
+			Set_Mop();
 		}
+		else
+			Mop_State = EMop_State::Descend_Done;
+		break;
+
+	default:
+		AsConfig::Throw();
+		break;
+
 	}
 
 	for (auto* indicator : Mop_Indicators)
