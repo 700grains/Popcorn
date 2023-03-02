@@ -178,6 +178,15 @@ EMop_State AsMop::Get_Mop_State()
 	return Mop_State;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsMop::Show_Level()
+{
+	Starting_Tick = AsConfig::Current_Timer_Tick;
+
+	Mop_State = EMop_State::Showing;
+
+	Set_Mop();
+}
+//------------------------------------------------------------------------------------------------------------
 void AsMop::Set_Mop()
 {
 	int i;
