@@ -84,7 +84,7 @@ void AsMop::Act()
 		}
 		else
 		{
-			Mop_State == EMop_State::Cleaning;
+			Mop_State = EMop_State::Cleaning;
 			Starting_Tick = AsConfig::Current_Timer_Tick;
 		}
 	}	
@@ -101,10 +101,7 @@ void AsMop::Act()
 			Set_Mop();
 		}
 		else
-		{
-			Mop_State == EMop_State::Cleaning;
-			Starting_Tick = AsConfig::Current_Timer_Tick;
-		}
+			Mop_State = EMop_State::Descend_Done;
 	}
 
 	if (Mop_State == EMop_State::Cleaning || Mop_State == EMop_State::Showing)
