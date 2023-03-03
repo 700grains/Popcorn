@@ -48,14 +48,11 @@ int ALevel_Data::Get_Available_Bricks_Count()
 			case EBrick_Type::Ad:
 				count++;
 				break;
-
-			default:
-				AsConfig::Throw();
-				break;
 			}
 		}
 
-	return count;
+	//return count;
+return 3;
 }
 //------------------------------------------------------------------------------------------------------------
 char ALevel_Data::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =

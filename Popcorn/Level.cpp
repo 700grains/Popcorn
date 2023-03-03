@@ -268,6 +268,8 @@ void AsLevel::Set_Current_Level(int level_number)
 	if (level_number < 1 || level_number > (int)Levels_Data.size())
 		AsConfig::Throw();
 
+	Current_Level_Number = level_number;
+
 	levels_data = Levels_Data[level_number - 1];
 
 	memcpy(Current_Level, levels_data->Level, sizeof(Current_Level) );

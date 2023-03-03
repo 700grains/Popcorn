@@ -138,7 +138,7 @@ AColor* AColor_Fade::Get_Color(int fade_step)
 
 // AsConfig
 //------------------------------------------------------------------------------------------------------------
-bool AsConfig::Level_Has_Floor = false;
+bool AsConfig::Level_Has_Floor = true;
 int AsConfig::Current_Timer_Tick = 0;
 
 const AColor AsConfig::BG_Color(30, 60, 10);
