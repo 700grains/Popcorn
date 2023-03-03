@@ -40,6 +40,7 @@ public:
 	void Stop();
 	void Mop_Level(int next_level);
 	bool Mop_Next_Level();
+	bool Can_Mop_Next_Level();
 	bool Is_Level_Moping_Done();
 
 	static bool Has_Brick_At(int level_x, int level_y);

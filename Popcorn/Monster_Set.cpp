@@ -177,6 +177,15 @@ void AsMonster_Set::Destroy_All()
 	Monster_Set_State = EMonster_Set_State::Idle;
 }
 //------------------------------------------------------------------------------------------------------------
+bool AsMonster_Set::Are_All_Destroyed()
+{
+	for (auto* monster : Monsters)
+		if (monster->Is_Finished())
+			monster->Destroy();
+
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Set_Freeze_State(bool freeze)
 {
 	Is_Frozen = freeze;

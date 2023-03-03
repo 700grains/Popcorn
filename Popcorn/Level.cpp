@@ -332,6 +332,11 @@ bool AsLevel::Mop_Next_Level()
 	return true;
 }
 //------------------------------------------------------------------------------------------------------------
+bool AsLevel::Can_Mop_Next_Level()
+{
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Level_Moping_Done()
 {// If clearing level with our Mop is done it will return True;
 

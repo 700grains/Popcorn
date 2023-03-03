@@ -22,7 +22,8 @@ enum class EGame_State: unsigned char
 	Mop_Level,
 	Play_Level,
 	Lost_Ball,
-	Restart_Level
+	Restart_Level,
+	Finish_Level
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
