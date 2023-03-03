@@ -254,16 +254,22 @@ void AsEngine::Handle_Message()
 			delete message;
 			break;
 
+
 		case EMessage_Type::Unfreeze_Monsters:
 			Monster_Set.Set_Freeze_State(false);
 			break;
+
 
 		case EMessage_Type::Level_Done:
 			if (!Level.Mop_Next_Level())
 				Game_Won();
 			else
+			{
 				Stop_Play();
+				Ball_Set.Disable_All_Balls();
+			}
 			break;
+
 
 		default:
 			AsConfig::Throw();

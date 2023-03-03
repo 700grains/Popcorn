@@ -13,6 +13,7 @@ public:
 	void Release_From_The_Platform(double platform_x_pos);
 	bool Release_Next_Ball();
 	void Set_On_The_Platform(double platform_x_pos);
+	void Disable_All_Balls();
 	bool All_Balls_Are_Lost();
 	void Set_For_Test();
 	bool Is_Test_Finished();

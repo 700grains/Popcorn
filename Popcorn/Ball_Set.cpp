@@ -47,8 +47,20 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 		Balls[i].Release_Timer_Tick = 0;
 	}
 
-	for (; i < (int)Balls.size(); i++)
+	for (; i < Balls.size(); i++)
 		Balls[i].Set_State(EBall_State::Disabled);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsBall_Set::Disable_All_Balls()
+{
+	for (auto& ball : Balls)
+	{
+		if (ball.Get_State() != EBall_State::Disabled)
+		{
+			ball.Set_State(EBall_State::Lost);
+			ball.Set_State(EBall_State::Disabled);
+		}
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsBall_Set::All_Balls_Are_Lost()
