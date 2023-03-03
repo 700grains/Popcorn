@@ -26,7 +26,7 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All(false), Next_Level(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0)
+: Level_Rect{}, Need_To_Cancel_All(false), Next_Level(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0), Available_Bricks_Count(0)
 {
 	Level = this;
 }
@@ -290,6 +290,8 @@ void AsLevel::Set_Current_Level(int level_number)
 
 	if (Teleport_Bricks_Pos.size() == 1)
 		AsConfig::Throw(); // Teleports count must be 0 or more than 1!
+
+	Available_Bricks_Count = levels_data->Get_Available_Bricks_Count();
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_letter)
@@ -431,6 +433,12 @@ bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical
 	Redraw_Brick(brick_x, brick_y);
 
 	AsInformation_Panel::Update_Score(EScore_Event_Type::Hit_Brick);
+
+	if (Current_Level[brick_y][brick_x] == (char)EBrick_Type::None)
+		Available_Bricks_Count--;
+
+	if (Available_Bricks_Count <= 0)
+
 
 	return can_reflect;
 }
