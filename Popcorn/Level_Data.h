@@ -7,6 +7,7 @@ class ALevel_Data
 {
 public:
 	ALevel_Data(int level_number);
+	int Get_Available_Bricks_Count();
 
 	char* Level;
 	AAdvertisement* Advertisement;

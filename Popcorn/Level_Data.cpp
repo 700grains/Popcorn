@@ -24,6 +24,40 @@ ALevel_Data::ALevel_Data(int level_number)
 		AsConfig::Throw();
 }
 //------------------------------------------------------------------------------------------------------------
+int ALevel_Data::Get_Available_Bricks_Count()
+{
+	int i, j;
+	int pos = 0;
+	int count = 0;
+	EBrick_Type brick_type;
+
+	for ( i = 0; i < AsConfig::Level_Height; i++)
+		for (j = 0; j < AsConfig::Level_Width; j++)
+		{
+			brick_type = (EBrick_Type)Level[pos++];
+
+			switch (brick_type)
+			{
+			case EBrick_Type::Red:
+			case EBrick_Type::Blue:
+			case EBrick_Type::Multihit_1:
+			case EBrick_Type::Multihit_2:
+			case EBrick_Type::Multihit_3:
+			case EBrick_Type::Multihit_4:
+			case EBrick_Type::Parachute:
+			case EBrick_Type::Ad:
+				count++;
+				break;
+
+			default:
+				AsConfig::Throw();
+				break;
+			}
+		}
+
+	return count;
+}
+//------------------------------------------------------------------------------------------------------------
 char ALevel_Data::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
