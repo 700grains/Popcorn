@@ -151,20 +151,24 @@ void AsEngine::Play_Level()
 	Advance_Movers();
 	
 	if (Ball_Set.All_Balls_Are_Lost())
-	{ // All balls are lost!
-		Game_State = EGame_State::Lost_Ball;
-		Level.Stop();
-		Monster_Set.Destroy_All();
-		Laser_Beam_Set.Disable_All();
-		Platform.Set_State(EPlatform_State::Meltdown);
-		Information_Panel.Floor_Panel.Reset();
-		Information_Panel.Monsters_Panel.Reset();
-	}
+		Stop_Play();
 	else
 		Ball_Set.Accelerate();
 
 	if (Ball_Set.Is_Test_Finished())
 		Game_State = EGame_State::Test_Ball;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Stop_Play()
+{// All balls are lost!
+
+	Game_State = EGame_State::Lost_Ball;
+	Level.Stop();
+	Monster_Set.Destroy_All();
+	Laser_Beam_Set.Disable_All();
+	Platform.Set_State(EPlatform_State::Meltdown);
+	Information_Panel.Floor_Panel.Reset();
+	Information_Panel.Monsters_Panel.Reset();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Game_Over()
@@ -174,7 +178,7 @@ void AsEngine::Game_Over()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Game_Won()
 {
-	//!!! TODO
+	AsConfig::Throw(); //!!! TODO!
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()

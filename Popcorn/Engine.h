@@ -40,6 +40,7 @@ public:
 private:
 	bool Restart_Level();
 	void Play_Level();
+	void Stop_Play();
 	void Game_Over();
 	void Game_Won();
 	void Advance_Movers();
