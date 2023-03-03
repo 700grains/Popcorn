@@ -39,6 +39,7 @@ public:
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
 	void Stop();
 	void Mop_Level(int next_level);
+	void Mop_Next_Level();
 	bool Is_Level_Moping_Done();
 
 	static bool Has_Brick_At(int level_x, int level_y);
