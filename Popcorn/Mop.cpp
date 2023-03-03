@@ -229,9 +229,13 @@ void AsMop::Clear_Area(HDC hdc)
 
 	AsTools::Rect(hdc, rect, AsConfig::BG_Color);
 }
-EMop_State AsMop::Get_Mop_State()
+//------------------------------------------------------------------------------------------------------------
+bool AsMop::Is_Cleaning_Done()
 {
-	return Mop_State;
+	if (Mop_State == EMop_State::Clean_Done)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsMop::Is_Mopping_Done()

@@ -34,7 +34,7 @@ public:
 
 	void Activate(bool clearing);
 	void Clear_Area(HDC hdc);
-	EMop_State Get_Mop_State();
+	bool Is_Cleaning_Done();
 	bool Is_Mopping_Done();
 
 private:

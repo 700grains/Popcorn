@@ -335,11 +335,10 @@ bool AsLevel::Mop_Next_Level()
 bool AsLevel::Is_Level_Moping_Done()
 {// If clearing level with our Mop is done it will return True;
 
-	//if (Mop.Get_Mop_State() == EMop_State::Descend_Done)
 	if (Mop.Is_Mopping_Done())
 		return true;
 
-	if (Mop.Get_Mop_State() == EMop_State::Clean_Done)
+	if (Mop.Is_Cleaning_Done())
 	{
 		Set_Current_Level(Next_Level_Number);
 		Mop.Activate(false);
