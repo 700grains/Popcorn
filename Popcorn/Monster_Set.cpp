@@ -179,11 +179,10 @@ void AsMonster_Set::Destroy_All()
 //------------------------------------------------------------------------------------------------------------
 bool AsMonster_Set::Are_All_Destroyed()
 {
-	for (auto* monster : Monsters)
-		if (monster->Is_Finished())
-			monster->Destroy();
-
-	return false;
+	if (Monsters.size() == 0)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsMonster_Set::Set_Freeze_State(bool freeze)
