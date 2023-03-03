@@ -41,6 +41,7 @@ private:
 	bool Restart_Level();
 	void Play_Level();
 	void Game_Over();
+	void Game_Won();
 	void Advance_Movers();
 	void Act();
 	void Handle_Message();
