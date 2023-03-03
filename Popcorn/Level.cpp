@@ -322,19 +322,20 @@ void AsLevel::Mop_Level(int next_level)
 	Mop.Activate(true);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsLevel::Mop_Next_Level()
+void AsLevel::Mop_Next_Level()
 {
-	if (Current_Level_Number + 1 >= (int)Levels_Data.size())
-		return false;
-
-	Mop_Level(Current_Level_Number + 1);
-
-	return true;
+	if (Can_Mop_Next_Level())
+		Mop_Level(Current_Level_Number + 1);
+	else
+		AsConfig::Throw();
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Can_Mop_Next_Level()
 {
-	return false;
+	if (Current_Level_Number + 1 <= (int)Levels_Data.size())
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Level_Moping_Done()

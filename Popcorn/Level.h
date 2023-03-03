@@ -39,7 +39,7 @@ public:
 	bool Get_Next_Falling_Letter(int &index, AFalling_Letter** falling_letter);
 	void Stop();
 	void Mop_Level(int next_level);
-	bool Mop_Next_Level();
+	void Mop_Next_Level();
 	bool Can_Mop_Next_Level();
 	bool Is_Level_Moping_Done();
 
