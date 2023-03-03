@@ -151,7 +151,10 @@ void AsEngine::Play_Level()
 	Advance_Movers();
 	
 	if (Ball_Set.All_Balls_Are_Lost())
+	{
+		Game_State = EGame_State::Lost_Ball;
 		Stop_Play();
+	}
 	else
 		Ball_Set.Accelerate();
 
@@ -162,7 +165,6 @@ void AsEngine::Play_Level()
 void AsEngine::Stop_Play()
 {// All balls are lost!
 
-	Game_State = EGame_State::Lost_Ball;
 	Level.Stop();
 	Monster_Set.Destroy_All();
 	Laser_Beam_Set.Disable_All();

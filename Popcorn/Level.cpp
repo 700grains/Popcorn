@@ -26,7 +26,7 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All(false), Next_Level(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0), Available_Bricks_Count(0)
+: Level_Rect{}, Need_To_Cancel_All(false), Next_Level_Number(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0), Available_Bricks_Count(0)
 {
 	Level = this;
 }
@@ -315,9 +315,19 @@ void AsLevel::Mop_Level(int next_level)
 	if (next_level < 1 || next_level >= ALevel_Data::Max_Level_Number)
 		AsConfig::Throw();
 
-	Next_Level = next_level;
+	Next_Level_Number = next_level;
 
 	Mop.Activate(true);
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsLevel::Mop_Next_Level()
+{
+	if (Current_Level_Number + 1 >= (int)Levels_Data.size())
+		return false;
+
+	Mop_Level(Current_Level_Number + 1);
+
+	return true;
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Level_Moping_Done()
@@ -328,7 +338,7 @@ bool AsLevel::Is_Level_Moping_Done()
 
 	if (Mop.Get_Mop_State() == EMop_State::Clean_Done)
 	{
-		Set_Current_Level(Next_Level);
+		Set_Current_Level(Next_Level_Number);
 		Mop.Activate(false);
 	}
 
