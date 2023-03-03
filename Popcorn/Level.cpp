@@ -410,6 +410,7 @@ bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical
 {
 	EBrick_Type brick_type;
 	bool can_reflect = true;
+	AMessage* message;
 
 	brick_type = (EBrick_Type)Current_Level[brick_y][brick_x];
 
@@ -438,7 +439,11 @@ bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical
 		Available_Bricks_Count--;
 
 	if (Available_Bricks_Count <= 0)
+	{
+		message = new AMessage(EMessage_Type::Level_Done);
 
+		AsMessage_Manager::Add_Message(message);
+	}
 
 	return can_reflect;
 }
