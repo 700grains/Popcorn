@@ -92,7 +92,7 @@ void AsMonster_Set::Act()
 		break;
 	}
 
-	if (Monster_Set_State != EMonster_Set_State::Idle)
+	if (Monsters.size() != 0)
 	{
 		auto it = Monsters.begin();
 
