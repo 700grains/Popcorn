@@ -47,7 +47,7 @@ void AsBall_Set::Set_On_The_Platform(double platform_x_pos)
 		Balls[i].Release_Timer_Tick = 0;
 	}
 
-	for (; i < Balls.size(); i++)
+	for (; i < (int)Balls.size(); i++)
 		Balls[i].Set_State(EBall_State::Disabled);
 }
 //------------------------------------------------------------------------------------------------------------

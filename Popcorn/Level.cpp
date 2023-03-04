@@ -401,6 +401,16 @@ bool AsLevel::Is_Level_Moping_Done()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsLevel::Show_Title()
+{
+	Level_Title.Show(Current_Level_Number);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsLevel::Hide_Title()
+{
+	Level_Title.Hide();
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsLevel::Has_Brick_At(int level_x, int level_y)
 {
 	EBrick_Type brick_type;

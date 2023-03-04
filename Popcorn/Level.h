@@ -27,6 +27,7 @@ public:
 
 	void Show(int level_number);
 	void Hide();
+
 private:
 	bool Is_Visible;
 	AString Level_Name, Level_Number;
@@ -59,8 +60,8 @@ public:
 	void Mop_Next_Level();
 	bool Can_Mop_Next_Level();
 	bool Is_Level_Moping_Done();
-
-	AsLevel_Title Level_Title;
+	void Show_Title();
+	void Hide_Title();
 
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
@@ -91,6 +92,7 @@ private:
 	double Current_Brick_Top_Y, Current_Brick_Low_Y;
 
 	AColor Parachute_Color;
+	AsLevel_Title Level_Title;
 
 	char Current_Level[AsConfig::Level_Height][AsConfig::Level_Width];
 
