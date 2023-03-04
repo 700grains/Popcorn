@@ -25,10 +25,11 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
-	void Show();
+	void Show(int level_number);
 	void Hide();
 private:
 	bool Is_Visible;
+	AString Level_Name, Level_Number;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object

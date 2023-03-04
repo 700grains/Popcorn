@@ -19,7 +19,7 @@ APoint::APoint(int x, int y)
 // AsLevel_Title
 //------------------------------------------------------------------------------------------------------------
 AsLevel_Title::AsLevel_Title()
-	: Is_Visible(false)
+	: Is_Visible(false), Level_Name(L"LEVEL")
 {
 	//!!! TODO
 }
@@ -47,8 +47,11 @@ bool AsLevel_Title::Is_Finished()
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsLevel_Title::Show()
+void AsLevel_Title::Show(int level_number)
 {
+	Level_Number.Clear();
+	Level_Number.Append(level_number);
+
 	Is_Visible = true;
 }
 //------------------------------------------------------------------------------------------------------------
