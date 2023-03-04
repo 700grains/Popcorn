@@ -17,7 +17,18 @@ public:
 //------------------------------------------------------------------------------------------------------------
 class AsLevel_Title : public AGraphics_Object
 {
+public:
+	AsLevel_Title();
 
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+
+	void Show();
+	void Hide();
+private:
+	bool Is_Visible;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
@@ -49,7 +60,6 @@ public:
 	bool Is_Level_Moping_Done();
 
 	AsLevel_Title Level_Title;
-	void Show();
 
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
