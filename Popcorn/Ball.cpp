@@ -94,7 +94,7 @@ void ABall::Clear(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 
-	if (Ball_State == EBall_State::Disabled)
+	if (Ball_State == EBall_State::Disabled && Previous_Ball_State != EBall_State::Lost)
 		return;	
 
 	if ((Ball_State == EBall_State::Teleporting || Ball_State == EBall_State::Lost) && Ball_State == Previous_Ball_State)
