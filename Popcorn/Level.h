@@ -15,6 +15,11 @@ public:
 	int X, Y;
 };
 //------------------------------------------------------------------------------------------------------------
+class AsLevel_Title : public AGraphics_Object
+{
+
+};
+//------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
 {
 public:
@@ -42,6 +47,9 @@ public:
 	void Mop_Next_Level();
 	bool Can_Mop_Next_Level();
 	bool Is_Level_Moping_Done();
+
+	AsLevel_Title Level_Title;
+	void Show();
 
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);

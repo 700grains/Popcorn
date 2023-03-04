@@ -150,6 +150,7 @@ int AsEngine::On_Timer()
 void AsEngine::Restart_Level()
 {
 	Game_State = EGame_State::Restart_Level;
+	Level.Level_Title.Show();
 	Border.Open_Gate(7, true);
 }
 //------------------------------------------------------------------------------------------------------------
