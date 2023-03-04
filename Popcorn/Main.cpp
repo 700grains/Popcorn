@@ -390,12 +390,12 @@ Game and levels
 V 1. List of the first 10 levels
 2. Game states:
 2.1 splash screen
-2.2 animation of the beginning of the level
+V 2.2 animation of the beginning of the level
 V 2.3 playing the level
-2.4 loss of life
-2.5 transition to the next level
-2.5.1 normal
-2.5.2 early
+V 2.4 loss of life
+V 2.5 transition to the next level
+V 2.5.1 normal
+X 2.5.2 early
 2.6 end of the game
 
 3. Final setup of the game

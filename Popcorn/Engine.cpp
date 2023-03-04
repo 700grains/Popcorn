@@ -52,7 +52,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Modules.push_back(&Monster_Set);
 	Modules.push_back(&Information_Panel);
 
-	Level.Mop_Level(1);
+	Level.Mop_Level(4);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)

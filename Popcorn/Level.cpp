@@ -418,7 +418,7 @@ bool AsLevel::Has_Brick_At(RECT& monster_rect)
 
 	for (i = min_y; i <= max_y; i++)
 		for (j = min_x; j <= max_x; j++)
-			if (Has_Brick_At(j, i))
+			if (Has_Brick_At(j, i)) 
 				return true;
 
 	return false;
