@@ -11,6 +11,21 @@ enum class EScore_Event_Type : unsigned char
 	Catch_Letter
 };
 //------------------------------------------------------------------------------------------------------------
+class ALabel
+{
+public:
+	ALabel(int x_pos, int y_pos, int height, int width);
+
+	void Draw(HDC hdc);
+	AString Content;
+
+private:
+	int X_Pos, Y_Pos;
+	int Width, Height;
+	HFONT Font;
+	RECT Content_Rect;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
 {
 public:

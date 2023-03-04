@@ -1,5 +1,47 @@
 #include "Information_Panel.h"
 
+// ALabel
+//------------------------------------------------------------------------------------------------------------
+ALabel::ALabel(int x_pos, int y_pos, int height, int width)
+	: X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(0)
+{
+	const int scale = AsConfig::Global_Scale;
+
+	Content_Rect.left = X_Pos * scale;
+	Content_Rect.top = Y_Pos * scale;
+	Content_Rect.right = (X_Pos + Width) * scale;
+	Content_Rect.bottom = (Y_Pos + Height) * scale;
+}
+//------------------------------------------------------------------------------------------------------------
+void ALabel::Draw(HDC hdc)
+{
+	const int scale = AsConfig::Global_Scale;
+	int str_left_offset, str_top_offset;
+	SIZE str_size;
+
+
+	// 2. Draw string
+		SelectObject(hdc, Font);
+
+	GetTextExtentPoint32(hdc, Content.Get_Content(), Content.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
+
+	str_left_offset = Content_Rect.left + (Content_Rect.right - Content_Rect.left) / 2 - str_size.cx / 2;
+	str_top_offset = Content_Rect.top + (Content_Rect.bottom - Content_Rect.top) / 2 - str_size.cy / 2 - scale;
+
+	// 2.1 Draw shadow
+	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
+	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, Content.Get_Content(), Content.Get_Length());
+
+	// 2.2 Draw the string
+		SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
+
+	TextOut(hdc, str_left_offset, str_top_offset, Content.Get_Content(), Content.Get_Length());
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------
 int AsInformation_Panel::Score = 0;
