@@ -114,8 +114,12 @@ int AsEngine::On_Timer()
 
 	case EGame_State::Lost_Ball:
 		if (Platform.Has_State(EPlatform_Substate_Regular::Missing))
-			if (!Restart_Level())
+		{
+			if (!Information_Panel.Remove_A_Life())
 				Game_Over();
+
+			Restart_Level();
+		}
 			break;
 		
 
@@ -143,15 +147,10 @@ int AsEngine::On_Timer()
 	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsEngine::Restart_Level()
+void AsEngine::Restart_Level()
 {
-	if (! Information_Panel.Remove_A_Life())
-		return false;
-
 	Game_State = EGame_State::Restart_Level;
 	Border.Open_Gate(7, true);
-
-	return true;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
