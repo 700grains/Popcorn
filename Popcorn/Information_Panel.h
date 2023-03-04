@@ -18,12 +18,12 @@ public:
 
 	void Draw(HDC hdc);
 	AString Content;
+	RECT Content_Rect;
 
 private:
 	int X_Pos, Y_Pos;
 	int Width, Height;
 	HFONT Font;
-	RECT Content_Rect;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
@@ -62,7 +62,8 @@ private:
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
 
-	AString Player_Name;
+	//AString Player_Name;
+	ALabel Player_Name_Label;
 
 	static RECT Logo_Rect;
 	static RECT Data_Rect; // score and lives 
