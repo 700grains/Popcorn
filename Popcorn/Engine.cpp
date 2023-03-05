@@ -128,7 +128,8 @@ int AsEngine::On_Timer()
 		{
 			Game_State = EGame_State::Play_Level;
 			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos() );
-			Monster_Set.Activate(5);
+			Monster_Set.Activate(6);
+			Level.Hide_Title();
 		}
 		break;
 

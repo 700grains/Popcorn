@@ -19,7 +19,7 @@ APoint::APoint(int x, int y)
 // AsLevel_Title
 //------------------------------------------------------------------------------------------------------------
 AsLevel_Title::AsLevel_Title()
-	: Is_Visible(false), Level_Name(X_Pos, Y_Pos, 72, Height, AsConfig::Name_Font, AsConfig::Blue_Color),
+	: Level_Title_State(ELevel_Title_State::Missing), Level_Name(X_Pos, Y_Pos, 72, Height, AsConfig::Name_Font, AsConfig::Blue_Color),
 	Level_Number(X_Pos + Width - 32, Y_Pos, 32, Height, AsConfig::Name_Font, AsConfig::White_Color)
 {
 	const int scale = AsConfig::Global_Scale;
@@ -39,15 +39,17 @@ void AsLevel_Title::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel_Title::Clear(HDC hdc, RECT& paint_area)
 {
-	if (!Is_Visible)
+	if (Level_Title_State == ELevel_Title_State::Missing)
 		return;
+
+	AsTools::Rect(hdc, Title_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel_Title::Draw(HDC hdc, RECT& paint_area)
 {
 	RECT intersection_rect;
 
-	if (!Is_Visible)
+	if (Level_Title_State != ELevel_Title_State::Showing)
 		return;
 
 	if (!IntersectRect(&intersection_rect, &paint_area, &Title_Rect))
@@ -70,14 +72,16 @@ void AsLevel_Title::Show(int level_number)
 	Level_Number.Content.Clear();
 	Level_Number.Content.Append(level_number);
 
-	Is_Visible = true;
+	Level_Title_State = ELevel_Title_State::Showing;
 
 	AsTools::Invalidate_Rect(Title_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel_Title::Hide()
 {
-	Is_Visible = false;
+	Level_Title_State = ELevel_Title_State::Hiding;
+
+	AsTools::Invalidate_Rect(Title_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
