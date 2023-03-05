@@ -19,9 +19,10 @@ APoint::APoint(int x, int y)
 // AsLevel_Title
 //------------------------------------------------------------------------------------------------------------
 AsLevel_Title::AsLevel_Title()
-	: Is_Visible(false), Level_Name(L"LEVEL")
+	: Is_Visible(false), Level_Name(X_Pos, Y_Pos, 72, Height, AsConfig::Name_Font, AsConfig::Blue_Color),
+	Level_Number(X_Pos + Width - 32, Y_Pos, 32, Height, AsConfig::Name_Font, AsConfig::White_Color)
 {
-	//!!! TODO
+	Level_Name.Content = L"LEVEL";
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel_Title::Act()
@@ -39,6 +40,9 @@ void AsLevel_Title::Draw(HDC hdc, RECT& paint_area)
 {
 	if (!Is_Visible)
 		return;
+
+	Level_Name.Draw(hdc);
+	Level_Number.Draw(hdc);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel_Title::Is_Finished()
@@ -49,8 +53,8 @@ bool AsLevel_Title::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel_Title::Show(int level_number)
 {
-	Level_Number.Clear();
-	Level_Number.Append(level_number);
+	Level_Number.Content.Clear();
+	Level_Number.Content.Append(level_number);
 
 	Is_Visible = true;
 }
