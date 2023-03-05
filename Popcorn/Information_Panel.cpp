@@ -2,15 +2,15 @@
 
 // ALabel
 //------------------------------------------------------------------------------------------------------------
-ALabel::ALabel(int x_pos, int y_pos, int height, int width, const AFont& font, const AColor& color)
+ALabel::ALabel(int x_pos, int y_pos, int width, int height, const AFont& font, const AColor& color)
 	: X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(font), Color(color)
 {
 	const int scale = AsConfig::Global_Scale;
 
 	Content_Rect.left = X_Pos * scale;
 	Content_Rect.top = Y_Pos * scale;
-	Content_Rect.right = (X_Pos + Width) * scale;
-	Content_Rect.bottom = (Y_Pos + Height) * scale;
+	Content_Rect.right = Content_Rect.left + Width * scale;
+	Content_Rect.bottom = Content_Rect.top + Height * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 void ALabel::Draw(HDC hdc)
