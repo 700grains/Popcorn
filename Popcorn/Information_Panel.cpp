@@ -49,7 +49,7 @@ RECT AsInformation_Panel::Logo_Rect;
 RECT AsInformation_Panel::Data_Rect;
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Shaded_Blue(0), Dark_Red_Color(0),
+	: Lives_Left(AsConfig::Initial_Life_Count), Shaded_Blue(0, 170, 170), Dark_Red_Color(190, 30, 30),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
@@ -127,19 +127,19 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		SetBkMode(hdc, 0);
 
 		// 1.2 Shadow
-		SelectObject(hdc, Logo_Pop_Font);
+		AsConfig::Logo_Pop_Font.Select(hdc);
 		SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
 		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset) * scale, (Logo_Y_Pos + Shade_Y_Offset) * scale, pop_str, wcslen(pop_str));
 
-		SelectObject(hdc, Logo_Corn_Font);
+		AsConfig::Logo_Corn_Font.Select(hdc);
 		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset - 5) * scale , (Logo_Y_Pos + Shade_Y_Offset + 48) * scale , corn_str, wcslen(corn_str));
 
 		// 1.3 logo
-		SelectObject(hdc, Logo_Pop_Font);
+		AsConfig::Logo_Pop_Font.Select(hdc);
 		SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
 		TextOut(hdc, Logo_X_Pos * scale, Logo_Y_Pos * scale, pop_str, wcslen(pop_str));
 
-		SelectObject(hdc, Logo_Corn_Font);
+		AsConfig::Logo_Corn_Font.Select(hdc);
 		TextOut(hdc, (Logo_X_Pos - 5) * scale, (Logo_Y_Pos + 48) * scale, corn_str, wcslen(corn_str));
 	}
 
@@ -147,13 +147,13 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 	if (IntersectRect(&intersection_rect, &paint_area, &Data_Rect))
 	{
 		// 2.1 frame
-		AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos, Score_Width, 2, *Dark_Red_Color);
-		AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos + Score_Height - 2, Score_Width, 2, *Dark_Red_Color);
-		AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos, 2, Score_Height, *Dark_Red_Color);
-		AsTools::Rect(hdc, Score_X_Pos + Score_Width - 2, Score_Y_Pos, 2, Score_Height, *Dark_Red_Color);
+		AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos, Score_Width, 2, Dark_Red_Color);
+		AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos + Score_Height - 2, Score_Width, 2, Dark_Red_Color);
+		AsTools::Rect(hdc, Score_X_Pos, Score_Y_Pos, 2, Score_Height, Dark_Red_Color);
+		AsTools::Rect(hdc, Score_X_Pos + Score_Width - 2, Score_Y_Pos, 2, Score_Height, Dark_Red_Color);
 
 		// 2.2 The table itself
-		AsTools::Rect(hdc, Score_X_Pos + 2, Score_Y_Pos + 2, Score_Width - 4, Score_Height - 4, *Shaded_Blue);
+		AsTools::Rect(hdc, Score_X_Pos + 2, Score_Y_Pos + 2, Score_Width - 4, Score_Height - 4, Shaded_Blue);
 
 		// 2.3 Highlights (light and shades)
 		AsConfig::Highlight_Color.Select_Pen(hdc);
@@ -169,7 +169,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		// 3.1 Player name
 
 		// 1. Draw background plate.
-		AsTools::Rect(hdc, Player_Name_Label.Content_Rect, *Dark_Red_Color);
+		AsTools::Rect(hdc, Player_Name_Label.Content_Rect, Dark_Red_Color);
 
 		Player_Name_Label.Content = L"Player";
 		//Draw_String(hdc, rect, Player_Name_Label.Content, true);
@@ -177,7 +177,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 
 		// 3.2 Player score
 
-		AsTools::Rect(hdc, Score_Label.Content_Rect, *Dark_Red_Color);
+		AsTools::Rect(hdc, Score_Label.Content_Rect, Dark_Red_Color);
 
 		Score_Label.Content = L"SCORE:";
 		Score_Label.Content.Append(Score);
@@ -208,8 +208,6 @@ bool AsInformation_Panel::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Init()
 {
-	Shaded_Blue = new AColor(0, 170, 170);
-	Dark_Red_Color = new AColor(190, 30, 30);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Add_Life()

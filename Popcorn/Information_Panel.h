@@ -58,7 +58,7 @@ private:
 
 	int Lives_Left;
 	//HFONT Logo_Corn_Font, Logo_Pop_Font;
-	AColor *Shaded_Blue, *Dark_Red_Color;
+	AColor Shaded_Blue, Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
 
