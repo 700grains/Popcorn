@@ -52,7 +52,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Modules.push_back(&Monster_Set);
 	Modules.push_back(&Information_Panel);
 
-	Level.Mop_Level(4);
+	Level.Mop_Level(1);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
@@ -135,7 +135,7 @@ int AsEngine::On_Timer()
 
 
 	case EGame_State::Finish_Level:
-		if (Monster_Set.Are_All_Destroyed())
+		if (Monster_Set.Are_All_Destroyed() && Platform.Has_State(EPlatform_Substate_Regular::Missing) )
 		{
 			Level.Mop_Next_Level();
 			Game_State = EGame_State::Mop_Level;

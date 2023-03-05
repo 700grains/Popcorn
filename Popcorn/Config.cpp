@@ -255,9 +255,6 @@ void AsTools::Ellipse(HDC hdc, RECT& rect, const AColor& color)
 //------------------------------------------------------------------------------------------------------------
 void AsTools::Invalidate_Rect(RECT& rect)
 {
-	if (rect.right > 900 || rect.left > 900)
-		return;
-
 	InvalidateRect(AsConfig::Hwnd, &rect, FALSE);
 }
 //------------------------------------------------------------------------------------------------------------
