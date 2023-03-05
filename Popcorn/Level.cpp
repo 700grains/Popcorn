@@ -53,6 +53,8 @@ void AsLevel_Title::Draw(HDC hdc, RECT& paint_area)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Title_Rect))
 		return;
 
+	AsTools::Rect(hdc, Title_Rect, AsConfig::Dark_Red_Color);
+
 	Level_Name.Draw(hdc);
 	Level_Number.Draw(hdc);
 }
@@ -69,6 +71,8 @@ void AsLevel_Title::Show(int level_number)
 	Level_Number.Content.Append(level_number);
 
 	Is_Visible = true;
+
+	AsTools::Invalidate_Rect(Title_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel_Title::Hide()
@@ -256,6 +260,7 @@ void AsLevel::Clear(HDC hdc, RECT& paint_area)
 	}
 
 	Mop.Clear(hdc, paint_area);
+	Level_Title.Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw(HDC hdc, RECT& paint_area)
@@ -291,6 +296,7 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 		letter->Draw(hdc, paint_area);
 
 	Mop.Draw(hdc, paint_area);
+	Level_Title.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
