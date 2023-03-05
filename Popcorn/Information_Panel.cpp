@@ -58,19 +58,17 @@ AsInformation_Panel::~AsInformation_Panel()
 
 	if (Logo_Pop_Font)
 		DeleteObject(Logo_Pop_Font);
-
-	if (Score_Font)
-		DeleteObject(Score_Font);
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Score_Font(0), Shaded_Blue(0), Dark_Red_Color(0),
+	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Shaded_Blue(0), Dark_Red_Color(0),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
 	Floor_Panel(EMessage_Type::Floor_Is_Over, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), 
 	Monsters_Panel(EMessage_Type::Unfreeze_Monsters, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset),
-	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, 2 * 5, 16, AsConfig::Name_Font)
+	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, 2 * 5, 16, AsConfig::Name_Font),
+	Score_Label(Score_X_Pos + 5, Score_Y_Pos + 5 + Score_Val_Offset, 2 * 5, 16, AsConfig::Score_Font)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -126,7 +124,7 @@ void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
 void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 {
 	const int scale = AsConfig::Global_Scale;
-	RECT rect, intersection_rect;
+	RECT intersection_rect;
 
 	const wchar_t* pop_str = L"POP";
 	const wchar_t* corn_str = L"CORN";
@@ -194,17 +192,22 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		Player_Name_Label.Draw(hdc);
 
 		// 3.2 Player score
-		rect.left = (Score_X_Pos + 5) * scale;
-		rect.top = (Score_Y_Pos + 5) * scale;
-		rect.right = rect.left + (Score_Width - 2 * 5) * scale;
-		rect.bottom = rect.top + 16 * scale;
+		//rect.left = (Score_X_Pos + 5) * scale;
+		//rect.top = (Score_Y_Pos + 5) * scale;
+		//rect.right = rect.left + (Score_Width - 2 * 5) * scale;
+		//rect.bottom = rect.top + 16 * scale;
 
-		rect.top += Score_Val_Offset * scale;
-		rect.bottom += Score_Val_Offset * scale;
+		//rect.top += Score_Val_Offset * scale;
+		//rect.bottom += Score_Val_Offset * scale;
 
-		player_score.Append(Score);
+		//player_score.Append(Score);
 
-		Draw_String(hdc, rect, player_score, false);
+		AsTools::Rect(hdc, Score_Label.Content_Rect, *Dark_Red_Color);
+
+		Score_Label.Content = L"SCORE:";
+		Score_Label.Content.Append(Score);
+		//Draw_String(hdc, rect, player_score, false);
+		Score_Label.Draw(hdc);
 
 		// 4. Letter indicators
 		Letter_P.Draw(hdc, paint_area);
@@ -259,8 +262,8 @@ void AsInformation_Panel::Init()
 	//wcscpy_s(log_font.lfFaceName, L"Consolas");
 	//Player_Name_Label.Font = CreateFontIndirect(&log_font);
 
-	log_font.lfHeight = -44;
-	Score_Font = CreateFontIndirect(&log_font);
+	//log_font.lfHeight = -44;
+	//Score_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Add_Life()
@@ -321,39 +324,39 @@ void AsInformation_Panel::Choose_Font()
 	ChooseFont(&cf);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool name)
-{
-	const int scale = AsConfig::Global_Scale;
-	int str_left_offset, str_top_offset;
-	SIZE str_size;
-
-	// 1. Draw background plate.
-	AsTools::Rect(hdc, rect, *Dark_Red_Color);
-
-	// 2. Draw string
-	if (name)
-		AsConfig::Name_Font.Select(hdc);
-	else
-		SelectObject(hdc, Score_Font);
-
-	GetTextExtentPoint32(hdc, str.Get_Content(), str.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
-
-	str_left_offset = rect.left + (rect.right - rect.left) / 2 - str_size.cx / 2;
-	str_top_offset = rect.top + (rect.bottom - rect.top) / 2 - str_size.cy / 2 - scale;
-
-	// 2.1 Draw shadow
-	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
-	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, str.Get_Content(), str.Get_Length());
-
-	// 2.2 Draw the string
-	if (name)
-		SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
-	else
-		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
-
-	TextOut(hdc, str_left_offset, str_top_offset, str.Get_Content(), str.Get_Length());
-}
-//------------------------------------------------------------------------------------------------------------
+//void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool name)
+//{
+//	const int scale = AsConfig::Global_Scale;
+//	int str_left_offset, str_top_offset;
+//	SIZE str_size;
+//
+//	// 1. Draw background plate.
+//	AsTools::Rect(hdc, rect, *Dark_Red_Color);
+//
+//	// 2. Draw string
+//	if (name)
+//		AsConfig::Name_Font.Select(hdc);
+//	else
+//		AsConfig::Score_Font.Select(hdc);
+//
+//	GetTextExtentPoint32(hdc, str.Get_Content(), str.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
+//
+//	str_left_offset = rect.left + (rect.right - rect.left) / 2 - str_size.cx / 2;
+//	str_top_offset = rect.top + (rect.bottom - rect.top) / 2 - str_size.cy / 2 - scale;
+//
+//	// 2.1 Draw shadow
+//	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
+//	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, str.Get_Content(), str.Get_Length());
+//
+//	// 2.2 Draw the string
+//	if (name)
+//		SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
+//	else
+//		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
+//
+//	TextOut(hdc, str_left_offset, str_top_offset, str.Get_Content(), str.Get_Length());
+//}
+////------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Show_Extra_Lives(HDC hdc)
 {
 	int i, j;

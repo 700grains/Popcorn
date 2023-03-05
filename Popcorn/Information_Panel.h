@@ -52,18 +52,18 @@ public:
 
 private:
 	void Choose_Font();
-	void Draw_String(HDC hdc, RECT& rect, AString& str, bool name);
+	//void Draw_String(HDC hdc, RECT& rect, AString& str, bool name);
 	void Show_Extra_Lives(HDC hdc);
 	void Draw_Extra_Life(HDC hdc, int x, int y);
 
 	int Lives_Left;
-	HFONT Logo_Corn_Font, Logo_Pop_Font, /*Name_Font,*/ Score_Font;
+	HFONT Logo_Corn_Font, Logo_Pop_Font;
 	AColor *Shaded_Blue, *Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
 
 	//AString Player_Name;
-	ALabel Player_Name_Label;
+	ALabel Player_Name_Label, Score_Label;
 
 	static RECT Logo_Rect;
 	static RECT Data_Rect; // score and lives 

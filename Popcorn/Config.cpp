@@ -196,6 +196,7 @@ const AColor AsConfig::Shadow_Color(BG_Color, Global_Scale);
 const AColor AsConfig::Highlight_Color(White_Color, Global_Scale);
 
 const AFont AsConfig::Name_Font(-48, 700, 49, L"Consolas");
+const AFont AsConfig::Score_Font(-44, 700, 49, L"Consolas");
 
 const double AsConfig::D_Global_Scale = (double)Global_Scale;
 const double AsConfig::Moving_Step_Size = 1.0 / Global_Scale;
