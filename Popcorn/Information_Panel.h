@@ -23,7 +23,7 @@ public:
 private:
 	int X_Pos, Y_Pos;
 	int Width, Height;
-	AFont& Font;
+	const AFont& Font;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object

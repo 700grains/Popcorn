@@ -49,9 +49,8 @@ public:
 	~AFont();
 	AFont(int height, int weight, int family, const wchar_t* face_name);
 
-	HFONT Font_Handle;
-
 private:
+	HFONT Font_Handle;
 
 };
 //------------------------------------------------------------------------------------------------------------

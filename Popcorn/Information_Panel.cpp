@@ -2,8 +2,8 @@
 
 // ALabel
 //------------------------------------------------------------------------------------------------------------
-ALabel::ALabel(int x_pos, int y_pos, int height, int width)
-	: X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(0)
+ALabel::ALabel(int x_pos, int y_pos, int height, int width, const AFont& font)
+	: X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(font)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -21,7 +21,7 @@ void ALabel::Draw(HDC hdc)
 
 
 	// 2. Draw string
-		SelectObject(hdc, Font);
+		SelectObject(hdc, Font.Font_Handle);
 
 	GetTextExtentPoint32(hdc, Content.Get_Content(), Content.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
 
@@ -59,7 +59,6 @@ AsInformation_Panel::~AsInformation_Panel()
 	if (Logo_Pop_Font)
 		DeleteObject(Logo_Pop_Font);
 
- 
 	if (Score_Font)
 		DeleteObject(Score_Font);
 }
@@ -71,7 +70,7 @@ AsInformation_Panel::AsInformation_Panel()
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
 	Floor_Panel(EMessage_Type::Floor_Is_Over, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), 
 	Monsters_Panel(EMessage_Type::Unfreeze_Monsters, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset),
-	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, 2 * 5, 16)
+	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, 2 * 5, 16, AsConfig::Name_Font)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -250,15 +249,15 @@ void AsInformation_Panel::Init()
 	log_font.lfHeight = -128;
 	Logo_Pop_Font = CreateFontIndirect(&log_font);
 
-	log_font.lfHeight = -48;
-	log_font.lfWeight = 700;
-	log_font.lfOutPrecision = 3;
-	log_font.lfClipPrecision = 2;
-	log_font.lfQuality = 1;
-	log_font.lfPitchAndFamily = 49;
+	//log_font.lfHeight = -48;
+	//log_font.lfWeight = 700;
+	//log_font.lfOutPrecision = 3;
+	//log_font.lfClipPrecision = 2;
+	//log_font.lfQuality = 1;
+	//log_font.lfPitchAndFamily = 49;
 
-	wcscpy_s(log_font.lfFaceName, L"Consolas");
-	Player_Name_Label.Font = CreateFontIndirect(&log_font);
+	//wcscpy_s(log_font.lfFaceName, L"Consolas");
+	//Player_Name_Label.Font = CreateFontIndirect(&log_font);
 
 	log_font.lfHeight = -44;
 	Score_Font = CreateFontIndirect(&log_font);
@@ -333,7 +332,7 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool na
 
 	// 2. Draw string
 	if (name)
-		SelectObject(hdc, Name_Font);
+		SelectObject(hdc, AsConfig::Name_Font.Font_Handle);
 	else
 		SelectObject(hdc, Score_Font);
 
