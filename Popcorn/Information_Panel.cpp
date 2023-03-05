@@ -2,8 +2,8 @@
 
 // ALabel
 //------------------------------------------------------------------------------------------------------------
-ALabel::ALabel(int x_pos, int y_pos, int height, int width, const AFont& font)
-	: X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(font)
+ALabel::ALabel(int x_pos, int y_pos, int height, int width, const AFont& font, const AColor& color)
+	: X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(font), Color(color)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -33,7 +33,7 @@ void ALabel::Draw(HDC hdc)
 	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, Content.Get_Content(), Content.Get_Length());
 
 	// 2.2 Draw the string
-	SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
+	SetTextColor(hdc, Color.Get_RGB());
 
 	TextOut(hdc, str_left_offset, str_top_offset, Content.Get_Content(), Content.Get_Length());
 }
@@ -48,18 +48,6 @@ int AsInformation_Panel::Score = 0;
 RECT AsInformation_Panel::Logo_Rect;
 RECT AsInformation_Panel::Data_Rect;
 //------------------------------------------------------------------------------------------------------------
-AsInformation_Panel::~AsInformation_Panel()
-{
-	delete Shaded_Blue;
-	delete Dark_Red_Color;
-
-	if (Logo_Corn_Font)
-		DeleteObject(Logo_Corn_Font);
-
-	if (Logo_Pop_Font)
-		DeleteObject(Logo_Pop_Font);
-}
-//------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
 	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Shaded_Blue(0), Dark_Red_Color(0),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
@@ -67,8 +55,8 @@ AsInformation_Panel::AsInformation_Panel()
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
 	Floor_Panel(EMessage_Type::Floor_Is_Over, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), 
 	Monsters_Panel(EMessage_Type::Unfreeze_Monsters, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset),
-	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, 2 * 5, 16, AsConfig::Name_Font),
-	Score_Label(Score_X_Pos + 5, Score_Y_Pos + 5 + Score_Val_Offset, 2 * 5, 16, AsConfig::Score_Font)
+	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, Score_Width - 2 * 5, 16, AsConfig::Name_Font, AsConfig::Blue_Color),
+	Score_Label(Score_X_Pos + 5, Score_Y_Pos + 5 + Score_Val_Offset, Score_Width - 2 * 5, 16, AsConfig::Score_Font, AsConfig::White_Color)
 {
 	const int scale = AsConfig::Global_Scale;
 

@@ -14,7 +14,7 @@ enum class EScore_Event_Type : unsigned char
 class ALabel
 {
 public:
-	ALabel(int x_pos, int y_pos, int height, int width, const AFont& font);
+	ALabel(int x_pos, int y_pos, int height, int width, const AFont& font, const AColor& color);
 
 	void Draw(HDC hdc);
 	AString Content;
@@ -24,12 +24,12 @@ private:
 	int X_Pos, Y_Pos;
 	int Width, Height;
 	const AFont& Font;
+	const AColor& Color;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
 {
 public:
-	~AsInformation_Panel();
 	AsInformation_Panel();
 
 	virtual void Begin_Movement();
