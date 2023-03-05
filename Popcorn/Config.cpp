@@ -158,6 +158,11 @@ AFont::AFont(int height, int weight, int family, const wchar_t* face_name)
 	Font_Handle = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
+void AFont::Select(HDC hdc) const
+{
+	SelectObject(hdc, Font_Handle);
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 

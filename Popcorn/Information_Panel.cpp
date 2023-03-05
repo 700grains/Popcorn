@@ -21,7 +21,7 @@ void ALabel::Draw(HDC hdc)
 
 
 	// 2. Draw string
-		SelectObject(hdc, Font.Font_Handle);
+	Font.Select(hdc);
 
 	GetTextExtentPoint32(hdc, Content.Get_Content(), Content.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
 
@@ -332,7 +332,7 @@ void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool na
 
 	// 2. Draw string
 	if (name)
-		SelectObject(hdc, AsConfig::Name_Font.Font_Handle);
+		AsConfig::Name_Font.Select(hdc);
 	else
 		SelectObject(hdc, Score_Font);
 
