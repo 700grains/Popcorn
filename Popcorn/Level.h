@@ -30,6 +30,7 @@ public:
 
 private:
 	bool Is_Visible;
+	RECT Title_Rect;
 	ALabel Level_Name, Level_Number;
 
 	static const int Width = 96;
