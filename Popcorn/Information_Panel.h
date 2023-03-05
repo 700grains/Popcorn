@@ -57,7 +57,7 @@ private:
 	void Draw_Extra_Life(HDC hdc, int x, int y);
 
 	int Lives_Left;
-	HFONT Logo_Corn_Font, Logo_Pop_Font;
+	//HFONT Logo_Corn_Font, Logo_Pop_Font;
 	AColor *Shaded_Blue, *Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;

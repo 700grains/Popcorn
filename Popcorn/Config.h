@@ -70,7 +70,7 @@ public:
 	static const AColor Advertisement_Blue_Table, Advertisement_Red_Table;
 	static const AColor Dark_Red_Color, Eye_Monster_Cornea_Color, Eye_Monster_Iris_Color, BG_Outline_Color, Explosion_Red_Color, Explosion_Blue_Color;
 	static const AColor Comet_Monster_Tail, Shadow_Color, Highlight_Color;
-	static const AFont Name_Font, Score_Font;
+	static const AFont Name_Font, Score_Font, Logo_Corn_Font, Logo_Pop_Font;
 
 	static const double D_Global_Scale;
 	static const double Moving_Step_Size;

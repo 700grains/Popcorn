@@ -167,10 +167,6 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		LineTo(hdc, (Score_X_Pos + 2) * scale, (Score_Y_Pos + Score_Height - 2) * scale);
 
 		// 3.1 Player name
-		//rect.left = (Score_X_Pos + 5) * scale;
-		//rect.top = (Score_Y_Pos + 5) * scale;
-		//rect.right = rect.left + (Score_Width - 2 * 5) * scale;
-		//rect.bottom = rect.top + 16 * scale;
 
 		// 1. Draw background plate.
 		AsTools::Rect(hdc, Player_Name_Label.Content_Rect, *Dark_Red_Color);
@@ -180,21 +176,11 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		Player_Name_Label.Draw(hdc);
 
 		// 3.2 Player score
-		//rect.left = (Score_X_Pos + 5) * scale;
-		//rect.top = (Score_Y_Pos + 5) * scale;
-		//rect.right = rect.left + (Score_Width - 2 * 5) * scale;
-		//rect.bottom = rect.top + 16 * scale;
-
-		//rect.top += Score_Val_Offset * scale;
-		//rect.bottom += Score_Val_Offset * scale;
-
-		//player_score.Append(Score);
 
 		AsTools::Rect(hdc, Score_Label.Content_Rect, *Dark_Red_Color);
 
 		Score_Label.Content = L"SCORE:";
 		Score_Label.Content.Append(Score);
-		//Draw_String(hdc, rect, player_score, false);
 		Score_Label.Draw(hdc);
 
 		// 4. Letter indicators
@@ -224,34 +210,6 @@ void AsInformation_Panel::Init()
 {
 	Shaded_Blue = new AColor(0, 170, 170);
 	Dark_Red_Color = new AColor(190, 30, 30);
-
-	LOGFONT log_font{};
-
-	log_font.lfHeight = -96;
-	log_font.lfWeight = 900;
-	log_font.lfOutPrecision = 3;
-	log_font.lfClipPrecision = 2;
-	log_font.lfQuality = 1;
-	log_font.lfPitchAndFamily = 34;
-
-	wcscpy_s(log_font.lfFaceName, L"Arial Black");
-	Logo_Corn_Font = CreateFontIndirect(&log_font);
-
-	log_font.lfHeight = -128;
-	Logo_Pop_Font = CreateFontIndirect(&log_font);
-
-	//log_font.lfHeight = -48;
-	//log_font.lfWeight = 700;
-	//log_font.lfOutPrecision = 3;
-	//log_font.lfClipPrecision = 2;
-	//log_font.lfQuality = 1;
-	//log_font.lfPitchAndFamily = 49;
-
-	//wcscpy_s(log_font.lfFaceName, L"Consolas");
-	//Player_Name_Label.Font = CreateFontIndirect(&log_font);
-
-	//log_font.lfHeight = -44;
-	//Score_Font = CreateFontIndirect(&log_font);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Add_Life()
