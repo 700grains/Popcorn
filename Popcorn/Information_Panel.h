@@ -14,16 +14,16 @@ enum class EScore_Event_Type : unsigned char
 class ALabel
 {
 public:
-	ALabel(int x_pos, int y_pos, int height, int width);
+	ALabel(int x_pos, int y_pos, int height, int width, const AFont& font);
 
 	void Draw(HDC hdc);
 	AString Content;
 	RECT Content_Rect;
-	HFONT Font;
 
 private:
 	int X_Pos, Y_Pos;
 	int Width, Height;
+	AFont& Font;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object

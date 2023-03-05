@@ -166,6 +166,7 @@ AFont::AFont(int height, int weight, int family, const wchar_t* face_name)
 //------------------------------------------------------------------------------------------------------------
 bool AsConfig::Level_Has_Floor = false;
 int AsConfig::Current_Timer_Tick = 0;
+HWND AsConfig::Hwnd;
 
 const AColor AsConfig::BG_Color(30, 60, 10);
 const AColor AsConfig::Red_Color(255, 85, 85);
@@ -189,7 +190,7 @@ const AColor AsConfig::Explosion_Blue_Color(White_Color, Blue_Color, 0);
 const AColor AsConfig::Shadow_Color(BG_Color, Global_Scale);
 const AColor AsConfig::Highlight_Color(White_Color, Global_Scale);
 
-HWND AsConfig::Hwnd;
+const AFont AsConfig::Name_Font(-48, 700, 49, L"Consolas");
 
 const double AsConfig::D_Global_Scale = (double)Global_Scale;
 const double AsConfig::Moving_Step_Size = 1.0 / Global_Scale;
