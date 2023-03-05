@@ -180,7 +180,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		AsTools::Rect(hdc, Score_Label.Content_Rect, Dark_Red_Color);
 
 		Score_Label.Content = L"SCORE:";
-		Score_Label.Content.Append(Score);
+		Score_Label.Content.Append(Score, 6);
 		Score_Label.Draw(hdc);
 
 		// 4. Letter indicators

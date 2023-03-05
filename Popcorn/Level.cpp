@@ -70,7 +70,7 @@ bool AsLevel_Title::Is_Finished()
 void AsLevel_Title::Show(int level_number)
 {
 	Level_Number.Content.Clear();
-	Level_Number.Content.Append(level_number);
+	Level_Number.Content.Append(level_number, 2);
 
 	Level_Title_State = ELevel_Title_State::Showing;
 

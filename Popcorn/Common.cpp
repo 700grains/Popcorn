@@ -117,11 +117,14 @@ AString::AString(const wchar_t* str)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void AString::Append(int value)
+void AString::Append(int value, int digits)
 {
+	wchar_t format[32];
 	wchar_t buffer[32];
 
-	swprintf(buffer, 32, L"%.6i", value);
+	swprintf(format, 32, L"%%.%ii", digits);
+
+	swprintf(buffer, 32, format, value);
 
 	Content += buffer;
 }
