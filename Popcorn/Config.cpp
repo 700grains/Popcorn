@@ -135,6 +135,32 @@ AColor* AColor_Fade::Get_Color(int fade_step)
 
 
 
+// AFont
+//------------------------------------------------------------------------------------------------------------
+AFont::~AFont()
+{
+	if (Font_Handle)
+		DeleteObject(Font_Handle);
+}
+//------------------------------------------------------------------------------------------------------------
+AFont::AFont(int height, int weight, int family, const wchar_t* face_name)
+{
+	LOGFONT log_font{};
+
+	log_font.lfHeight = height;
+	log_font.lfWeight = weight;
+	log_font.lfOutPrecision = 3;
+	log_font.lfClipPrecision = 2;
+	log_font.lfQuality = 1;
+	log_font.lfPitchAndFamily = family;
+
+	wcscpy_s(log_font.lfFaceName, face_name);
+	Font_Handle = CreateFontIndirect(&log_font);
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
 
 // AsConfig
 //------------------------------------------------------------------------------------------------------------

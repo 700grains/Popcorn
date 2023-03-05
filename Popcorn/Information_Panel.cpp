@@ -59,21 +59,19 @@ AsInformation_Panel::~AsInformation_Panel()
 	if (Logo_Pop_Font)
 		DeleteObject(Logo_Pop_Font);
 
-	if (Name_Font)
-		DeleteObject(Name_Font);
-
+ 
 	if (Score_Font)
 		DeleteObject(Score_Font);
 }
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Name_Font(0), Score_Font(0), Shaded_Blue(0), Dark_Red_Color(0),
+	: Lives_Left(AsConfig::Initial_Life_Count), Logo_Corn_Font(0), Logo_Pop_Font(0), Score_Font(0), Shaded_Blue(0), Dark_Red_Color(0),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
 	Floor_Panel(EMessage_Type::Floor_Is_Over, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), 
 	Monsters_Panel(EMessage_Type::Unfreeze_Monsters, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset),
-	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, Score_Width - 2 * 5, 16)
+	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, 2 * 5, 16)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -260,7 +258,7 @@ void AsInformation_Panel::Init()
 	log_font.lfPitchAndFamily = 49;
 
 	wcscpy_s(log_font.lfFaceName, L"Consolas");
-	Name_Font = CreateFontIndirect(&log_font);
+	Player_Name_Label.Font = CreateFontIndirect(&log_font);
 
 	log_font.lfHeight = -44;
 	Score_Font = CreateFontIndirect(&log_font);

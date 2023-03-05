@@ -19,11 +19,11 @@ public:
 	void Draw(HDC hdc);
 	AString Content;
 	RECT Content_Rect;
+	HFONT Font;
 
 private:
 	int X_Pos, Y_Pos;
 	int Width, Height;
-	HFONT Font;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object
@@ -57,7 +57,7 @@ private:
 	void Draw_Extra_Life(HDC hdc, int x, int y);
 
 	int Lives_Left;
-	HFONT Logo_Corn_Font, Logo_Pop_Font, Name_Font, Score_Font;
+	HFONT Logo_Corn_Font, Logo_Pop_Font, /*Name_Font,*/ Score_Font;
 	AColor *Shaded_Blue, *Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;

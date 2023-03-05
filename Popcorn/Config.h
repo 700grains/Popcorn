@@ -43,6 +43,18 @@ private:
 	std::vector<AColor*> Fading_Colors;
 }; 
 //------------------------------------------------------------------------------------------------------------
+class AFont
+{
+public:
+	~AFont();
+	AFont(int height, int weight, int family, const wchar_t* face_name);
+
+	HFONT Font_Handle;
+
+private:
+
+};
+//------------------------------------------------------------------------------------------------------------
 class AsConfig
 {
 public:
