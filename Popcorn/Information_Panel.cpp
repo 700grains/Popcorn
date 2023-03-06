@@ -21,6 +21,7 @@ void ALabel::Draw(HDC hdc)
 
 
 	// 2. Draw string
+	SetBkMode(hdc, 0);
 	Font.Select(hdc);
 
 	GetTextExtentPoint32(hdc, Content.Get_Content(), Content.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name

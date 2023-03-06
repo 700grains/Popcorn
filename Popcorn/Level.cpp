@@ -108,7 +108,7 @@ void AFinal_Letter::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	Letter.Draw(hdc);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AFinal_Letter::Is_Finished()
@@ -131,7 +131,8 @@ AsLevel::~AsLevel()
 }
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Level_Rect{}, Need_To_Cancel_All(false), Next_Level_Number(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0), Available_Bricks_Count(0)
+: Level_Rect{}, Need_To_Cancel_All(false), Next_Level_Number(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0), 
+Available_Bricks_Count(0), Final_Letter(L"G")
 {
 	Level = this;
 }
@@ -298,6 +299,7 @@ void AsLevel::Clear(HDC hdc, RECT& paint_area)
 
 	Mop.Clear(hdc, paint_area);
 	Level_Title.Clear(hdc, paint_area);
+	Final_Letter.Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw(HDC hdc, RECT& paint_area)
@@ -334,6 +336,7 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 
 	Mop.Draw(hdc, paint_area);
 	Level_Title.Draw(hdc, paint_area);
+	Final_Letter.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
