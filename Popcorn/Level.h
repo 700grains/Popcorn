@@ -36,7 +36,6 @@ public:
 	void Hide();
 
 private:
-	//bool Is_Visible;
 	ELevel_Title_State Level_Title_State;
 	RECT Title_Rect;
 	ALabel Level_Name, Level_Number;
@@ -45,6 +44,20 @@ private:
 	static const int Height = 14;
 	static const int X_Pos = AsConfig::Max_X_Pos / 2 - Width / 2;
 	static const int Y_Pos = 150;
+};
+//------------------------------------------------------------------------------------------------------------
+class AFinal_Letter : public AGraphics_Object
+{
+public:
+	AFinal_Letter(const wchar_t* letter);
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+
+
+private:
+	ALabel Letter;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
