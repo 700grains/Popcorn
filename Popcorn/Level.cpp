@@ -91,7 +91,7 @@ void AsLevel_Title::Hide()
 // AFinal_Letter
 //------------------------------------------------------------------------------------------------------------
 AFinal_Letter::AFinal_Letter(const wchar_t* letter)
-	:Letter(32, 135, 15, 15, AsConfig::Name_Font, AsConfig::White_Color)
+	:Letter(32, 135, 15, 15, AsConfig::Game_Over_Font, AsConfig::White_Color)
 {
 	Letter.Content = letter;
 }

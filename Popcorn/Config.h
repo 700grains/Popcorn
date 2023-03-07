@@ -47,7 +47,7 @@ class AFont
 {
 public:
 	~AFont();
-	AFont(int height, int weight, int family, const wchar_t* face_name);
+	AFont(int height, int weight, int family, const wchar_t* face_name, bool is_italic = false);
 
 	void Select(HDC hdc) const;
 
