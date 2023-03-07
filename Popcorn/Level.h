@@ -86,6 +86,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Show(bool is_victory);
+	bool Is_Visible();
 
 private:
 	EGame_Title_State Game_Title_State;

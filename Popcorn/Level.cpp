@@ -227,9 +227,17 @@ void AsGame_Title::Show(bool is_victory)
 	Title_Rect.left = (int)(title_x * d_scale);
 	Title_Rect.top = (int)(title_y * d_scale);
 	Title_Rect.right = Title_Rect.left + (int)(title_x_end * d_scale);
-	Title_Rect.bottom = Title_Rect.top + 16 * scale;
+	Title_Rect.bottom = Title_Rect.top + 32 * scale;
 
 	AsTools::Invalidate_Rect(Title_Rect);
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsGame_Title::Is_Visible()
+{
+	if (Game_Title_State != EGame_Title_State::Idle)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -423,6 +431,8 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 	int i, j;
 	RECT intersection_rect, brick_rect;
 
+	Game_Title.Draw(hdc, paint_area);
+
 	if (Advertisement != 0)
 		Advertisement->Draw(hdc, paint_area);
 
@@ -451,7 +461,6 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 
 	Mop.Draw(hdc, paint_area);
 	Level_Title.Draw(hdc, paint_area);
-	Game_Title.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
@@ -1007,7 +1016,7 @@ void AsLevel::Draw_Brick(HDC hdc, RECT& brick_rect, int level_x, int level_y)
 	switch (brick_type)
 	{
 	case EBrick_Type::None:
-		if (Advertisement != 0 && Advertisement->Has_Brick_At(level_x, level_y))
+		if ((Advertisement != 0 && Advertisement->Has_Brick_At(level_x, level_y)) || Game_Title.Is_Visible())
 			break;
 
 	case EBrick_Type::Red:
