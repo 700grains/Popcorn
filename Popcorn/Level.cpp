@@ -152,16 +152,25 @@ void AsGame_Title::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Clear(HDC hdc, RECT& paint_area)
 {
+	RECT intersection_rect;
+
 	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
 		return;
 
-	for (auto* letter : AsGame_Title::Title_Letters)
-		letter->Clear(hdc, paint_area);
+	if (!IntersectRect(&intersection_rect, &paint_area, &Title_Rect))
+		return;
+	AsTools::Rect(hdc, Title_Rect, AsConfig::BG_Color);
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Draw(HDC hdc, RECT& paint_area)
 {
+	RECT intersection_rect;
+
 	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
+		return;
+
+	if (! IntersectRect(&intersection_rect, &paint_area, &Title_Rect))
 		return;
 
 	for (auto* letter : Title_Letters)
@@ -176,7 +185,10 @@ bool AsGame_Title::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Show(bool is_victory)
 {
+	const double d_scale = AsConfig::D_Global_Scale;
+	const int scale = AsConfig::Global_Scale;
 	double title_x, title_y;
+	double title_x_end;
 
 	title_x = 39.0;
 	title_y = 135.0;
@@ -205,6 +217,13 @@ void AsGame_Title::Show(bool is_victory)
 		Title_Letters.push_back(new AFinal_Letter(title_x + 100.0, title_y, L'Y'));
 		Title_Letters.push_back(new AFinal_Letter(title_x + 115.0, title_y, L'!'));
 	}
+
+	title_x_end = Title_Letters[Title_Letters.size() - 1]->X_Pos + 16;
+
+	Title_Rect.left = (int)(title_x * d_scale);
+	Title_Rect.top = (int)(title_y * d_scale);
+	Title_Rect.right = Title_Rect.left + (int)(title_x_end * d_scale);
+	Title_Rect.bottom = Title_Rect.top + 16 * scale;
 }
 //------------------------------------------------------------------------------------------------------------
 
