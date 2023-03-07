@@ -35,7 +35,6 @@ void ALabel::Draw(HDC hdc)
 
 	// 2.2 Draw the string
 	SetTextColor(hdc, Color.Get_RGB());
-
 	TextOut(hdc, str_left_offset, str_top_offset, Content.Get_Content(), Content.Get_Length());
 }
 //------------------------------------------------------------------------------------------------------------

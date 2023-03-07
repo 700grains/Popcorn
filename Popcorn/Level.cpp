@@ -90,10 +90,9 @@ void AsLevel_Title::Hide()
 
 // AFinal_Letter
 //------------------------------------------------------------------------------------------------------------
-AFinal_Letter::AFinal_Letter(const wchar_t* letter)
-	:Letter(32, 135, 15, 15, AsConfig::Game_Over_Font, AsConfig::White_Color)
+AFinal_Letter::AFinal_Letter(const wchar_t letter)
+	: Letter(letter)
 {
-	Letter.Content = letter;
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Act()
@@ -108,7 +107,16 @@ void AFinal_Letter::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 {
-	Letter.Draw(hdc);
+	const int scale = AsConfig::Global_Scale;
+
+	//Letter.Draw(hdc);
+
+	SetBkMode(hdc, 0);
+	AsConfig::Game_Over_Font.Select(hdc);
+	SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
+
+	TextOut(hdc, 32 * scale, 135 * scale, &Letter, 1);
+
 }
 //------------------------------------------------------------------------------------------------------------
 bool AFinal_Letter::Is_Finished()
@@ -132,7 +140,7 @@ AsLevel::~AsLevel()
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
 : Level_Rect{}, Need_To_Cancel_All(false), Next_Level_Number(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0), 
-Available_Bricks_Count(0), Final_Letter(L"G")
+Available_Bricks_Count(0), Final_Letter(L'G')
 {
 	Level = this;
 }
