@@ -72,8 +72,10 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	void Show(bool is_victory);
+
 private:
-	std::vector <AFinal_Letter*> Game_Over_Title;
+	std::vector <AFinal_Letter*> Title_Letters;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
@@ -105,10 +107,10 @@ public:
 	bool Is_Level_Moping_Done();
 	void Show_Title();
 	void Hide_Title();
+	AsGame_Title Game_Title;
 
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
-
 private: 
 	bool On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical_hit);
 	void Redraw_Brick(int brick_x, int brick_y);
@@ -146,7 +148,6 @@ private:
 
 	AAdvertisement* Advertisement;
 	AsMop Mop; // A mop clearing current level
-	AsGame_Title Game_Title;
 
 	static AsLevel* Level;
 };
