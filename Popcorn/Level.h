@@ -90,9 +90,14 @@ public:
 
 private:
 	EGame_Title_State Game_Title_State;
-	RECT Title_Rect;
+	int Starting_Tick;
+	RECT Title_Rect, Previous_Title_Rect;
 
 	std::vector <AFinal_Letter*> Title_Letters;
+
+	static const int Descent_Timeout = AsConfig::FPS * 6; // 6 seconds to Descend
+	static const int Height = 32;
+	static const double Lowest_Y_Pos;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
@@ -128,6 +133,7 @@ public:
 
 	static bool Has_Brick_At(int level_x, int level_y);
 	static bool Has_Brick_At(RECT& monster_rect);
+
 private: 
 	bool On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical_hit);
 	void Redraw_Brick(int brick_x, int brick_y);

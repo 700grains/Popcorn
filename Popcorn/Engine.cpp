@@ -120,7 +120,7 @@ int AsEngine::On_Timer()
 			else
 				Game_Over();
 		}
-			break;
+		break;
 		
 
 	case EGame_State::Restart_Level:

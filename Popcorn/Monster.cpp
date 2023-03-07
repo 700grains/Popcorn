@@ -253,7 +253,7 @@ void AMonster::Activate(double x_pos, double y_pos, bool moving_right)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Destroy()
 {
-	if (Monster_State == EMonster_State::Destroying)
+	if (!(Monster_State == EMonster_State::Emitting || Monster_State == EMonster_State::Alive))
 		return;
 
 	bool is_red;
@@ -281,7 +281,7 @@ void AMonster::Destroy()
 
 		remained_size = half_size - (int)sqrt(x_offset * x_offset + y_offset * y_offset);
 
-		size = AsTools::Rand(remained_size / 2) + remained_size;
+		size = AsTools::Rand(remained_size / 2) + remained_size / 2;
 
 		if (size < scale)
 			size = scale;
@@ -289,7 +289,7 @@ void AMonster::Destroy()
 		time_offset = AsTools::Rand(AsConfig::FPS * 3 / 2);
 
 		is_red = (bool)AsTools::Rand(2);
-		explosive_ball.Explode(x_pos + x_offset, y_pos + y_offset, size, is_red, time_offset, 10);
+		explosive_ball.Explode(x_pos + x_offset, y_pos + y_offset, size * 2, is_red, time_offset, 10);
 	}
 
 	Monster_State = EMonster_State::Destroying;

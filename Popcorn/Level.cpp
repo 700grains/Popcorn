@@ -130,6 +130,7 @@ bool AFinal_Letter::Is_Finished()
 
 
 // AsGame_Title
+const double AsGame_Title::Lowest_Y_Pos = 135;
 //------------------------------------------------------------------------------------------------------------
 AsGame_Title::~AsGame_Title()
 {
@@ -140,14 +141,62 @@ AsGame_Title::~AsGame_Title()
 }
 //------------------------------------------------------------------------------------------------------------
 AsGame_Title::AsGame_Title()
-	: Game_Title_State(EGame_Title_State::Idle)
+	: Game_Title_State(EGame_Title_State::Idle), Starting_Tick(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Act()
 {
+	const double d_scale = AsConfig::D_Global_Scale;
+	double y_pos;
+	int current_tick;
+	double ratio;
+
 	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
 		return;
+
+	current_tick = AsConfig::Current_Timer_Tick - Starting_Tick;
+
+
+	switch (Game_Title_State)
+	{
+	case EGame_Title_State::Idle:
+		break;
+
+	case EGame_Title_State::Game_Over_Descent:
+	case EGame_Title_State::Game_Won_Descent:
+		if (current_tick < Descent_Timeout)
+			ratio = (double)current_tick / (double)Descent_Timeout;
+		else
+			ratio = 1.0;
+
+		y_pos = Lowest_Y_Pos * ratio;
+
+		for (auto* letter : Title_Letters)
+			letter->Y_Pos = y_pos;
+		
+		Previous_Title_Rect = Title_Rect;
+
+		Title_Rect.top = y_pos * d_scale;
+		Title_Rect.bottom = Title_Rect.top + Height * d_scale;
+
+		AsTools::Invalidate_Rect(Title_Rect);
+		AsTools::Invalidate_Rect(Previous_Title_Rect);
+
+		break;
+
+	case EGame_Title_State::Game_Over_Destroy:
+		break;
+
+	case EGame_Title_State::Game_Won_Destroy:
+		break;
+
+	case EGame_Title_State::Finished:
+		break;
+
+	default:
+		break;
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Clear(HDC hdc, RECT& paint_area)
@@ -157,10 +206,10 @@ void AsGame_Title::Clear(HDC hdc, RECT& paint_area)
 	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
 		return;
 
-	if (!IntersectRect(&intersection_rect, &paint_area, &Title_Rect))
+	if (!IntersectRect(&intersection_rect, &paint_area, &Previous_Title_Rect))
 		return;
-	AsTools::Rect(hdc, Title_Rect, AsConfig::BG_Color);
 
+	AsTools::Rect(hdc, Previous_Title_Rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Draw(HDC hdc, RECT& paint_area)
@@ -227,7 +276,9 @@ void AsGame_Title::Show(bool is_victory)
 	Title_Rect.left = (int)(title_x * d_scale);
 	Title_Rect.top = (int)(title_y * d_scale);
 	Title_Rect.right = Title_Rect.left + (int)(title_x_end * d_scale);
-	Title_Rect.bottom = Title_Rect.top + 32 * scale;
+	Title_Rect.bottom = Title_Rect.top + Height * scale;
+
+	Starting_Tick = AsConfig::Current_Timer_Tick;
 
 	AsTools::Invalidate_Rect(Title_Rect);
 }
@@ -402,6 +453,7 @@ void AsLevel::Act()
 		Advertisement->Act();
 
 	Mop.Act();
+	Game_Title.Act();
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Clear(HDC hdc, RECT& paint_area)
