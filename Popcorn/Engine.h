@@ -39,6 +39,7 @@ public:
 	const int Timer_ID;
 
 private:
+	bool Is_Destroying_Complete();
 	void Restart_Level();
 	void Play_Level();
 	void Stop_Play();
