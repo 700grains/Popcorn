@@ -184,6 +184,15 @@ void AsGame_Title::Show(bool is_victory)
 	}
 	else
 	{
+		Title_Letters.push_back(new AFinal_Letter(title_x, title_y, L'V'));
+		Title_Letters.push_back(new AFinal_Letter(title_x + 17.0, title_y, L'I'));
+		Title_Letters.push_back(new AFinal_Letter(title_x + 33.0, title_y, L'C'));
+		Title_Letters.push_back(new AFinal_Letter(title_x + 50.0, title_y, L'T'));
+
+		Title_Letters.push_back(new AFinal_Letter(title_x + 66.0, title_y, L'O'));
+		Title_Letters.push_back(new AFinal_Letter(title_x + 85.0, title_y, L'R'));
+		Title_Letters.push_back(new AFinal_Letter(title_x + 100.0, title_y, L'Y'));
+		Title_Letters.push_back(new AFinal_Letter(title_x + 115.0, title_y, L'!'));
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -437,6 +446,7 @@ void AsLevel::Init()
 		if (i == 9)
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
+	Game_Title.Show(true);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
