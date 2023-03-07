@@ -49,7 +49,7 @@ private:
 class AFinal_Letter : public AGraphics_Object
 {
 public:
-	AFinal_Letter(const wchar_t letter);
+	AFinal_Letter(double x_pos, double y_pos, const wchar_t letter);
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
 	virtual void Draw(HDC hdc, RECT& paint_area);
@@ -58,6 +58,7 @@ public:
 
 private:
 	wchar_t Letter;
+	double X_Pos, Y_Pos;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
