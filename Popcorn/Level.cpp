@@ -359,6 +359,7 @@ bool AsLevel::Is_Finished()
 void AsLevel::Init()
 {
 	int i;
+	double title_x, title_y;
 	ALevel_Data* level_data;
 
 	Level_Rect.left = AsConfig::Level_X_Offset * AsConfig::Global_Scale;
@@ -380,15 +381,18 @@ void AsLevel::Init()
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
 
-	Game_Over_Title.push_back(new AFinal_Letter(32.0, 135.0, L'G'));
-	Game_Over_Title.push_back(new AFinal_Letter(48.0, 135.0, L'A'));
-	Game_Over_Title.push_back(new AFinal_Letter(64.0, 135.0, L'M'));
-	Game_Over_Title.push_back(new AFinal_Letter(80.0, 135.0, L'E'));
+	title_x = 39.0;
+	title_y = 135.0;
 
-	Game_Over_Title.push_back(new AFinal_Letter(96.0, 135.0, L'O'));
-	Game_Over_Title.push_back(new AFinal_Letter(112.0, 135.0, L'V'));
-	Game_Over_Title.push_back(new AFinal_Letter(128.0, 135.0, L'E'));
-	Game_Over_Title.push_back(new AFinal_Letter(144.0, 135.0, L'R'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x, title_y, L'G'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 14.0, title_y, L'A'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 30.0, title_y, L'M'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 49.0, title_y, L'E'));
+
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 68.0, title_y, L'O'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 85.0, title_y, L'V'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 100.0, title_y, L'E'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 115.0, title_y, L'R'));
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
