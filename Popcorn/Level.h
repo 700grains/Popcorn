@@ -61,6 +61,21 @@ private:
 	double X_Pos, Y_Pos;
 };
 //------------------------------------------------------------------------------------------------------------
+class AsGame_Title : public AGraphics_Object
+{
+public:
+	~AsGame_Title();
+	AsGame_Title();
+
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+
+private:
+	std::vector <AFinal_Letter*> Game_Over_Title;
+};
+//------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object
 {
 public:
@@ -131,7 +146,7 @@ private:
 
 	AAdvertisement* Advertisement;
 	AsMop Mop; // A mop clearing current level
-	std::vector <AFinal_Letter*> Game_Over_Title;
+	AsGame_Title Game_Title;
 
 	static AsLevel* Level;
 };

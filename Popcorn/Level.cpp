@@ -129,6 +129,59 @@ bool AFinal_Letter::Is_Finished()
 
 
 
+// AsGame_Title
+//------------------------------------------------------------------------------------------------------------
+AsGame_Title::~AsGame_Title()
+{
+	//!!! TODO
+}
+//------------------------------------------------------------------------------------------------------------
+AsGame_Title::AsGame_Title()
+{
+	double title_x, title_y;
+
+	title_x = 39.0;
+	title_y = 135.0;
+
+	Game_Over_Title.push_back(new AFinal_Letter(title_x, title_y, L'G'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 14.0, title_y, L'A'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 30.0, title_y, L'M'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 49.0, title_y, L'E'));
+
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 68.0, title_y, L'O'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 85.0, title_y, L'V'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 100.0, title_y, L'E'));
+	Game_Over_Title.push_back(new AFinal_Letter(title_x + 115.0, title_y, L'R'));
+
+}
+//------------------------------------------------------------------------------------------------------------
+void AsGame_Title::Act()
+{
+	//!!! TODO
+}
+//------------------------------------------------------------------------------------------------------------
+void AsGame_Title::Clear(HDC hdc, RECT& paint_area)
+{
+	for (auto* letter : AsGame_Title::Game_Over_Title)
+		letter->Clear(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsGame_Title::Draw(HDC hdc, RECT& paint_area)
+{
+	for (auto* letter : Game_Over_Title)
+		letter->Draw(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsGame_Title::Is_Finished()
+{
+	//!!! TODO
+	return false;
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AsLevel
 //------------------------------------------------------------------------------------------------------------
 AsLevel* AsLevel::Level = nullptr;
@@ -307,9 +360,7 @@ void AsLevel::Clear(HDC hdc, RECT& paint_area)
 
 	Mop.Clear(hdc, paint_area);
 	Level_Title.Clear(hdc, paint_area);
-
-	for (auto* letter : Game_Over_Title)
-		letter->Clear(hdc, paint_area);
+	Game_Title.Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw(HDC hdc, RECT& paint_area)
@@ -346,9 +397,7 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 
 	Mop.Draw(hdc, paint_area);
 	Level_Title.Draw(hdc, paint_area);
-
-	for (auto* letter : Game_Over_Title)
-		letter->Draw(hdc, paint_area);
+	Game_Title.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
@@ -359,7 +408,6 @@ bool AsLevel::Is_Finished()
 void AsLevel::Init()
 {
 	int i;
-	double title_x, title_y;
 	ALevel_Data* level_data;
 
 	Level_Rect.left = AsConfig::Level_X_Offset * AsConfig::Global_Scale;
@@ -380,19 +428,6 @@ void AsLevel::Init()
 		if (i == 9)
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
-
-	title_x = 39.0;
-	title_y = 135.0;
-
-	Game_Over_Title.push_back(new AFinal_Letter(title_x, title_y, L'G'));
-	Game_Over_Title.push_back(new AFinal_Letter(title_x + 14.0, title_y, L'A'));
-	Game_Over_Title.push_back(new AFinal_Letter(title_x + 30.0, title_y, L'M'));
-	Game_Over_Title.push_back(new AFinal_Letter(title_x + 49.0, title_y, L'E'));
-
-	Game_Over_Title.push_back(new AFinal_Letter(title_x + 68.0, title_y, L'O'));
-	Game_Over_Title.push_back(new AFinal_Letter(title_x + 85.0, title_y, L'V'));
-	Game_Over_Title.push_back(new AFinal_Letter(title_x + 100.0, title_y, L'E'));
-	Game_Over_Title.push_back(new AFinal_Letter(title_x + 115.0, title_y, L'R'));
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
