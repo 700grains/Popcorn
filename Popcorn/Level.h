@@ -89,8 +89,9 @@ public:
 
 private:
 	EGame_Title_State Game_Title_State;
-	std::vector <AFinal_Letter*> Title_Letters;
 	RECT Title_Rect;
+
+	std::vector <AFinal_Letter*> Title_Letters;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsLevel : public AHit_Checker, public AGame_Object

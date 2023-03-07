@@ -191,7 +191,7 @@ void AsGame_Title::Show(bool is_victory)
 	double title_x_end;
 
 	title_x = 39.0;
-	title_y = 135.0;
+	title_y = 0.0;
 
 	if (!is_victory)
 	{
@@ -204,6 +204,8 @@ void AsGame_Title::Show(bool is_victory)
 		Title_Letters.push_back(new AFinal_Letter(title_x + 85.0, title_y, L'V'));
 		Title_Letters.push_back(new AFinal_Letter(title_x + 100.0, title_y, L'E'));
 		Title_Letters.push_back(new AFinal_Letter(title_x + 115.0, title_y, L'R'));
+
+		Game_Title_State = EGame_Title_State::Game_Over_Descent;
 	}
 	else
 	{
@@ -216,6 +218,8 @@ void AsGame_Title::Show(bool is_victory)
 		Title_Letters.push_back(new AFinal_Letter(title_x + 85.0, title_y, L'R'));
 		Title_Letters.push_back(new AFinal_Letter(title_x + 100.0, title_y, L'Y'));
 		Title_Letters.push_back(new AFinal_Letter(title_x + 115.0, title_y, L'!'));
+
+		Game_Title_State = EGame_Title_State::Game_Won_Descent;
 	}
 
 	title_x_end = Title_Letters[Title_Letters.size() - 1]->X_Pos + 16;
@@ -224,6 +228,8 @@ void AsGame_Title::Show(bool is_victory)
 	Title_Rect.top = (int)(title_y * d_scale);
 	Title_Rect.right = Title_Rect.left + (int)(title_x_end * d_scale);
 	Title_Rect.bottom = Title_Rect.top + 16 * scale;
+
+	AsTools::Invalidate_Rect(Title_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -476,7 +482,7 @@ void AsLevel::Init()
 		if (i == 9)
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
-	Game_Title.Show(true);
+	//Game_Title.Show(true);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
