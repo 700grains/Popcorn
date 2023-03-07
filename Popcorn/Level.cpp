@@ -133,26 +133,37 @@ bool AFinal_Letter::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 AsGame_Title::~AsGame_Title()
 {
-	//!!! TODO
+	for (auto* letter : Title_Letters)
+		delete letter;
+
+	Title_Letters.erase(Title_Letters.begin(), Title_Letters.end());
 }
 //------------------------------------------------------------------------------------------------------------
 AsGame_Title::AsGame_Title()
+	: Game_Title_State(EGame_Title_State::Idle)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Act()
 {
-	//!!! TODO
+	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
+		return;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Clear(HDC hdc, RECT& paint_area)
 {
+	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
+		return;
+
 	for (auto* letter : AsGame_Title::Title_Letters)
 		letter->Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Draw(HDC hdc, RECT& paint_area)
 {
+	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
+		return;
+
 	for (auto* letter : Title_Letters)
 		letter->Draw(hdc, paint_area);
 }
