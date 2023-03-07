@@ -140,7 +140,7 @@ AsLevel::~AsLevel()
 //------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
 : Level_Rect{}, Need_To_Cancel_All(false), Next_Level_Number(0), Parachute_Color(AsConfig::Red_Color, AsConfig::Blue_Color, AsConfig::Global_Scale), Advertisement(0), 
-Available_Bricks_Count(0), Final_Letter(32.0, 135.0, L'G')
+Available_Bricks_Count(0)
 {
 	Level = this;
 }
@@ -307,7 +307,9 @@ void AsLevel::Clear(HDC hdc, RECT& paint_area)
 
 	Mop.Clear(hdc, paint_area);
 	Level_Title.Clear(hdc, paint_area);
-	Final_Letter.Clear(hdc, paint_area);
+
+	for (auto* letter : Game_Over_Title)
+		letter->Clear(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw(HDC hdc, RECT& paint_area)
@@ -344,7 +346,9 @@ void AsLevel::Draw(HDC hdc, RECT& paint_area)
 
 	Mop.Draw(hdc, paint_area);
 	Level_Title.Draw(hdc, paint_area);
-	Final_Letter.Draw(hdc, paint_area);
+
+	for (auto* letter : Game_Over_Title)
+		letter->Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::Is_Finished()
@@ -375,6 +379,16 @@ void AsLevel::Init()
 		if (i == 9)
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
+
+	Game_Over_Title.push_back(new AFinal_Letter(32.0, 135.0, L'G'));
+	Game_Over_Title.push_back(new AFinal_Letter(48.0, 135.0, L'A'));
+	Game_Over_Title.push_back(new AFinal_Letter(64.0, 135.0, L'M'));
+	Game_Over_Title.push_back(new AFinal_Letter(80.0, 135.0, L'E'));
+
+	Game_Over_Title.push_back(new AFinal_Letter(96.0, 135.0, L'O'));
+	Game_Over_Title.push_back(new AFinal_Letter(112.0, 135.0, L'V'));
+	Game_Over_Title.push_back(new AFinal_Letter(128.0, 135.0, L'E'));
+	Game_Over_Title.push_back(new AFinal_Letter(144.0, 135.0, L'R'));
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)

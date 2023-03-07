@@ -131,7 +131,7 @@ private:
 
 	AAdvertisement* Advertisement;
 	AsMop Mop; // A mop clearing current level
-	AFinal_Letter Final_Letter;
+	std::vector <AFinal_Letter*> Game_Over_Title;
 
 	static AsLevel* Level;
 };
