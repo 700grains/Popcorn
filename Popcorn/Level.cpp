@@ -160,9 +160,6 @@ void AsGame_Title::Act()
 
 	switch (Game_Title_State)
 	{
-	case EGame_Title_State::Idle:
-		break;
-
 	case EGame_Title_State::Game_Over_Descent:
 	case EGame_Title_State::Game_Won_Descent:
 		if (current_tick < Descent_Timeout)
@@ -183,18 +180,6 @@ void AsGame_Title::Act()
 		AsTools::Invalidate_Rect(Title_Rect);
 		AsTools::Invalidate_Rect(Previous_Title_Rect);
 
-		break;
-
-	case EGame_Title_State::Game_Over_Destroy:
-		break;
-
-	case EGame_Title_State::Game_Won_Destroy:
-		break;
-
-	case EGame_Title_State::Finished:
-		break;
-
-	default:
 		break;
 	}
 }

@@ -141,6 +141,10 @@ int AsEngine::On_Timer()
 			Game_State = EGame_State::Mop_Level;
 		}
 		break;
+
+
+	case EGame_State::Game_Over:
+		break; // Don't have to do anything
 	}
 	
 	Act();
@@ -194,11 +198,13 @@ void AsEngine::Stop_Play()
 void AsEngine::Game_Over()
 {
 	Level.Game_Title.Show(false);
+	Game_State = EGame_State::Game_Over;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Game_Won()
 {
 	Level.Game_Title.Show(true);
+	Game_State = EGame_State::Game_Over;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()
