@@ -171,8 +171,7 @@ void AsMonster_Set::Activate(int max_monsters_alive)
 void AsMonster_Set::Destroy_All()
 {
 	for (auto* monster : Monsters)
-		if (monster->Is_Finished())
-			monster->Destroy();
+		monster->Destroy();
 
 	Monster_Set_State = EMonster_Set_State::Idle;
 }
