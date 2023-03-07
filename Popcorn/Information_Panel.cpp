@@ -61,6 +61,8 @@ AsInformation_Panel::AsInformation_Panel()
 {
 	const int scale = AsConfig::Global_Scale;
 
+	//Choose_Font();
+
 	// creating rect for logo
 	Logo_Rect.left = Score_X_Pos * scale;
 	Logo_Rect.top = 5 * scale;

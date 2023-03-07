@@ -199,6 +199,7 @@ const AFont AsConfig::Name_Font(-48, 700, 49, L"Consolas");
 const AFont AsConfig::Score_Font(-44, 700, 49, L"Consolas");
 const AFont AsConfig::Logo_Corn_Font(-96, 900, 34, L"Arial Black");
 const AFont AsConfig::Logo_Pop_Font(-128, 900, 34, L"Arial Black");
+const AFont AsConfig::Game_Over_Font(-96, 700, 2, L"MV Boli");
 
 const double AsConfig::D_Global_Scale = (double)Global_Scale;
 const double AsConfig::Moving_Step_Size = 1.0 / Global_Scale;
