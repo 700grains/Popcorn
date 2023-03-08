@@ -2,8 +2,8 @@
 
 // AFinal_Letter
 //------------------------------------------------------------------------------------------------------------
-AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter)
-	: Letter(letter), X_Pos(x_pos), Y_Pos(y_pos)
+AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, int width, int height)
+	: Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -39,6 +39,15 @@ bool AFinal_Letter::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Destroy()
 {
+	const int scale = AsConfig::Global_Scale;
+	const double d_scale = AsConfig::D_Global_Scale;
+	RECT rect;
 
+	rect.left = (int)(X_Pos * d_scale);
+	rect.top = (int)(Y_Pos * d_scale);
+	rect.right = rect.left + Width * scale;
+	rect.bottom = rect.top + Height * scale;
+
+	Start_Explosion(rect);
 }
 //------------------------------------------------------------------------------------------------------------
