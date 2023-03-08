@@ -130,6 +130,9 @@
     <Filter Include="#Screen\Final_Letter">
       <UniqueIdentifier>{271b21d9-c920-4d40-a1a3-c0de78015153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Screen\Game_Title">
+      <UniqueIdentifier>{00de0888-27d3-4115-8492-f098aa43676a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -233,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="Final_Letter.h">
       <Filter>#Screen\Final_Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="Game_Title.h">
+      <Filter>#Screen\Game_Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="Final_Letter.cpp">
       <Filter>#Screen\Final_Letter</Filter>
+    </ClCompile>
+    <ClCompile Include="Game_Title.cpp">
+      <Filter>#Screen\Game_Title</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
