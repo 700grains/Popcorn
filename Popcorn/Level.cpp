@@ -187,8 +187,8 @@ void AsGame_Title::Act()
 		
 		Previous_Title_Rect = Title_Rect;
 
-		Title_Rect.top = y_pos * d_scale;
-		Title_Rect.bottom = Title_Rect.top + Height * d_scale;
+		Title_Rect.top = (int)(y_pos * d_scale);
+		Title_Rect.bottom = (int)(Title_Rect.top + Height * d_scale);
 
 		AsTools::Invalidate_Rect(Title_Rect);
 		AsTools::Invalidate_Rect(Previous_Title_Rect);
@@ -209,7 +209,7 @@ void AsGame_Title::Act()
 		{
 			explosion_index = current_tick / Explosion_Delay;
 
-			if (explosion_index >= 0 && explosion_index < Title_Letters.size())
+			if (explosion_index >= 0 && explosion_index < (int)Title_Letters.size())
 				Title_Letters[explosion_index]->Destroy();
 			else
 				Game_Title_State = EGame_Title_State::Finished;

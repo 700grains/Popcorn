@@ -27,6 +27,7 @@ protected:
 	AExplosion();
 
 	void Start_Explosion(RECT& explosion_rect);
+	bool Act_On_Explosion();
 	void Draw_Explosion(HDC hdc, RECT& paint_area);
 
 private:

@@ -18,7 +18,7 @@ void AExplosion::Start_Explosion(RECT& explosion_rect)
 
 	int half_width = (explosion_rect.right - explosion_rect.left) / 2;
 	int half_height = (explosion_rect.bottom - explosion_rect.top) / 2;
-	int x_pos = explosion_rect.right + half_width;
+	int x_pos = explosion_rect.left + half_width;
 	int y_pos = explosion_rect.top + half_height;
 
 	half_size = half_width;
@@ -43,6 +43,20 @@ void AExplosion::Start_Explosion(RECT& explosion_rect)
 		is_red = (bool)AsTools::Rand(2);
 		explosive_ball.Explode(x_pos + x_offset, y_pos + y_offset, size * 2, is_red, time_offset, 10);
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+bool AExplosion::Act_On_Explosion()
+{
+	bool destroyed = true;
+
+	for (auto& explosive_ball : Explosive_Balls)
+	{
+		explosive_ball.Act();
+
+		destroyed &= explosive_ball.Is_Finished();
+	}
+
+	return destroyed;
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosion::Draw_Explosion(HDC hdc, RECT& paint_area)
@@ -336,16 +350,7 @@ void AMonster::Act_Alive()
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Act_Destroying()
 {
-	bool destroyed = true;
-
-	for (auto &explosive_ball : Explosive_Balls)
-	{
-		explosive_ball.Act();
-
-		destroyed &= explosive_ball.Is_Finished();
-	}
-
-	if (destroyed)
+	if (Act_On_Explosion())
 		Monster_State = EMonster_State::Missing;
 }
 //------------------------------------------------------------------------------------------------------------
