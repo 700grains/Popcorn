@@ -157,7 +157,6 @@ void AsGame_Title::Act()
 
 	current_tick = AsConfig::Current_Timer_Tick - Starting_Tick;
 
-
 	switch (Game_Title_State)
 	{
 	case EGame_Title_State::Game_Over_Descent:
@@ -165,7 +164,15 @@ void AsGame_Title::Act()
 		if (current_tick < Descent_Timeout)
 			ratio = (double)current_tick / (double)Descent_Timeout;
 		else
+		{
 			ratio = 1.0;
+			if (Game_Title_State == EGame_Title_State::Game_Over_Descent)
+				Game_Title_State = EGame_Title_State::Game_Over_Show;
+			else
+				Game_Title_State = EGame_Title_State::Game_Won_Animate;
+			
+			Starting_Tick = AsConfig::Current_Timer_Tick;
+		}
 
 		y_pos = Lowest_Y_Pos * ratio;
 
@@ -180,6 +187,15 @@ void AsGame_Title::Act()
 		AsTools::Invalidate_Rect(Title_Rect);
 		AsTools::Invalidate_Rect(Previous_Title_Rect);
 
+		break;
+
+
+	case EGame_Title_State::Game_Over_Show:
+		if (current_tick > Game_Over_Showing_Timeout)
+		{
+			Game_Title_State = EGame_Title_State::Game_Over_Destroy;
+			Starting_Tick = AsConfig::Current_Timer_Tick;
+		}
 		break;
 	}
 }

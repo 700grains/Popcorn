@@ -66,10 +66,11 @@ enum class EGame_Title_State : unsigned char
 	Idle,
 
 	Game_Over_Descent,
+	Game_Over_Show,
 	Game_Over_Destroy,
 
 	Game_Won_Descent,
-	Game_Won_Destroy,
+	Game_Won_Animate,
 
 	Finished
 };
@@ -97,6 +98,7 @@ private:
 
 	static const int Descent_Timeout = AsConfig::FPS * 6; // 6 seconds to Descend
 	static const int Height = 32;
+	static const int Game_Over_Showing_Timeout = AsConfig::FPS * 3;
 	static const double Lowest_Y_Pos;
 };
 //------------------------------------------------------------------------------------------------------------
