@@ -118,6 +118,9 @@
     <Filter Include="#Mop\Mop_Cylinder">
       <UniqueIdentifier>{c5422102-2ae6-43f5-bacd-644a3f9f7c5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Monsters\Explosion">
+      <UniqueIdentifier>{52347549-9d83-4320-a0b2-5623ee250d09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -209,6 +212,9 @@
     </ClInclude>
     <ClInclude Include="Mop_Cylinder.h">
       <Filter>#Mop\Mop_Cylinder</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>#Monsters\Explosion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="Mop_Cylinder.cpp">
       <Filter>#Mop\Mop_Cylinder</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>#Monsters\Explosion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

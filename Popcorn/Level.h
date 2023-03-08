@@ -4,6 +4,7 @@
 #include "Information_Panel.h"
 #include "Level_Data.h"
 #include "Mop.h"
+#include "Explosion.h"
 
 //------------------------------------------------------------------------------------------------------------
 class APoint
