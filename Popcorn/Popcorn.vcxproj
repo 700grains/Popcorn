@@ -159,6 +159,7 @@
     <ClInclude Include="Active_Brick.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Final_Letter.h" />
+    <ClInclude Include="Game_Title.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Level_Title.h" />
     <ClInclude Include="Mop.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="Active_Brick.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Final_Letter.cpp" />
+    <ClCompile Include="Game_Title.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Level_Title.cpp" />
     <ClCompile Include="Mop.cpp" />
