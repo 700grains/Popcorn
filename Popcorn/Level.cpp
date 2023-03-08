@@ -147,10 +147,11 @@ AsGame_Title::AsGame_Title()
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Act()
 {
-	const double d_scale = AsConfig::D_Global_Scale;
-	double y_pos;
 	int current_tick;
+	int explosion_index;
 	double ratio;
+	double y_pos;
+	const double d_scale = AsConfig::D_Global_Scale;
 
 	if (Game_Title_State == EGame_Title_State::Idle || Game_Title_State == EGame_Title_State::Finished)
 		return;
@@ -186,7 +187,6 @@ void AsGame_Title::Act()
 
 		AsTools::Invalidate_Rect(Title_Rect);
 		AsTools::Invalidate_Rect(Previous_Title_Rect);
-
 		break;
 
 
@@ -195,6 +195,19 @@ void AsGame_Title::Act()
 		{
 			Game_Title_State = EGame_Title_State::Game_Over_Destroy;
 			Starting_Tick = AsConfig::Current_Timer_Tick;
+		}
+		break;
+
+
+	case EGame_Title_State::Game_Over_Destroy:
+		if (current_tick % Explosion_Delay == 0)
+		{
+			explosion_index = current_tick / Explosion_Delay;
+
+			if (explosion_index >= 0 && explosion_index < Title_Letters.size())
+				Title_Letters[explosion_index]->Destroy();
+			else
+				Game_Title_State = EGame_Title_State::Finished;
 		}
 		break;
 	}
