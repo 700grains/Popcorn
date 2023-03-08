@@ -27,6 +27,7 @@ protected:
 	AExplosion();
 
 	void Start_Explosion(RECT& explosion_rect);
+	void Draw_Explosion(HDC hdc, RECT& paint_area);
 
 private:
 	std::vector<AExplosive_Ball> Explosive_Balls;
@@ -75,7 +76,6 @@ protected:
 	RECT Monster_Rect, Previous_Monster_Rect;
 
 private:
-	void Draw_Destroying(HDC hdc, RECT& paint_area);
 	void Act_Destroying();
 	void Get_Monster_Rect(double x_pos, double y_pos, RECT& rect);
 	void Redraw_Monster();

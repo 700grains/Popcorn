@@ -45,6 +45,12 @@ void AExplosion::Start_Explosion(RECT& explosion_rect)
 	}
 }
 //------------------------------------------------------------------------------------------------------------
+void AExplosion::Draw_Explosion(HDC hdc, RECT& paint_area)
+{
+	for (auto& explosive_ball : Explosive_Balls)
+		explosive_ball.Draw(hdc, paint_area);
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -255,7 +261,7 @@ void AMonster::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EMonster_State::Destroying:
-		Draw_Destroying(hdc, paint_area);
+		Draw_Explosion(hdc, paint_area);
 		break;
 
 	default:
@@ -322,12 +328,6 @@ void AMonster::Set_Freeze_State(bool freeze)
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Draw_Alive(HDC hdc)
 {
-}
-//------------------------------------------------------------------------------------------------------------
-void AMonster::Draw_Destroying(HDC hdc, RECT& paint_area)
-{
-	for (auto &explosive_ball : Explosive_Balls)
-		explosive_ball.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
 void AMonster::Act_Alive()
