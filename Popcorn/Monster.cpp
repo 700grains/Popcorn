@@ -1,5 +1,16 @@
 #include "Monster.h"
 
+// AExplosion
+//------------------------------------------------------------------------------------------------------------
+AExplosion::AExplosion()
+	:Explosive_Balls(Explosive_Balls_Count)
+{
+}
+//------------------------------------------------------------------------------------------------------------
+
+
+
+
 // AMonster
 //------------------------------------------------------------------------------------------------------------
 AMonster::~AMonster()
@@ -8,7 +19,7 @@ AMonster::~AMonster()
 //------------------------------------------------------------------------------------------------------------
 AMonster::AMonster()
 	:Need_To_Freeze(false), Monster_State(EMonster_State::Missing), X_Pos(0.0), Y_Pos(0.0), Speed(0.0), Previous_Speed(0.0), Direction(0.0), Next_Direction_Switch_Tick(0), Monster_Is_Alive_Timer(0), Monster_Rect{},
-	Previous_Monster_Rect{}, Explosive_Balls(Explosive_Balls_Count)
+	Previous_Monster_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------

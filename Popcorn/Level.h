@@ -55,6 +55,8 @@ public:
 	virtual void Draw(HDC hdc, RECT& paint_area);
 	virtual bool Is_Finished();
 
+	void Destroy();
+
 	double X_Pos, Y_Pos;
 
 private:

@@ -21,7 +21,18 @@ enum class EMonster_State : unsigned char
 	Destroying
 };
 //------------------------------------------------------------------------------------------------------------
-class AMonster : public AHit_Checker, public AGame_Object
+class AExplosion 
+{
+protected:
+	AExplosion();
+
+private:
+	std::vector<AExplosive_Ball> Explosive_Balls;
+
+	static const int Explosive_Balls_Count = 20;
+};
+//------------------------------------------------------------------------------------------------------------
+class AMonster : public AHit_Checker, public AGame_Object, public AExplosion
 {
 public:
 	virtual ~AMonster();
@@ -69,10 +80,6 @@ private:
 	void Change_Direction();
 
 	double Speed, Previous_Speed;
-
-	std::vector<AExplosive_Ball> Explosive_Balls;
-
-	static const int Explosive_Balls_Count = 20;
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster_Eye : public AMonster
