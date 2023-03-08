@@ -7,6 +7,44 @@ AExplosion::AExplosion()
 {
 }
 //------------------------------------------------------------------------------------------------------------
+void AExplosion::Start_Explosion(RECT& explosion_rect)
+{
+	bool is_red;
+	int x_offset, y_offset;
+	int size, half_size, remained_size;
+	int time_offset;
+
+	int scale = AsConfig::Global_Scale;
+
+	int half_width = (explosion_rect.right - explosion_rect.left) / 2;
+	int half_height = (explosion_rect.bottom - explosion_rect.top) / 2;
+	int x_pos = explosion_rect.right + half_width;
+	int y_pos = explosion_rect.top + half_height;
+
+	half_size = half_width;
+
+	if (half_height < half_size)
+		half_size = half_height;
+
+	for (auto& explosive_ball : Explosive_Balls)
+	{
+		x_offset = AsTools::Rand(half_width) - half_width / 2;
+		y_offset = AsTools::Rand(half_height) - half_height / 2;
+
+		remained_size = half_size - (int)sqrt(x_offset * x_offset + y_offset * y_offset);
+
+		size = AsTools::Rand(remained_size / 2) + remained_size / 2;
+
+		if (size < scale)
+			size = scale;
+
+		time_offset = AsTools::Rand(AsConfig::FPS * 3 / 2);
+
+		is_red = (bool)AsTools::Rand(2);
+		explosive_ball.Explode(x_pos + x_offset, y_pos + y_offset, size * 2, is_red, time_offset, 10);
+	}
+}
+//------------------------------------------------------------------------------------------------------------
 
 
 
@@ -267,41 +305,7 @@ void AMonster::Destroy()
 	if (!(Monster_State == EMonster_State::Emitting || Monster_State == EMonster_State::Alive))
 		return;
 
-	bool is_red;
-
-	int scale = AsConfig::Global_Scale;
-	double d_scale = AsConfig::D_Global_Scale;
-
-	int half_width = Width * scale / 2;
-	int half_height = Height * scale / 2;
-	int x_pos = (int)(X_Pos * d_scale) + half_width;
-	int y_pos = (int)(Y_Pos * d_scale) + half_height;
-	int x_offset, y_offset;
-	int size, half_size, remained_size;
-	int time_offset;
-
-	half_size = half_width;
-
-	if (half_height < half_size)
-		half_size = half_height;
-
-	for (auto &explosive_ball : Explosive_Balls)
-	{
-		x_offset = AsTools::Rand(half_width) - half_width / 2;
-		y_offset = AsTools::Rand(half_height) - half_height / 2;
-
-		remained_size = half_size - (int)sqrt(x_offset * x_offset + y_offset * y_offset);
-
-		size = AsTools::Rand(remained_size / 2) + remained_size / 2;
-
-		if (size < scale)
-			size = scale;
-
-		time_offset = AsTools::Rand(AsConfig::FPS * 3 / 2);
-
-		is_red = (bool)AsTools::Rand(2);
-		explosive_ball.Explode(x_pos + x_offset, y_pos + y_offset, size * 2, is_red, time_offset, 10);
-	}
+	Start_Explosion(Monster_Rect);
 
 	Monster_State = EMonster_State::Destroying;
 

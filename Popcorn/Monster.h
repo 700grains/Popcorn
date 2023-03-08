@@ -26,6 +26,8 @@ class AExplosion
 protected:
 	AExplosion();
 
+	void Start_Explosion(RECT& explosion_rect);
+
 private:
 	std::vector<AExplosive_Ball> Explosive_Balls;
 
