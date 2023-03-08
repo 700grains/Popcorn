@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Information_Panel.h"
+#include "Label.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum class ELevel_Title_State : unsigned char

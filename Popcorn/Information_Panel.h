@@ -2,6 +2,7 @@
 
 #include "Falling_Letter.h"
 #include "Indicator.h"
+#include "Label.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum class EScore_Event_Type : unsigned char
@@ -9,22 +10,6 @@ enum class EScore_Event_Type : unsigned char
 	Hit_Brick,
 	Hit_Monster,
 	Catch_Letter
-};
-//------------------------------------------------------------------------------------------------------------
-class ALabel
-{
-public:
-	ALabel(int x_pos, int y_pos, int height, int width, const AFont& font, const AColor& color);
-
-	void Draw(HDC hdc);
-	AString Content;
-	RECT Content_Rect;
-
-private:
-	int X_Pos, Y_Pos;
-	int Width, Height;
-	const AFont& Font;
-	const AColor& Color;
 };
 //------------------------------------------------------------------------------------------------------------
 class AsInformation_Panel : public AGame_Object

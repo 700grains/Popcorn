@@ -124,6 +124,9 @@
     <Filter Include="#Screen\Level_Title">
       <UniqueIdentifier>{95677bd2-1c18-4c65-ad3e-e603e7b29995}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Screen\Label">
+      <UniqueIdentifier>{7e1b82e5-efe2-4b29-acdc-05625020eebd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -221,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="Level_Title.h">
       <Filter>#Screen\Level_Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>#Screen\Label</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="Level_Title.cpp">
       <Filter>#Screen\Level_Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>#Screen\Label</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
