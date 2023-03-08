@@ -6,6 +6,7 @@
 #include "Mop.h"
 #include "Explosion.h"
 #include "Level_Title.h"
+#include "Final_Letter.h"
 
 //------------------------------------------------------------------------------------------------------------
 class APoint
@@ -15,23 +16,6 @@ public:
 	APoint(int x, int y);
 
 	int X, Y;
-};
-//------------------------------------------------------------------------------------------------------------
-class AFinal_Letter : public AGraphics_Object
-{
-public:
-	AFinal_Letter(double x_pos, double y_pos, const wchar_t letter);
-	virtual void Act();
-	virtual void Clear(HDC hdc, RECT& paint_area);
-	virtual void Draw(HDC hdc, RECT& paint_area);
-	virtual bool Is_Finished();
-
-	void Destroy();
-
-	double X_Pos, Y_Pos;
-
-private:
-	wchar_t Letter;
 };
 //------------------------------------------------------------------------------------------------------------
 enum class EGame_Title_State : unsigned char

@@ -127,6 +127,9 @@
     <Filter Include="#Screen\Label">
       <UniqueIdentifier>{7e1b82e5-efe2-4b29-acdc-05625020eebd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="#Screen\Final_Letter">
+      <UniqueIdentifier>{271b21d9-c920-4d40-a1a3-c0de78015153}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -227,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="Label.h">
       <Filter>#Screen\Label</Filter>
+    </ClInclude>
+    <ClInclude Include="Final_Letter.h">
+      <Filter>#Screen\Final_Letter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,6 +338,9 @@
     </ClCompile>
     <ClCompile Include="Label.cpp">
       <Filter>#Screen\Label</Filter>
+    </ClCompile>
+    <ClCompile Include="Final_Letter.cpp">
+      <Filter>#Screen\Final_Letter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
