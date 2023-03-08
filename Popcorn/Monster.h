@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Explosive_Ball.h"
+#include "Explosion.h"
 #include "Gate.h"
 #include "Level.h"
 

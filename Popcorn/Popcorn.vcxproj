@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="Active_Brick.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Level_Title.h" />
     <ClInclude Include="Mop.h" />
     <ClInclude Include="Indicator.h" />
     <ClInclude Include="Ball.h" />
@@ -191,6 +192,7 @@
   <ItemGroup>
     <ClCompile Include="Active_Brick.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Level_Title.cpp" />
     <ClCompile Include="Mop.cpp" />
     <ClCompile Include="Indicator.cpp" />
     <ClCompile Include="Ball.cpp" />
