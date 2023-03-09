@@ -26,6 +26,8 @@ public:
 	double X_Pos, Y_Pos;
 
 private:
+	void Draw_Letter(HDC hdc, bool is_colored);
+
 	bool Got_Letter_Size;
 	EFinal_Letter_State Final_Letter_State;
 	wchar_t Letter;

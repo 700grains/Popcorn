@@ -23,18 +23,12 @@ void AFinal_Letter::Clear(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 {
-	const double d_scale = AsConfig::D_Global_Scale;
-
 	SIZE letter_size;
 
 	switch (Final_Letter_State)
 	{
 	case EFinal_Letter_State::Showing_Letter:
-		SetBkMode(hdc, 0);
-		AsConfig::Game_Over_Font.Select(hdc);
-		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
-
-		TextOut(hdc, (int)(X_Pos * d_scale), (int)(Y_Pos * d_scale), &Letter, 1);
+		Draw_Letter(hdc, true);
 
 		if (!Got_Letter_Size)
 		{
@@ -48,12 +42,7 @@ void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 		break;
 
 	case EFinal_Letter_State::Hiding_Letter:
-		SetBkMode(hdc, 0);
-		AsConfig::Game_Over_Font.Select(hdc);
-		SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
-
-		TextOut(hdc, (int)(X_Pos * d_scale), (int)(Y_Pos * d_scale), &Letter, 1);
-
+		Draw_Letter(hdc, false);
 		Final_Letter_State = EFinal_Letter_State::Exploding;
 		break;
 
@@ -87,5 +76,21 @@ void AFinal_Letter::Destroy()
 	Start_Explosion(Final_Letter_Rect);
 	Final_Letter_State = EFinal_Letter_State::Hiding_Letter;
 	AsTools::Invalidate_Rect(Final_Letter_Rect);
+}
+//------------------------------------------------------------------------------------------------------------
+void AFinal_Letter::Draw_Letter(HDC hdc, bool is_colored)
+{
+	const double d_scale = AsConfig::D_Global_Scale;
+	
+	SetBkMode(hdc, 0);
+	AsConfig::Game_Over_Font.Select(hdc);
+
+	if (is_colored)
+		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
+	else
+		SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
+
+	TextOut(hdc, (int)(X_Pos * d_scale), (int)(Y_Pos * d_scale), &Letter, 1);
+
 }
 //------------------------------------------------------------------------------------------------------------
