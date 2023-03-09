@@ -72,30 +72,30 @@ void AsGame_Title::Act()
 
 
 	case EGame_Title_State::Game_Over_Destroy:
+		can_finish = false;
+
 		if (current_tick % Explosion_Delay == 0)
 		{
 			explosion_index = current_tick / Explosion_Delay;
 
 			if (explosion_index >= 0 && explosion_index < (int)Title_Letters.size())
-			{
 				Title_Letters[explosion_index]->Destroy();
-				can_finish = false;
-			}
 			else
 				can_finish = true;
-
-			all_letters_are_finished = true;
-
-			for (auto* letter : Title_Letters)
-			{
-				letter->Act();
-
-				all_letters_are_finished &= letter->Is_Finished();
-			}
-
-			if (can_finish && all_letters_are_finished)
-				Game_Title_State = EGame_Title_State::Finished;
 		}
+
+		all_letters_are_finished = true;
+
+		for (auto* letter : Title_Letters)
+		{
+			letter->Act();
+
+			all_letters_are_finished &= letter->Is_Finished();
+		}
+
+		if (can_finish && all_letters_are_finished)
+			Game_Title_State = EGame_Title_State::Finished;
+
 		break;
 	}
 }

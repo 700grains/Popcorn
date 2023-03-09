@@ -15,11 +15,12 @@ public:
 
 	void Destroy();
 
-	int Width, Height;
 	double X_Pos, Y_Pos;
 
 private:
 	bool Exploding, Finished;
 	wchar_t Letter;
+	int Width, Height;
+	RECT Final_Letter_Rect;
 };
 //------------------------------------------------------------------------------------------------------------

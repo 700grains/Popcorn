@@ -9,18 +9,9 @@ AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, i
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Act()
 {
-	const int scale = AsConfig::Global_Scale;
-	const double d_scale = AsConfig::D_Global_Scale;
-	RECT rect;
-
 	Finished = Act_On_Explosion();
 
-	rect.left = (int)(X_Pos * d_scale);
-	rect.top = (int)(Y_Pos * d_scale);
-	rect.right = rect.left + Width * scale;
-	rect.bottom = rect.top + Height * scale;
-
-	AsTools::Invalidate_Rect(rect);
+	AsTools::Invalidate_Rect(Final_Letter_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Clear(HDC hdc, RECT& paint_area)
@@ -55,15 +46,14 @@ void AFinal_Letter::Destroy()
 {
 	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
-	RECT rect;
 
-	rect.left = (int)(X_Pos * d_scale);
-	rect.top = (int)(Y_Pos * d_scale);
-	rect.right = rect.left + Width * scale;
-	rect.bottom = rect.top + Height * scale;
+	Final_Letter_Rect.left = (int)(X_Pos * d_scale);
+	Final_Letter_Rect.top = (int)(Y_Pos * d_scale);
+	Final_Letter_Rect.right = Final_Letter_Rect.left + Width * scale;
+	Final_Letter_Rect.bottom = Final_Letter_Rect.top + Height * scale;
 
-	Start_Explosion(rect);
+	Start_Explosion(Final_Letter_Rect);
 	Exploding = true;
-	AsTools::Invalidate_Rect(rect);
+	AsTools::Invalidate_Rect(Final_Letter_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
