@@ -3,6 +3,14 @@
 #include "Explosion.h"
 
 //------------------------------------------------------------------------------------------------------------
+enum class EFinal_Letter_State : unsigned char
+{
+	Showing_Letter,
+	Hiding_Letter,
+	Exploding,
+	Finished
+};
+//------------------------------------------------------------------------------------------------------------
 class AFinal_Letter : public AGraphics_Object, public AExplosion
 {
 public:
@@ -18,8 +26,8 @@ public:
 	double X_Pos, Y_Pos;
 
 private:
-	bool Exploding, Finished;
-	bool Got_Letter_Size, Has_Letter;
+	bool Got_Letter_Size;
+	EFinal_Letter_State Final_Letter_State;
 	wchar_t Letter;
 	int Width, Height;
 	RECT Final_Letter_Rect;
