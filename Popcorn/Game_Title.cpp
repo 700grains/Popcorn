@@ -90,12 +90,11 @@ void AsGame_Title::Act()
 			{
 				letter->Act();
 
-				all_letters_are_finished %= letter->Is_Finished();
+				all_letters_are_finished &= letter->Is_Finished();
 			}
 
 			if (can_finish && all_letters_are_finished)
 				Game_Title_State = EGame_Title_State::Finished;
-
 		}
 		break;
 	}
