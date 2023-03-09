@@ -6,7 +6,7 @@
 class AFinal_Letter : public AGraphics_Object, public AExplosion
 {
 public:
-	AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, int width = 16, int height = 16);
+	AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, int width = 23, int height = 23);
 
 	virtual void Act();
 	virtual void Clear(HDC hdc, RECT& paint_area);
