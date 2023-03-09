@@ -3,13 +3,13 @@
 // AFinal_Letter
 //------------------------------------------------------------------------------------------------------------
 AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, int width, int height)
-	: Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
+	: Exploding(false), Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Act()
 {
-	//!!! TODO
+	Act_On_Explosion();
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Clear(HDC hdc, RECT& paint_area)
@@ -23,12 +23,16 @@ void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 
 	//Letter.Draw(hdc);
 
-	SetBkMode(hdc, 0);
-	AsConfig::Game_Over_Font.Select(hdc);
-	SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
+	if (Exploding)
+		Draw_Explosion(hdc,paint_area);
+	else
+	{
+		SetBkMode(hdc, 0);
+		AsConfig::Game_Over_Font.Select(hdc);
+		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
 
-	TextOut(hdc, (int)(X_Pos * d_scale), (int)(Y_Pos * d_scale), &Letter, 1);
-
+		TextOut(hdc, (int)(X_Pos * d_scale), (int)(Y_Pos * d_scale), &Letter, 1);
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 bool AFinal_Letter::Is_Finished()
@@ -49,5 +53,6 @@ void AFinal_Letter::Destroy()
 	rect.bottom = rect.top + Height * scale;
 
 	Start_Explosion(rect);
+	Exploding = true;
 }
 //------------------------------------------------------------------------------------------------------------
