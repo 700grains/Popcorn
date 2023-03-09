@@ -19,7 +19,7 @@ public:
 
 private:
 	bool Exploding, Finished;
-	bool Got_Letter_Size;
+	bool Got_Letter_Size, Has_Letter;
 	wchar_t Letter;
 	int Width, Height;
 	RECT Final_Letter_Rect;
