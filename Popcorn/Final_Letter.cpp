@@ -3,7 +3,7 @@
 // AFinal_Letter
 //------------------------------------------------------------------------------------------------------------
 AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, int width, int height)
-	: Exploding(false), Finished(false), Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
+	: Exploding(false), Finished(false), Got_Letter_Size(false), Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 {
 	const double d_scale = AsConfig::D_Global_Scale;
 
-	//Letter.Draw(hdc);
+	SIZE letter_size;
 
 	if (Exploding)
 		Draw_Explosion(hdc,paint_area);
@@ -34,6 +34,16 @@ void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
 
 		TextOut(hdc, (int)(X_Pos * d_scale), (int)(Y_Pos * d_scale), &Letter, 1);
+
+		if (!Got_Letter_Size)
+		{
+			GetTextExtentPoint32(hdc, &Letter, 1, &letter_size);
+
+			Width = letter_size.cx;
+			Height = letter_size.cy;
+
+			Got_Letter_Size = true;
+		}
 	}
 }
 //------------------------------------------------------------------------------------------------------------
@@ -44,13 +54,12 @@ bool AFinal_Letter::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Destroy()
 {
-	const int scale = AsConfig::Global_Scale;
 	const double d_scale = AsConfig::D_Global_Scale;
 
 	Final_Letter_Rect.left = (int)(X_Pos * d_scale);
 	Final_Letter_Rect.top = (int)(Y_Pos * d_scale);
-	Final_Letter_Rect.right = Final_Letter_Rect.left + Width * scale;
-	Final_Letter_Rect.bottom = Final_Letter_Rect.top + Height * scale;
+	Final_Letter_Rect.right = Final_Letter_Rect.left + Width;
+	Final_Letter_Rect.bottom = Final_Letter_Rect.top + Height;
 
 	Start_Explosion(Final_Letter_Rect);
 	Exploding = true;

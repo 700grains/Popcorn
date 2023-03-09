@@ -234,14 +234,14 @@
     <ClInclude Include="Level_Title.h">
       <Filter>#Level\Level_Title</Filter>
     </ClInclude>
-    <ClInclude Include="Label.h">
-      <Filter>#Screen\Label</Filter>
-    </ClInclude>
     <ClInclude Include="Final_Letter.h">
       <Filter>#Screen\Final_Letter</Filter>
     </ClInclude>
     <ClInclude Include="Game_Title.h">
       <Filter>#Screen\Game_Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>#Screen\Label</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
