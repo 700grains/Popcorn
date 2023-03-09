@@ -19,7 +19,7 @@ public:
 	double X_Pos, Y_Pos;
 
 private:
-	bool Exploding;
+	bool Exploding, Finished;
 	wchar_t Letter;
 };
 //------------------------------------------------------------------------------------------------------------

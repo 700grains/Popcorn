@@ -3,13 +3,13 @@
 // AFinal_Letter
 //------------------------------------------------------------------------------------------------------------
 AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, int width, int height)
-	: Exploding(false), Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
+	: Exploding(false), Finished(false), Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Act()
 {
-	Act_On_Explosion();
+	Finished = Act_On_Explosion();
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Clear(HDC hdc, RECT& paint_area)
@@ -37,8 +37,7 @@ void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AFinal_Letter::Is_Finished()
 {
-	//!!! TODO
-	return false;
+	return Finished;
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Destroy()
