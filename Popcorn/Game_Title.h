@@ -32,8 +32,11 @@ public:
 	bool Is_Visible();
 
 private:
+	void Destroy_Letters(int current_tick);
+
 	EGame_Title_State Game_Title_State;
 	int Starting_Tick;
+	int Explosion_Index;
 	RECT Title_Rect, Previous_Title_Rect;
 
 	std::vector <AFinal_Letter*> Title_Letters;

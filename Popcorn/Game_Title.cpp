@@ -12,15 +12,13 @@ AsGame_Title::~AsGame_Title()
 }
 //------------------------------------------------------------------------------------------------------------
 AsGame_Title::AsGame_Title()
-	: Game_Title_State(EGame_Title_State::Idle), Starting_Tick(0)
+	: Game_Title_State(EGame_Title_State::Idle), Starting_Tick(0), Explosion_Index(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Act()
 {
-	bool can_finish, all_letters_are_finished;
 	int current_tick;
-	int explosion_index;
 	double ratio;
 	double y_pos;
 	const double d_scale = AsConfig::D_Global_Scale;
@@ -72,30 +70,7 @@ void AsGame_Title::Act()
 
 
 	case EGame_Title_State::Game_Over_Destroy:
-		can_finish = false;
-
-		if (current_tick % Explosion_Delay == 0)
-		{
-			explosion_index = current_tick / Explosion_Delay;
-
-			if (explosion_index >= 0 && explosion_index < (int)Title_Letters.size())
-				Title_Letters[explosion_index]->Destroy();
-			else
-				can_finish = true;
-		}
-
-		all_letters_are_finished = true;
-
-		for (auto* letter : Title_Letters)
-		{
-			letter->Act();
-
-			all_letters_are_finished &= letter->Is_Finished();
-		}
-
-		if (can_finish && all_letters_are_finished)
-			Game_Title_State = EGame_Title_State::Finished;
-
+		Destroy_Letters(current_tick);
 		break;
 	}
 }
@@ -180,6 +155,7 @@ void AsGame_Title::Show(bool is_victory)
 	Title_Rect.bottom = Title_Rect.top + Height * scale;
 
 	Starting_Tick = AsConfig::Current_Timer_Tick;
+	Explosion_Index = -1;
 
 	AsTools::Invalidate_Rect(Title_Rect);
 }
@@ -190,5 +166,31 @@ bool AsGame_Title::Is_Visible()
 		return true;
 	else
 		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+void AsGame_Title::Destroy_Letters(int current_tick)
+{
+	bool can_finish = false;
+	bool all_letters_are_finished = true;
+
+	if (Explosion_Index == -1 || current_tick % Explosion_Delay == 0)
+	{
+		++Explosion_Index;
+
+		if (Explosion_Index >= 0 && Explosion_Index < (int)Title_Letters.size())
+			Title_Letters[Explosion_Index]->Destroy();
+		else
+			can_finish = true;
+	}
+
+	for (auto* letter : Title_Letters)
+	{
+		letter->Act();
+
+		all_letters_are_finished &= letter->Is_Finished();
+	}
+
+	if (can_finish && all_letters_are_finished)
+		Game_Title_State = EGame_Title_State::Finished;
 }
 //------------------------------------------------------------------------------------------------------------
