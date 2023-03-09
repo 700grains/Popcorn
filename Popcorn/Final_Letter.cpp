@@ -54,5 +54,6 @@ void AFinal_Letter::Destroy()
 
 	Start_Explosion(rect);
 	Exploding = true;
+	AsTools::Invalidate_Rect(rect);
 }
 //------------------------------------------------------------------------------------------------------------

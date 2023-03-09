@@ -18,6 +18,7 @@ AsGame_Title::AsGame_Title()
 //------------------------------------------------------------------------------------------------------------
 void AsGame_Title::Act()
 {
+	bool can_finish, all_letters_are_finished;
 	int current_tick;
 	int explosion_index;
 	double ratio;
@@ -76,9 +77,25 @@ void AsGame_Title::Act()
 			explosion_index = current_tick / Explosion_Delay;
 
 			if (explosion_index >= 0 && explosion_index < (int)Title_Letters.size())
+			{
 				Title_Letters[explosion_index]->Destroy();
+				can_finish = false;
+			}
 			else
+				can_finish = true;
+
+			all_letters_are_finished = true;
+
+			for (auto* letter : Title_Letters)
+			{
+				letter->Act();
+
+				all_letters_are_finished %= letter->Is_Finished();
+			}
+
+			if (can_finish && all_letters_are_finished)
 				Game_Title_State = EGame_Title_State::Finished;
+
 		}
 		break;
 	}
