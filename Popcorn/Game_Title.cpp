@@ -201,3 +201,20 @@ void AsGame_Title::Destroy_Letters(int current_tick)
 		Game_Title_State = EGame_Title_State::Finished;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsGame_Title::Animate_Game_Won()
+{
+	unsigned char r, g, b;
+	int letter_index;
+	AFinal_Letter* the_letter;
+
+	letter_index = AsTools::Rand(Title_Letters.size());
+
+	the_letter = Title_Letters[letter_index];
+
+	r = AsTools::Rand(256);
+	g = AsTools::Rand(256);
+	b = AsTools::Rand(256);
+
+	the_letter->
+}
+//------------------------------------------------------------------------------------------------------------
