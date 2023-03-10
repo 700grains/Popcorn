@@ -118,7 +118,8 @@ int AsEngine::On_Timer()
 			if (Information_Panel.Remove_A_Life())
 				Restart_Level();
 			else
-				Game_Over();
+				//Game_Over();
+				Game_Won();
 		}
 		break;
 		

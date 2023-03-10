@@ -72,6 +72,10 @@ void AsGame_Title::Act()
 	case EGame_Title_State::Game_Over_Destroy:
 		Destroy_Letters(current_tick);
 		break;
+
+	case EGame_Title_State::Game_Won_Animate:
+
+		break;
 	}
 }
 //------------------------------------------------------------------------------------------------------------
