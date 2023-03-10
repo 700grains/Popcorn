@@ -322,7 +322,7 @@ void AsLevel::Stop()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Mop_Level(int next_level)
 {
-	if (next_level < 1 || next_level >= ALevel_Data::Max_Level_Number)
+	if (next_level < 1 || next_level > ALevel_Data::Max_Level_Number)
 		AsConfig::Throw();
 
 	Next_Level_Number = next_level;

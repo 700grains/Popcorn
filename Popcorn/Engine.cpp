@@ -52,7 +52,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Modules.push_back(&Monster_Set);
 	Modules.push_back(&Information_Panel);
 
-	Level.Mop_Level(1);
+	Level.Mop_Level(10);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
@@ -118,8 +118,7 @@ int AsEngine::On_Timer()
 			if (Information_Panel.Remove_A_Life())
 				Restart_Level();
 			else
-				//Game_Over();
-				Game_Won();
+				Game_Over();
 		}
 		break;
 		
@@ -286,14 +285,15 @@ void AsEngine::Handle_Message()
 
 
 		case EMessage_Type::Level_Done:
-			if (! Level.Can_Mop_Next_Level())
-				Game_Won();
-			else
+			if (Level.Can_Mop_Next_Level())
 			{
 				Stop_Play();
 				Ball_Set.Disable_All_Balls();
 				Game_State = EGame_State::Finish_Level;
 			}
+			else
+				Game_Won();
+
 			break;
 
 

@@ -6,7 +6,7 @@ AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, i
 	: Got_Letter_Size(false), Final_Letter_State(EFinal_Letter_State::Showing_Letter), Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height),
 	Final_Letter_Rect{}
 {
-	Color.Set_As(AsConfig::BG_Color.R, AsConfig::BG_Color.G, AsConfig::BG_Color.B);
+	Color.Set_As(AsConfig::White_Color.R, AsConfig::White_Color.G, AsConfig::White_Color.B);
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Act()
@@ -98,7 +98,6 @@ void AFinal_Letter::Setup_Letter_Rect()
 	Final_Letter_Rect.top = (int)(Y_Pos * d_scale);
 	Final_Letter_Rect.right = Final_Letter_Rect.left + Width;
 	Final_Letter_Rect.bottom = Final_Letter_Rect.top + Height;
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Draw_Letter(HDC hdc, bool is_colored)
