@@ -209,7 +209,7 @@ void AsEngine::Game_Over()
 void AsEngine::Game_Won()
 {
 	Level.Game_Title.Show(true);
-	Game_State = EGame_State::Game_Won;
+	Game_State = EGame_State::Game_Over;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()
