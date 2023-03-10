@@ -51,6 +51,10 @@ void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 		Draw_Explosion(hdc, paint_area);
 		break;
 
+	case EFinal_Letter_State::Color_Letter:
+		Draw_Letter(hdc, true);
+		break;
+
 	case EFinal_Letter_State::Finished:
 		break;
 
@@ -81,6 +85,11 @@ void AFinal_Letter::Destroy()
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Set_Color(unsigned char r, unsigned char g, unsigned char b)
 {
+	if (Final_Letter_State != EFinal_Letter_State::Color_Letter)
+	{
+		Final_Letter_State = EFinal_Letter_State::Color_Letter;
+	}
+
 	Color.Set_As(r, g, b);
 	AsTools::Invalidate_Rect(Final_Letter_Rect);
 }

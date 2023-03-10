@@ -8,6 +8,7 @@ enum class EFinal_Letter_State : unsigned char
 	Showing_Letter,
 	Hiding_Letter,
 	Exploding,
+	Color_Letter,
 	Finished
 };
 //------------------------------------------------------------------------------------------------------------
