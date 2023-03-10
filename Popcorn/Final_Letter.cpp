@@ -35,7 +35,7 @@ void AFinal_Letter::Draw(HDC hdc, RECT& paint_area)
 		{
 			GetTextExtentPoint32(hdc, &Letter, 1, &letter_size);
 
-			Width = letter_size.cx + letter_size.cx / 5;
+			Width = letter_size.cx + letter_size.cx / 3;
 			Height = letter_size.cy;
 
 			Got_Letter_Size = true;
