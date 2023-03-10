@@ -45,7 +45,7 @@ private:
 	static const int Descent_Timeout = AsConfig::FPS * 6; // 6 seconds to Descend
 	static const int Height = 32;
 	static const int Game_Over_Showing_Timeout = AsConfig::FPS * 3;
-	static const int Game_Won_Animate_Timeout = AsConfig::FPS * 20;
+	static const int Game_Won_Animate_Timeout = AsConfig::FPS * 25;
 	static const int Explosion_Delay = AsConfig::FPS / 2;
 	static const double Lowest_Y_Pos;
 };
