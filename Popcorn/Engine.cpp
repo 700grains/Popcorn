@@ -145,6 +145,11 @@ int AsEngine::On_Timer()
 
 	case EGame_State::Game_Over:
 		break; // Don't have to do anything
+
+	case EGame_State::Game_Won:
+		if (Is_Destroying_Complete())
+			Game_Won();
+		break;
 	}
 	
 	Act();
@@ -204,7 +209,7 @@ void AsEngine::Game_Over()
 void AsEngine::Game_Won()
 {
 	Level.Game_Title.Show(true);
-	Game_State = EGame_State::Game_Over;
+	Game_State = EGame_State::Game_Won;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Advance_Movers()
@@ -285,14 +290,13 @@ void AsEngine::Handle_Message()
 
 
 		case EMessage_Type::Level_Done:
+			Stop_Play();
+			Ball_Set.Disable_All_Balls();
+
 			if (Level.Can_Mop_Next_Level())
-			{
-				Stop_Play();
-				Ball_Set.Disable_All_Balls();
 				Game_State = EGame_State::Finish_Level;
-			}
 			else
-				Game_Won();
+				Game_State = EGame_State::Game_Won;
 
 			break;
 
