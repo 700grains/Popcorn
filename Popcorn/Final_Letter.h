@@ -28,6 +28,7 @@ public:
 	double X_Pos, Y_Pos;
 
 private:
+	void Setup_Letter_Rect();
 	void Draw_Letter(HDC hdc, bool is_colored);
 
 	bool Got_Letter_Size;

@@ -71,12 +71,7 @@ bool AFinal_Letter::Is_Finished()
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Destroy()
 {
-	const double d_scale = AsConfig::D_Global_Scale;
-
-	Final_Letter_Rect.left = (int)(X_Pos * d_scale);
-	Final_Letter_Rect.top = (int)(Y_Pos * d_scale);
-	Final_Letter_Rect.right = Final_Letter_Rect.left + Width;
-	Final_Letter_Rect.bottom = Final_Letter_Rect.top + Height;
+	Setup_Letter_Rect();
 
 	Start_Explosion(Final_Letter_Rect);
 	Final_Letter_State = EFinal_Letter_State::Hiding_Letter;
@@ -88,10 +83,22 @@ void AFinal_Letter::Set_Color(unsigned char r, unsigned char g, unsigned char b)
 	if (Final_Letter_State != EFinal_Letter_State::Color_Letter)
 	{
 		Final_Letter_State = EFinal_Letter_State::Color_Letter;
+		Setup_Letter_Rect();
 	}
 
 	Color.Set_As(r, g, b);
 	AsTools::Invalidate_Rect(Final_Letter_Rect);
+}
+//------------------------------------------------------------------------------------------------------------
+void AFinal_Letter::Setup_Letter_Rect()
+{
+	const double d_scale = AsConfig::D_Global_Scale;
+
+	Final_Letter_Rect.left = (int)(X_Pos * d_scale);
+	Final_Letter_Rect.top = (int)(Y_Pos * d_scale);
+	Final_Letter_Rect.right = Final_Letter_Rect.left + Width;
+	Final_Letter_Rect.bottom = Final_Letter_Rect.top + Height;
+
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Draw_Letter(HDC hdc, bool is_colored)

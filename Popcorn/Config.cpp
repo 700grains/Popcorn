@@ -49,9 +49,9 @@ void AColor::operator = (const AColor& another)
 //------------------------------------------------------------------------------------------------------------
 void AColor::Set_As(unsigned char r, unsigned char g, unsigned char b)
 {
-	//R = r;
-	//G = g;
-	//B = b;
+	R = r;
+	G = g;
+	B = b;
 
 	if (Pen != 0)
 		DeleteObject(Pen);
