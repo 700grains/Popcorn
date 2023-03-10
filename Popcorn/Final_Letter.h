@@ -22,6 +22,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Destroy();
+	void Set_Color(unsigned char r, unsigned char g, unsigned char b);
 
 	double X_Pos, Y_Pos;
 
@@ -33,5 +34,6 @@ private:
 	wchar_t Letter;
 	int Width, Height;
 	RECT Final_Letter_Rect;
+	AColor Color;
 };
 //------------------------------------------------------------------------------------------------------------

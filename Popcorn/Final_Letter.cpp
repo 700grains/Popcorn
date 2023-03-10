@@ -6,6 +6,7 @@ AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, i
 	: Got_Letter_Size(false), Final_Letter_State(EFinal_Letter_State::Showing_Letter), Letter(letter), X_Pos(x_pos), Y_Pos(y_pos), Width(width), Height(height),
 	Final_Letter_Rect{}
 {
+	Color.Set_As(AsConfig::BG_Color.R, AsConfig::BG_Color.G, AsConfig::BG_Color.B);
 }
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Act()
@@ -78,6 +79,12 @@ void AFinal_Letter::Destroy()
 	AsTools::Invalidate_Rect(Final_Letter_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
+void AFinal_Letter::Set_Color(unsigned char r, unsigned char g, unsigned char b)
+{
+	Color.Set_As(r, g, b);
+	AsTools::Invalidate_Rect(Final_Letter_Rect);
+}
+//------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Draw_Letter(HDC hdc, bool is_colored)
 {
 	const double d_scale = AsConfig::D_Global_Scale;
@@ -86,7 +93,7 @@ void AFinal_Letter::Draw_Letter(HDC hdc, bool is_colored)
 	AsConfig::Game_Over_Font.Select(hdc);
 
 	if (is_colored)
-		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
+		SetTextColor(hdc, Color.Get_RGB());
 	else
 		SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
 

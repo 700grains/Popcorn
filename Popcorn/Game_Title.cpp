@@ -215,6 +215,6 @@ void AsGame_Title::Animate_Game_Won()
 	g = AsTools::Rand(256);
 	b = AsTools::Rand(256);
 
-	the_letter->
+	the_letter->Set_Color(r, g, b);
 }
 //------------------------------------------------------------------------------------------------------------
