@@ -164,9 +164,9 @@ int AsEngine::On_Timer()
 	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
-void AsEngine::On_Char()
+void AsEngine::On_Char(wchar_t symbol)
 {
-
+	Information_Panel.Edit_Player_Name(symbol);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsEngine::Is_Destroying_Complete()

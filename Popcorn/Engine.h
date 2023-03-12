@@ -38,7 +38,7 @@ public:
 	void Draw_Frame(HDC hdc, RECT &paint_area);
 	int On_Key(EKey_Type key_type, bool key_down);
 	int On_Timer();
-	void On_Char();
+	void On_Char(wchar_t symbol);
 
 	const int Timer_ID;
 
