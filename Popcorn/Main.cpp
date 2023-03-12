@@ -391,10 +391,10 @@ V 5. Extra lives window
 V 6. Accounting for game actions and display on indicators
 
 
-Game and levels
+V Game and levels
 V 1. List of the first 10 levels
-2. Game states:
-2.1 splash screen
+V 2. Game states:
+V 2.1 splash screen
 V 2.2 animation of the beginning of the level
 V 2.3 playing the level
 V 2.4 loss of life
@@ -404,7 +404,7 @@ X 2.5.2 early
 V 2.6 end of the game
 
 3. Final setup of the game
-3.1 Fixing 1st level
+V 3.1 Fixing 1st level
 3.2 Playing and testing
 3.3 Compiling in release mode
 
