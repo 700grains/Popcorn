@@ -131,7 +131,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		// 1. Draw background plate.
 		AsTools::Rect(hdc, Player_Name_Label.Content_Rect, Dark_Red_Color);
 
-		Player_Name_Label.Content = L"Player";
+		//Player_Name_Label.Content = L"Player";
 		//Draw_String(hdc, rect, Player_Name_Label.Content, true);
 		Player_Name_Label.Draw(hdc);
 
@@ -194,6 +194,7 @@ bool AsInformation_Panel::Remove_A_Life()
 void AsInformation_Panel::Edit_Player_Name(wchar_t symbol)
 {
 	Player_Name_Label.Content.Append(symbol);
+	AsTools::Invalidate_Rect(Data_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
