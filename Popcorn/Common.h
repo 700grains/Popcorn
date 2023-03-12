@@ -88,6 +88,7 @@ public:
 
 	void Append(wchar_t symbol);
 	void Append(int value, int digits);
+	void Delete_Last_Symbol();
 	const wchar_t* Get_Content();
 	int Get_Length();
 	void Clear();

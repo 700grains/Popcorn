@@ -3,7 +3,7 @@
 // ALabel
 //------------------------------------------------------------------------------------------------------------
 ALabel::ALabel(int x_pos, int y_pos, int width, int height, const AFont& font, const AColor& color)
-	: X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(font), Color(color)
+	: Last_Character_Entered(0), X_Pos(x_pos), Y_Pos(y_pos), Height(height), Width(width), Font(font), Color(color)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -25,6 +25,16 @@ void ALabel::Draw(HDC hdc)
 	Font.Select(hdc);
 
 	GetTextExtentPoint32(hdc, Content.Get_Content(), Content.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
+
+	if (str_size.cx > Width * scale)
+	{
+		if (Last_Character_Entered != 0)
+		{
+			Content.Delete_Last_Symbol();
+			Last_Character_Entered = 0;
+			GetTextExtentPoint32(hdc, Content.Get_Content(), Content.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
+		}
+	}
 
 	str_left_offset = Content_Rect.left + (Content_Rect.right - Content_Rect.left) / 2 - str_size.cx / 2;
 	str_top_offset = Content_Rect.top + (Content_Rect.bottom - Content_Rect.top) / 2 - str_size.cy / 2 - scale;

@@ -134,6 +134,12 @@ void AString::Append(int value, int digits)
 	Content += buffer;
 }
 //------------------------------------------------------------------------------------------------------------
+void AString::Delete_Last_Symbol()
+{
+	if (Content.size() > 0)
+		Content.pop_back();
+}
+//------------------------------------------------------------------------------------------------------------
 const wchar_t* AString::Get_Content()
 {
 	return Content.c_str();
