@@ -396,7 +396,7 @@ V 2.4 loss of life
 V 2.5 transition to the next level
 V 2.5.1 normal
 X 2.5.2 early
-2.6 end of the game
+V 2.6 end of the game
 
 3. Final setup of the game
 3.1 Fixing 1st level
