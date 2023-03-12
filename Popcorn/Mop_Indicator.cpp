@@ -1,4 +1,4 @@
-#include "Mop_Indicator.h"
+﻿#include "Mop_Indicator.h"
 
 // AMop_Indicators
 AColor_Fade AMop_Indicators::Fading_Blue_Colors(AsConfig::Blue_Color, AsConfig::Red_Color, Max_Fade_Step);

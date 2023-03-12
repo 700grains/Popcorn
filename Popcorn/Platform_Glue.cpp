@@ -1,4 +1,4 @@
-#include "Platform_Glue.h"
+﻿#include "Platform_Glue.h"
 
 // AsPlatform_Glue
 const double AsPlatform_Glue::Max_Glue_Spot_Height_Ratio = 1.0;

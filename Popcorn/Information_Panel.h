@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Falling_Letter.h"
 #include "Indicator.h"

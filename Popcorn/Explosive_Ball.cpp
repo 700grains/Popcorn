@@ -1,4 +1,4 @@
-#include "Explosive_Ball.h"
+﻿#include "Explosive_Ball.h"
 
 //AExplosive_Ball
 AColor_Fade AExplosive_Ball::Fading_Red_Colors(AsConfig::Red_Color, Max_Fade_Step);

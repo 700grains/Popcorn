@@ -1,4 +1,4 @@
-#include "Platform_Expanding.h"
+﻿#include "Platform_Expanding.h"
 
 
 
@@ -88,7 +88,7 @@ void AsPlatform_Expanding::Draw_State(HDC hdc, double& x)
 	// 1.2 Truss
 	Draw_Expanding_Truss(hdc, inner_rect, true);
 
-	// 2. Draw right side�
+	// 2. Draw right sideа
 	// 2.1 the ball
 	Draw_Expanding_Platform_Ball(hdc, x, false);
 

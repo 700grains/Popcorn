@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Platform_State.h"
 #include "Laser_Beam_Set.h"

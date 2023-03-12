@@ -1,4 +1,4 @@
-#include "Information_Panel.h"
+﻿#include "Information_Panel.h"
 
 // AsInformation_Panel
 //------------------------------------------------------------------------------------------------------------

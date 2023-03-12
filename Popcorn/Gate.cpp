@@ -1,4 +1,4 @@
-#include "Gate.h"
+﻿#include "Gate.h"
 
 // AGate
 const double AGate::Max_Hole_Short_Height = 9.0;
