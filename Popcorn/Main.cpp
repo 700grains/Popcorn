@@ -73,7 +73,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 AsMain_Window* AsMain_Window::Self = 0;
 //------------------------------------------------------------------------------------------------------------
 AsMain_Window::AsMain_Window()
-	:Instance(0), szTitle{}, szWindowClass{}
+	:Instance(0)
 {
 	Self = this;
 }
@@ -82,12 +82,17 @@ int APIENTRY AsMain_Window::Main(HINSTANCE instance, int cmd_show)
 {
 	MSG msg;
 	HACCEL accel_table;
+	wchar_t str_buffer[MAX_LOADSTRING];
 
 	Instance = instance; // Store instance handle in our global variable
 
 	// Initialize global strings
-	LoadStringW(Instance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadStringW(Instance, IDC_POPCORN, szWindowClass, MAX_LOADSTRING);
+	LoadStringW(Instance, IDS_APP_TITLE, str_buffer, MAX_LOADSTRING);
+	Title = str_buffer;
+
+	LoadStringW(Instance, IDC_POPCORN, str_buffer, MAX_LOADSTRING);
+	Window_Class_Title = str_buffer;
+
 	Register_Class();
 
 	// Perform application initialization:
@@ -124,7 +129,7 @@ ATOM AsMain_Window::Register_Class()
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = AsConfig::BG_Color.Get_Brush();
 	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_POPCORN);
-	wcex.lpszClassName = szWindowClass;
+	wcex.lpszClassName = Window_Class_Title.Get_Content();
 	wcex.hIconSm = LoadIcon(Instance, MAKEINTRESOURCE(IDI_SMALL) );
 
 	return RegisterClassExW(&wcex);
@@ -142,7 +147,7 @@ BOOL AsMain_Window::Init_Instance(int cmd_show)
 
 	AdjustWindowRect(&window_rect, WS_OVERLAPPEDWINDOW, TRUE);
 
-	hwnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, 0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, 0, 0, Instance, 0);
+	hwnd = CreateWindowW(Window_Class_Title.Get_Content(), Title.Get_Content(), WS_OVERLAPPEDWINDOW, 0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, 0, 0, Instance, 0);
 
 	if (hwnd == 0)
 		return FALSE;
