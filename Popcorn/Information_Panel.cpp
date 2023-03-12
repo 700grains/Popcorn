@@ -41,7 +41,7 @@ void AsInformation_Panel::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Finish_Movement()
 {
-	// Not used !!!
+	// Not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Advance(double max_speed)

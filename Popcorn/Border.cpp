@@ -175,7 +175,7 @@ void AsBorder::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Finish_Movement()
 {
-	// not used !!! to fix inheritance
+	// not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Advance(double max_speed)
