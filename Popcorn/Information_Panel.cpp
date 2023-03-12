@@ -208,6 +208,12 @@ bool AsInformation_Panel::Remove_A_Life()
 //------------------------------------------------------------------------------------------------------------
 bool AsInformation_Panel::Edit_Player_Name(wchar_t symbol)
 {
+	if (Entering_User_Name)
+	{
+		Player_Name_Label.Content = L"";
+		Entering_User_Name = false;
+	}
+
 	return Player_Name_Label.Append(symbol);
 }
 //------------------------------------------------------------------------------------------------------------

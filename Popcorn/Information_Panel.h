@@ -69,6 +69,6 @@ private:
 	static const int Score_Height = 90;
 	static const int Score_Val_Offset = 20;
 	static const int Indicator_Y_Offset = 55;
-	static const int Blink_Timeout = AsConfig::FPS;
+	static const int Blink_Timeout = AsConfig::FPS / 2;
 };
 //------------------------------------------------------------------------------------------------------------
