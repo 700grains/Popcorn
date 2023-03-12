@@ -49,7 +49,18 @@ void ALabel::Draw(HDC hdc)
 }
 //------------------------------------------------------------------------------------------------------------
 void ALabel::Append(wchar_t symbol)
-{
+{ // convert lowercase letters to uppercase letters
+	if (symbol >= L'a' && symbol <= L'z')
+		symbol -= L'a' - L'A'; 
+	
+	// convert lowercase letters to uppercase letters (Cyrillic)
+	if (symbol >= 0x430 && symbol <= 0x44F)
+		symbol -= 0x20;
+
+	if (symbol >= 0x450 && symbol <= 0x45F)
+		symbol -= 0x50;
+
+
 	if (symbol == 8)
 		Content.Delete_Last_Symbol();
 	else
