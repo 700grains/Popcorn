@@ -11,8 +11,11 @@ AFinal_Letter::AFinal_Letter(double x_pos, double y_pos, const wchar_t letter, i
 //------------------------------------------------------------------------------------------------------------
 void AFinal_Letter::Act()
 {
-	if (Act_On_Explosion())
-		Final_Letter_State = EFinal_Letter_State::Finished;
+	if (Final_Letter_State == EFinal_Letter_State::Exploding)
+	{
+		if (Act_On_Explosion())
+			Final_Letter_State = EFinal_Letter_State::Finished;
+	}
 
 	AsTools::Invalidate_Rect(Final_Letter_Rect);
 }
