@@ -42,7 +42,9 @@ private:
 	void Show_Extra_Lives(HDC hdc);
 	void Draw_Extra_Life(HDC hdc, int x, int y);
 
+	bool Entering_User_Name;
 	int Lives_Left;
+	int Start_Timer_Tick;
 	//HFONT Logo_Corn_Font, Logo_Pop_Font;
 	AColor Shaded_Blue, Dark_Red_Color;
 
@@ -67,5 +69,6 @@ private:
 	static const int Score_Height = 90;
 	static const int Score_Val_Offset = 20;
 	static const int Indicator_Y_Offset = 55;
+	static const int Blink_Timeout = AsConfig::FPS;
 };
 //------------------------------------------------------------------------------------------------------------

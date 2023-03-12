@@ -7,7 +7,7 @@ RECT AsInformation_Panel::Logo_Rect;
 RECT AsInformation_Panel::Data_Rect;
 //------------------------------------------------------------------------------------------------------------
 AsInformation_Panel::AsInformation_Panel()
-	: Lives_Left(AsConfig::Initial_Life_Count), Shaded_Blue(0, 170, 170), Dark_Red_Color(190, 30, 30),
+	: Entering_User_Name(true), Lives_Left(AsConfig::Initial_Life_Count), Start_Timer_Tick(0), Shaded_Blue(0, 170, 170), Dark_Red_Color(190, 30, 30),
 	Letter_P(EBrick_Type::Blue, ELetter_Type::P, 214 * AsConfig::Global_Scale + 1, 153 * AsConfig::Global_Scale),
 	Letter_G(EBrick_Type::Blue, ELetter_Type::G, 256 * AsConfig::Global_Scale, 153 * AsConfig::Global_Scale),
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
@@ -17,8 +17,6 @@ AsInformation_Panel::AsInformation_Panel()
 	Score_Label(Score_X_Pos + 5, Score_Y_Pos + 5 + Score_Val_Offset, Score_Width - 2 * 5, 18, AsConfig::Score_Font, AsConfig::White_Color)
 {
 	const int scale = AsConfig::Global_Scale;
-
-	//Choose_Font();
 
 	// creating rect for logo
 	Logo_Rect.left = Score_X_Pos * scale;
@@ -60,8 +58,27 @@ double AsInformation_Panel::Get_Speed()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Act()
 {
+	int current_tick;
+
 	Floor_Panel.Act();
 	Monsters_Panel.Act();
+
+	if (Entering_User_Name)
+	{
+		current_tick = AsConfig::Current_Timer_Tick - Start_Timer_Tick;
+
+		if (current_tick > Blink_Timeout)
+		{
+			Start_Timer_Tick = AsConfig::Current_Timer_Tick;
+
+			if (Player_Name_Label.Content.Get_Length() == 0)
+				Player_Name_Label.Content = L"ENTER NAME:";
+			else
+				Player_Name_Label.Content = L"";
+
+			AsTools::Invalidate_Rect(Data_Rect);
+		}
+	}
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Clear(HDC hdc, RECT& paint_area)
@@ -131,7 +148,6 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		// 1. Draw background plate.
 		AsTools::Rect(hdc, Player_Name_Label.Content_Rect, Dark_Red_Color);
 
-		Player_Name_Label.Content = L"ENTER NAME:";
 		Player_Name_Label.Draw(hdc);
 
 		// 3.2 Player score
