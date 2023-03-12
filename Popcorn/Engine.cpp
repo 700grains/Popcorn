@@ -166,7 +166,7 @@ int AsEngine::On_Timer()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::On_Char(wchar_t symbol)
 {
-	Information_Panel.Edit_Player_Name(symbol);
+	Got_Name = Information_Panel.Edit_Player_Name(symbol);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsEngine::Is_Destroying_Complete()

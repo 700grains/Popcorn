@@ -9,7 +9,7 @@ public:
 	ALabel(int x_pos, int y_pos, int height, int width, const AFont& font, const AColor& color);
 
 	void Draw(HDC hdc);
-	void Append(wchar_t symbol);
+	bool Append(wchar_t symbol);
 
 	RECT Content_Rect;
 	AString Content;

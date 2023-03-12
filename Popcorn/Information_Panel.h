@@ -30,7 +30,7 @@ public:
 	void Init();
 	void Add_Life();
 	bool Remove_A_Life();
-	void Edit_Player_Name(wchar_t symbol);
+	bool Edit_Player_Name(wchar_t symbol);
 
 	static void Update_Score(EScore_Event_Type event_type);
 

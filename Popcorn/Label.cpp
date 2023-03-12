@@ -48,7 +48,7 @@ void ALabel::Draw(HDC hdc)
 	TextOut(hdc, str_left_offset, str_top_offset, Content.Get_Content(), Content.Get_Length());
 }
 //------------------------------------------------------------------------------------------------------------
-void ALabel::Append(wchar_t symbol)
+bool ALabel::Append(wchar_t symbol)
 { // convert lowercase letters to uppercase letters
 	if (symbol >= L'a' && symbol <= L'z')
 		symbol -= L'a' - L'A'; 
@@ -60,15 +60,22 @@ void ALabel::Append(wchar_t symbol)
 	if (symbol >= 0x450 && symbol <= 0x45F)
 		symbol -= 0x50;
 
-
 	if (symbol == 8)
 		Content.Delete_Last_Symbol();
 	else
 	{
-		Last_Character_Entered = symbol;
-		Content.Append(symbol);
+		if (symbol >= L' ')
+		{
+			Last_Character_Entered = symbol;
+			Content.Append(symbol);
+		}
 	}
 
 	AsTools::Invalidate_Rect(Content_Rect);
+
+	if (symbol == 0x0d && Content.Get_Length() > 0)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
