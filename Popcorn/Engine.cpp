@@ -164,6 +164,11 @@ int AsEngine::On_Timer()
 	return 0;
 }
 //------------------------------------------------------------------------------------------------------------
+void AsEngine::On_Char()
+{
+
+}
+//------------------------------------------------------------------------------------------------------------
 bool AsEngine::Is_Destroying_Complete()
 {
 	if (Monster_Set.Are_All_Destroyed() && Platform.Has_State(EPlatform_Substate_Regular::Missing))

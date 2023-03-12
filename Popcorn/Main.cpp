@@ -234,6 +234,11 @@ LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		break;
 
 
+	case WM_CHAR:
+		Self->Engine.On_Char();
+		break;
+
+
 	case WM_TIMER:
 		if (wParam == Self->Engine.Timer_ID)
 			return Self->Engine.On_Timer();

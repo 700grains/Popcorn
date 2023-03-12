@@ -38,6 +38,7 @@ public:
 	void Draw_Frame(HDC hdc, RECT &paint_area);
 	int On_Key(EKey_Type key_type, bool key_down);
 	int On_Timer();
+	void On_Char();
 
 	const int Timer_ID;
 
