@@ -13,8 +13,8 @@ AsInformation_Panel::AsInformation_Panel()
 	Letter_M(EBrick_Type::Blue, ELetter_Type::M, 297 * AsConfig::Global_Scale - 1, 153 * AsConfig::Global_Scale),
 	Floor_Panel(EMessage_Type::Floor_Is_Over, Score_X_Pos + 8, Score_Y_Pos + Indicator_Y_Offset), 
 	Monsters_Panel(EMessage_Type::Unfreeze_Monsters, Score_X_Pos + 90, Score_Y_Pos + Indicator_Y_Offset),
-	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, Score_Width - 2 * 5, 16, AsConfig::Name_Font, AsConfig::Blue_Color),
-	Score_Label(Score_X_Pos + 5, Score_Y_Pos + 5 + Score_Val_Offset, Score_Width - 2 * 5, 16, AsConfig::Score_Font, AsConfig::White_Color)
+	Player_Name_Label(Score_X_Pos + 5, Score_Y_Pos + 5, Score_Width - 2 * 5, 18, AsConfig::Name_Font, AsConfig::Blue_Color),
+	Score_Label(Score_X_Pos + 5, Score_Y_Pos + 5 + Score_Val_Offset, Score_Width - 2 * 5, 18, AsConfig::Score_Font, AsConfig::White_Color)
 {
 	const int scale = AsConfig::Global_Scale;
 
@@ -131,8 +131,7 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		// 1. Draw background plate.
 		AsTools::Rect(hdc, Player_Name_Label.Content_Rect, Dark_Red_Color);
 
-		//Player_Name_Label.Content = L"Player";
-		//Draw_String(hdc, rect, Player_Name_Label.Content, true);
+		Player_Name_Label.Content = L"ENTER NAME:";
 		Player_Name_Label.Draw(hdc);
 
 		// 3.2 Player score
