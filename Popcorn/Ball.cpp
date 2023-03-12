@@ -52,10 +52,10 @@ void ABall::Advance(double max_speed)
 		next_x_pos = Center_X_Pos + next_step * cos(Ball_Direction);
 		next_y_pos = Center_Y_Pos - next_step * sin(Ball_Direction);
 
-		//// Correcting the position when reflecting:
+		// Correcting the position when reflecting:
 		got_hit = Hit_Checker_List.Check_Hit(next_x_pos, next_y_pos, this);
 
-		//// Correcting the position when reflected from the platform
+		// Correcting the position when reflected from the platform
 		if (got_hit)
 		{
 			++prev_hit_count;
@@ -173,7 +173,6 @@ void ABall::Set_Direction(double new_direction)
 	// 2. Correcting the angle of the ball when approaching the horizontal closer than min_angle
 
 	// 2.1 Left side
-	// 
 	// 2.1.1 Top
 	if (new_direction < min_angle)
 		new_direction = min_angle;
@@ -183,7 +182,6 @@ void ABall::Set_Direction(double new_direction)
 		new_direction = pi_2 - min_angle;
 
 	// 2.2 Right side
-	// 
 	// 2.2.1 Top
 	if (new_direction > M_PI - min_angle && new_direction < M_PI)
 		new_direction = M_PI - min_angle;
@@ -196,7 +194,6 @@ void ABall::Set_Direction(double new_direction)
 	// 3. Correcting the angle of the ball when approaching the vertical closer than min_angle
 
 	// 3.1 from top
-	// 
 	// 3.1.1 from right side
 	if (new_direction < M_PI_2 - min_angle && new_direction < M_PI_2)
 		new_direction = M_PI_2 - min_angle;
@@ -206,7 +203,6 @@ void ABall::Set_Direction(double new_direction)
 		new_direction = M_PI_2 + min_angle;
 
 	// 3.2 from bottom
-	// 
 	// 3.2.1 from right side
 	if (new_direction > M_PI + M_PI_2 - min_angle && new_direction < M_PI + M_PI_2)
 		new_direction = M_PI + M_PI_2 - min_angle;
@@ -229,7 +225,6 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 	{
 	case EBall_State::Disabled:
 		Ball_Speed = 0.0;
-		//Rest_Distance = 0.0;
 		break;
 
 
@@ -237,7 +232,6 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = y_pos;
 		Ball_Speed = AsConfig::Normal_Ball_Speed;
-		//Rest_Distance = 0.0;
 		Ball_Direction = M_PI_4;
 		Redraw_Ball();
 		break;
@@ -259,9 +253,7 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Ball_State = EBall_State::Normal;
 		Prev_Ball_Speed = Ball_Speed;
 		Ball_Speed = 0.0;
-		//Rest_Distance = 0.0;
 		Prev_Ball_Direction = Ball_Direction;
-		//Ball_Direction = M_PI_4;
 		Release_Timer_Tick = AsConfig::Current_Timer_Tick + On_Platform_Timeout;
 		Redraw_Ball();
 		break;
@@ -276,7 +268,6 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 			AsConfig::Throw(); // This state can only be entered from EBall_State::On_Parachute
 
 		Ball_Speed = 0.0;
-		//Rest_Distance = 0.0;
 		Redraw_Ball();
 		Redraw_Parachute();
 		break;
@@ -289,7 +280,6 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 		Center_X_Pos = x_pos;
 		Center_Y_Pos = y_pos;
 		Ball_Speed = 0.0;
-		//Rest_Distance = 0.0;
 		Redraw_Ball();
 
 		if (Ball_State == EBall_State::On_Parachute)

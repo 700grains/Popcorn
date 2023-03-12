@@ -37,8 +37,6 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	AsPlatform::Hit_Checker_List.Add_Hit_Checker(&Monster_Set);
 
-	//Level.Set_Current_Level(1);
-
 	Platform.Redraw_Platform();
 
 	SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
@@ -250,7 +248,7 @@ void AsEngine::Advance_Movers()
 		Rest_Distance -= AsConfig::Moving_Step_Size;
 	}
 
-	// 3. Заканчиваем все движения на этом кадре
+	// 3. We finish all the movements on this frame
 	for (auto* engine_module : Modules)
 		engine_module->Finish_Movement();
 }
@@ -373,7 +371,8 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
 
-	//case ELetter_Type::Plus: // Moving to the next level
+	case ELetter_Type::Plus: // "Goign to the next level"
+		break; // Not done yet
 
 	default:
 		AsConfig::Throw();

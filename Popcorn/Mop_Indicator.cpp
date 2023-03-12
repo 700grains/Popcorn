@@ -43,7 +43,6 @@ void AMop_Indicators::Draw(HDC hdc, RECT& paint_area)
 	if (!IntersectRect(&intersection_rect, &paint_area, &Indicator_Rect))
 		return;
 
-
 	AsTools::Rect(hdc, Indicator_Rect, *Current_Color);
 
 	// Indicator frame

@@ -19,7 +19,6 @@ void ALabel::Draw(HDC hdc)
 	int str_left_offset, str_top_offset;
 	SIZE str_size;
 
-
 	// 2. Draw string
 	SetBkMode(hdc, 0);
 	Font.Select(hdc);

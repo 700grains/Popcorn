@@ -8,7 +8,6 @@ AExplosive_Ball::AExplosive_Ball()
 	:Explosive_Ball_State(EExplosive_Ball_State::Idle), Is_Red(false), X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Start_Explosion_Tick(0), Max_Size(0.0),
 	Size(0.0), Size_Step(0.0), Time_Offset(0), Ball_Rect{}
 {
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AExplosive_Ball::Act()

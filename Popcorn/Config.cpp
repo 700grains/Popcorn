@@ -87,6 +87,7 @@ HBRUSH AColor::Get_Brush() const
 
 
 
+
 //AColor_Fade
 //------------------------------------------------------------------------------------------------------------
 AColor_Fade::~AColor_Fade()
@@ -340,13 +341,9 @@ bool AHit_Checker::Check_Hit(double next_x_pos, double next_y_pos)
 }
 //------------------------------------------------------------------------------------------------------------
 bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double& x)
-{// Проверяет пересечение горизонтального отрезка (проходящего от left_x до right_x через y) с окружностью радиусом radius
+{// Tests the intersection of a horizontal line (passing from left_x to right_x through y) with a circle of radius radius
 
 	double min_x, max_x;
-
-	// x * x + y * y = R * R
-	// x = sqrt(R * R - y * y)
-	// y = sqrt(R * R - x * x)
 
 	if (y > radius)
 		return false;

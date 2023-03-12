@@ -10,7 +10,6 @@ AsPlatform_Laser::~AsPlatform_Laser()
 AsPlatform_Laser::AsPlatform_Laser(AsPlatform_State& platform_state)
 	: Enable_Laser_Firing(false), Laser_Transformation_Step(0), Last_Laser_Shot_Time(0), Platform_State(&platform_state), Laser_Beam_Set(0), Circle_Color(0), Inner_Color(0), Gun_Color(0)
 {
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Laser::Init(AsLaser_Beam_Set* laser_beam_set, AColor& highlight_color, AColor& circle_color, AColor& inner_color)

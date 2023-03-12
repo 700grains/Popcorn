@@ -112,3 +112,4 @@ private:
 	static const int Min_Ticks_Per_Rotation = AsConfig::FPS * 2;
 	static const int Max_Ticks_Per_Rotation = AsConfig::FPS * 5;
 };
+//------------------------------------------------------------------------------------------------------------

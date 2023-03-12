@@ -46,7 +46,6 @@ private:
 	void Clear_Parachute(HDC hdc);
 
 	EBall_State Ball_State, Previous_Ball_State;
-	//double Rest_Distance;
 	double Ball_Direction, Prev_Ball_Direction;
 	double Ball_Speed, Prev_Ball_Speed;
 

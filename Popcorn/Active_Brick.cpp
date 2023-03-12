@@ -347,8 +347,6 @@ void AActive_Brick_Teleport::Act()
 {
 	double ball_x = 0, ball_y = 0;
 	double direction;
-	//if (AsConfig::Current_Timer_Tick % 10 != 0)
-	//	return;
 
 	if (Animation_Step <= Max_Animation_Step)
 	{
@@ -454,7 +452,7 @@ void AActive_Brick_Teleport::Draw_In_Level(HDC hdc, RECT& brick_rect, int step)
 	AsConfig::Red_Color.Select(hdc);
 	AsTools::Round_Rect(hdc, brick_rect);
 
-	//Portal
+	// Portal
 	AsConfig::Teleport_Portal_Color.Select(hdc);
 	Ellipse(hdc, brick_rect.left + 3 * scale + 1, top_y, brick_rect.left + 11 * scale + 1, low_y);
 }
@@ -500,7 +498,6 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 	Ball_Width(Ball_Size * AsConfig::Global_Scale), Ball_Height(Ball_Size* AsConfig::Global_Scale), Ball_Y_Offset(0),
 	Falling_Speed(0.0), Acceleration_Step(0.2), Brick_Regions(0)
 {
-	//int i, j;
 	const int scale = AsConfig::Global_Scale;
 
 	Empty_Region = CreateRectRgn(0, 0, 0, 0);
@@ -515,10 +512,6 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 
 	Ball_X = Ad_Rect.left + 9 * scale + Ball_Width / 2 + 1;
 	Ball_Y = Ad_Rect.top + 2 * scale + Ball_Height / 2;
-
-	//for (i = 0; i < AsConfig::Platform_Height; i++) // enabling Ads. Remove the code later
-	//	for (j = 0; j < Width; j++)
-	//		Show_Under_Brick(Level_X + j, Level_Y + i);
 }
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Act() 
@@ -527,9 +520,6 @@ void AAdvertisement::Act()
 	int cell_height = AsConfig::Cell_Height * AsConfig::Global_Scale;
 	int i, j;
 	RECT rect;
-
-	//if (AsConfig::Current_Timer_Tick % 3 != 0)
-	//	return;
 
 	// 1. We order a redrawing of the fragments over which the bricks disappeared.
 	for (i = 0; i < AsConfig::Platform_Height; i++)
@@ -663,7 +653,7 @@ void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AAdvertisement::Is_Finished()
 {
-	return false; // Ads will never ends :S
+	return false; // The ads never end! :S
 }
 //------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
@@ -727,10 +717,7 @@ void AActive_Brick_Ad::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AActive_Brick_Ad::Is_Finished()
 {
-	//if (Animation_Step >= Max_Animation_Step)
-	//	return true;
-	//else
-		return false;
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Ad::Draw_In_Level(HDC hdc, RECT& brick_rect)

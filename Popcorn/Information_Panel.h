@@ -38,19 +38,16 @@ public:
 
 private:
 	void Choose_Font();
-	//void Draw_String(HDC hdc, RECT& rect, AString& str, bool name);
 	void Show_Extra_Lives(HDC hdc);
 	void Draw_Extra_Life(HDC hdc, int x, int y);
 
 	bool Entering_User_Name;
 	int Lives_Left;
 	int Start_Timer_Tick;
-	//HFONT Logo_Corn_Font, Logo_Pop_Font;
 	AColor Shaded_Blue, Dark_Red_Color;
 
 	AFalling_Letter Letter_P, Letter_G, Letter_M;
 
-	//AString Player_Name;
 	ALabel Player_Name_Label, Score_Label;
 
 	static RECT Logo_Rect;

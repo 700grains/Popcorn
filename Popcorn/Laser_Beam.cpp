@@ -8,7 +8,6 @@ ALaser_Beam::ALaser_Beam()
 {
 }
 //------------------------------------------------------------------------------------------------------------
-
 void ALaser_Beam::Begin_Movement()
 {
 	// This method is muted

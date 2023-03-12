@@ -65,7 +65,3 @@ void AExplosion::Draw_Explosion(HDC hdc, RECT& paint_area)
 		explosive_ball.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
-
-
-
-

@@ -36,6 +36,6 @@ private:
 	int Laser_Transformation_Step;
 
 	static const int Max_Laser_Transformation_Step = 20;
-	static const int Laser_Shot_Timeout = AsConfig::FPS / 2; // currently 20 FPS, so laser can shoot each 0.5 seconds
+	static const int Laser_Shot_Timeout = AsConfig::FPS / 2; // currently 20 FPS, so laser can shoot every 0.5 seconds
 };
 //------------------------------------------------------------------------------------------------------------

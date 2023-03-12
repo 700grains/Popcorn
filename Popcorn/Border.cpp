@@ -175,7 +175,7 @@ void AsBorder::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Finish_Movement()
 {
-	// not used
+	// not used !!! to fix inheritance
 }
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Advance(double max_speed)
@@ -269,7 +269,7 @@ void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_bo
 	if (! IntersectRect(&intersection_rect, &paint_area, &rect))
 		return;
 
- // The main line
+	// The main line
 	if (top_border)
 		AsTools::Rect(hdc, x, y + 1, 4, 3, AsConfig::Blue_Color);
 	else

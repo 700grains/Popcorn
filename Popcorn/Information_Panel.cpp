@@ -29,7 +29,6 @@ AsInformation_Panel::AsInformation_Panel()
 	Data_Rect.right = Data_Rect.left + Score_Width * scale;
 	Data_Rect.bottom = Data_Rect.top + Score_Height * scale;
 
-	// Chose_Font();
 	Letter_P.Show_Full_Size();
 	Letter_G.Show_Full_Size();
 	Letter_M.Show_Full_Size();
@@ -42,7 +41,7 @@ void AsInformation_Panel::Begin_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Finish_Movement()
 {
-	// Not used
+	// Not used !!!
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Advance(double max_speed)
@@ -254,39 +253,6 @@ void AsInformation_Panel::Choose_Font()
 	ChooseFont(&cf);
 }
 //------------------------------------------------------------------------------------------------------------
-//void AsInformation_Panel::Draw_String(HDC hdc, RECT& rect, AString& str, bool name)
-//{
-//	const int scale = AsConfig::Global_Scale;
-//	int str_left_offset, str_top_offset;
-//	SIZE str_size;
-//
-//	// 1. Draw background plate.
-//	AsTools::Rect(hdc, rect, *Dark_Red_Color);
-//
-//	// 2. Draw string
-//	if (name)
-//		AsConfig::Name_Font.Select(hdc);
-//	else
-//		AsConfig::Score_Font.Select(hdc);
-//
-//	GetTextExtentPoint32(hdc, str.Get_Content(), str.Get_Length(), &str_size); 	//Calculate the length of the string in the window with the player's name
-//
-//	str_left_offset = rect.left + (rect.right - rect.left) / 2 - str_size.cx / 2;
-//	str_top_offset = rect.top + (rect.bottom - rect.top) / 2 - str_size.cy / 2 - scale;
-//
-//	// 2.1 Draw shadow
-//	SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
-//	TextOut(hdc, str_left_offset + 2 * scale, str_top_offset + 2 * scale, str.Get_Content(), str.Get_Length());
-//
-//	// 2.2 Draw the string
-//	if (name)
-//		SetTextColor(hdc, AsConfig::Blue_Color.Get_RGB());
-//	else
-//		SetTextColor(hdc, AsConfig::White_Color.Get_RGB());
-//
-//	TextOut(hdc, str_left_offset, str_top_offset, str.Get_Content(), str.Get_Length());
-//}
-////------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Show_Extra_Lives(HDC hdc)
 {
 	int i, j;

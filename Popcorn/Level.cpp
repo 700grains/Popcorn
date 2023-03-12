@@ -156,7 +156,7 @@ void AsLevel::Finish_Movement()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Advance(double max_speed)
 {
-	// not used
+	// not used !!!
 }
 //------------------------------------------------------------------------------------------------------------
 double AsLevel::Get_Speed()
@@ -179,7 +179,6 @@ void AsLevel::Act()
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Clear(HDC hdc, RECT& paint_area)
 {// 1. Erase all moving objects
-
 
 	for (auto* letter : Falling_Letters)
 		letter->Clear(hdc, paint_area);
@@ -264,7 +263,6 @@ void AsLevel::Init()
 		if (i == 9)
 			level_data->Advertisement = new AAdvertisement(1, 9, 2, 3);
 	}
-	//Game_Title.Show(true);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Set_Current_Level(int level_number)
@@ -421,19 +419,6 @@ bool AsLevel::Has_Brick_At(RECT& monster_rect)
 	if (monster_rect.left - min_cell_x > AsConfig::Brick_Width * scale)
 		++min_x;
 
-	//if (min_x >= AsConfig::Level_Width)
-	//	min_x = AsConfig::Level_Width - 1; 
-
-	//if (max_x >= AsConfig::Level_Width)
-	//	max_x = AsConfig::Level_Width - 1;
-
-
-	//if (min_y >= AsConfig::Level_Height)
-	//	min_y = AsConfig::Level_Height - 1;
-
-	//if (max_y >= AsConfig::Level_Height)
-	//	max_y = AsConfig::Level_Height - 1;
-
 	for (i = min_y; i <= max_y; i++)
 		for (j = min_x; j <= max_x; j++)
 			if (Has_Brick_At(j, i)) 
@@ -516,25 +501,6 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 	letter_y = (brick_y * AsConfig::Cell_Height + AsConfig::Level_Y_Offset) * AsConfig::Global_Scale;
 
 	letter_type = AFalling_Letter::Get_Random_Letter_Type();
-
-	switch (AsTools::Rand(4) )
-	{
-	case 0:
-		letter_type = ELetter_Type::O;
-		break;
-
-	case 1:
-		letter_type = ELetter_Type::L;
-		break;
-
-	case 2:
-		letter_type = ELetter_Type::K;
-		break;
-
-	case 3:
-		letter_type = ELetter_Type::W;
-		break;
-	}
 
 	falling_letter = new AFalling_Letter(brick_type, letter_type, letter_x, letter_y);
 	Falling_Letters.push_back(falling_letter);

@@ -30,7 +30,6 @@ enum class EPlatform_Substate_Meltdown : unsigned char
 
 	Init,
 	Active,
-
 };
 //------------------------------------------------------------------------------------------------------------
 enum class EPlatform_Substate_Rolling : unsigned char
