@@ -19,6 +19,7 @@ enum class EGame_State: unsigned char
 {
 	Test_Ball,
 
+	Enter_Name,
 	Mop_Level,
 	Play_Level,
 	Lost_Ball,
@@ -52,6 +53,7 @@ private:
 	void Handle_Message();
 	void On_Falling_Letter(AFalling_Letter* falling_letter);
 
+	bool Got_Name;
 	EGame_State Game_State;
 	double Rest_Distance;
 
