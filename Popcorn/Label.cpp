@@ -50,9 +50,14 @@ void ALabel::Draw(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 void ALabel::Append(wchar_t symbol)
 {
-	Last_Character_Entered = symbol;
+	if (symbol == 8)
+		Content.Delete_Last_Symbol();
+	else
+	{
+		Last_Character_Entered = symbol;
+		Content.Append(symbol);
+	}
 
-	Content.Append(symbol);
 	AsTools::Invalidate_Rect(Content_Rect);
 }
 //------------------------------------------------------------------------------------------------------------
