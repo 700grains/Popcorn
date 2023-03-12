@@ -117,9 +117,9 @@ AString::AString(const wchar_t* str)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-void AString::Append(wchar_t)
+void AString::Append(wchar_t symbol)
 {
-
+	Content.append(1, symbol);
 }
 //------------------------------------------------------------------------------------------------------------
 void AString::Append(int value, int digits)

@@ -86,6 +86,7 @@ public:
 	AString();
 	AString(const wchar_t* str);
 
+	void Append(wchar_t symbol);
 	void Append(int value, int digits);
 	const wchar_t* Get_Content();
 	int Get_Length();
