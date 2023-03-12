@@ -81,7 +81,7 @@ void AGate::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AGate::Is_Finished()
 {
-	return false; //!!! Have to do
+	return false; // not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AGate::Open_Gate(bool is_partially)

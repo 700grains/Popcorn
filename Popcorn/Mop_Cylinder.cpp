@@ -10,7 +10,7 @@ AMop_Cylinders::AMop_Cylinders(int x_pos, int y_pos, int width, int max_height)
 //------------------------------------------------------------------------------------------------------------
 void AMop_Cylinders::Act()
 {
-	//!!! TODO
+	// not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Cylinders::Clear(HDC hdc, RECT& paint_area)
@@ -55,7 +55,7 @@ void AMop_Cylinders::Draw(HDC hdc, RECT& paint_area)
 bool AMop_Cylinders::Is_Finished()
 {
 	return false;
-	//!!! TODO
+	// not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Cylinders::Set_Height_For(double ratio)

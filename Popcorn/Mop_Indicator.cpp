@@ -32,7 +32,7 @@ void AMop_Indicators::Act()
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicators::Clear(HDC hdc, RECT& paint_area)
 {
-	//!!! TODO
+	// not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicators::Draw(HDC hdc, RECT& paint_area)
@@ -61,7 +61,7 @@ void AMop_Indicators::Draw(HDC hdc, RECT& paint_area)
 bool AMop_Indicators::Is_Finished()
 {
 	return false;
-	//!!! TODO
+	// not used
 }
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicators::Set_Y_Pos(int y_pos)
