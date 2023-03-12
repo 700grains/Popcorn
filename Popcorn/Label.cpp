@@ -38,3 +38,11 @@ void ALabel::Draw(HDC hdc)
 	TextOut(hdc, str_left_offset, str_top_offset, Content.Get_Content(), Content.Get_Length());
 }
 //------------------------------------------------------------------------------------------------------------
+void ALabel::Append(wchar_t symbol)
+{
+	Last_Character_Entered = symbol;
+
+	Content.Append(symbol);
+	AsTools::Invalidate_Rect(Content_Rect);
+}
+//------------------------------------------------------------------------------------------------------------

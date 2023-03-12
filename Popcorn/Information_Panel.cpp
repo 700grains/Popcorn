@@ -193,8 +193,7 @@ bool AsInformation_Panel::Remove_A_Life()
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Edit_Player_Name(wchar_t symbol)
 {
-	Player_Name_Label.Content.Append(symbol);
-	AsTools::Invalidate_Rect(Data_Rect);
+	Player_Name_Label.Append(symbol);
 }
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
