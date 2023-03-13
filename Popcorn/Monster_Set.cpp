@@ -60,7 +60,7 @@ void AsMonster_Set::Act()
 		current_monsters_alive_count = 0;
 
 		for (auto monster : Monsters)
-			if (monster->Is_Finished())
+			if (! monster->Is_Finished())
 				++current_monsters_alive_count;
 
 		// Add a monster if possible
@@ -141,7 +141,6 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 		monster = new AMonster_Eye();
 
 	Monsters.push_back(monster);
-
 
 	if (monster == 0)
 		return; // There are no unused monsters.
