@@ -195,7 +195,7 @@ void ABall::Set_Direction(double new_direction)
 
 	// 3.1 from top
 	// 3.1.1 from right side
-	if (new_direction < M_PI_2 - min_angle && new_direction < M_PI_2)
+	if (new_direction > M_PI_2 - min_angle && new_direction < M_PI_2)
 		new_direction = M_PI_2 - min_angle;
 
 	// 3.1.2 from left side
