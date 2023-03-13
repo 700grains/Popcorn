@@ -199,6 +199,10 @@ const AColor AsConfig::Explosion_Blue_Color(White_Color, Blue_Color, 0);
 const AColor AsConfig::Shadow_Color(BG_Color, Global_Scale);
 const AColor AsConfig::Highlight_Color(White_Color, Global_Scale);
 
+AColor_Fade AsConfig::Fading_Red_Brick_Colors(Red_Color, Max_Destroyed_Brick_Fade_Step);
+AColor_Fade AsConfig::Fading_Blue_Brick_Colors(Blue_Color, Max_Destroyed_Brick_Fade_Step);
+AColor_Fade AsConfig::Fading_Blue_Mop_Indicators_Colors(Blue_Color, Red_Color, Max_Mop_Indicators_Fade_Step);
+
 const AFont AsConfig::Name_Font(-48, 700, 49, L"Consolas");
 const AFont AsConfig::Score_Font(-44, 700, 49, L"Consolas");
 const AFont AsConfig::Logo_Corn_Font(-96, 900, 34, L"Arial Black");

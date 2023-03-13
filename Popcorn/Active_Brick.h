@@ -61,11 +61,6 @@ public:
 
 private:
 	int Fade_Step;
-
-	static const int Max_Fade_Step = AsConfig::FPS;
-
-	static AColor_Fade Fading_Red_Brick_Colors;
-	static AColor_Fade Fading_Blue_Brick_Colors;
 };
 //------------------------------------------------------------------------------------------------------------
 class AActive_Brick_Unbreakable : public AActive_Brick

@@ -1,7 +1,6 @@
 ﻿#include "Mop_Indicator.h"
 
 // AMop_Indicators
-AColor_Fade AMop_Indicators::Fading_Blue_Colors(AsConfig::Blue_Color, AsConfig::Red_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
 AMop_Indicators::AMop_Indicators(int x_pos, int y_pos, int time_offset)
 	: X_Pos(x_pos), Y_Pos(y_pos), Time_Offset(time_offset), Current_Color(&AsConfig::Red_Color)
@@ -11,7 +10,7 @@ AMop_Indicators::AMop_Indicators(int x_pos, int y_pos, int time_offset)
 //------------------------------------------------------------------------------------------------------------
 void AMop_Indicators::Act()
 {
-	int total_timeout = Normal_Timeout + Max_Fade_Step;
+	int total_timeout = Normal_Timeout + AsConfig::Max_Mop_Indicators_Fade_Step;
 	int current_tick = (AsConfig::Current_Timer_Tick + Time_Offset) % total_timeout;
 	int current_offset;
 
@@ -21,10 +20,10 @@ void AMop_Indicators::Act()
 	{
 		current_offset = current_tick - Normal_Timeout;
 
-		if (current_offset < 0 || current_offset >= Max_Fade_Step)
+		if (current_offset < 0 || current_offset >= AsConfig::Max_Mop_Indicators_Fade_Step)
 			AsConfig::Throw();
 
-		Current_Color = Fading_Blue_Colors.Get_Color(current_offset);
+		Current_Color = AsConfig::Fading_Blue_Mop_Indicators_Colors.Get_Color(current_offset);
 	}
 
 	AsTools::Invalidate_Rect(Indicator_Rect);

@@ -37,9 +37,5 @@ private:
 	RECT Ball_Rect;
 
 	static const int Fading_Time = AsConfig::FPS;
-	static const int Max_Fade_Step = AsConfig::FPS;
-
-	static AColor_Fade Fading_Red_Colors;
-	static AColor_Fade Fading_Blue_Colors;
 };
 //------------------------------------------------------------------------------------------------------------

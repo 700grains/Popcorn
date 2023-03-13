@@ -22,9 +22,6 @@ private:
 
 	static const int Width = 17;
 	static const int Height = 5;
-	static const int Max_Fade_Step = AsConfig::FPS * 4 / 10; // 0.4 seconds 
 	static const int Normal_Timeout = AsConfig::FPS; // 1 sec
-
-	static AColor_Fade Fading_Blue_Colors;
 };
 //------------------------------------------------------------------------------------------------------------
