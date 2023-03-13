@@ -50,8 +50,6 @@ double AActive_Brick::Get_Brick_Y_Pos(bool of_center)
 
 
 // AActive_Brick_Red_Blue
-AColor_Fade AActive_Brick_Red_Blue::Fading_Red_Brick_Colors(AsConfig::Red_Color, Max_Fade_Step);
-AColor_Fade AActive_Brick_Red_Blue::Fading_Blue_Brick_Colors(AsConfig::Blue_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
 AActive_Brick_Red_Blue::~AActive_Brick_Red_Blue()
 {
@@ -66,7 +64,7 @@ AActive_Brick_Red_Blue::AActive_Brick_Red_Blue(EBrick_Type brick_type, int level
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Red_Blue::Act()
 {
-	if (Fade_Step < Max_Fade_Step - 1)
+	if (Fade_Step < AsConfig::Max_Destroyed_Brick_Fade_Step - 1)
 	{
 		++Fade_Step;
 		AsTools::Invalidate_Rect(Brick_Rect);
@@ -80,11 +78,11 @@ void AActive_Brick_Red_Blue::Draw(HDC hdc, RECT& paint_area)
 	switch (Brick_Type)
 	{
 	case EBrick_Type::Red:
-		color = Fading_Red_Brick_Colors.Get_Color(Fade_Step);
+		color = AsConfig::Fading_Red_Brick_Colors.Get_Color(Fade_Step);
 		break;
 
 	case EBrick_Type::Blue:
-		color = Fading_Blue_Brick_Colors.Get_Color(Fade_Step);
+		color = AsConfig::Fading_Blue_Brick_Colors.Get_Color(Fade_Step);
 		break;
 	}
 
@@ -96,7 +94,7 @@ void AActive_Brick_Red_Blue::Draw(HDC hdc, RECT& paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AActive_Brick_Red_Blue::Is_Finished()
 {
-	if (Fade_Step >= Max_Fade_Step)
+	if (Fade_Step >= AsConfig::Max_Destroyed_Brick_Fade_Step)
 		return true;
 	else
 		return false;

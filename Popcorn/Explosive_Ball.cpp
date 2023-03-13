@@ -1,8 +1,6 @@
 ﻿#include "Explosive_Ball.h"
 
 //AExplosive_Ball
-AColor_Fade AExplosive_Ball::Fading_Red_Colors(AsConfig::Red_Color, Max_Fade_Step);
-AColor_Fade AExplosive_Ball::Fading_Blue_Colors(AsConfig::Blue_Color, Max_Fade_Step);
 //------------------------------------------------------------------------------------------------------------
 AExplosive_Ball::AExplosive_Ball()
 	:Explosive_Ball_State(EExplosive_Ball_State::Idle), Is_Red(false), X_Pos(0), Y_Pos(0), Step_Count(0), Start_Fading_Tick(0), Start_Explosion_Tick(0), Max_Size(0.0),
@@ -88,12 +86,12 @@ void AExplosive_Ball::Draw(HDC hdc, RECT& paint_area)
 		else
 		{
 			ratio = (double)current_time_interval / (double)Fading_Time;
-			color_index = (int)round(ratio * (double)(Max_Fade_Step - 1));
+			color_index = (int)round(ratio * (double)(AsConfig::Max_Destroyed_Brick_Fade_Step - 1));
 
 			if (Is_Red)
-				color = Fading_Red_Colors.Get_Color(color_index);
+				color = AsConfig::Fading_Red_Brick_Colors.Get_Color(color_index);
 			else
-				color = Fading_Blue_Colors.Get_Color(color_index);
+				color = AsConfig::Fading_Blue_Brick_Colors.Get_Color(color_index);
 
 			AsTools::Ellipse(hdc, Ball_Rect, *color);
 		}
