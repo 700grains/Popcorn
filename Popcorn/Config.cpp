@@ -173,7 +173,7 @@ void AFont::Select(HDC hdc) const
 
 // AsConfig
 //------------------------------------------------------------------------------------------------------------
-bool AsConfig::Level_Has_Floor = false;
+bool AsConfig::Level_Has_Floor = 1;
 int AsConfig::Current_Timer_Tick = 0;
 HWND AsConfig::Hwnd;
 

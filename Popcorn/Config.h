@@ -117,7 +117,6 @@ public:
 	static const int Max_Monsters_Alive = 3;
 	static const int Max_Destroyed_Brick_Fade_Step = FPS;
 	static const int Max_Mop_Indicators_Fade_Step = FPS * 4 / 10; // 0.4 seconds 
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsTools
