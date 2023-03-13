@@ -32,7 +32,7 @@ public:
 	bool Remove_A_Life();
 	bool Edit_Player_Name(wchar_t symbol);
 
-	static void Update_Score(EScore_Event_Type event_type);
+	static void Update_Score(EScore_Event_Type event_type, EBrick_Type brick_type);
 
 	AIndicator Floor_Panel, Monsters_Panel;
 

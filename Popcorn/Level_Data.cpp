@@ -51,7 +51,7 @@ int ALevel_Data::Get_Available_Bricks_Count()
 			}
 		}
 	
-	return 3;
+	return count;
 }
 //------------------------------------------------------------------------------------------------------------
 char ALevel_Data::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =

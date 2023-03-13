@@ -216,22 +216,62 @@ bool AsInformation_Panel::Edit_Player_Name(wchar_t symbol)
 	return Player_Name_Label.Append(symbol);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsInformation_Panel::Update_Score(EScore_Event_Type event_type)
+void AsInformation_Panel::Update_Score(EScore_Event_Type event_type, EBrick_Type brick_type)
 {
 
 	switch (event_type)
 	{
 	case EScore_Event_Type::Hit_Brick:
-		Score += 10;
+		switch (brick_type)
+		{
+		case EBrick_Type::Red:
+			Score += 20;
+			break;
+
+		case EBrick_Type::Blue:
+			Score += 20;
+			break;
+
+		case EBrick_Type::Multihit_1:
+			Score += 100;
+			break;
+
+		case EBrick_Type::Multihit_2:
+			Score += 50;
+			break;
+
+		case EBrick_Type::Multihit_3:
+			Score += 30;
+			break;
+
+		case EBrick_Type::Multihit_4:
+			Score += 20;
+			break;
+
+		case EBrick_Type::Parachute:
+			Score += 50;
+			break;
+
+		case EBrick_Type::Teleport:
+			Score += 25;
+			break;
+
+		case EBrick_Type::Ad:
+			Score += 33;
+			break;
+		}
 		break;
+
 
 	case EScore_Event_Type::Hit_Monster:
 		Score += 30;
 		break;
 
+
 	case EScore_Event_Type::Catch_Letter:
 		Score += 20;
 		break;
+
 
 	default:
 		break;
