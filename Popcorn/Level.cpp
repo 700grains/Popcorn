@@ -429,11 +429,12 @@ bool AsLevel::Has_Brick_At(RECT& monster_rect)
 //------------------------------------------------------------------------------------------------------------
 bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical_hit)
 {
-	EBrick_Type brick_type;
+	EBrick_Type brick_type, original_brick;
 	bool can_reflect = true;
 	AMessage* message;
 
-	brick_type = (EBrick_Type)Current_Level[brick_y][brick_x];
+	original_brick = (EBrick_Type)Current_Level[brick_y][brick_x];
+	brick_type = original_brick;
 
 	if (ball == nullptr && brick_type == EBrick_Type::Parachute)
 	{
@@ -454,7 +455,7 @@ bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical
 
 	Redraw_Brick(brick_x, brick_y);
 
-	AsInformation_Panel::Update_Score(EScore_Event_Type::Hit_Brick);
+	AsInformation_Panel::Update_Score(EScore_Event_Type::Hit_Brick, original_brick);
 
 	if (Current_Level[brick_y][brick_x] == (char)EBrick_Type::None)
 		Available_Bricks_Count--;

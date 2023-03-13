@@ -218,7 +218,6 @@ bool AsInformation_Panel::Edit_Player_Name(wchar_t symbol)
 //------------------------------------------------------------------------------------------------------------
 void AsInformation_Panel::Update_Score(EScore_Event_Type event_type, EBrick_Type brick_type)
 {
-
 	switch (event_type)
 	{
 	case EScore_Event_Type::Hit_Brick:
