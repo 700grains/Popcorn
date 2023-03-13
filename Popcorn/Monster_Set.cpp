@@ -64,7 +64,7 @@ void AsMonster_Set::Act()
 				++current_monsters_alive_count;
 
 		// Add a monster if possible
-		if (current_monsters_alive_count < Max_Monsters_Alive)
+		if (current_monsters_alive_count < AsConfig::Max_Monsters_Alive)
 		{
 			Current_Gate_Index = Border->Long_Open_Gate();
 			Monster_Set_State = EMonster_Set_State::Waiting_For_Gate_To_Open;
@@ -130,7 +130,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
 		AsConfig::Throw();
 
-	if (Monsters.size() > AsConfig::Max_Monsters_Alive)
+	if (Monsters.size() >= AsConfig::Max_Monsters_Alive)
 		return;
 
 	monster_type = AsTools::Rand(2);
