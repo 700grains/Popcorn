@@ -64,7 +64,7 @@ AActive_Brick_Red_Blue::AActive_Brick_Red_Blue(EBrick_Type brick_type, int level
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Red_Blue::Act()
 {
-	if (Fade_Step < AsConfig::Max_Destroyed_Brick_Fade_Step - 1)
+	if (!Is_Finished())
 	{
 		++Fade_Step;
 		AsTools::Invalidate_Rect(Brick_Rect);
