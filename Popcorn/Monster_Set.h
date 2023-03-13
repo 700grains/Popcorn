@@ -42,7 +42,5 @@ private:
 	AsBorder *Border; // UNO
 
 	std::vector<AMonster*> Monsters;
-
-	static const int Max_Monsters_Count = 10;
 };
 //------------------------------------------------------------------------------------------------------------

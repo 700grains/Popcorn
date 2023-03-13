@@ -100,7 +100,7 @@ int AsEngine::On_Timer()
 	case EGame_State::Enter_Name:
 		if (Got_Name)
 		{
-			Level.Mop_Level(7);
+			Level.Mop_Level(1);
 			Game_State = EGame_State::Mop_Level;
 		}
 		break;
@@ -133,7 +133,7 @@ int AsEngine::On_Timer()
 		{
 			Game_State = EGame_State::Play_Level;
 			Ball_Set.Set_On_The_Platform(Platform.Get_Middle_Pos() );
-			Monster_Set.Activate(6);
+			Monster_Set.Activate(AsConfig::Max_Monsters_Alive);
 			Level.Hide_Title();
 		}
 		break;

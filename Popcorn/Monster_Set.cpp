@@ -130,7 +130,7 @@ void AsMonster_Set::Emit_At_Gate(int gate_index)
 	if (gate_index < 0 || gate_index >= AsConfig::Gates_Count)
 		AsConfig::Throw();
 
-	if (Monsters.size() >= Max_Monsters_Count)
+	if (Monsters.size() > AsConfig::Max_Monsters_Alive)
 		return;
 
 	monster_type = AsTools::Rand(2);
