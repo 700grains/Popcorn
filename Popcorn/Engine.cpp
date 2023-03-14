@@ -291,8 +291,7 @@ void AsEngine::Handle_Message()
 		switch (message->Message_Type)
 		{
 		case EMessage_Type::Floor_Is_Over:
-			AsConfig::Level_Has_Floor = false;
-			Border.Redraw_Floor();
+			Set_Floor_State(false);
 			delete message;
 			break;
 
@@ -368,8 +367,7 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 		break;
 
 	case ELetter_Type::P: // "Floor"
-		AsConfig::Level_Has_Floor = true;
-		Border.Redraw_Floor();
+		Set_Floor_State(true);
 		Information_Panel.Floor_Panel.Restart();
 		Platform.Set_State(EPlatform_Substate_Regular::Normal);
 		break;
@@ -384,5 +382,15 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 	falling_letter->Finalize();
 
 	AsInformation_Panel::Update_Score(EScore_Event_Type::Catch_Letter);
+}
+//------------------------------------------------------------------------------------------------------------
+void AsEngine::Set_Floor_State(bool enable)
+{
+	if (enable)
+		AsConfig::Level_Has_Floor = true;
+	else
+		AsConfig::Level_Has_Floor = false;
+
+	Border.Redraw_Floor();
 }
 //------------------------------------------------------------------------------------------------------------

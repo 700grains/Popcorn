@@ -53,6 +53,7 @@ private:
 	void Act();
 	void Handle_Message();
 	void On_Falling_Letter(AFalling_Letter* falling_letter);
+	void Set_Floor_State(bool enable);
 
 	bool Got_Name;
 	EGame_State Game_State;
