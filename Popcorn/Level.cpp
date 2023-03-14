@@ -457,7 +457,7 @@ bool AsLevel::On_Hit(int brick_x, int brick_y, ABall_Object* ball, bool vertical
 
 	AsInformation_Panel::Update_Score(EScore_Event_Type::Hit_Brick, original_brick);
 
-	if (Current_Level[brick_y][brick_x] == (char)EBrick_Type::None)
+	if (Current_Level[brick_y][brick_x] == (char)EBrick_Type::None || (original_brick == EBrick_Type::Ad && Current_Level[brick_y][brick_x] == (char)EBrick_Type::Invisible))
 		Available_Bricks_Count--;
 
 	if (Available_Bricks_Count <= 0)
