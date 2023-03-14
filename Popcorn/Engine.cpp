@@ -206,6 +206,7 @@ void AsEngine::Stop_Play()
 {// All balls are lost!
 
 	Level.Stop();
+	Set_Floor_State(false);
 	Monster_Set.Destroy_All();
 	Laser_Beam_Set.Disable_All();
 	Platform.Set_State(EPlatform_State::Meltdown);

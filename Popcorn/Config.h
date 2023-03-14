@@ -99,7 +99,7 @@ public:
 	static const int Max_Y_Pos = 199;
 	static const int Platform_Y_Pos = 185;
 	static const int FPS = 20;
-	static const int Max_Active_Bricks_Count = 10;
+	static const int Max_Active_Bricks_Count = 50;
 	static const int Hits_Per_Letter = 4; // Probability of dropping a letter from a broken brick
 	static const int Max_Falling_Letters_Count = 10;
 	static const int Max_Balls_Count = 10;
