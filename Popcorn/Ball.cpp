@@ -500,7 +500,7 @@ void ABall::Draw_Parachute(HDC hdc, RECT& paint_area)
 	MoveToEx(hdc, Parachute_Rect.right - 4 * scale + 1, line_y, 0);
 	LineTo(hdc, ball_center_x, ball_center_y);
 
-	MoveToEx(hdc, Parachute_Rect.right, line_y - 1, 0);
+	MoveToEx(hdc, Parachute_Rect.right - 1, line_y - 1, 0);
 	LineTo(hdc, ball_center_x, ball_center_y);
 }
 //------------------------------------------------------------------------------------------------------------
