@@ -515,6 +515,9 @@ void ABall::Clear_Parachute(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 bool ABall::Detect_Hits_Cycling()
 {
+	int i;
+	int current_position;
+	int matched_positions_count;
 	int buffer_size = sizeof(Recent_Collisions) / sizeof(Recent_Collisions[0]);
 
 	Recent_Collisions[Recent_Collisions_Position++] = APoint( (int)Center_X_Pos, (int)Center_Y_Pos);
@@ -527,6 +530,24 @@ bool ABall::Detect_Hits_Cycling()
 	if (Recent_Hits_Count < buffer_size)
 		return false; // We have to fill the buffer_size before we can Detect_Hits_Cycling
 
+	// Scanning the array with "windows" in search of a pattern. The "window" size is 3
+	for (current_position = 3; current_position < buffer_size; current_position++)
+	{
+		for (i = 0; i < 3; i++)
+		{
+			matched_positions_count = 0;
 
+			if (Recent_Collisions[i] == Recent_Collisions[current_position + i])
+				matched_positions_count++;
+		}
+
+		if (matched_positions_count >= 3)
+		{
+			Recent_Hits_Count = 0; // We collect statistics again, not taking into account previous patterns
+			return true;
+		}
+	}
+
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
