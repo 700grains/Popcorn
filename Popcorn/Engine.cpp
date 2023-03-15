@@ -93,6 +93,7 @@ int AsEngine::On_Timer()
 	{
 	case EGame_State::Test_Ball:
 		Ball_Set.Set_For_Test();
+		Level.Set_Current_Level(0);
 		Game_State = EGame_State::Play_Level;
 		break;
 

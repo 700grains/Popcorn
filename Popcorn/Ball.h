@@ -44,6 +44,7 @@ private:
 	void Redraw_Parachute();
 	void Draw_Parachute(HDC hdc, RECT& paint_area);
 	void Clear_Parachute(HDC hdc);
+	bool Detect_Hits_Cycling();
 
 	EBall_State Ball_State, Previous_Ball_State;
 	double Ball_Direction, Prev_Ball_Direction;

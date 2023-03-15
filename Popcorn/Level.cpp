@@ -252,9 +252,9 @@ void AsLevel::Init()
 
 	memset(Current_Level, 0, sizeof(Current_Level) );
 
-	for (i = 0; i < ALevel_Data::Max_Level_Number; i++)
+	for (i = 0; i <= ALevel_Data::Max_Level_Number; i++)
 	{
-		level_data = new ALevel_Data(i + 1);
+		level_data = new ALevel_Data(i);
 		Levels_Data.push_back(level_data);
 
 		if (i == 7)
@@ -271,12 +271,15 @@ void AsLevel::Set_Current_Level(int level_number)
 	EBrick_Type brick_type;
 	ALevel_Data* levels_data;
 
-	if (level_number < 1 || level_number > (int)Levels_Data.size())
+	if (level_number < 0 || level_number > (int)Levels_Data.size())
 		AsConfig::Throw();
 
 	Current_Level_Number = level_number;
 
-	levels_data = Levels_Data[level_number - 1];
+	if (Current_Level_Number == 0)
+		AsTools::Invalidate_Rect(Level_Rect);
+
+	levels_data = Levels_Data[level_number];
 
 	memcpy(Current_Level, levels_data->Level, sizeof(Current_Level) );
 
@@ -709,6 +712,7 @@ bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level
 					return false;
 			}
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -741,8 +745,8 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 					return false;
 			}
 	}
-	return false;
 
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Brick(HDC hdc, RECT& brick_rect, int level_x, int level_y)

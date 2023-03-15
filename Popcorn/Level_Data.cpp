@@ -21,7 +21,10 @@ ALevel_Data::ALevel_Data(int level_number)
 	if (level_number > 0 || level_number <= Max_Level_Number)
 		Level = Levels_Array[level_number - 1];
 	else
-		AsConfig::Throw();
+		if (level_number == 0)
+			Level = (char*)Test_Level;
+		else
+			AsConfig::Throw();
 }
 //------------------------------------------------------------------------------------------------------------
 int ALevel_Data::Get_Available_Bricks_Count()

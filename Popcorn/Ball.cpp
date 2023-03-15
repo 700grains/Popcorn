@@ -65,6 +65,9 @@ void ABall::Advance(double max_speed)
 				Ball_Direction += AsConfig::Min_Ball_Angle;
 				prev_hit_count = 0;
 			}
+
+			if (Detect_Hits_Cycling())
+				Ball_Direction += AsConfig::Min_Ball_Angle;
 		}
 		else
 		{
@@ -508,5 +511,11 @@ void ABall::Clear_Parachute(HDC hdc)
 { // Clearing background
 	AsConfig::BG_Color.Select(hdc);
 	AsTools::Round_Rect(hdc, Previous_Parachute_Rect);
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Detect_Hits_Cycling()
+{
+
+	return false;
 }
 //------------------------------------------------------------------------------------------------------------
