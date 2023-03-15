@@ -60,7 +60,7 @@ private:
 	RECT Parachute_Rect, Previous_Parachute_Rect;
 
 	int Recent_Collisions_Position, Recent_Hits_Count;
-	APoint Recent_Collisions[8];
+	APoint Recent_Collisions[16];
 
 	static const int Parachute_Size = 15;
 	static const int On_Platform_Timeout = 10 * AsConfig::FPS; // The time the ball is on the platform
