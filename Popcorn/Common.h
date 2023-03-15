@@ -79,6 +79,15 @@ protected:
 	virtual bool Get_Next_Game_Object(int &index, AGame_Object **game_object) = 0;
 };
 //------------------------------------------------------------------------------------------------------------
+class APoint
+{
+public:
+	APoint();
+	APoint(int x, int y);
+
+	int X, Y;
+};
+//------------------------------------------------------------------------------------------------------------
 class AString
 {
 public:

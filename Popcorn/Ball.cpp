@@ -6,7 +6,7 @@ AHit_Checker_List ABall::Hit_Checker_List;
 ABall::ABall()
 	: Ball_State (EBall_State::Disabled), Previous_Ball_State(EBall_State::Disabled), Release_Timer_Tick (0), Center_X_Pos(0), Center_Y_Pos(0.0), 
 	  Ball_Speed(0.0), Prev_Ball_Speed (0.0), Ball_Direction(0.0), Prev_Ball_Direction (0.0), Testing_Is_Active(false), Test_Iteration(0), 
-	  Ball_Rect{}, Prev_Ball_Rect{}
+	  Ball_Rect{}, Prev_Ball_Rect{}, Recent_Collisions_Position(0), Recent_Hits_Count(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -515,7 +515,18 @@ void ABall::Clear_Parachute(HDC hdc)
 //------------------------------------------------------------------------------------------------------------
 bool ABall::Detect_Hits_Cycling()
 {
+	int buffer_size = sizeof(Recent_Collisions) / sizeof(Recent_Collisions[0]);
 
-	return false;
+	Recent_Collisions[Recent_Collisions_Position++] = APoint( (int)Center_X_Pos, (int)Center_Y_Pos);
+
+	if (Recent_Collisions_Position >= buffer_size)
+		Recent_Collisions_Position = 0; // The position goes to the [0] element of the buffer
+
+	++Recent_Hits_Count;
+
+	if (Recent_Hits_Count < buffer_size)
+		return false; // We have to fill the buffer_size before we can Detect_Hits_Cycling
+
+
 }
 //------------------------------------------------------------------------------------------------------------
