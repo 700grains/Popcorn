@@ -145,9 +145,9 @@ BOOL AsMain_Window::Init_Instance(int cmd_show)
 	window_rect.right = 320 * 3;
 	window_rect.bottom = 200 * 3;
 
-	AdjustWindowRect(&window_rect, WS_OVERLAPPEDWINDOW, TRUE);
+	AdjustWindowRect(&window_rect, WS_OVERLAPPEDWINDOW - WS_THICKFRAME, TRUE);
 
-	hwnd = CreateWindowW(Window_Class_Title.Get_Content(), Title.Get_Content(), WS_OVERLAPPEDWINDOW, 0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, 0, 0, Instance, 0);
+	hwnd = CreateWindowW(Window_Class_Title.Get_Content(), Title.Get_Content(), WS_OVERLAPPEDWINDOW - WS_THICKFRAME, 0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, 0, 0, Instance, 0);
 
 	if (hwnd == 0)
 		return FALSE;
