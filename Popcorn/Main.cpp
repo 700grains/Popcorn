@@ -408,9 +408,9 @@ V 2.5.1 normal
 X 2.5.2 early
 V 2.6 end of the game
 
-3. Final setup of the game
+V 3. Final setup of the game
 V 3.1 Fixing 1st level
-3.2 Playing and testing
-3.3 Compiling in release mode
+V 3.2 Playing and testing
+V 3.3 Compiling in release mode
 
 */

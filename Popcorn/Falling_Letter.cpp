@@ -197,12 +197,12 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 		// Displaying the background
 		back_color->Select(hdc); 
 
-		Rectangle(hdc, X, Y + Brick_Half_Height - AsConfig::Global_Scale, X + AsConfig::Brick_Width * AsConfig::Global_Scale - 2, Y + Brick_Half_Height - 1);
+		Rectangle(hdc, X, Y + Brick_Half_Height - AsConfig::Global_Scale, X + AsConfig::Brick_Width * AsConfig::Global_Scale - 1, Y + Brick_Half_Height - 1);
 
 		// Bringing the foreground
 		front_color->Select(hdc);
 
-		Rectangle(hdc, X, Y + Brick_Half_Height, X + AsConfig::Brick_Width * AsConfig::Global_Scale, Y + Brick_Half_Height + AsConfig::Global_Scale - 1);
+		Rectangle(hdc, X, Y + Brick_Half_Height, X + AsConfig::Brick_Width * AsConfig::Global_Scale - 1, Y + Brick_Half_Height + AsConfig::Global_Scale - 1);
 	}
 	else
 	{
