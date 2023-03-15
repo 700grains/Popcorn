@@ -67,7 +67,7 @@ void ABall::Advance(double max_speed)
 			}
 
 			if (Detect_Hits_Cycling())
-				Ball_Direction += AsConfig::Min_Ball_Angle;
+				Set_Direction(Ball_Direction += AsConfig::Min_Ball_Angle);
 		}
 		else
 		{
@@ -78,6 +78,7 @@ void ABall::Advance(double max_speed)
 			if (Testing_Is_Active)
 				Rest_Test_Distance -= next_step;
 		}
+
 		if (Ball_State == EBall_State::On_Platform)
 			break;
 	}
