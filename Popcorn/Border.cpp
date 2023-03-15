@@ -159,6 +159,9 @@ bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* bal
 	{
 		got_hit = true;
 		ball->Reflect(true);
+
+		if (ball->Get_State() == EBall_State::On_Parachute)
+			ball->Set_State(EBall_State::Off_Parachute);
 	}
 	// We check the position below the visible border.
 
