@@ -520,7 +520,7 @@ bool ABall::Detect_Hits_Cycling()
 	int matched_positions_count;
 	int buffer_size = sizeof(Recent_Collisions) / sizeof(Recent_Collisions[0]);
 
-	Recent_Collisions[Recent_Collisions_Position++] = APoint( (int)Center_X_Pos, (int)Center_Y_Pos);
+	Recent_Collisions[Recent_Collisions_Position++].Set_As((int)Center_X_Pos, (int)Center_Y_Pos);
 
 	if (Recent_Collisions_Position >= buffer_size)
 		Recent_Collisions_Position = 0; // The position goes to the [0] element of the buffer
