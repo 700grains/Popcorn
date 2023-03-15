@@ -52,7 +52,6 @@ bool AsPlatform_Glue::Act(AsBall_Set* ball_set, EPlatform_State& next_state)
 void AsPlatform_Glue::Reset()
 {
 	Glue_Spot_Height_Ratio = Min_Glue_Spot_Height_Ratio;
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Glue::Draw(HDC hdc, double x_pos)
@@ -97,6 +96,5 @@ void AsPlatform_Glue::Draw_Glue_Spot(HDC hdc, int x_offset, int width, int heigh
 	spot_rect.bottom = platform_top + spot_height - AsConfig::Global_Scale;
 
 	Chord(hdc, spot_rect.left, spot_rect.top, spot_rect.right - 1, spot_rect.bottom - 1, spot_rect.left, platform_top - 1, spot_rect.right - 1, platform_top - 1);
-
 }
 //------------------------------------------------------------------------------------------------------------

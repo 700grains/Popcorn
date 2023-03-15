@@ -105,6 +105,7 @@ bool AsBorder::Is_Gate_Opened(int gate_index)
 	else
 	{
 		AsConfig::Throw();
+
 		return false;
 	}
 }
@@ -116,6 +117,7 @@ bool AsBorder::Is_Gate_Closed(int gate_index)
 	else
 	{
 		AsConfig::Throw();
+
 		return false;
 	}
 }
@@ -314,6 +316,6 @@ void AsBorder::Draw_Floor(HDC hdc, RECT& paint_area)
 		LineTo(hdc, x_pos + line_len, y_pos);
 
 		x_pos += stroke_len;
-	}	
+	}
 }
 //------------------------------------------------------------------------------------------------------------

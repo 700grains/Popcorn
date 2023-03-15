@@ -33,6 +33,7 @@ bool AsBall_Set::Release_Next_Ball()
 			return true;
 		}
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -226,6 +227,5 @@ void AsBall_Set::Turn_Tripled_Ball(ABall* ball, bool increase_angle)
 
 	if (direction_delta < AsConfig::Min_Ball_Angle / 2.0)
 		ball->Set_Direction(previous_direction - correction_angle / 2.0);
-
 }
 //------------------------------------------------------------------------------------------------------------

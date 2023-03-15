@@ -47,7 +47,6 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* b
 	if (AsTools::Reflect_On_Circle(next_x_pos, next_y_pos, platform_ball_x, platform_ball_y, circle_radius, ball) )
 		goto _on_hit; // From  the right ball
 
-
 	// Checking the reflection from the central part of the platform
 	if (ball->Is_Moving_Up() )
 		inner_y = inner_low_y; // From the bottom edge
@@ -70,12 +69,12 @@ _on_hit:
 		ball->Get_Center(ball_x, ball_y);
 		ball->Set_State(EBall_State::On_Platform, ball_x, ball_y);
 	}
+
 	return true;
 }
  //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Begin_Movement()
 {
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Finish_Movement()
@@ -183,6 +182,7 @@ void AsPlatform::Clear(HDC hdc, RECT & paint_area)
 
 	if (! IntersectRect(&intersection_rect, &paint_area, &Prev_Platform_Rect))
 		return;
+
 	switch (Platform_State)
 	{
 	case EPlatform_State::Regular:
@@ -319,7 +319,8 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 
 		break;
 	}
-		Platform_State = new_state;
+
+	Platform_State = new_state;
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Set_State(EPlatform_Substate_Regular new_regular_state)
@@ -345,13 +346,11 @@ bool AsPlatform::Has_State(EPlatform_Substate_Regular regular_state)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Redraw_Platform()
 {
-
 	if (Last_Redraw_Timer_Tick != AsConfig::Current_Timer_Tick)
 	{
 		Prev_Platform_Rect = Platform_Rect;
 		Last_Redraw_Timer_Tick = AsConfig::Current_Timer_Tick;
 	}
-
 
 	Platform_Rect.left = (int)(X_Pos * AsConfig::D_Global_Scale);
 	Platform_Rect.top = AsConfig::Platform_Y_Pos * AsConfig::Global_Scale;
@@ -595,6 +594,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 
 		Meltdown_Platform_Y_Pos[i] += y_offset;
 	}
+
 	if (moved_columns_count == 0)
 		Set_State(EPlatform_Substate_Regular::Missing); // the whole platform is moved outside the window
 }
@@ -652,6 +652,7 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT & paint_area)
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, const AColor** color, int& stroke_len)
 {// Calculate the length of the next vertical stroke
+
 	int i;
 	int offset = y * Normal_Platform_Image_Width + x; // Position in the Normal_Platform_Image array corresponding to the offset (x, y)
 	int color_value;
@@ -677,7 +678,6 @@ bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, const AColor** co
 		}
 		offset += Normal_Platform_Image_Width; // Go to line below
 	}
-
 
 	if (color_value == Highlight_Color.Get_RGB() )
 		*color = & Highlight_Color;
@@ -736,6 +736,7 @@ bool AsPlatform::Correct_Platform_Pos()
 		X_Pos = max_platform_x;
 		got_corrected = true;
 	}
+
 	return got_corrected;
 }
 //------------------------------------------------------------------------------------------------------------

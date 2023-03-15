@@ -43,13 +43,10 @@ private:
 	void Act_For_Meltdown_State();
 	void Act_For_Rolling_State();
 
-	void Draw_Circle_Highlight(HDC hdc, int x, int y);
 	void Draw_Normal_State(HDC hdc, RECT &paint_area);
 	void Draw_Meltdown_State(HDC hdc, RECT &paint_area);
 	void Draw_Rolling_State(HDC hdc, RECT& paint_area);
 	void Draw_Roll_In_State(HDC hdc, RECT& paint_area);
-	void Draw_Expanding_Figure(HDC hdc, EFigure_Type figure_type, double start_x, double start_y, double start_width, double start_height, double ratio, double end_x, double end_y, double end_width, double end_height);
-	int Get_Expanding_Value(double start, double end, double ratio);
 	bool Get_Platform_Image_Stroke_Color(int x, int y, const AColor **color, int &stroke_len);
 	void Get_Normal_Platform_Image(HDC hdc);
 	double Get_Current_Width();

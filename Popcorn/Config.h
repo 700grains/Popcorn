@@ -22,7 +22,6 @@ public:
 	void Select_Pen(HDC hdc) const;
 	HBRUSH Get_Brush() const;
 
-
 	unsigned char R, G, B;
 
 private:
@@ -53,7 +52,6 @@ public:
 
 private:
 	HFONT Font_Handle;
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsConfig

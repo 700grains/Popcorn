@@ -323,7 +323,6 @@ void ABall::Draw_Teleporting(HDC hdc, int step)
 
 	AsConfig::White_Color.Select(hdc);
 	Ellipse(hdc, Ball_Rect.left, top_y, Ball_Rect.right - 1, low_y);
-
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Set_On_Parachute(int brick_x, int brick_y)
@@ -393,6 +392,7 @@ bool ABall::Is_Test_Finished()
 			return true;
 		}
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------

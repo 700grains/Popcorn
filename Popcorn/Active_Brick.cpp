@@ -223,6 +223,7 @@ void AActive_Brick_Multihit::Draw(HDC hdc, RECT& paint_area)
 	double rotation_angle, x_ratio;
 	RECT zero_rect;
 	XFORM xform, old_xform;
+
 	// 1. Clearing the background
 	AsConfig::BG_Color.Select(hdc);
 	AsTools::Round_Rect(hdc, Brick_Rect);
@@ -426,6 +427,7 @@ void AActive_Brick_Teleport::Draw(HDC hdc, RECT& paint_area)
 	default:
 		step = 0;
 	}
+
 	Draw_In_Level(hdc, Brick_Rect, step);
 
 	if (Ball != 0)
@@ -488,6 +490,7 @@ AAdvertisement::~AAdvertisement()
 			if (region != 0)
 				DeleteObject(region);
 		}
+
 	delete[] Brick_Regions;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -531,6 +534,7 @@ void AAdvertisement::Act()
 
 				AsTools::Invalidate_Rect(rect);
 			}
+
 	// 2. Move the ball.
 	Falling_Speed += Acceleration_Step;
 	Ball_Y_Offset = High_Ball_Threshold - (int)(Falling_Speed * Falling_Speed);

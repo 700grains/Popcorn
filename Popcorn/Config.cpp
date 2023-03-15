@@ -108,7 +108,6 @@ AColor_Fade::AColor_Fade(const AColor& color, int max_fade_steps)
 		current_color = AsTools::Get_Fading_Color(color, i, max_fade_steps);
 		Fading_Colors.push_back(current_color);
 	}
-
 }
 //------------------------------------------------------------------------------------------------------------
 AColor_Fade::AColor_Fade(const AColor& origin_color, const AColor& base_color, int max_fade_steps)
@@ -121,7 +120,6 @@ AColor_Fade::AColor_Fade(const AColor& origin_color, const AColor& base_color, i
 		current_color = AsTools::Get_Fading_Color(origin_color, base_color, i, max_fade_steps);
 		Fading_Colors.push_back(current_color);
 	}
-
 }
 //------------------------------------------------------------------------------------------------------------
 AColor* AColor_Fade::Get_Color(int fade_step)
@@ -230,7 +228,6 @@ void AsConfig::Throw()
 //------------------------------------------------------------------------------------------------------------
 int AsTools::Rand(int range)
 {// Calculates a pseudo-random number in the range [0, .. range -1]
-
 	return rand() * range / (RAND_MAX + 2);
 }
 //------------------------------------------------------------------------------------------------------------

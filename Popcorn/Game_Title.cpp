@@ -73,6 +73,7 @@ void AsGame_Title::Act()
 		Destroy_Letters(current_tick);
 		break;
 
+
 	case EGame_Title_State::Game_Won_Animate:
 		if (current_tick < Game_Won_Animate_Timeout)
 			Animate_Game_Won();

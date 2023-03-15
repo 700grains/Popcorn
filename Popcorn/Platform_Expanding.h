@@ -16,6 +16,7 @@ public:
 	void Reset();
 
 	double Expanding_Platform_Width;
+
 private:
 	void Draw_Expanding_Platform_Ball(HDC hdc, double x, bool is_left);
 	void Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool is_left);

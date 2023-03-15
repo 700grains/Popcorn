@@ -185,12 +185,12 @@ bool AGate::Act_For_Open(bool Partially_Open, bool& correct_pos)
 			Gate_Transformation = EGate_Transformation::Unknown;
 			Gate_State = EGate_State::Closed;
 		}
-
 		return true;
 
 	default:
 		AsConfig::Throw();
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------

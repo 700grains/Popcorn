@@ -188,7 +188,6 @@ void AsEngine::Restart_Level()
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Play_Level()
 {
-
 	Advance_Movers();
 	
 	if (Ball_Set.All_Balls_Are_Lost())

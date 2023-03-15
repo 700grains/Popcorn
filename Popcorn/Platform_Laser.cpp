@@ -63,6 +63,7 @@ bool AsPlatform_Laser::Act(EPlatform_State& next_state, double x_pos)
 	default:
 		AsConfig::Throw();
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------

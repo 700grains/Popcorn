@@ -191,7 +191,6 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 
 	Set_Brick_Letter_Colors(switch_color, &front_color, &back_color);
 
-
 	if (Rotation_Step == 4 || Rotation_Step == 12)
 	{
 		// Displaying the background

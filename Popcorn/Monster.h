@@ -91,7 +91,6 @@ private:
 	static const double Max_Cornea_Height;
 	static const double Blinking_Timeouts[Blink_Stages_Count];
 	static const EEye_State Blinking_States[Blink_Stages_Count];
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AMonster_Comet : public AMonster

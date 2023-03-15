@@ -103,6 +103,7 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall_Object* ball
 					}
 		}
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -735,11 +736,8 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 //------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Brick(HDC hdc, RECT& brick_rect, int level_x, int level_y)
 {// Drawing a "brick"
-
-
 	const AColor* color = 0;
 	EBrick_Type brick_type = (EBrick_Type)Current_Level[level_y][level_x];
-
 
 	switch (brick_type)
 	{

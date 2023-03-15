@@ -253,6 +253,7 @@ LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
+
 	return 0;
 }
 //------------------------------------------------------------------------------------------------------------

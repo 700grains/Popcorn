@@ -502,6 +502,7 @@ void AMonster_Eye::On_Activation()
 
 
 // AMonster_Comet
+//------------------------------------------------------------------------------------------------------------
 AMonster_Comet::AMonster_Comet()
 	: Current_Angle(0.0), Ticks_Per_Rotation(0)
 {
@@ -563,12 +564,10 @@ void AMonster_Comet::Draw_Alive(HDC hdc)
 
 		AsConfig::Comet_Monster_Tail.Select_Pen(hdc);
 
-
 		rect.left = (int)(-monster_radius + 2.0 * d_scale);
 		rect.top = (int)(-monster_radius + 2.0 * d_scale);
 		rect.right = (int)(monster_radius - 2.0 * d_scale);
 		rect.bottom = (int)(monster_radius - 2.0 * d_scale);
-
 
 		Arc(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1, 0, (int)-monster_radius, (int)-monster_radius, -4 * scale);
 
@@ -590,7 +589,6 @@ void AMonster_Comet::Act_Alive()
 	if (Monster_State == EMonster_State::Missing)
 		return;
 	
-
 	time_offset = (AsConfig::Current_Timer_Tick - Monster_Is_Alive_Timer) % Ticks_Per_Rotation;
 	ratio = (double)time_offset / (double)Ticks_Per_Rotation;
 
@@ -599,6 +597,5 @@ void AMonster_Comet::Act_Alive()
 //------------------------------------------------------------------------------------------------------------
 void AMonster_Comet::On_Activation()
 {
-
 }
 //------------------------------------------------------------------------------------------------------------

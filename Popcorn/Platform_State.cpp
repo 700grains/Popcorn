@@ -7,7 +7,6 @@ AsPlatform_State::AsPlatform_State()
 	Rolling(EPlatform_Substate_Rolling::Unknown), Glue(EPlatform_Transformation::Unknown), Expanding(EPlatform_Transformation::Unknown), Laser(EPlatform_Transformation::Unknown),
 	Moving(EPlatform_Moving_State::Stop)
 {
-
 }
 //------------------------------------------------------------------------------------------------------------
 AsPlatform_State::operator EPlatform_State() const

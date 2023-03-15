@@ -116,6 +116,5 @@ void AFinal_Letter::Draw_Letter(HDC hdc, bool is_colored)
 		SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
 
 	TextOut(hdc, (int)(X_Pos * d_scale), (int)(Y_Pos * d_scale), &Letter, 1);
-
 }
 //------------------------------------------------------------------------------------------------------------

@@ -62,6 +62,7 @@ bool AsPlatform_Expanding::Act(double& x_pos, EPlatform_State& next_state, bool&
 	default:
 		AsConfig::Throw();
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -179,8 +180,6 @@ void AsPlatform_Expanding::Draw_Expanding_Platform_Ball(HDC hdc, double x, bool 
 	// 1.4.2 The arc itself
 	Truss_Color->Select(hdc);
 	Arc(hdc, arc_rect.left, arc_rect.top, arc_rect.right - 1, arc_rect.bottom - 1, arc_mid_x, arc_start_y, arc_mid_x, arc_finish_y);
-
-
 }
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool is_left)
@@ -216,6 +215,5 @@ void AsPlatform_Expanding::Draw_Expanding_Truss(HDC hdc, RECT& inner_rect, bool 
 	MoveToEx(hdc, truss_x, truss_bot_y, 0);
 	LineTo(hdc, truss_x - 4 * scale - 1, truss_top_y);
 	LineTo(hdc, truss_x - 8 * scale, truss_bot_y);
-
 }
 //------------------------------------------------------------------------------------------------------------
