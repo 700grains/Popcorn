@@ -1,7 +1,4 @@
-﻿// Popcorn.cpp : Defines the entry point for the application.
-
-#include "framework.h"
-#include "Main.h"
+﻿#include "Main.h"
 
 //AsFrame_DC
 //------------------------------------------------------------------------------------------------------------

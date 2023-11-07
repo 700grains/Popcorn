@@ -368,9 +368,12 @@ void AsEngine::On_Falling_Letter(AFalling_Letter * falling_letter)
 		break;
 
 	case ELetter_Type::P: // "Floor"
-		Set_Floor_State(true);
-		Information_Panel.Floor_Panel.Restart();
-		Platform.Set_State(EPlatform_Substate_Regular::Normal);
+		if (! AsConfig::Level_Has_Floor)
+		{
+			Set_Floor_State(true);
+			Information_Panel.Floor_Panel.Restart();
+			Platform.Set_State(EPlatform_Substate_Regular::Normal);
+		}
 		break;
 
 	case ELetter_Type::Plus: // "Goign to the next level"

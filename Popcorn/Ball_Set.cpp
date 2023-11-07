@@ -125,9 +125,9 @@ void AsBall_Set::Triple_Balls()
 		}
 	}
 
-
 	// 2. if (EBall_State::Normal) 
 	//    {making it into three}
+
 	if (further_ball == nullptr)
 		return;
 
@@ -147,7 +147,9 @@ void AsBall_Set::Triple_Balls()
 				}
 		}
 	}
+
 	// 3. Spread the side balls to the sides
+
 	if (left_candidate != 0)
 	{
 		*left_candidate = *further_ball;

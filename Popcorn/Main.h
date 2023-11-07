@@ -2,6 +2,7 @@
 
 #include "resource.h"
 #include "Engine.h"
+#include "framework.h"
 
 //------------------------------------------------------------------------------------------------------------
 class AsFrame_DC
