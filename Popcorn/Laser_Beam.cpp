@@ -102,7 +102,7 @@ void ALaser_Beam::Set_At(double x_pos, double y_pos)
 	Redraw_Beam();
 }
 //-----------------------------------------------------------------------------------------------------------
-bool ALaser_Beam::Is_Active()
+bool ALaser_Beam::Is_Active() const
 {
 	if (Laser_Beam_State == ELaser_Beam_State::Active)
 		return true;

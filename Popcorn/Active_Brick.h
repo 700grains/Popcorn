@@ -31,7 +31,7 @@ enum class EDirection_Type : unsigned char
 class AActive_Brick: public AGraphics_Object
 {
 public:
-	void Get_Level_Pos(int& dest_brick_x, int& dest_brick_y);
+	void Get_Level_Pos(int& dest_brick_x, int& dest_brick_y) const;
 
 protected:
 	virtual ~AActive_Brick();
@@ -39,8 +39,8 @@ protected:
 
 	virtual void Clear(HDC hdc, RECT& paint_area);
 
-	double Get_Brick_X_Pos(bool of_center);
-	double Get_Brick_Y_Pos(bool of_center);
+	double Get_Brick_X_Pos(bool of_center) const;
+	double Get_Brick_Y_Pos(bool of_center) const;
 
 	EBrick_Type Brick_Type;
 	int Level_X, Level_Y;
@@ -147,7 +147,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Show_Under_Brick(int level_x, int level_y);
-	bool Has_Brick_At(int level_x, int level_y);
+	bool Has_Brick_At(int level_x, int level_y) const;
 
 private:
 	int Level_X, Level_Y;

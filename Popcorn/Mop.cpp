@@ -195,7 +195,7 @@ void AsMop::Activate(bool clearing)
 	Set_Mop();
 }
 //------------------------------------------------------------------------------------------------------------
-void AsMop::Clear_Area(HDC hdc)
+void AsMop::Clear_Area(HDC hdc) const
 {
 	const int scale = AsConfig::Global_Scale;
 	RECT rect;
@@ -209,7 +209,7 @@ void AsMop::Clear_Area(HDC hdc)
 	AsTools::Rect(hdc, rect, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsMop::Is_Cleaning_Done()
+bool AsMop::Is_Cleaning_Done() const
 {
 	if (Mop_State == EMop_State::Clean_Done)
 		return true;
@@ -217,7 +217,7 @@ bool AsMop::Is_Cleaning_Done()
 		return false;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsMop::Is_Mopping_Done()
+bool AsMop::Is_Mopping_Done() const
 {
 	return Mopping_Is_Done;
 }

@@ -31,7 +31,7 @@ public:
 
 private:
 	void Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_border);
-	void Draw_Floor(HDC hdc, RECT& paint_area);
+	void Draw_Floor(HDC hdc, RECT& paint_area) const;
 
 	bool Clear_Floor;
 	RECT Floor_Rect;

@@ -237,7 +237,7 @@ LRESULT CALLBACK AsMain_Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 
 	case WM_CHAR:
-		Self->Engine.On_Char(wParam);
+		Self->Engine.On_Char((wchar_t)wParam);
 		break;
 
 

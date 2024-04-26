@@ -27,9 +27,9 @@ public:
 	virtual bool Is_Finished();
 
 	void Activate(bool clearing);
-	void Clear_Area(HDC hdc);
-	bool Is_Cleaning_Done();
-	bool Is_Mopping_Done();
+	void Clear_Area(HDC hdc) const;
+	bool Is_Cleaning_Done() const;
+	bool Is_Mopping_Done() const;
 
 private:
 	void Act_Lifting(bool ascending);

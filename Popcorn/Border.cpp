@@ -60,7 +60,7 @@ int AsBorder::Long_Open_Gate()
 	bool is_found = false;
 	AGate* gate;
 
-	gate_index = AsTools::Rand(Gates.size());
+	gate_index = AsTools::Rand((int)Gates.size());
 	
 	for (i = 0; i < (int)Gates.size(); i++)
 	{
@@ -293,7 +293,7 @@ void AsBorder::Draw_Element(HDC hdc, RECT& paint_area, int x, int y, bool top_bo
 		AsTools::Rect(hdc, x + 2, y + 1, 1, 1, AsConfig::BG_Color);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsBorder::Draw_Floor(HDC hdc, RECT& paint_area)
+void AsBorder::Draw_Floor(HDC hdc, RECT& paint_area) const
 {
 	RECT intersection_rect;
 	int i, strokes_count;

@@ -105,18 +105,18 @@ void AsInformation_Panel::Draw(HDC hdc, RECT& paint_area)
 		// 1.2 Shadow
 		AsConfig::Logo_Pop_Font.Select(hdc);
 		SetTextColor(hdc, AsConfig::BG_Color.Get_RGB());
-		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset) * scale, (Logo_Y_Pos + Shade_Y_Offset) * scale, pop_str, wcslen(pop_str));
+		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset) * scale, (Logo_Y_Pos + Shade_Y_Offset) * scale, pop_str, (int)wcslen(pop_str));
 
 		AsConfig::Logo_Corn_Font.Select(hdc);
-		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset - 5) * scale , (Logo_Y_Pos + Shade_Y_Offset + 48) * scale , corn_str, wcslen(corn_str));
+		TextOut(hdc, (Logo_X_Pos + Shade_X_Offset - 5) * scale , (Logo_Y_Pos + Shade_Y_Offset + 48) * scale , corn_str, (int)wcslen(corn_str));
 
 		// 1.3 logo
 		AsConfig::Logo_Pop_Font.Select(hdc);
 		SetTextColor(hdc, AsConfig::Red_Color.Get_RGB());
-		TextOut(hdc, Logo_X_Pos * scale, Logo_Y_Pos * scale, pop_str, wcslen(pop_str));
+		TextOut(hdc, Logo_X_Pos * scale, Logo_Y_Pos * scale, pop_str, (int)wcslen(pop_str));
 
 		AsConfig::Logo_Corn_Font.Select(hdc);
-		TextOut(hdc, (Logo_X_Pos - 5) * scale, (Logo_Y_Pos + 48) * scale, corn_str, wcslen(corn_str));
+		TextOut(hdc, (Logo_X_Pos - 5) * scale, (Logo_Y_Pos + 48) * scale, corn_str, (int)wcslen(corn_str));
 	}
 
 	// 2. Score table

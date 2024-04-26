@@ -652,7 +652,7 @@ AActive_Brick_Teleport* AsLevel::Select_Destination_Teleport(int source_x, int s
 		return 0;
 	}
 
-	dest_index = AsTools::Rand(Teleport_Bricks_Pos.size());
+	dest_index = AsTools::Rand((int)Teleport_Bricks_Pos.size() );
 
 	if (Teleport_Bricks_Pos[dest_index].X == source_x && Teleport_Bricks_Pos[dest_index].Y == source_y)
 	{// If the source teleport is randomly selected, then go to the next one in the list

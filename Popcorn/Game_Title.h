@@ -29,7 +29,7 @@ public:
 	virtual bool Is_Finished();
 
 	void Show(bool is_victory);
-	bool Is_Visible();
+	bool Is_Visible() const;
 
 private:
 	void Destroy_Letters(int current_tick);

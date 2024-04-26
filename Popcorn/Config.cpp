@@ -210,7 +210,7 @@ const AFont AsConfig::Game_Over_Font(-60, 700, 66, L"Comic Sans MS", true);
 const double AsConfig::D_Global_Scale = (double)Global_Scale;
 const double AsConfig::Moving_Step_Size = 1.0 / Global_Scale;
 const double AsConfig::Start_Ball_Y_Pos = 184.0;
-const double AsConfig::Ball_Acceleration = 1.0005;
+const double AsConfig::Ball_Acceleration = 1.0003;
 const double AsConfig::Normal_Ball_Speed = 3.0;
 const double AsConfig::Min_Ball_Angle = M_PI / 8.0;
 const double AsConfig::Ball_Radius = 2.0 - 0.5 / Global_Scale;
@@ -228,7 +228,8 @@ void AsConfig::Throw()
 //------------------------------------------------------------------------------------------------------------
 int AsTools::Rand(int range)
 {// Calculates a pseudo-random number in the range [0, .. range -1]
-	return rand() * range / (RAND_MAX + 2);
+
+	return (int)(rand() * range / (RAND_MAX + 2));
 }
 //------------------------------------------------------------------------------------------------------------
 void AsTools::Round_Rect(HDC hdc, RECT& rect, int corner_radius)

@@ -2,7 +2,7 @@
 
 // AActive_Brick
 //------------------------------------------------------------------------------------------------------------
-void AActive_Brick::Get_Level_Pos(int& dest_brick_x, int& dest_brick_y)
+void AActive_Brick::Get_Level_Pos(int& dest_brick_x, int& dest_brick_y) const
 {
 	dest_brick_x = Level_X;
 	dest_brick_y = Level_Y;
@@ -25,7 +25,7 @@ void AActive_Brick::Clear(HDC hdc, RECT& paint_area)
 {
 }
 //------------------------------------------------------------------------------------------------------------
-double AActive_Brick::Get_Brick_X_Pos(bool of_center)
+double AActive_Brick::Get_Brick_X_Pos(bool of_center) const
 {
 	double pos = (double)(AsConfig::Level_X_Offset + Level_X * AsConfig::Cell_Width);
 
@@ -35,7 +35,7 @@ double AActive_Brick::Get_Brick_X_Pos(bool of_center)
 	return pos;
 }
 //------------------------------------------------------------------------------------------------------------
-double AActive_Brick::Get_Brick_Y_Pos(bool of_center)
+double AActive_Brick::Get_Brick_Y_Pos(bool of_center) const
 {
 	double pos = (double)(AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height);
 
@@ -682,7 +682,7 @@ void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
 	Brick_Regions[y * Width + x] = CreateRectRgnIndirect(&rect);
 }
 //------------------------------------------------------------------------------------------------------------
-bool AAdvertisement::Has_Brick_At(int level_x, int level_y)
+bool AAdvertisement::Has_Brick_At(int level_x, int level_y) const
 {
 	if (level_x >= Level_X && level_x <= Level_X + Width)
 		if (level_y >= Level_Y && level_y <= Level_Y + AsConfig::Platform_Height)
