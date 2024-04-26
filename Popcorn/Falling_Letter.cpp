@@ -2,7 +2,7 @@
 
 // AFalling_Letter
 int AFalling_Letter::All_Letters_Popularity;
-int AFalling_Letter::Letters_Popularity[(int)ELetter_Type::Max] = { 7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1 };
+int AFalling_Letter::Letters_Popularity[(int)ELetter_Type::Max] = { 7, 7, 7, 7, 7, 7, 7, 3, 99, 3, 1 };
 //------------------------------------------------------------------------------------------------------------
 AFalling_Letter::AFalling_Letter(EBrick_Type brick_type, ELetter_Type letter_type, int x, int y)
 	: Brick_Type(brick_type), Letter_Type(letter_type), Falling_Letter_State(EFalling_Letter_State::Normal), X(x), Y(y), Rotation_Step(2),

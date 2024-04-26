@@ -83,7 +83,7 @@ void ALaser_Beam::Draw(HDC hdc, RECT& paint_area)
 	y_pos = Beam_Rect.top;
 
 	MoveToEx(hdc, x_pos, y_pos + 1, 0);
-	LineTo(hdc, x_pos, y_pos + AsConfig::Platform_Height * AsConfig::Global_Scale - AsConfig::Global_Scale / 2 - 1);
+	LineTo(hdc, x_pos, y_pos + Height * AsConfig::Global_Scale - AsConfig::Global_Scale / 2 - 1);
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALaser_Beam::Is_Finished()
@@ -118,16 +118,12 @@ void ALaser_Beam::Stopping()
 //------------------------------------------------------------------------------------------------------------
 void ALaser_Beam::Redraw_Beam()
 {
-	double d_scale = AsConfig::D_Global_Scale;
-	int scale = AsConfig::Global_Scale;
-
 	Previous_Beam_Rect = Beam_Rect;
 
-
-	Beam_Rect.left = (int)((X_Pos - (double)Width / 2.0) * d_scale);
-	Beam_Rect.top = (int)(Y_Pos * d_scale);
-	Beam_Rect.right = Beam_Rect.left + Width * scale;
-	Beam_Rect.bottom = Beam_Rect.top + AsConfig::Platform_Height * scale;
+	Beam_Rect.left = (int)((X_Pos - (double)Width / 2.0) * AsConfig::D_Global_Scale);
+	Beam_Rect.top = (int)(Y_Pos * AsConfig::D_Global_Scale);
+	Beam_Rect.right = Beam_Rect.left + Width * AsConfig::Global_Scale;
+	Beam_Rect.bottom = Beam_Rect.top + Height * AsConfig::Global_Scale;
 
 	AsTools::Invalidate_Rect(Beam_Rect);
 	AsTools::Invalidate_Rect(Previous_Beam_Rect);
